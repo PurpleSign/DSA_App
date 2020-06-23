@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	3.5.2020
+/**	DSA_App v0.0	Dh	11.6.2020
  * 
  * 	Logik
  * 	  IniElement
@@ -16,10 +16,16 @@
  * 	  06 Wrong Type Error
  * 	  07 Index Error
  * 	  08 Equal Object Error
+ * 	  09 Wrong Selection
  */
 package pLogik;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+@XmlRootElement(name = "inielement")
 public class IniElement {
 	private int ID, Ini, TempIni, Action, TempAction;			// ID des kaempfenden.
 	
@@ -75,6 +81,7 @@ public class IniElement {
 	 * 
 	 * @return
 	 */
+	@XmlAttribute
 	public int getID(){
 		return ID;
 	}
@@ -82,6 +89,7 @@ public class IniElement {
 	 * 
 	 * @return
 	 */
+	@XmlElement(name = "Ini")
 	public int getIni(){
 		return Ini;
 	}
@@ -89,6 +97,7 @@ public class IniElement {
 	 * 
 	 * @return
 	 */
+	@XmlTransient
 	public int getTempIni() {
 		return TempIni;
 	}
@@ -98,6 +107,7 @@ public class IniElement {
 	 * 
 	 * @return
 	 */
+	@XmlElement(name = "Action")
 	public int getAction(){
 		return Action;
 	}
@@ -105,6 +115,7 @@ public class IniElement {
 	 * 
 	 * @return
 	 */
+	@XmlTransient
 	public int getTempAction(){
 		return TempAction;
 	}

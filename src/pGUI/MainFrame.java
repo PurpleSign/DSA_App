@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	23.5.2020
+/**	DSA_App v0.0	Dh	11.6.2020
  * 
  * 	pGUI
  * 	  MainFrame
@@ -16,9 +16,11 @@
  */
 package pGUI;
 
+import pLogik.CloseWeapon;
 import pLogik.FightElement;
 import pLogik.FightManager;
 import pLogik.IniElement;
+import pLogik.MainManager;
 import pLogik.NeighbourElement;
 import pDatenbank.Loader;
 import pDataStructures.List;
@@ -106,6 +108,7 @@ public class MainFrame {
 		tfFMGenStatModField_5, tfFMGenStatModField_6, tfFMGenStatModField_7, tfFMGenStatModField_8, tfFMGenStatModField_9;
 	private JTextField tfFMNeiInfoField_1, tfFMNeiInfoField_2, tfFMNeiInfoField_3, tfFMNeiInfoField_4;
 	
+	private JButton btCharFieldButton_0;
 	private JButton btFMSpezModButton_0, btFMSpezModButton_1, btFMSpezModButton_2;
 	private JButton btFMNeiButton_0, btFMNeiButton_1, btFMNeiButton_2, btFMNeiButton_3;
 	private JButton btFMFightListButton_0, btFMFightListButton_1, btFMFightListButton_2;
@@ -122,7 +125,6 @@ public class MainFrame {
 	
 	private JPanel pFMCharPanel;
 	private JLabel lFMCharName, lFMCharLable_0, lFMCharLable_1, lFMCharLable_2, lFMCharLable_3;
-	private JTextField tfFMCharField_0, tfFMCharField_1, tfFMCharField_2, tfFMCharField_3;
 	private JProgressBar pbFMCharBar_0, pbFMCharBar_1, pbFMCharBar_2, pbFMCharBar_3;
 	private JButton lFMCharButton;
 	
@@ -137,8 +139,8 @@ public class MainFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainFrame window = new MainFrame();
-					window.frmDsaAppV.setVisible(true);
+				//	MainFrame window = new MainFrame();
+				//	window.frmDsaAppV.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -147,10 +149,11 @@ public class MainFrame {
 	}
 
 	/**	Dh	6.5.2020
+	 * @wbp.parser.entryPoint
 	 * 
 	 */
-	public MainFrame() {
-		rFM = new FightManager(0);
+	public MainFrame(FightManager pFM) {
+		rFM = pFM;
 		HexFMCharFieldGrid = false;
 		
 		zGenPropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -159,6 +162,8 @@ public class MainFrame {
 		aCharPanelArray = new CharakterPanel[9];
 		
 		initialize();
+		
+		frmDsaAppV.setVisible(true);
 	}
 
 	/**
@@ -183,11 +188,6 @@ public class MainFrame {
 		tpTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frmDsaAppV.getContentPane().add(tpTabbedPane, BorderLayout.CENTER);
 		
-		try {			
-			addListToModel(rListModel1, rFM.getFightList());
-			addListToModel(rListModel2, rFM.getIniOrder());
-		} catch(Exception ex) {handleException(ex);}
-		
 		spFMSplitPane = new JSplitPane();
 		spFMSplitPane.setEnabled(false);
 		spFMSplitPane.setDividerSize(10);
@@ -201,6 +201,9 @@ public class MainFrame {
 		
 		JPanel tbpanel1 = new JPanel();
 		tpTabbedPane.addTab("Test", null, tbpanel1, null);
+		
+		JSplitPane spCMSplitPane = new JSplitPane();
+		tpTabbedPane.addTab("New tab", null, spCMSplitPane, null);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmDsaAppV.setJMenuBar(menuBar);
@@ -222,6 +225,10 @@ public class MainFrame {
 		
 		JMenu mnNewMenu_2 = new JMenu("Hilfe");
 		menuBar.add(mnNewMenu_2);
+		
+		try {			
+			updateLists();
+		} catch(Exception ex) {handleException(ex);}
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -293,16 +300,16 @@ public class MainFrame {
 		
 		//initCharPanle();
 		
-		JButton btnNewButton_3 = new JButton("N\u00E4chster Zug");
-		btnNewButton_3.setBounds(461, 461, 162, 27);
-		pFMPanel_0.add(btnNewButton_3);
-		btnNewButton_3.setFont(new Font("Liberation Serif", Font.BOLD, 16));
-		btnNewButton_3.addActionListener(new ActionListener() {
+		btCharFieldButton_0 = new JButton("N\u00E4chster Zug");
+		btCharFieldButton_0.setBounds(461, 461, 162, 27);
+		btCharFieldButton_0.setFont(new Font("Liberation Serif", Font.BOLD, 16));
+		btCharFieldButton_0.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				nextTurn();
 			}
 		});
+		pFMPanel_0.add(btCharFieldButton_0);
 	}
 	/**	Dh	17.5.2020
 	 * 
@@ -658,7 +665,7 @@ public class MainFrame {
 		
 		
 	}
-	/**	Dh	20.5.2020
+	/**	Dh	3.6.2020
 	 *
 	 *	Initialisiert die GUI-Elemente des KampfnachbarPanels. 
 	 */
@@ -691,7 +698,7 @@ public class MainFrame {
 		btFMNeiButton_0.setEnabled(false);
 		btFMNeiButton_0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				opneNeighbourFrame(false);
+				openNeighbourFrame(false);
 			}
 		});
 		
@@ -702,7 +709,7 @@ public class MainFrame {
 		btFMNeiButton_1.setEnabled(false);
 		btFMNeiButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				opneNeighbourFrame(true);
+				openNeighbourFrame(true);
 			}
 		});
 		
@@ -740,11 +747,11 @@ public class MainFrame {
 							.addContainerGap()
 							.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(btFMNeiButton_0, 0, 0, Short.MAX_VALUE)
+									.addComponent(btFMNeiButton_0, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
 									.addComponent(lFMNeiInfoPanel, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))
 								.addComponent(btFMNeiButton_3, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btFMNeiButton_2, 0, 0, Short.MAX_VALUE)
-								.addComponent(btFMNeiButton_1, 0, 0, Short.MAX_VALUE))
+								.addComponent(btFMNeiButton_2, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btFMNeiButton_1, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
 								.addComponent(liFMNeiList, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
@@ -1725,6 +1732,7 @@ public class MainFrame {
 		pFMPanel_0.add(pFMCharPanel);
 		
 		lFMCharName = new JLabel("Name");
+		lFMCharName.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lFMCharName.setFont(new Font("Liberation Serif", Font.BOLD, 14));
 		
 		lFMCharLable_0 = new JLabel("LeP:");
@@ -1749,53 +1757,29 @@ public class MainFrame {
 		//lFMCharLable_3.setVisible(false);
 		
 		pbFMCharBar_0 = new JProgressBar();
+		pbFMCharBar_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		pbFMCharBar_0.setStringPainted(true);
 		pbFMCharBar_0.setValue(50);
 		pbFMCharBar_0.setForeground(new Color(255, 0, 0));
 		pbFMCharBar_0.setPreferredSize(new Dimension(50, 15));
 		
 		pbFMCharBar_1 = new JProgressBar();
+		pbFMCharBar_1.setStringPainted(true);
 		pbFMCharBar_1.setValue(50);
 		pbFMCharBar_1.setPreferredSize(new Dimension(50, 15));
 		pbFMCharBar_1.setForeground(new Color(255, 215, 0));
 		
 		pbFMCharBar_2 = new JProgressBar();
+		pbFMCharBar_2.setStringPainted(true);
 		pbFMCharBar_2.setValue(50);
 		pbFMCharBar_2.setPreferredSize(new Dimension(50, 15));
 		pbFMCharBar_2.setForeground(new Color(0, 0, 205));
 		
 		pbFMCharBar_3 = new JProgressBar();
+		pbFMCharBar_3.setStringPainted(true);
 		pbFMCharBar_3.setValue(50);
 		pbFMCharBar_3.setPreferredSize(new Dimension(50, 15));
 		pbFMCharBar_3.setForeground(new Color(0, 0, 205));
-		//pbFMCharBar_3.setVisible(false);
-		
-		tfFMCharField_0 = new JTextField();
-		tfFMCharField_0.setEnabled(false);
-		tfFMCharField_0.setPreferredSize(new Dimension(6, 15));
-		tfFMCharField_0.setMinimumSize(new Dimension(6, 15));
-		tfFMCharField_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
-		tfFMCharField_0.setColumns(3);
-		
-		tfFMCharField_1 = new JTextField();
-		tfFMCharField_1.setPreferredSize(new Dimension(6, 15));
-		tfFMCharField_1.setMinimumSize(new Dimension(6, 15));
-		tfFMCharField_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
-		tfFMCharField_1.setEnabled(false);
-		tfFMCharField_1.setColumns(3);
-		
-		tfFMCharField_2 = new JTextField();
-		tfFMCharField_2.setPreferredSize(new Dimension(6, 15));
-		tfFMCharField_2.setMinimumSize(new Dimension(6, 15));
-		tfFMCharField_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
-		tfFMCharField_2.setEnabled(false);
-		tfFMCharField_2.setColumns(3);
-		
-		tfFMCharField_3 = new JTextField();
-		tfFMCharField_3.setEnabled(false);
-		tfFMCharField_3.setPreferredSize(new Dimension(6, 15));
-		tfFMCharField_3.setMinimumSize(new Dimension(6, 15));
-		tfFMCharField_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
-		tfFMCharField_3.setColumns(3);
 		
 		lFMCharButton = new JButton("Angreifen");
 		lFMCharButton.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
@@ -1803,66 +1787,59 @@ public class MainFrame {
 		
 		GroupLayout gl_pFMCharPanel = new GroupLayout(pFMCharPanel);
 		gl_pFMCharPanel.setHorizontalGroup(
-			gl_pFMCharPanel.createParallelGroup(Alignment.TRAILING)
+			gl_pFMCharPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pFMCharPanel.createSequentialGroup()
-					.addComponent(lFMCharLable_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pbFMCharBar_1, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-					.addComponent(tfFMCharField_1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-					.addGap(56))
-				.addGroup(gl_pFMCharPanel.createSequentialGroup()
-					.addComponent(lFMCharLable_2, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pbFMCharBar_2, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-					.addComponent(tfFMCharField_2, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-					.addGap(56))
-				.addGroup(gl_pFMCharPanel.createSequentialGroup()
-					.addComponent(lFMCharLable_3, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pbFMCharBar_3, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-					.addComponent(tfFMCharField_3, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-					.addGap(56))
-				.addGroup(gl_pFMCharPanel.createSequentialGroup()
-					.addComponent(lFMCharLable_0, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addContainerGap()
 					.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lFMCharName)
+						.addGroup(Alignment.TRAILING, gl_pFMCharPanel.createSequentialGroup()
+							.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_pFMCharPanel.createSequentialGroup()
+									.addComponent(lFMCharLable_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(pbFMCharBar_1, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+								.addGroup(gl_pFMCharPanel.createSequentialGroup()
+									.addComponent(lFMCharLable_0, GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lFMCharName)
+										.addComponent(pbFMCharBar_0, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE))))
+							.addGap(47))
 						.addGroup(gl_pFMCharPanel.createSequentialGroup()
-							.addComponent(pbFMCharBar_0, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-							.addComponent(tfFMCharField_0, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)))
-					.addGap(56))
-				.addGroup(Alignment.LEADING, gl_pFMCharPanel.createSequentialGroup()
-					.addGap(19)
-					.addComponent(lFMCharButton)
-					.addContainerGap(72, Short.MAX_VALUE))
+							.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(lFMCharButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(gl_pFMCharPanel.createSequentialGroup()
+									.addComponent(lFMCharLable_3, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(pbFMCharBar_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addGroup(Alignment.LEADING, gl_pFMCharPanel.createSequentialGroup()
+									.addComponent(lFMCharLable_2, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(pbFMCharBar_2, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))
+							.addContainerGap(47, Short.MAX_VALUE))))
 		);
 		gl_pFMCharPanel.setVerticalGroup(
 			gl_pFMCharPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pFMCharPanel.createSequentialGroup()
 					.addComponent(lFMCharName)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(tfFMCharField_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(pbFMCharBar_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lFMCharLable_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lFMCharLable_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(pbFMCharBar_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tfFMCharField_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lFMCharLable_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lFMCharLable_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(pbFMCharBar_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tfFMCharField_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lFMCharLable_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lFMCharLable_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_pFMCharPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(pbFMCharBar_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-						.addComponent(tfFMCharField_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lFMCharLable_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lFMCharButton)
-					.addContainerGap(27, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		pFMCharPanel.setLayout(gl_pFMCharPanel);
 	}
@@ -2004,6 +1981,19 @@ public class MainFrame {
 			else btFMNeiButton_3.setEnabled(false);
 		}
 	}
+	/**	Dh	4.6.2020
+	 * 
+	 * @param pEnable
+	 */
+	private void setCharFieldObjectsEnable(boolean pEnable) {
+		if ((liFMIniList.getSelectedIndex() != -1) || (pEnable == false)) {
+			for (int i=0; i<aCharPanelArray.length; i++) {
+				if (aCharPanelArray[i] != null) aCharPanelArray[i].setButtonEnable(pEnable);
+			}
+			
+			btCharFieldButton_0.setEnabled(pEnable);
+		}
+	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
@@ -2032,7 +2022,7 @@ public class MainFrame {
 			}
 		}
 	}
-	/**	Dh	11.5.2020
+	/**	Dh	3.6.2020
 	 * 
 	 * 	Updated die Ini Liste der GUI.
 	 * 
@@ -2041,9 +2031,10 @@ public class MainFrame {
 		rListModel2.removeAllElements();
 		try {
 			addListToModel(rListModel2, rFM.getIniOrder());
-			if (rListModel2.getSize() >= 1) {
+			if (rListModel2.size() >= 1) {
 				liFMIniList.setSelectedIndex(0);
 				//updateCharaField();
+				liFMIniList.validate();
 			}
 		}catch(Exception ex) {handleException(ex);}
 	}
@@ -2078,7 +2069,7 @@ public class MainFrame {
 		}else rNeiListModel.removeAllElements();
 		
 		updateSelectedNeighbour();
-		//updateCharaField();
+		updateCharaField();
 	}
 	
 	/**	Dh	11.5.2020
@@ -2265,12 +2256,12 @@ public class MainFrame {
 			aCharPanelArray = new CharakterPanel[9];
 			
 			try {
-				aCharPanelArray[0] = new CharakterPanel(rFM.getCharacterOfFighter(vID).getName(), vID, 0, rFM, this);
+				aCharPanelArray[0] = new CharakterPanel(rFM.getCharacterOfFighter(vID).getName(), vID, vID, 0, rFM, this);
 				pFMPanel_0.add(aCharPanelArray[0].getPanel());
 				aCharPanelArray[0].getPanel().setVisible(true);
 				
 				vNeiList = rFM.getIDOfNeighboursOfFighter(vID);
-				if (!vNeiList.isEmpty()) {
+				if ((vNeiList != null) && (!vNeiList.isEmpty())) {
 					vNeiList.toFirst();
 					i=1;
 					
@@ -2278,10 +2269,11 @@ public class MainFrame {
 						vCurID = (int) vNeiList.getCurrent();
 						vCurType = rFM.getEnemyTypeOfNeighbourOfFighter(vID, vCurID);
 						
-						if (vCurType == false) vCur = new CharakterPanel(rFM.getCharacterOfFighter(vCurID).getName(), vCurID, 1, rFM, this);
-						else vCur = new CharakterPanel(rFM.getCharacterOfFighter(vCurID).getName(), vCurID, 2, rFM, this);
+						if (vCurType == false) vCur = new CharakterPanel(rFM.getCharacterOfFighter(vCurID).getName(), vCurID, vID, 1, rFM, this);
+						else vCur = new CharakterPanel(rFM.getCharacterOfFighter(vCurID).getName(), vCurID, vID, 2, rFM, this);
 						pFMPanel_0.add(vCur.getPanel());
 						aCharPanelArray[i] = vCur;
+						aCharPanelArray[i].getPanel().setVisible(true);
 						
 						i++;
 						vNeiList.next();
@@ -2290,6 +2282,7 @@ public class MainFrame {
 			} catch (Exception ex) {if (!ex.getMessage().contains("05")) handleException(ex);}
 			updateCharFieldPos();
 			pFMPanel_0.update(pFMPanel_0.getGraphics());
+			pFMPanel_0.validate();
 		}
 	}
 	/**	Dh	26.5.2020
@@ -2362,7 +2355,7 @@ public class MainFrame {
 	 * 	
 	 * 	Bearbeitet den nächsten Zug des FightMananers.
 	 */
-	private void nextTurn() {
+	protected void nextTurn() {
 		try{ rFM.nextTurn(); }
 		catch(Exception ex) {handleException(ex);}
 		updateIniList();
@@ -2562,7 +2555,7 @@ public class MainFrame {
 	 * 
 	 * @param pGen
 	 */
-	private void opneNeighbourFrame(boolean pGen) {
+	private void openNeighbourFrame(boolean pGen) {
 		int vID, vNeiID, vInd;
 		String vName = null;
 		
@@ -2594,7 +2587,57 @@ public class MainFrame {
 	 */
 	protected void closeNeighbourFrame() {
 		updateSelectedFighter();
+		updateCharaField();
 		setNeiPanelObjectsEnable(true);
+	}
+	/**	Dh	4.6.2020
+	 * 
+	 * @param pFightID
+	 * @param pTarID
+	 */
+	protected void openAttackFrame(int pFightID, int pTarID) {
+		boolean vCloseCombat = false;
+		
+		try {
+			if (rFM.getActiveWeaponOfFighter(pFightID, 0) instanceof CloseWeapon) vCloseCombat = true;
+			else vCloseCombat = false;
+		} catch (Exception ex) {handleException(ex);}
+		
+		FightFrame vCur = new FightFrame(pFightID, pTarID, true, vCloseCombat, rFM, this);
+		vCur.setVisible(true);
+		
+		setCharFieldObjectsEnable(false);
+		//nextTurn();
+	}
+	/**	DH	4.6.2020
+	 * 
+	 * @param pFightID
+	 * @param pOpponentID
+	 */
+	protected void openDefensivFrame(int pFightID, int pOpponentID) {
+		boolean vCloseCombat = false;
+		
+		try {
+			if (rFM.getActiveWeaponOfFighter(pOpponentID, 0) instanceof CloseWeapon) vCloseCombat = true;
+			else vCloseCombat = false;
+		} catch (Exception ex) {handleException(ex);}
+		
+		FightFrame vCur = new FightFrame(pFightID, pOpponentID, false, vCloseCombat, rFM, this);
+		vCur.setVisible(true);
+		
+		setCharFieldObjectsEnable(false);
+	}
+	/**	Dh	4.6.2020
+	 * 
+	 * 	ClsoeSpez:
+	 * 		0: Abbgebrochen
+	 * 		1: Attacke daneben
+	 * 		2: Verdeitigung daneben
+	 */
+	protected void closeFightFrame(int pCloseSpez) {
+		setCharFieldObjectsEnable(true);
+		
+		if (pCloseSpez != 0) nextTurn();
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -2631,11 +2674,18 @@ public class MainFrame {
 	}
 	
 	
-	/**	11.5.2020
+	/**	Dh	11.6.2020
+	 * 
+	 */
+	public void dispose() {
+		frmDsaAppV.setVisible(false);
+		frmDsaAppV.dispose();
+	}
+	/**	11.6.2020
 	 * 
 	 */
 	public static void closeApp() {
-		System.exit(0);
+		MainManager.closeApp();
 	}
 	/**	11.5.2020
 	 * 

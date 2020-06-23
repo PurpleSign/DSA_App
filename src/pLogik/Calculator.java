@@ -33,6 +33,8 @@
  */
 package pLogik;
 
+import java.util.Random;
+
 public abstract class Calculator {
 	
 	/** Dh	9.2.2020
@@ -55,7 +57,7 @@ public abstract class Calculator {
 	 * @param pSpez
 	 * @return
 	 */
-	public static int[] calCharBasisStati(int[] pEigen, int pSpez) throws Exception{
+	protected static int[] calCharBasisStati(int[] pEigen, int pSpez) throws Exception{
 		int[] vReturn = new int[4];
 		
 		if (pEigen.length == 8){
@@ -98,7 +100,7 @@ public abstract class Calculator {
 	 * @param pEigen
 	 * @return
 	 */
-	public static double[] calCharFightValue(int[] pEigen) throws Exception{
+	protected static double[] calCharFightValue(int[] pEigen) throws Exception{
 		double[] vReturn = new double[4];
 		
 		if (pEigen.length == 8){
@@ -125,7 +127,7 @@ public abstract class Calculator {
 	 * @param pEigen
 	 * @return
 	 */
-	public static double calCharMr(int[] pEigen) throws Exception{
+	protected static double calCharMr(int[] pEigen) throws Exception{
 		double vReturn = -1;
 		
 		if (pEigen.length == 8){
@@ -144,12 +146,45 @@ public abstract class Calculator {
 	 * @return
 	 * @throws Exception
 	 */
-	public static double calCharWs(int pKo) throws Exception{
+	protected static double calCharWs(int pKo) throws Exception{
 		double vReturn;
 		
 		if (pKo >= 0) vReturn = pKo/2;
 		else throw new Exception("02; Cal,cCWs");
 		
 		return vReturn;
+	}
+	
+//--------------------------------------------------------------------------------------------------------
+	
+	/**	Dh	10.6.2020
+	 * 
+	 * @param pSide
+	 * @return
+	 * @throws Exception
+	 */
+	protected static int makeDiceRoll(int pSide) throws Exception{
+		return makeDiceRolls(1, pSide)[0];
+	}
+	/**	Dh	10.6.2020
+	 * 
+	 * @param pNumber
+	 * @param pSide
+	 * @return
+	 * @throws Exception
+	 */
+	protected static int[] makeDiceRolls(int pNumber, int pSide) throws Exception{
+		int[] vRet = null;
+		Random vRan = new Random();
+		
+		if ((pNumber > 0) && (pSide > 0)) {
+			vRet = new int[pNumber];
+			
+			for (int i=0; i < pNumber; i++) {
+				vRet[i] = vRan.nextInt(pSide-1)+1;
+			}
+		}else throw new Exception("02; Cal,mDRs");
+		
+		return vRet;
 	}
 }

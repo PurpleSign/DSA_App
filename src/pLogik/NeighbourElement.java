@@ -1,4 +1,4 @@
-/**	DSA_App	v0.0	Dh	5.5.2020
+/**	DSA_App	v0.0	Dh	11.6.2020
  * 
  * 	Logik
  * 	  NeighbourElement
@@ -31,6 +31,14 @@
  */
 package pLogik;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlRootElement(name = "neighbourelement")
+@XmlType(propOrder = {"distance", "fightMods"})
 public class NeighbourElement {
 	private boolean Enemy;
 	private int ID, Distance;							// ID der Nachbar*In des kämpfenden.
@@ -165,13 +173,7 @@ public class NeighbourElement {
 	 * 
 	 * @return
 	 */
-	public boolean getEnemy(){
-		return Enemy;
-	}
-	/**	Dh	13.2.2020
-	 * 
-	 * @return
-	 */
+	@XmlAttribute
 	public int getID(){
 		return ID;
 	}
@@ -186,6 +188,7 @@ public class NeighbourElement {
 	 * 
 	 * @return
 	 */
+	@XmlElement(name = "Distance")
 	public int getDistance(){
 		return Distance;
 	}
@@ -213,6 +216,8 @@ public class NeighbourElement {
 	 * 
 	 * @return
 	 */
+	@XmlElementWrapper(name = "FightModArray")
+	@XmlElement(name = "FightMod")
 	public double[] getFightMods(){
 		return FightMods;
 	}
@@ -295,6 +300,7 @@ public class NeighbourElement {
 	 * 
 	 * @return
 	 */
+	@XmlAttribute
 	public boolean isEnemy() {
 		return Enemy;
 	}
