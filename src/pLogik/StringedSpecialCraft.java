@@ -1,7 +1,7 @@
-/**	DSA_App v0.0	Dh	 18.6.2020
+/**	DSA_App v0.0	Dh	 1.7.2020
  * 	
  * 	Logik
- * 	  SpecialCrafts
+ * 	  SpecialCrafts (Stringed)
  *
  *	Type:
  * 	  0: Allgemein
@@ -39,7 +39,7 @@ import pDataStructures.List;
 import pGUI.MainFrame;
 
 @XmlRootElement(name = "stringedspecialcraft")
-public class StringedSpecialCraft extends SpecialCraft {
+public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 	private String StringedValue;
 	
 	/**	Dh 17.6.2020
@@ -50,15 +50,17 @@ public class StringedSpecialCraft extends SpecialCraft {
 		super();
 		StringedValue = "";
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	2.7.2020
 	 * 	
 	 * @param pID
 	 * @param pName
 	 */
 	public StringedSpecialCraft(int pID, String pName) {
 		super(pID, pName);
+		
+		StringedValue = "";
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * 	Type:
 	 * 	  0: Allgemeine
@@ -72,6 +74,8 @@ public class StringedSpecialCraft extends SpecialCraft {
 	 */
 	public StringedSpecialCraft(int pID, String pName, int pType) {
 		super(pID, pName, pType);
+		
+		StringedValue = "";
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -95,7 +99,7 @@ public class StringedSpecialCraft extends SpecialCraft {
 			
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * 	Type:
 	 * 	  0: Allgemeine
@@ -110,6 +114,8 @@ public class StringedSpecialCraft extends SpecialCraft {
 	 */
 	public StringedSpecialCraft(int pID, String pName, int pType, int[] pPropertiePremises) {
 		super(pID, pName, pType, pPropertiePremises);
+		
+		StringedValue = "";
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -134,7 +140,7 @@ public class StringedSpecialCraft extends SpecialCraft {
 			
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	18.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * 	Type:
 	 * 	  0: Allgemeine
@@ -155,6 +161,8 @@ public class StringedSpecialCraft extends SpecialCraft {
 	 */
 	public StringedSpecialCraft(int pID, String pName, int pType, List pTypedPremiseList) {
 		super(pID, pName, pType, pTypedPremiseList);
+		
+		StringedValue = "";
 	}
 	/**	Dh	18.6.2020
 	 * 
@@ -185,7 +193,7 @@ public class StringedSpecialCraft extends SpecialCraft {
 			
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	18.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * 	Type:
 	 * 	  0: Allgemeine
@@ -207,6 +215,8 @@ public class StringedSpecialCraft extends SpecialCraft {
 	 */
 	public StringedSpecialCraft(int pID, String pName, int pType, int[] pPropertiePremises, List pTypedPremiseList) {
 		super(pID, pName, pType, pPropertiePremises, pTypedPremiseList);
+		
+		StringedValue = "";
 	}
 	/**	Dh	18.6.2020
 	 * 

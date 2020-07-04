@@ -39,6 +39,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JCheckBox;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -50,7 +51,7 @@ import javax.swing.JTextArea;
 
 public class NeighbourFrame extends JFrame {
 	private String zName;
-	private int zID, zNeiID;
+	private int zID, zNeiID, Width, Height;
 	private FightManager rFM;
 	private MainFrame rMF;
 	
@@ -74,14 +75,19 @@ public class NeighbourFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public NeighbourFrame(String pName, int pID, int pNeiID, FightManager pFM, MainFrame pMF) {
-		setResizable(false);
 		zName = pName;
 		zID = pID;
 		zNeiID = pNeiID;
 		rFM = pFM;
 		rMF = pMF;
 		
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		Point vPos = rMF.getMiddlePosition();
+		Width = 352;
+		Height = 341;
+		
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setBounds((int)(vPos.getX()-(Width/2)), (int)(vPos.getY()-(Height/2)), Width, Height);
 		setBounds(100, 100, 352, 341);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

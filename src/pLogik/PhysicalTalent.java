@@ -1,9 +1,16 @@
-/**	DSA_App	v0.0	Dh	5.6.2020
+/**	DSA_App	v0.0	Dh	2.7.2020
  * 
  * 	Logik
  * 	  Talent
  * 		BasicTalent
  *		  PhysicalTalent
+ * 
+ * 	Types:
+ * 	  00: Nahkampf				05: Wissens
+ * 	  01: Fernkampf				06: Sprache
+ * 	  02: Koerperliche			07: Handwerks
+ * 	  03: Gesellschaftliche		08: Alle Kampf
+ * 	  04: Natur					09: Alle mundan nicht Kampf
  * 
  * 	Exceptions:
  * 	  01 Wrong length
@@ -30,25 +37,41 @@ import pGUI.MainFrame;
 public class PhysicalTalent extends Basictalent {
 	private int[] eBE;
 	
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * 	Konstruktor nach Bean Standart
 	 */
 	public PhysicalTalent() {
+		super();
+		
 		eBE = new int[] {0, 0};
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
+	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
 	 * 
 	 * @param pID
 	 * @param pName
 	 * @param pPropInds
 	 */
 	public PhysicalTalent(int pID, String pName, int[] pPropInds) {
-		super(pID, pName, pPropInds);
+		super(2, pID, pName, pPropInds);
 		
 		eBE = new int[] {0, 0};
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
+	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
 	 * 
 	 * @param pID
 	 * @param pName
@@ -56,7 +79,7 @@ public class PhysicalTalent extends Basictalent {
 	 * @param pEBE
 	 */
 	public PhysicalTalent(int pID, String pName, int[] pPropInds, int[] pEBE) {
-		super(pID, pName, pPropInds);
+		super(2, pID, pName, pPropInds);
 		Exception vExc = null;
 		
 		if (pEBE != null) {
@@ -68,7 +91,14 @@ public class PhysicalTalent extends Basictalent {
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
+	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
 	 * 
 	 * @param pID
 	 * @param pName
@@ -77,7 +107,7 @@ public class PhysicalTalent extends Basictalent {
 	 * @param pTaW
 	 */
 	public PhysicalTalent(int pID, String pName, int[] pPropInds, int[] pEBE, int pTaW) {
-		super(pID, pName, pPropInds, pTaW);
+		super(2, pID, pName, pPropInds, pTaW);
 		Exception vExc = null;
 		
 		if (pEBE != null) {

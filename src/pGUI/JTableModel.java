@@ -1,0 +1,537 @@
+/**	DSA_App v0.0	Dh	3.7.2020
+ * 
+ * 	pGUI
+ * 	  JTableModel
+ * 
+ * 	Exceptions:
+ * 	  01 Wrong length
+ * 	  02 Wrong Value
+ * 	  03 Calculation Error
+ * 	  04 Nullpointer Error
+ * 	  05 Empty List Error
+ * 	  06 Wrong Type Error
+ * 	  07 Index Error
+ * 	  08 Equal Object Error
+ * 	  09 Wrong Selection
+ */
+package pGUI;
+
+import pDataStructures.List;
+
+import javax.swing.table.*;
+
+public class JTableModel extends AbstractTableModel {
+	Object[][] tableData;
+	int[] ids;
+	String[] titles;
+	 
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	public JTableModel() {
+		titles = new String[] {};
+		ids = new int[] {};
+		tableData = new Object[][] {{}};
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pColumnTitles
+	 * @param pRowCount
+	 */
+	public JTableModel(String[] pColumnTitles, int pRowCount) {
+		Exception vExc = null ;
+		
+		if (pColumnTitles != null) {
+			if (pColumnTitles.length >= 1) {
+				titles = pColumnTitles.clone();
+				ids = new int[titles.length];
+				tableData = new JListModelElement[pRowCount][pColumnTitles.length];
+			} else vExc = new Exception("01; JTaMod_a");
+		} else vExc = new Exception("04; JTaMod_a");
+		
+		if (vExc != null) MainFrame.handleException(vExc);
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pColumnTitles
+	 * @param pIDs
+	 * @param pData
+	 */
+	public JTableModel(String[] pColumnTitles, int[] pIDs, Object[][] pData) {
+		Exception vExc = null ;
+		
+		try {setNewTable(pColumnTitles, pIDs, pData);}
+		catch(Exception ex) {vExc = ex;}
+		
+		if (vExc != null) MainFrame.handleException(vExc);
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pColumnTitles
+	 * @param pIDList
+	 * @param pDataDoubleList
+	 */
+	public JTableModel(String[] pColumnTitles, List pIDList, List pDataDoubleList) {
+		Exception vExc = null ;
+		
+		try {setNewTable(pColumnTitles, pIDList, pDataDoubleList);}
+		catch(Exception ex) {vExc = ex;}
+		
+		if (vExc != null) MainFrame.handleException(vExc);
+	}
+	
+	
+//--------------------------------------------------------------------------------------------------------
+	
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	public int getColumnCount() {
+		return titles.length;
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	public int getRowCount() {
+		return ids.length;
+	}
+	
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pRowInd
+	 * @return
+	 */
+	public int getID(int pRowInd){
+		return ids[pRowInd];
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	public String getColumnName(int pCol){
+		return titles[pCol];
+	}
+	
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	public Class getColumnClass(int pColInd) {
+		return getValueAt(0, pColInd).getClass();
+	}
+	
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	public Object getValueAt(int pRowInd, int pColInd){
+		return tableData[pRowInd][pColInd];
+	}
+	
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pID
+	 * @param pRowInd
+	 */
+	public void setID(int pID, int pRowInd) {
+		ids[pRowInd] = pID;
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pTitle
+	 * @param pColInd
+	 */
+	public void setColumnName(String pTitle, int pColInd) {
+		titles[pColInd] = pTitle;
+	}
+	
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pObj
+	 * @param pRowInd
+	 * @param pColInd
+	 */
+	public void setValue(Object pObj, int pRowInd, int pColInd) {
+		tableData[pRowInd][pColInd] = pObj;
+		fireTableCellUpdated(pRowInd, pColInd);
+	}
+	
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pColumnTitles
+	 * @param pIDs
+	 * @param pData
+	 * @throws Exception
+	 */
+	public void setNewTable(String[] pColumnTitles, int[] pIDs, Object[][] pData) throws Exception {
+		
+		if (pColumnTitles != null) {
+			if (pColumnTitles.length >= 1) titles = pColumnTitles.clone();
+			else throw new Exception("01; JTaMod,sNT");
+		} else throw new Exception("04; JTaMod,sNT");
+		
+		if (pIDs != null) {
+			if (pIDs.length >= 1) ids = pIDs.clone();
+			else throw new Exception("01; JTaMod,sNT");
+		} else throw new Exception("04; JTaMod,sNT");
+		
+		if (pData != null) {
+			if (pData.length == ids.length) {
+				tableData = new Object[ids.length][titles.length];
+				for (int i=0; i < pData.length; i++) {
+					if (pData[i].length == titles.length) tableData[i] = pData[i].clone();
+					else throw new Exception("01; JTaMod,sNT");
+				}
+			} else throw new Exception("01; JTaMod,sNT");
+		} else throw new Exception("04; JTaMod,sNT");
+		
+		fireTableStructureChanged();
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pColumnTitles
+	 * @param pIDList
+	 * @param pDataDoubleList
+	 * @throws Exception
+	 */
+	public void setNewTable(String[] pColumnTitles, List pIDList, List pDataDoubleList) throws Exception{
+		Object vCur;
+		
+		if (pColumnTitles != null) {
+			if (pColumnTitles.length >= 1) {
+				titles = pColumnTitles.clone();
+			} else throw new Exception("01; JTaMod,sNT");
+		} else throw new Exception("04; JTaMod,sNT");
+		
+		if (pIDList != null) {
+			if (pIDList.getContentNumber() >= 1) {
+				ids = new int[pIDList.getContentNumber()];
+				pIDList.toFirst();
+				
+				for (int i=0; !pIDList.isEnd(); i++) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) {
+						if ((int)vCur >= 0) ids[i] = (int)vCur;
+						else throw new Exception("02; JTaMod,sNT");
+					} else throw new Exception("06; JTaMod,sNT");
+					
+					pIDList.next();
+				}
+			} else throw new Exception("01; JTaMod,sNT");
+		} else throw new Exception("04; JTaMod,sNT");
+		
+		if (pDataDoubleList != null) {
+			if (pDataDoubleList.getContentNumber() == ids.length) {
+				tableData = new Object[ids.length][titles.length];
+				pDataDoubleList.toFirst();
+				
+				for (int i=0; !pDataDoubleList.isEnd(); i++) {
+					vCur = pDataDoubleList.getCurrent();
+					
+					if (vCur instanceof List) {
+						if (((List)vCur).getContentNumber() == titles.length) {
+							((List)vCur).toFirst();
+							
+							for (int u=0; !((List)vCur).isEnd(); u++) {
+								tableData[i][u] = ((List)vCur).getCurrent();
+								
+								((List)vCur).next();
+							}
+						} else throw new Exception("01; JTaMod,sNT");
+					} else throw new Exception("06; JTaMod,sNT");
+					
+					pDataDoubleList.next();
+				}
+			} else throw new Exception("01; JTaMod,sNT");
+		} else throw new Exception("04; JTaMod,sNT");
+		
+		fireTableStructureChanged();
+	}
+	
+//--------------------------------------------------------------------------------------------------------
+	
+	/**	Dh	3.7.2020
+	 * 	
+	 * 	Fuegt eine Spalte am Ende der Tabelle hinzu.
+	 * 
+	 * @param pTitle
+	 * @param pColData
+	 * @throws Exception
+	 */
+	public void addColumn(String pTitle, Object[] pColData) throws Exception {
+		addColumnAtPosition(pTitle, pColData, titles.length);
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * 	Fuegt eine Spalte am Ende der Tabelle hinzu.
+	 * 
+	 * @param pTitle
+	 * @param pColData
+	 * @throws Exception
+	 */
+	public void addColumn(String pTitle, List pColDataList) throws Exception {
+		addColumnAtPosition(pTitle, pColDataList, titles.length);
+	}
+	//-----
+	/**	Dh	3.7.2020
+	 * 
+	 * 	Fuegt eine Zeile am Ende der Tabelle hinzu.
+	 * 
+	 * @param pRowData
+	 * @throws Exception
+	 */
+	public void addRow(int pID, Object[] pRowData) throws Exception{
+		addRowAtPosition(pID, pRowData, titles.length);
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * 	Fuegt eine Zeile am Ende der Tabelle hinzu.
+	 * 
+	 * @param pRowDataList
+	 * @throws Exception
+	 */
+	public void addRow(int pID, List pRowDataList) throws Exception{
+		addRowAtPosition(pID, pRowDataList, titles.length);
+	}
+	
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pTitle
+	 * @param pColData
+	 * @param pColPos
+	 * @throws Exception
+	 */
+	public void addColumnAtPosition(String pTitle, Object[] pColData, int pColPos) throws Exception {
+		String[] vNewTitles;
+		Object[] vNewColumn;
+		
+		if (pTitle != null && pColData != null) {
+			if (!pTitle.equals("") && (pColPos >= 0) && (pColPos <= titles.length)) {
+				if (pColData.length == ids.length) {
+					vNewTitles = new String[titles.length+1];
+					
+					for (int i=0; i < (titles.length+1); i++) {
+						if (i < pColPos) vNewTitles[i] = titles[i];
+						else if (i > pColPos) vNewTitles[i] = titles[i-1];
+						else vNewTitles[i] = pTitle;
+					}
+					
+					for (int i=0; i < pColData.length; i++) {
+						vNewColumn = new Object[titles.length+1];
+						
+						for (int u=0; u < (titles.length+1); u++) {
+							if (u < pColPos) vNewColumn[u] = tableData[i][u];
+							else if (u > pColPos) vNewColumn[u] = tableData[i][u-1];
+							else vNewColumn[u] = pColData[i];
+						}
+						
+						tableData[i] = vNewColumn.clone();
+					}
+					
+					titles = vNewTitles;
+					fireTableStructureChanged();
+				} throw new Exception("01; JTaMod,aCaP");
+			} throw new Exception("02; JTaMod,aCaP");
+		} throw new Exception("04; JTaMod,aCaP");
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pTitle
+	 * @param pColData
+	 * @param pColPos
+	 * @throws Exception
+	 */
+	public void addColumnAtPosition(String pTitle, List pColDataList, int pColPos) throws Exception {
+		String[] vNewTitles;
+		Object[] vNewColumn;
+		
+		if (pTitle != null && pColDataList != null) {
+			if (!pTitle.equals("") && (pColPos >= 0) && (pColPos <= titles.length)) {
+				if (pColDataList.getContentNumber() == ids.length) {
+					vNewTitles = new String[titles.length+1];
+					pColDataList.toFirst();
+					
+					for (int i=0; i < (titles.length+1); i++) {
+						if (i < pColPos) vNewTitles[i] = titles[i];
+						else if (i > pColPos) vNewTitles[i] = titles[i-1];
+						else vNewTitles[i] = pTitle;
+					}
+					
+					for (int i=0; !pColDataList.isEnd(); i++) {
+						vNewColumn = new Object[titles.length+1];
+						
+						for (int u=0; u < (titles.length+1); u++) {
+							if (u < pColPos) vNewColumn[u] = tableData[i][u];
+							else if (u > pColPos) vNewColumn[u] = tableData[i][u-1];
+							else vNewColumn[u] = pColDataList.getCurrent();
+						}
+						
+						tableData[i] = vNewColumn.clone();
+						pColDataList.next();
+					}
+					
+					titles = vNewTitles;
+					fireTableStructureChanged();
+				} throw new Exception("01; JTaMod,aCaP");
+			} throw new Exception("02; JTaMod,aCaP");
+		} throw new Exception("04; JTaMod,aCaP");
+	}
+	//-----
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pID
+	 * @param pRowData
+	 * @param pRowPos
+	 * @throws Exception
+	 */
+	public void addRowAtPosition(int pID, Object[] pRowData, int pRowPos) throws Exception{
+		Object[][] vNewData;
+		
+		if (pRowData != null) {
+			if (pRowData.length == titles.length) {
+				if ((pRowPos >= 0) && (pRowPos <= titles.length) && (pID >= 0)) {
+				vNewData = new Object[ids.length+1][titles.length];
+				
+				for (int i=0; i < (ids.length+1); i++) {
+					if (i < pRowPos) vNewData[i] = tableData[i];
+					else if (i > pRowPos) vNewData[i] = tableData[i-1];
+					else vNewData[i] = pRowData;
+				}
+				
+				tableData = vNewData.clone();
+				fireTableRowsInserted(pRowPos, pRowPos);
+				} else throw new Exception("02; JTaMod,aRaP");
+			} else throw new Exception("01; JTaMod,aRaP");
+		} else throw new Exception("04; JTaMod,aRaP");
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pID
+	 * @param pRowDataList
+	 * @param pRowPos
+	 * @throws Exception
+	 */
+	public void addRowAtPosition(int pID, List pRowDataList, int pRowPos) throws Exception{
+		Object[][] vNewData;
+		Object[] vNewRow;
+		
+		if (pRowDataList != null) {
+			if (pRowDataList.getContentNumber() == titles.length) {
+				if ((pRowPos >= 0) && (pRowPos <= titles.length) && (pID >= 0)) {
+				vNewData = new Object[ids.length+1][titles.length];
+				vNewRow = new Object[titles.length];
+				
+				pRowDataList.toFirst();
+				for (int i=0; !pRowDataList.isEnd(); i++) {
+					vNewRow[i] = pRowDataList.getCurrent();
+					
+					pRowDataList.next();
+				}
+				
+				for (int i=0; i < (ids.length+1); i++) {
+					if (i < pRowPos) vNewData[i] = tableData[i];
+					else if (i > pRowPos) vNewData[i] = tableData[i-1];
+					else vNewData[i] = vNewRow;
+				}
+				
+				tableData = vNewData.clone();
+				fireTableRowsInserted(pRowPos, pRowPos);
+				} else throw new Exception("02; JTaMod,aRaP");
+			} else throw new Exception("01; JTaMod,aRaP");
+		} else throw new Exception("04; JTaMod,aRaP");
+	}
+
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	3.7.2020
+	 * 
+	 * 	Entfernt die letzte Spalte der Tabelle.
+	 */
+	public void removeColumn() {
+		try {removeColumnAtPosition(titles.length-1);}
+		catch(Exception ex) {MainFrame.handleException(ex);}
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * 	Entfernt die letzte Zeile der Tabelle.
+	 */
+	public void removeRow() {
+		try {removeRowAtPosition(ids.length-1);}
+		catch(Exception ex) {MainFrame.handleException(ex);}
+	}
+	
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pColPos
+	 * @throws Exception
+	 */
+	public void removeColumnAtPosition(int pColPos) throws Exception{
+		String[] vNewTitles;
+		Object[] vNewRow;
+		
+		if ((pColPos >= 0) && (pColPos < titles.length)) {
+			vNewTitles = new String[titles.length-1];
+			
+			for (int i=0; i < vNewTitles.length; i++) {
+				if (i < pColPos) vNewTitles[i] = titles[i];
+				else if (i >= pColPos) vNewTitles[i] = titles[i+1];
+			}
+			
+			for (int i=0; i < ids.length; i++) {
+				vNewRow = new Object[vNewTitles.length];
+				
+				for (int u=0; u < vNewRow.length; u++) {
+					if (u < pColPos) vNewRow[u] = tableData[i][u];
+					else if (u >= pColPos) vNewRow[u] = tableData[i][u+1];
+				}
+				
+				tableData[i] = vNewRow.clone();
+			}
+			
+			titles = vNewTitles;
+			fireTableStructureChanged();
+		} else throw new Exception("02; JTaMod,rCaP");
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pRowPos
+	 * @throws Exception
+	 */
+	public void removeRowAtPosition(int pRowPos) throws Exception{
+		int[] vNewIDs;
+		Object[][] vNewData;
+		
+		if ((pRowPos >= 0) && (pRowPos < ids.length)) {
+			vNewIDs = new int[ids.length-1];
+			vNewData = new Object[ids.length-1][titles.length];
+			
+			for (int i=0; i < vNewIDs.length; i++) {
+				if (i < pRowPos) {
+					vNewIDs[i] = ids[i];
+					vNewData[i] = tableData[i];
+				}
+				else if (i >= pRowPos) {
+					vNewIDs[i] = ids[i+1];
+					vNewData[i] = tableData[i+1];
+				}
+			}
+			
+			tableData = vNewData;
+			ids = vNewIDs;
+			fireTableRowsDeleted(pRowPos, pRowPos);
+		} else throw new Exception("02; JTaMod,rCaP");
+	}
+	
+//--------------------------------------------------------------------------------------------------------
+
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	public void clearTable() {
+		titles = new String[] {};
+		ids = new int[] {};
+		tableData = new Object[][] {{}};
+		fireTableStructureChanged();
+	}
+	
+}

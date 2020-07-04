@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh 9.6.2020
+/**	DSA_App v0.0	Dh 2.7.2020
  * 
  * 	Datenbank
  * 	  Loader
@@ -77,6 +77,15 @@ public abstract class Loader {
 			SystemFile = getFileSystem();
 			
 			loadDatabases();
+			
+			//genDatabanks();
+			//System.out.println(""+SCD.getSpecialCraft(0).getPropertiePremise(6));
+			//saveSpecialCraftDatabase();
+			
+			//saveProDatabase();
+			//saveSpecialCraftDatabase();
+			//saveTalentDatabase();
+			//saveWeaponDatabase();
 			
 			//System.out.println(SCD.getSpecialCraftList().getContentNumber());
 			//System.out.println(PD.getProList().getContentNumber());
@@ -252,6 +261,32 @@ public abstract class Loader {
 			
 		} else throw new Exception("04; Loa,sFM");
 	}
+	/**	Dh	24.6.2020
+	 * 
+	 * @param pCM
+	 * @throws Exception
+	 */
+	public static void saveCharacterManager(CharacterManager pCM) throws Exception{
+		int vID;
+		
+		if (pCM != null) {
+			vID = pCM.getID();
+			
+			File CMFile = new File(SystemFile.getAbsolutePath()+GamePath+"/CM_"+vID+".xml");
+			JAXBContext jc = JAXBContext.newInstance(CharacterManager.class);
+			Marshaller marschaller = jc.createMarshaller();
+			
+			marschaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			
+			if (!CMFile.exists()) {
+				try{ CMFile.createNewFile();}
+				catch(Exception ex) {throw ex;}
+			}
+			
+			marschaller.marshal(pCM, CMFile);
+			
+		} else throw new Exception("04; Loa,sCM");
+	}
 	
 	public static void saveThings(FightManager pFM) {
 		File FMFile0 = new File(SystemFile.getAbsolutePath()+GamePath+"/IniElement.xml");
@@ -393,6 +428,22 @@ public abstract class Loader {
 		
 		return vRet;
 	}
+	/**	Dh	24.6.2020
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static CharacterManager loadCharacterManager() throws Exception{
+		int vID = 0;
+		
+		CharacterManager vRet = null;
+		File CMFile = new File(SystemFile.getAbsolutePath()+GamePath+"/CM_"+vID+".xml");
+		
+		if (CMFile.exists()) vRet = JAXB.unmarshal(CMFile, CharacterManager.class);
+		else throw new Exception("21; Loa,lCM");
+		
+		return vRet;
+	}
 	
 	public static void loadThings() {
 		Object vRet;
@@ -415,7 +466,7 @@ public abstract class Loader {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	10.5.2020
+	/**	Dh	3.7.2020
 	 * 
 	 * 	Erstellt einen Charakter anhand der Type Spezifikation.
 	 * 
@@ -447,8 +498,8 @@ public abstract class Loader {
 			
 			vWeapList.append(WD.getWeapon(0));
 			vWeapList.append(WD.getWeapon(1));
-			vWeapList.append(WD.getWeapon(103));
-			vWeapList.append(WD.getWeapon(180));
+			vWeapList.append(WD.getWeapon("Säbel"));
+			vWeapList.append(WD.getWeapon("Kurzbogen"));
 			
 			vRet = new Charakter(0, vName, vRasse, vProp, vStatsMod);
 			
@@ -480,8 +531,8 @@ public abstract class Loader {
 			
 			vWeapList.append(WD.getWeapon(0));
 			vWeapList.append(WD.getWeapon(1));
-			vWeapList.append(WD.getWeapon(103));
-			vWeapList.append(WD.getWeapon(180));
+			vWeapList.append(WD.getWeapon("Säbel"));
+			vWeapList.append(WD.getWeapon("Kurzbogen"));
 			
 			vRet = new Charakter(1, vName, vRasse, vProp, vStatsMod);
 			
@@ -509,8 +560,8 @@ public abstract class Loader {
 			
 			vWeapList.append(WD.getWeapon(0));
 			vWeapList.append(WD.getWeapon(1));
-			vWeapList.append(WD.getWeapon(103));
-			vWeapList.append(WD.getWeapon(180));
+			vWeapList.append(WD.getWeapon("Säbel"));
+			vWeapList.append(WD.getWeapon("Kurzbogen"));
 			
 			vRet = new Charakter(2, vName, vRasse, vProp, vStatsMod);
 			
@@ -555,8 +606,8 @@ public abstract class Loader {
 		
 		vWeapList.append(WD.getWeapon(0));
 		vWeapList.append(WD.getWeapon(1));
-		vWeapList.append(WD.getWeapon(103));
-		vWeapList.append(WD.getWeapon(180));
+		vWeapList.append(WD.getWeapon("Säbel"));
+		vWeapList.append(WD.getWeapon("Kurzbogen"));
 		
 		for (int i=0; i<8; i++) {
 			vProp[i] = 8+vRan.nextInt(6);
@@ -593,6 +644,80 @@ public abstract class Loader {
 	}
 	
 //--------------------------------------------------------------------------------------------------------
+	
+	/**	Dh 25.6.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public static Pro getPro(int pID) throws Exception{
+		return PD.getPro(pID);
+	}
+	/**	Dh	25.6.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public static SpecialCraft getSpecialCraft(int pID) throws Exception{
+		return SCD.getSpecialCraft(pID);
+	}
+	/**	Dh	25.6.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public static Talent getTalent(int pID) throws Exception{
+		return TD.getTalent(pID);
+	}
+	/**	Dh	25.6.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public static Weapon getWeapon(int pID) throws Exception{
+		return WD.getWeapon(pID);
+	}
+	//-----
+	/**	Dh	25.6.2020
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static List getProList() throws Exception{
+		if (PD != null) return PD.getProList();
+		else throw new Exception("04; Loa,gPL");
+	}
+	/**	Dh	25.6.2020
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static List getSpecialCraftList() throws Exception{
+		if (SCD != null) return SCD.getSpecialCraftList();
+		else throw new Exception("04; Loa,gSCL");
+	}
+	/**	Dh	25.6.2020
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static List getTalentList() throws Exception{
+		if (TD != null) return TD.getTalentList();
+		else throw new Exception("04; Loa,gTL");
+	}
+	/**	Dh	25.6.2020
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static List getWeaponList() throws Exception{
+		if (WD != null) return WD.getWeaponList();
+		else throw new Exception("04; Loa,gWL");
+	}
 	
 	/**	Dh	10.6.2020
 	 * 
@@ -661,7 +786,7 @@ public abstract class Loader {
 		else throw new Exception("20; Loa,gFS");
 	}
 	
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @throws Exception
 	 */
@@ -670,298 +795,281 @@ public abstract class Loader {
 		
 		try {
 			// Vorteile
-			PD.addPro(new Pro(0, "Adlig, Adlige Abstammmung"));
-			PD.addPro(new Pro(1, "Adlig, Adliges Erbe"));
-			PD.addPro(new Pro(2, "Adlig, Amtsadel"));
-			PD.addPro(new StringedPro(3, "Affinität zu "));
-			PD.addPro(new Pro(4, "Akademische Ausbildung (Gelehrter)"));
+			PD.addPro(new ReferredPro(0, "Adlig"));
+			PD.addPro(new StringedPro(1, "Affinität zu "));
+			PD.addPro(new ReferredPro(2, "Akademische Ausbildung"));
+			PD.addPro(new Pro(3, "Altersresistenz"));
+			PD.addPro(new ValuedPro(4, "Astrale Regeneration", 3, true, true));
 			
-			PD.addPro(new Pro(5, "Akademische Ausbildung (Magier)", true, true));
-			PD.addPro(new Pro(6, "Akademische Ausbildung (Krieger)"));
-			PD.addPro(new Pro(7, "Altersresistenz"));
-			PD.addPro(new Pro(8, "Astrale Regeneration I", true, true));
-			PD.addPro(new Pro(9, "Astrale Regeneration II", true, true));
+			PD.addPro(new ValuedPro(5, "Astralmacht", 6, true, true));
+			PD.addPro(new ValuedPro(6, "Ausdauernd", 3));
+			PD.addPro(new Pro(7, "Ausdauernder Zauberer", true, true));
+			PD.addPro(new ValuedPro(8, "Ausrüstungsvorteil", -1));
+			PD.addPro(new Pro(9, "Balance"));
 			
-			PD.addPro(new Pro(10, "Astrale Regeneration III", true, true));
-			PD.addPro(new ValuedPro(11, "Astralmacht", true, true));
-			PD.addPro(new ValuedPro(12, "Ausdauernd"));
-			PD.addPro(new Pro(13, "Ausdauernder Zauberer", true, true));
-			PD.addPro(new ValuedPro(14, "Ausrüstungsvorteil"));
+			PD.addPro(new ReferredPro(10, "Begabung für Merkmal", true, true));
+			PD.addPro(new ReferredPro(11, "Begabung für Ritual", true, true));
+			PD.addPro(new ReferredPro(12, "Begabung für Talent"));
+			PD.addPro(new ReferredPro(13, "Begabung für Talentgruppe"));
+			PD.addPro(new ReferredPro(14, "Begabung für Zauber", true, true));
 			
-			PD.addPro(new Pro(15, "Balance"));
-			PD.addPro(new ReferredPro(16, "Begabung für Merkmal", true, true));
-			PD.addPro(new ReferredPro(17, "Begabung für Ritual", true, true));
-			PD.addPro(new ReferredPro(18, "Begabung für Talent"));
-			PD.addPro(new ReferredPro(19, "Begabung für Talentgruppe"));
+			PD.addPro(new Pro(15, "Beidhändig"));
+			PD.addPro(new Pro(16, "Beseelte Knochenkeule"));
+			PD.addPro(new ValuedPro(17, "Besonderer Besitz", -1));
+			PD.addPro(new Pro(18, "Breitgefächerte Bildung"));
+			PD.addPro(new Pro(19, "Dämmerungssicht"));
 			
-			PD.addPro(new ReferredPro(20, "Begabung für Zauber", true, true));
-			PD.addPro(new Pro(21, "Beidhändig"));
-			PD.addPro(new Pro(22, "Beseelte Knochenkeule"));
-			PD.addPro(new ValuedPro(23, "Besonderer Besitz"));
-			PD.addPro(new Pro(24, "Breitgefächerte Bildung"));
+			PD.addPro(new Pro(20, "Eidetisches gedächtnis"));
+			PD.addPro(new Pro(21, "Eigeboren", true ,true));
+			PD.addPro(new Pro(22, "Eisenaffine Aura", true, true));
+			PD.addPro(new Pro(23, "Eisern"));
+			PD.addPro(new Pro(24, "Empathie", true, false, true));
 			
-			PD.addPro(new Pro(25, "Dämmerungssicht"));
-			PD.addPro(new Pro(26, "Eidetisches gedächtnis"));
-			PD.addPro(new Pro(27, "Eigeboren", true ,true));
-			PD.addPro(new Pro(28, "Eisenaffine Aura", true, true));
-			PD.addPro(new Pro(29, "Eisern"));
+			PD.addPro(new Pro(25, "Entfernungssinn"));
+			PD.addPro(new ValuedPro(26, "Ererbte Knochenkeuel", -1, true, true));
+			PD.addPro(new Pro(27, "Feenfreund"));
+			PD.addPro(new Pro(28, "Feste Matrix", true, true));
+			PD.addPro(new Pro(29, "Flink"));
 			
-			PD.addPro(new Pro(30, "Empathie", true, false, true));
-			PD.addPro(new Pro(31, "Entfernungssinn"));
-			PD.addPro(new ValuedPro(32, "Ererbte Knochenkeuel", true, true));
-			PD.addPro(new Pro(33, "Feenfreund"));
-			PD.addPro(new Pro(34, "Feste Matrix", true, true));
+			PD.addPro(new ValuedPro(30, "Gebildet", 5));
+			PD.addPro(new Pro(31, "Gefahreninstinkt", true, false, true));
+			PD.addPro(new Pro(32, "Geräuschhexerei", true, false, true));
+			PD.addPro(new Pro(33, "Geweiht"));
+			PD.addPro(new Pro(34, "Glück"));
 			
-			PD.addPro(new Pro(35, "Flink"));
-			PD.addPro(new ValuedPro(36, "Gebildet"));
-			PD.addPro(new Pro(37, "Gefahreninstinkt", true, false, true));
-			PD.addPro(new Pro(38, "Geräuschhexerei", true, false, true));
-			PD.addPro(new Pro(39, "Geweiht"));
+			PD.addPro(new Pro(35, "Glück im Spiel"));
+			PD.addPro(new Pro(36, "Gut Aussehend"));
+			PD.addPro(new ValuedPro(37, "Guter Ruf", 10));
+			PD.addPro(new Pro(38, "Gutes Gedächtnis"));
+			PD.addPro(new Pro(39, "Halbzauberer", true, true));
 			
-			PD.addPro(new Pro(40, "Glück"));
-			PD.addPro(new Pro(41, "Glück im Spiel"));
-			PD.addPro(new Pro(42, "Gut Aussehend"));
-			PD.addPro(new ValuedPro(43, "Guter Ruf"));
-			PD.addPro(new Pro(44, "Gutes Gedächtnis"));
+			PD.addPro(new Pro(40, "Herausragende Balance"));
+			PD.addPro(new Pro(41, "Herausragende Eigenschaft"));
+			PD.addPro(new Pro(42, "Herausragender Sechster Sinn"));
+			PD.addPro(new StringedPro(43, "Herausragender Sinn"));
+			PD.addPro(new Pro(44, "Herausragendes Aussehen"));
 			
-			PD.addPro(new Pro(45, "Halbzauberer", true, true));
-			PD.addPro(new Pro(46, "Herausragende Balance"));
-			PD.addPro(new Pro(47, "Herausragende Eigenschaft"));
-			PD.addPro(new Pro(48, "Herausragender Sechster Sinn"));
-			PD.addPro(new StringedPro(49, "Herausragender Sinn"));
+			PD.addPro(new Pro(45, "Hitzeresistenz"));
+			PD.addPro(new ValuedPro(46, "Hohe Lebenskraft", 6));
+			PD.addPro(new ValuedPro(47, "Hohe Magieresistenz", 3));
+			PD.addPro(new ReferredPro(48, "Immunität gegen Gift"));
+			PD.addPro(new ReferredPro(49, "Immunität gegen Gift-Gruppe"));
 			
-			PD.addPro(new Pro(50, "Herausragendes Aussehen"));
-			PD.addPro(new Pro(51, "Hitzeresistenz"));
-			PD.addPro(new ValuedPro(52, "Hohe Lebenskraft"));
-			PD.addPro(new ValuedPro(53, "Hohe Magieresistenz"));
-			PD.addPro(new ReferredPro(54, "Immunität gegen Gift"));
+			PD.addPro(new ReferredPro(50, "Immunität gegen alle Gifte"));
+			PD.addPro(new ReferredPro(51, "Immunität gegen Krankheit"));
+			PD.addPro(new ReferredPro(52, "Immunität geegen Krankheiten"));
+			PD.addPro(new Pro(53, "Innerer Kompass"));
+			PD.addPro(new Pro(53, "Kälteresistenz"));
 			
-			PD.addPro(new ReferredPro(55, "Immunität gegen Gift-Gruppe"));
-			PD.addPro(new ReferredPro(56, "Immunität gegen alle Gifte"));
-			PD.addPro(new ReferredPro(57, "Immunität gegen Krankheit"));
-			PD.addPro(new ReferredPro(58, "Immunität geegen Krankheiten"));
-			PD.addPro(new Pro(59, "Innerer Kompass"));
+			PD.addPro(new Pro(55, "Kampfrausch"));
+			PD.addPro(new Pro(56, "Koboldfreund"));
+			PD.addPro(new ReferredPro(57, "Kräfteschub", true, false, true));
+			PD.addPro(new Pro(58, "Linkshänder"));
+			PD.addPro(new Pro(59, "Machtvoller Vertrauter", true, true));
 			
-			PD.addPro(new Pro(60, "Kälteresistenz"));
-			PD.addPro(new Pro(61, "Kampfrausch"));
-			PD.addPro(new Pro(62, "Koboldfreund"));
-			PD.addPro(new ReferredPro(63, "Kräfteschub", true, false, true));
-			PD.addPro(new Pro(64, "Linkshänder"));
+			PD.addPro(new Pro(60, "Magiegespür", true, false, true));
+			PD.addPro(new ReferredPro(61, "Meisterhandwerk", true, true));
+			PD.addPro(new Pro(62, "Nachtsicht"));
+			PD.addPro(new ValuedPro(63, "Natürliche Waffe", -1));
+			PD.addPro(new ValuedPro(64, "Natürlicher Rüstungsschutz", -1));
 			
-			PD.addPro(new Pro(65, "Machtvoller Vertrauter", true, true));
-			PD.addPro(new Pro(66, "Magiegespür", true, false, true));
-			PD.addPro(new ReferredPro(67, "Meisterhandwerk", true, true));
-			PD.addPro(new Pro(68, "Nachtsicht"));
-			PD.addPro(new ValuedPro(69, "Natürliche Waffe"));
+			PD.addPro(new ReferredPro(65, "Niedrige Schlechte Eigenschaft"));
+			PD.addPro(new Pro(66, "Prophezeien", true, false, true));
+			PD.addPro(new ReferredPro(67, "Resistenz gegen Gift"));
+			PD.addPro(new ReferredPro(68, "Resistenz gegen Gifte"));
+			PD.addPro(new ReferredPro(69, "Resistenz gegen alle Gifte"));
 			
-			PD.addPro(new ValuedPro(70, "Natürlicher Rüstungsschutz"));
-			PD.addPro(new ReferredPro(71, "Niedrige Schlechte Eigenschaft"));
-			PD.addPro(new Pro(72, "Prophezeien", true, false, true));
-			PD.addPro(new ReferredPro(73, "Resistenz gegen Gift"));
-			PD.addPro(new ReferredPro(74, "Resistenz gegen Gifte"));
+			PD.addPro(new ReferredPro(70, "Resistenz gegen Krankheiten"));
+			PD.addPro(new Pro(71, "Richtungssinn"));
+			PD.addPro(new Pro(72, "Schlangenmensch"));
+			PD.addPro(new ValuedPro(73, "Schnelle Heilung", 3));
+			PD.addPro(new Pro(74, "Schutzgeist", true, true));
 			
-			PD.addPro(new ReferredPro(75, "Resistenz gegen alle Gifte"));
-			PD.addPro(new ReferredPro(76, "Resistenz gegen Krankheiten"));
-			PD.addPro(new Pro(77, "Richtungssinn"));
-			PD.addPro(new Pro(78, "Schlangenmensch"));
-			PD.addPro(new Pro(79, "Schnelle Heilung I"));
+			PD.addPro(new Pro(75, "Schwer zu verzaubern"));
+			PD.addPro(new Pro(76, "Soziale Anpassungsfähigkeit"));
+			PD.addPro(new ReferredPro(77, "Talentschub", true, false, true));
+			PD.addPro(new StringedPro(78, "Tierempathie, Tiergruppe", true, false, true));
+			PD.addPro(new StringedPro(79, "Tierempathie, alle", true, false, true));
 			
-			PD.addPro(new Pro(80, "Schnelle Heilung II"));
-			PD.addPro(new Pro(81, "Schnelle Heilung III"));
-			PD.addPro(new Pro(82, "Schutzgeist", true, true));
-			PD.addPro(new Pro(83, "Schwer zu verzaubern"));
-			PD.addPro(new Pro(84, "Soziale Anpassungsfähigkeit"));
+			PD.addPro(new Pro(80, "Tierfreund"));
+			PD.addPro(new ReferredPro(81, "Übernatürliche Begabung", true, true, true));
+			PD.addPro(new Pro(82, "Unbeschwertes Zaubern", true, true));
+			PD.addPro(new Pro(83, "Verbindungen"));
+			PD.addPro(new Pro(84, "Verhüllte Aura", true, true));
 			
-			PD.addPro(new ReferredPro(85, "Talentschub", true, false, true));
-			PD.addPro(new StringedPro(86, "Tierempathie, Tiergruppe", true, false, true));
-			PD.addPro(new StringedPro(87, "Tierempathie, alle", true, false, true));
-			PD.addPro(new Pro(88, "Tierfreund"));
-			PD.addPro(new ReferredPro(89, "Übernatürliche Begabung", true, true, true));
+			PD.addPro(new Pro(85, "Viertelzauberer, unentdeckt", true, true));
+			PD.addPro(new Pro(86, "Viertelzauberer, bekannt", true, true));
+			PD.addPro(new Pro(87, "Vollzauberer", true, true));
+			PD.addPro(new Pro(88, "Vom Schicksal begünstigt"));
+			PD.addPro(new ValuedPro(89, "Wesen der Nacht", 3, true, true));
 			
-			PD.addPro(new Pro(90, "Unbeschwertes Zaubern", true, true));
-			PD.addPro(new Pro(91, "Verbindungen"));
-			PD.addPro(new Pro(92, "Verhüllte Aura", true, true));
-			PD.addPro(new Pro(93, "Viertelzauberer, unentdeckt", true, true));
-			PD.addPro(new Pro(94, "Viertelzauberer, bekannt", true, true));
+			PD.addPro(new Pro(90, "Wohlklang"));
+			PD.addPro(new Pro(91, "Wolfskind", true, true));
+			PD.addPro(new Pro(92, "Wolfskind, freiwillig", true, true));
+			PD.addPro(new Pro(93, "Zäher Hund"));
+			PD.addPro(new Pro(94, "Zauberhaar", true, true));
 			
-			PD.addPro(new Pro(95, "Vollzauberer", true, true));
-			PD.addPro(new Pro(96, "Vom Schicksal begünstigt"));
-			PD.addPro(new Pro(97, "Wesen der Nacht I", true, true));
-			PD.addPro(new Pro(98, "Wesen der Nacht II", true, true));
-			PD.addPro(new Pro(99, "Wesen der Nacht III", true, true));
-			
-			PD.addPro(new Pro(100, "Wohlklang"));
-			PD.addPro(new Pro(101, "Wolfskind", true, true));
-			PD.addPro(new Pro(102, "Wolfskind, freiwillig", true, true));
-			PD.addPro(new Pro(103, "Zäher Hund"));
-			PD.addPro(new Pro(104, "Zauberhaar", true, true));
-			
-			PD.addPro(new Pro(105, "Zeitgefühl"));
-			PD.addPro(new Pro(106, "Zweistimmiger Gesang", true, true));
-			PD.addPro(new Pro(107, "Zwergennase", true, false, true));
+			PD.addPro(new Pro(95, "Zeitgefühl"));
+			PD.addPro(new Pro(96, "Zweistimmiger Gesang", true, true));
+			PD.addPro(new Pro(97, "Zwergennase", true, false, true));
 			
 			// Nachteile
-			PD.addPro(new BadCharacteristic(108, "Aberglaube"));
-			PD.addPro(new Pro(109, "Albino", false));
-			PD.addPro(new StringedBadCharacteristica(110, "Angst vor ", false));
-			PD.addPro(new Pro(111, "Animalische Magie", false, true));
-			PD.addPro(new BadCharacteristic(112, "Arkanophobie", false));
+			PD.addPro(new BadCharacteristic(98, "Aberglaube"));
+			PD.addPro(new Pro(99, "Albino", false));
+			PD.addPro(new StringedBadCharacteristica(100, "Angst vor ", false));
+			PD.addPro(new Pro(101, "Animalische Magie", false, true));
+			PD.addPro(new BadCharacteristic(102, "Arkanophobie", false));
 			
-			PD.addPro(new BadCharacteristic(113, "Arroganz", false));
-			PD.addPro(new Pro(114, "Artefaktgebunden", false, true));
-			PD.addPro(new Pro(115, "Astraler Block", false, true));
-			PD.addPro(new BadCharacteristic(116, "Autoritätsgläubig", false));
-			PD.addPro(new Pro(117, "Behäbig", false));
+			PD.addPro(new BadCharacteristic(103, "Arroganz", false));
+			PD.addPro(new Pro(104, "Artefaktgebunden", false, true));
+			PD.addPro(new Pro(105, "Astraler Block", false, true));
+			PD.addPro(new BadCharacteristic(106, "Autoritätsgläubig", false));
+			PD.addPro(new Pro(107, "Behäbig", false));
 			
-			PD.addPro(new BadCharacteristic(118, "Blutdurst", false));
-			PD.addPro(new Pro(119, "Blutrausch", false));
-			PD.addPro(new BadCharacteristic(120, "Brünstigkeit", false));
-			PD.addPro(new BadCharacteristic(121, "Dunkelangst", false));
-			PD.addPro(new Pro(122, "Einarmig", false));
+			PD.addPro(new BadCharacteristic(108, "Blutdurst", false));
+			PD.addPro(new Pro(109, "Blutrausch", false));
+			PD.addPro(new BadCharacteristic(110, "Brünstigkeit", false));
+			PD.addPro(new BadCharacteristic(111, "Dunkelangst", false));
+			PD.addPro(new Pro(112, "Einarmig", false));
 			
-			PD.addPro(new Pro(123, "Gelähmter Arm", false));
-			PD.addPro(new Pro(124, "Einäugig", false));
-			PD.addPro(new Pro(125, "Einbeinig", false));
-			PD.addPro(new Pro(126, "Einbildungen", false));
-			PD.addPro(new Pro(127, "Eingeschränkte Elementarnähe", false, true));
+			PD.addPro(new Pro(113, "Gelähmter Arm", false));
+			PD.addPro(new Pro(114, "Einäugig", false));
+			PD.addPro(new Pro(115, "Einbeinig", false));
+			PD.addPro(new Pro(116, "Einbildungen", false));
+			PD.addPro(new Pro(117, "Eingeschränkte Elementarnähe", false, true));
 			
-			PD.addPro(new StringedPro(128, "Engeschränkter Sinn", false));
-			PD.addPro(new Pro(129, "Einhändig", false));
-			PD.addPro(new BadCharacteristic(130, "Eitelkeit", false));
-			PD.addPro(new Pro(131, "Elfische Weltsicht", false));
-			PD.addPro(new Pro(132, "Farbenblind", false));
+			PD.addPro(new StringedPro(118, "Engeschränkter Sinn", false));
+			PD.addPro(new Pro(119, "Einhändig", false));
+			PD.addPro(new BadCharacteristic(120, "Eitelkeit", false));
+			PD.addPro(new Pro(121, "Elfische Weltsicht", false));
+			PD.addPro(new Pro(122, "Farbenblind", false));
 			
-			PD.addPro(new StringedPro(133, "Feind", false));
-			PD.addPro(new Pro(134, "Feste Gewohntheit", false, true));
-			PD.addPro(new ValuedPro(135, "Festgefügtes Denken", false, true));
-			PD.addPro(new Pro(136, "Fettleibig", false));
-			PD.addPro(new Pro(137, "Fluch der Finsternis I", false, true));
+			PD.addPro(new StringedPro(123, "Feind", false));
+			PD.addPro(new Pro(124, "Feste Gewohntheit", false, true));
+			PD.addPro(new ValuedPro(125, "Festgefügtes Denken", 5, false, true));
+			PD.addPro(new Pro(126, "Fettleibig", false));
+			PD.addPro(new ValuedPro(127, "Fluch der Finsternis", 3, false, true));
 			
-			PD.addPro(new Pro(138, "Fluch der Finsternis II", false, true));
-			PD.addPro(new Pro(139, "Fluch der Finsternis III", false, true));
-			PD.addPro(new BadCharacteristic(140, "Geiz", false));
-			PD.addPro(new BadCharacteristic(141, "Gerechtigkeitswahn", false));
-			PD.addPro(new StringedPro(142, "Gesucht I", false));
+			PD.addPro(new BadCharacteristic(128, "Geiz", false));
+			PD.addPro(new BadCharacteristic(129, "Gerechtigkeitswahn", false));
+			PD.addPro(new StringedValuedPro(130, "Gesucht", 3, false));
+			PD.addPro(new Pro(131, "Glasknochen", false));
+			PD.addPro(new BadCharacteristic(132, "Goldgier", false));
 			
-			PD.addPro(new StringedPro(143, "Gesucht II", false));
-			PD.addPro(new StringedPro(144, "Gesucht III", false));
-			PD.addPro(new Pro(145, "Glasknochen", false));
-			PD.addPro(new BadCharacteristic(146, "Goldgier", false));
-			PD.addPro(new BadCharacteristic(147, "Größenwahn", false));
+			PD.addPro(new BadCharacteristic(133, "Größenwahn", false));
+			PD.addPro(new Pro(134, "Heimwehkrank", false));
+			PD.addPro(new Pro(135, "Hitzeempfindlichkeit", false));
+			PD.addPro(new BadCharacteristic(136, "Höhenangst", false));
+			PD.addPro(new Pro(137, "Impulsiv", false));
 			
-			PD.addPro(new Pro(148, "Heimwehkrank", false));
-			PD.addPro(new Pro(149, "Hitzeempfindlichkeit", false));
-			PD.addPro(new BadCharacteristic(150, "Höhenangst", false));
-			PD.addPro(new Pro(151, "Impulsiv", false));
-			PD.addPro(new BadCharacteristic(152, "Jähzorn", false));
+			PD.addPro(new BadCharacteristic(138, "Jähzorn", false));
+			PD.addPro(new Pro(139, "Kälteempfindlichkeit", false));
+			PD.addPro(new Pro(140, "Kältestarre", false));
+			PD.addPro(new Pro(141, "Kein Vertrauter", false, true));
+			PD.addPro(new Pro(142, "Kristallgebunden", false, true));
 			
-			PD.addPro(new Pro(153, "Kälteempfindlichkeit", false));
-			PD.addPro(new Pro(154, "Kältestarre", false));
-			PD.addPro(new Pro(155, "Kein Vertrauter", false, true));
-			PD.addPro(new Pro(156, "Kristallgebunden", false, true));
-			PD.addPro(new Pro(157, "Kleinwüchsig", false));
+			PD.addPro(new Pro(143, "Kleinwüchsig", false));
+			PD.addPro(new Pro(144, "Körpergebundene Kraft", false, true));
+			PD.addPro(new BadCharacteristic(145, "Krankhafte Reinlichkeit", false));
+			PD.addPro(new Pro(146, "Krankheitsanfällig", false));
+			PD.addPro(new ValuedPro(147, "Kurzatmig", 6, false));
 			
-			PD.addPro(new Pro(158, "Körpergebundene Kraft", false, true));
-			PD.addPro(new BadCharacteristic(159, "Krankhafte Reinlichkeit", false));
-			PD.addPro(new Pro(160, "Krankheitsanfällig", false));
-			PD.addPro(new ValuedPro(161, "Kurzatmig", false));
-			PD.addPro(new Pro(162, "Lahm", false));
+			PD.addPro(new Pro(148, "Lahm", false));
+			PD.addPro(new Pro(149, "Lästige Mindergsiter", false, true));
+			PD.addPro(new Pro(150, "Lichtempfindlichkeit", false));
+			PD.addPro(new Pro(151, "Lichtscheu", false));
+			PD.addPro(new ValuedPro(152, "Madas Fluch", 3, false, true));
 			
-			PD.addPro(new Pro(163, "Lästige Mindergsiter", false, true));
-			PD.addPro(new Pro(164, "Lichtempfindlichkeit", false));
-			PD.addPro(new Pro(165, "Lichtscheu", false));
-			PD.addPro(new Pro(166, "Madas Fluch I", false, true));
-			PD.addPro(new Pro(167, "Madas Fluch II", false, true));
+			PD.addPro(new Pro(153, "Medium", false));
+			PD.addPro(new BadCharacteristic(154, "Meeresangst", false));
+			PD.addPro(new ReferredPro(155, "Miserable Eigenschaft", false));
+			PD.addPro(new Pro(156, "Mondsüchtig", false));
+			PD.addPro(new StringedPro(157, "Moralkodex", false));
 			
-			PD.addPro(new Pro(168, "Madas Fluch III", false, true));
-			PD.addPro(new Pro(169, "Medium", false));
-			PD.addPro(new BadCharacteristic(170, "Meeresangst", false));
-			PD.addPro(new ReferredPro(171, "Miserable Eigenschaft", false));
-			PD.addPro(new Pro(172, "Mondsüchtig", false));
+			PD.addPro(new Pro(158, "Nachtblind", false));
+			PD.addPro(new Pro(159, "Nahrungsrestriktion", false));
+			PD.addPro(new BadCharacteristic(160, "Neid", false));
+			PD.addPro(new BadCharacteristic(161, "Neugier", false));
+			PD.addPro(new ValuedPro(162, "Niedrige Astralkraft", 6, false, true));
 			
-			PD.addPro(new StringedPro(173, "Moralkodex", false));
-			PD.addPro(new Pro(174, "Nachtblind", false));
-			PD.addPro(new Pro(175, "Nahrungsrestriktion", false));
-			PD.addPro(new BadCharacteristic(176, "Neid", false));
-			PD.addPro(new BadCharacteristic(177, "Neugier", false));
+			PD.addPro(new ValuedPro(163, "Niedrige Lebenskraft", 6, false));
+			PD.addPro(new ValuedPro(164, "Niedrige Magieresitenz", 3, false));
+			PD.addPro(new Pro(165, "Pechmagnet", false));
+			PD.addPro(new BadCharacteristic(166, "Platzangst", false));
+			PD.addPro(new StringedPro(167, "Prinzipientreue", false));
 			
-			PD.addPro(new ValuedPro(178, "Niedrige Astralkraft", false, true));
-			PD.addPro(new ValuedPro(179, "Niedrige Lebenskraft", false));
-			PD.addPro(new ValuedPro(180, "Niedrige Magieresitenz", false));
-			PD.addPro(new Pro(181, "Pechmagnet", false));
-			PD.addPro(new BadCharacteristic(182, "Platzangst", false));
+			PD.addPro(new BadCharacteristic(168, "Rachsucht", false));
+			PD.addPro(new StringedPro(169, "Randgruppe", false));
+			PD.addPro(new Pro(170, "Raubtiergeruch", false));
+			PD.addPro(new BadCharacteristic(171, "Raumangst", false));
+			PD.addPro(new Pro(172, "Rückschlag", false, true));
 			
-			PD.addPro(new StringedPro(183, "Prinzipientreue", false));
-			PD.addPro(new BadCharacteristic(184, "Rachsucht", false));
-			PD.addPro(new StringedPro(185, "Randgruppe", false));
-			PD.addPro(new Pro(186, "Raubtiergeruch", false));
-			PD.addPro(new BadCharacteristic(187, "Raumangst", false));
+			PD.addPro(new ValuedPro(173, "Schlafstörung", 2, false));
+			PD.addPro(new Pro(174, "Schlafwandler", false));
+			PD.addPro(new Pro(175, "Schlechte Regeneration", false));
+			PD.addPro(new ValuedPro(176, "Schlechter Ruf", 10, false));
+			PD.addPro(new Pro(177, "Schneller Alternd", false));
 			
-			PD.addPro(new Pro(188, "Rückschlag", false, true));
-			PD.addPro(new Pro(189, "Schlafstörung I", false));
-			PD.addPro(new Pro(190, "Schlafstörung II", false));
-			PD.addPro(new Pro(191, "Schlafwandler", false));
-			PD.addPro(new Pro(192, "Schlechte Regeneration", false));
+			PD.addPro(new ValuedPro(178, "Schulden", -1, false));
+			PD.addPro(new ValuedPro(179, "Schwache Ausstrahlung", 5, false, true));
+			PD.addPro(new Pro(180, "Schwacher Astralkörper", false, true));
+			PD.addPro(new Pro(181, "Schwanzlos", false));
+			PD.addPro(new Pro(182, "Seffer Manich", false));
 			
-			PD.addPro(new ValuedPro(193, "Schlechter Ruf", false));
-			PD.addPro(new Pro(194, "Schneller Alternd", false));
-			PD.addPro(new ValuedPro(195, "Schulden", false));
-			PD.addPro(new ValuedPro(196, "Schwache Ausstrahlung", false, true));
-			PD.addPro(new Pro(197, "Schwacher Astralkörper", false, true));
+			PD.addPro(new Pro(183, "Selbstgespräche", false));
+			PD.addPro(new StringedBadCharacteristica(184, "Sensibler Geruchssinn", false));
+			PD.addPro(new Pro(185, "Sippenlosigkeit", false));
+			PD.addPro(new BadCharacteristic(186, "Sonnensucht", false));
+			PD.addPro(new StringedPro(187, "Speisegebot", false));
 			
-			PD.addPro(new Pro(198, "Schwanzlos", false));
-			PD.addPro(new Pro(199, "Seffer Manich", false));
-			PD.addPro(new Pro(200, "Selbstgespräche", false));
-			PD.addPro(new StringedValuedPro(201, "Sensibler Geruchssinn", false));
-			PD.addPro(new Pro(202, "Sippenlosigkeit", false));
+			PD.addPro(new BadCharacteristic(188, "Spielsucht", false));
+			PD.addPro(new Pro(189, "Sprachfehler", false));
+			PD.addPro(new Pro(190, "Spruchhemmung", false, true));
+			PD.addPro(new StringedPro(191, "Stigma", false));
+			PD.addPro(new BadCharacteristic(192, "Streitsucht", false));
 			
-			PD.addPro(new BadCharacteristic(203, "Sonnensucht", false));
-			PD.addPro(new StringedPro(204, "Speisegebot", false));
-			PD.addPro(new BadCharacteristic(205, "Spielsucht", false));
-			PD.addPro(new Pro(206, "Sprachfehler", false));
-			PD.addPro(new Pro(207, "Spruchhemmung", false, true));
+			PD.addPro(new Pro(193, "Stubenhocker", false));
+			PD.addPro(new StringedValuedPro(194, "Sucht", 12, false));
+			PD.addPro(new ReferredPro(195, "Thesisgebunden", false, true));
+			PD.addPro(new Pro(196, "Tollpatsch", false));
+			PD.addPro(new BadCharacteristic(197, "Totenangst", false));
 			
-			PD.addPro(new StringedPro(208, "Stigma", false));
-			PD.addPro(new BadCharacteristic(209, "Streitsucht", false));
-			PD.addPro(new Pro(211, "Stubenhocker", false));
-			PD.addPro(new StringedValuedPro(212, "Sucht", false));
-			PD.addPro(new ReferredPro(213, "Thesisgebunden", false, true));
+			PD.addPro(new Pro(198, "Über Geruch", false));
+			PD.addPro(new Pro(199, "Unangenehme Stimme", false));
+			PD.addPro(new Pro(200, "Unansehnlich", false));
+			PD.addPro(new Pro(201, "Unfähigkeit für Talente", false));
+			PD.addPro(new Pro(202, "Unfähigkeit für Talent-Gruppe", false));
 			
-			PD.addPro(new Pro(214, "Tollpatsch", false));
-			PD.addPro(new BadCharacteristic(215, "Totenangst", false));
-			PD.addPro(new Pro(216, "Über Geruch", false));
-			PD.addPro(new Pro(217, "Unangenehme Stimme", false));
-			PD.addPro(new Pro(218, "Unansehnlich", false));
+			PD.addPro(new Pro(203, "Unfähigkeit für Merkmal", false, true));
+			PD.addPro(new Pro(204, "Unfähigkeit für Rituale", false, true));
+			PD.addPro(new Pro(205, "Unfrei", false));
+			PD.addPro(new ValuedPro(206, "Ungebildet", 5, false));
+			PD.addPro(new Pro(207, "Unstet", false));
 			
-			PD.addPro(new Pro(219, "Unfähigkeit für Talente", false));
-			PD.addPro(new Pro(220, "Unfähigkeit für Talent-Gruppe", false));
-			PD.addPro(new Pro(221, "Unfähigkeit für Merkmal", false, true));
-			PD.addPro(new Pro(222, "Unfähigkeit für Rituale", false, true));
-			PD.addPro(new Pro(223, "Unfrei", false));
+			PD.addPro(new Pro(208, "Unverträglichkeit mit verarbeitetem Metall", false, true));
+			PD.addPro(new Pro(209, "Vergesslichkeit", false));
+			PD.addPro(new Pro(210, "Verpflichtungen", false));
+			PD.addPro(new BadCharacteristic(211, "Verschwendungssucht", false));
+			PD.addPro(new BadCharacteristic(212, "Verwöhnt", false));
 			
-			PD.addPro(new ValuedPro(224, "Ungebildet", false));
-			PD.addPro(new Pro(225, "Unstet", false));
-			PD.addPro(new Pro(226, "Unverträglichkeit mit verarbeitetem Metall", false, true));
-			PD.addPro(new Pro(227, "Vergesslichkeit", false));
-			PD.addPro(new Pro(228, "Verpflichtungen", false));
+			PD.addPro(new StringedBadCharacteristica(213, "Vorurteile", false));
+			PD.addPro(new Pro(214, "Wahnvorstellungen", false));
+			PD.addPro(new Pro(215, "Wahrer Name", false, true));
+			PD.addPro(new StringedBadCharacteristica(216, "Weltfremd", false));
+			PD.addPro(new Pro(217, "Widerwärtiges Aussehen", false));
 			
-			PD.addPro(new BadCharacteristic(229, "Verschwendungssucht", false));
-			PD.addPro(new BadCharacteristic(230, "Verwöhnt", false));
-			PD.addPro(new StringedBadCharacteristica(231, "Vorurteile", false));
-			PD.addPro(new Pro(232, "Wahnvorstellungen", false));
-			PD.addPro(new Pro(233, "Wahrer Name", false, true));
-			
-			PD.addPro(new StringedBadCharacteristica(234, "Weltfremd", false));
-			PD.addPro(new Pro(235, "Widerwärtiges Aussehen", false));
-			PD.addPro(new Pro(236, "Wilde Magie", false, true));
-			PD.addPro(new Pro(237, "Zielschwierigkeiten", false, true));
-			PD.addPro(new Pro(238, "Zögerlicher Zauberer", false, true));
-			PD.addPro(new Pro(239, "Zwergenwuchs", false));
+			PD.addPro(new Pro(218, "Wilde Magie", false, true));
+			PD.addPro(new Pro(219, "Zielschwierigkeiten", false, true));
+			PD.addPro(new Pro(220, "Zögerlicher Zauberer", false, true));
+			PD.addPro(new Pro(221, "Zwergenwuchs", false));
 			
 //			PD.addPro(new Pro(160, "", false));
 		} catch (Exception ex) {throw ex;}
 	}
-	
+	/**	Dh	17.6.2020
+	 * 
+	 * @throws Exception
+	 */
 	private static void genSpecialCrafts() throws Exception{
 		List vTemp;
 		SCD = new SpecialCraftDatabase();
@@ -1271,8 +1379,8 @@ public abstract class Loader {
 			SCD.addTypedPremiseOfSpecialCraft("Spießgespann", 1, SCD.getSpecialCraft("Sturmangriff").getID());
 			SCD.addTypedPremiseOfSpecialCraft("Sturmangriff", 1, SCD.getSpecialCraft("Wuchtschlag").getID());
 			
-			SCD.addTypedPremiseOfSpecialCraft("Tod von Links", 1, SCD.getSpecialCraft("Beidhändiger Kampf I").getID());
-			SCD.addTypedPremiseOfSpecialCraft("Tod von Links", 1, SCD.getSpecialCraft("Parierwaffen II").getID());
+			SCD.addTypedPremiseOfSpecialCraft("Tod von links", 1, SCD.getSpecialCraft("Beidhändiger Kampf I").getID());
+			SCD.addTypedPremiseOfSpecialCraft("Tod von links", 1, SCD.getSpecialCraft("Parierwaffen II").getID());
 			SCD.addTypedPremiseOfSpecialCraft("Todesstpß", 1, SCD.getSpecialCraft("Gezielter Stich").getID());
 			SCD.addTypedPremiseOfSpecialCraft("Turnierreiterei", 3, TD.getTalent("Reiten").getID(), 10);
 			SCD.addTypedPremiseOfSpecialCraft("Turnierreiterei", 1, SCD.getSpecialCraft("Reiterkampf").getID());
@@ -1280,7 +1388,10 @@ public abstract class Loader {
 			SCD.addTypedPremiseOfSpecialCraft("Umreißen", 1, SCD.getSpecialCraft("Finte").getID());
 			SCD.addTypedPremiseOfSpecialCraft("Unterwasserkampf", 3, TD.getTalent("Schwimmen").getID(), 10);
 			
-			SCD.addTypedPremiseOfSpecialCraft("Waffenmeister", 4, 8, 18);
+			SCD.addTypedPremiseOfSpecialCraft("Waffenmeister Waffen", 4, 8, 18);
+			SCD.addTypedPremiseOfSpecialCraft("Waffenmeister Schilde", 1, SCD.getSpecialCraft("Schildkampf II").getID());
+			SCD.addTypedPremiseOfSpecialCraft("Waffenmeister Schilde", 1, SCD.getSpecialCraft("Beidhändiger Kampf I").getID());
+			SCD.addTypedPremiseOfSpecialCraft("Waffenmeister Schilde", 1, SCD.getSpecialCraft("Parierwaffen I").getID());
 			SCD.addTypedPremiseOfSpecialCraft("Waffenspezialisierung", 4, 8, 7);
 			SCD.addTypedPremiseOfSpecialCraft("Windmühle", 1, SCD.getSpecialCraft("Gegenhalten").getID());
 			SCD.addTypedPremiseOfSpecialCraft("Windmühle", 1, SCD.getSpecialCraft("Wuchtschlag").getID());
@@ -1294,7 +1405,7 @@ public abstract class Loader {
 			// SCD.addTypedPremiseOfSpecialCraft("", 4, , );
 		} catch (Exception ex) {throw ex;}
 	}
-	/**	Dh	10.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * 	Properties: 
 	 * 	  0 Mut					4 Fingerfertigkeit
@@ -1384,55 +1495,55 @@ public abstract class Loader {
 			TD.addTalent(new PhysicalTalent(44, "Zechen", new int[] {2, 6, 7}, new int[] {2, 0}));
 			
 			// Gesellschaftliche Talente
-			TD.addTalent(new Basictalent(45, "Betören", new int[] {2, 3, 3}));
-			TD.addTalent(new Basictalent(46, "Etikette", new int[] {1, 2, 3}));
-			TD.addTalent(new Basictalent(47, "Gassenwissen", new int[] {1, 2, 3}));
-			TD.addTalent(new Basictalent(48, "Lehren", new int[] {1, 2, 3}));
-			TD.addTalent(new Basictalent(49, "Menschenkenntnis", new int[] {1, 2, 3}));
+			TD.addTalent(new Basictalent(3, 45, "Betören", new int[] {2, 3, 3}));
+			TD.addTalent(new Basictalent(3, 46, "Etikette", new int[] {1, 2, 3}));
+			TD.addTalent(new Basictalent(3, 47, "Gassenwissen", new int[] {1, 2, 3}));
+			TD.addTalent(new Basictalent(3, 48, "Lehren", new int[] {1, 2, 3}));
+			TD.addTalent(new Basictalent(3, 49, "Menschenkenntnis", new int[] {1, 2, 3}));
 			
-			TD.addTalent(new Basictalent(50, "Schauspielerei", new int[] {0, 1, 3}));
-			TD.addTalent(new Basictalent(51, "Schriftlicher Ausdruck", new int[] {1, 2, 2}));
-			TD.addTalent(new Basictalent(52, "Sich Verkleiden", new int[] {0, 3, 5}));
-			TD.addTalent(new Basictalent(53, "Überreden", new int[] {0, 2, 3}));
-			TD.addTalent(new Basictalent(54, "Überzeugen", new int[] {1, 2, 3}));
+			TD.addTalent(new Basictalent(3, 50, "Schauspielerei", new int[] {0, 1, 3}));
+			TD.addTalent(new Basictalent(3, 51, "Schriftlicher Ausdruck", new int[] {1, 2, 2}));
+			TD.addTalent(new Basictalent(3, 52, "Sich Verkleiden", new int[] {0, 3, 5}));
+			TD.addTalent(new Basictalent(3, 53, "Überreden", new int[] {0, 2, 3}));
+			TD.addTalent(new Basictalent(3, 54, "Überzeugen", new int[] {1, 2, 3}));
 			
 			// Natur Talente
-			TD.addTalent(new Basictalent(55, "Fährtensuchen", new int[] {1, 2, 2}));
-			TD.addTalent(new Basictalent(56, "Fallenstellen", new int[] {1, 4, 7}));
-			TD.addTalent(new Basictalent(57, "Fesseln/Entfesseln", new int[] {4, 5, 7}));
-			TD.addTalent(new Basictalent(58, "Fischen/Angeln", new int[] {2, 4, 7}));
-			TD.addTalent(new Basictalent(59, "Orientierung", new int[] {1, 2, 2}));
-			TD.addTalent(new Basictalent(60, "Wettervorhersage", new int[] {1, 2, 2}));
-			TD.addTalent(new Basictalent(61, "Wildnisleben", new int[] {2, 5, 6}));
+			TD.addTalent(new Basictalent(4, 55, "Fährtensuchen", new int[] {1, 2, 2}));
+			TD.addTalent(new Basictalent(4, 56, "Fallenstellen", new int[] {1, 4, 7}));
+			TD.addTalent(new Basictalent(4, 57, "Fesseln/Entfesseln", new int[] {4, 5, 7}));
+			TD.addTalent(new Basictalent(4, 58, "Fischen/Angeln", new int[] {2, 4, 7}));
+			TD.addTalent(new Basictalent(4, 59, "Orientierung", new int[] {1, 2, 2}));
+			TD.addTalent(new Basictalent(4, 60, "Wettervorhersage", new int[] {1, 2, 2}));
+			TD.addTalent(new Basictalent(4, 61, "Wildnisleben", new int[] {2, 5, 6}));
 			
 			// Wissenstalente
-			TD.addTalent(new Basictalent(62, "Anatomie", new int[] {0, 1, 4}));
-			TD.addTalent(new Basictalent(63, "Baukunst", new int[] {1, 1, 4}));
-			TD.addTalent(new Basictalent(64, "Brettspiel", new int[] {1, 1, 2}));
-			TD.addTalent(new Basictalent(65, "Geographie", new int[] {1, 1, 2}));
-			TD.addTalent(new Basictalent(66, "Geschichtswissen", new int[] {1, 1, 2}));
+			TD.addTalent(new Basictalent(5, 62, "Anatomie", new int[] {0, 1, 4}));
+			TD.addTalent(new Basictalent(5, 63, "Baukunst", new int[] {1, 1, 4}));
+			TD.addTalent(new Basictalent(5, 64, "Brettspiel", new int[] {1, 1, 2}));
+			TD.addTalent(new Basictalent(5, 65, "Geographie", new int[] {1, 1, 2}));
+			TD.addTalent(new Basictalent(5, 66, "Geschichtswissen", new int[] {1, 1, 2}));
 			
-			TD.addTalent(new Basictalent(67, "Gesteinskunde", new int[] {1, 2, 4}));
-			TD.addTalent(new Basictalent(68, "Götter/Kulte", new int[] {1, 1, 2}));
-			TD.addTalent(new Basictalent(69, "Heraldik", new int[] {1, 1, 4}));
-			TD.addTalent(new Basictalent(70, "Hüttenkunde", new int[] {1, 2, 6}));
-			TD.addTalent(new Basictalent(71, "Kriegskunst", new int[] {0, 1, 3}));
+			TD.addTalent(new Basictalent(5, 67, "Gesteinskunde", new int[] {1, 2, 4}));
+			TD.addTalent(new Basictalent(5, 68, "Götter/Kulte", new int[] {1, 1, 2}));
+			TD.addTalent(new Basictalent(5, 69, "Heraldik", new int[] {1, 1, 4}));
+			TD.addTalent(new Basictalent(5, 70, "Hüttenkunde", new int[] {1, 2, 6}));
+			TD.addTalent(new Basictalent(5, 71, "Kriegskunst", new int[] {0, 1, 3}));
 			
-			TD.addTalent(new Basictalent(72, "Kryptographie", new int[] {1, 1, 2}));
-			TD.addTalent(new Basictalent(73, "Magiekunde", new int[] {1, 1, 2}));
-			TD.addTalent(new Basictalent(74, "Mechanik", new int[] {1, 1, 4}));
-			TD.addTalent(new Basictalent(75, "Pflanzenkunde", new int[] {1, 1, 4}));
-			TD.addTalent(new Basictalent(76, "Philosophie", new int[] {1, 1, 2}));
+			TD.addTalent(new Basictalent(5, 72, "Kryptographie", new int[] {1, 1, 2}));
+			TD.addTalent(new Basictalent(5, 73, "Magiekunde", new int[] {1, 1, 2}));
+			TD.addTalent(new Basictalent(5, 74, "Mechanik", new int[] {1, 1, 4}));
+			TD.addTalent(new Basictalent(5, 75, "Pflanzenkunde", new int[] {1, 1, 4}));
+			TD.addTalent(new Basictalent(5, 76, "Philosophie", new int[] {1, 1, 2}));
 			
-			TD.addTalent(new Basictalent(77, "Rechnen", new int[] {1, 1, 2}));
-			TD.addTalent(new Basictalent(78, "Rechtskunde", new int[] {1, 1, 2}));
-			TD.addTalent(new Basictalent(79, "Sagen/Legenden", new int[] {1, 2, 3}));
-			TD.addTalent(new Basictalent(80, "Schätzen", new int[] {1, 2, 2}));
-			TD.addTalent(new Basictalent(81, "Sprachkunde", new int[] {1, 1, 2}));
+			TD.addTalent(new Basictalent(5, 77, "Rechnen", new int[] {1, 1, 2}));
+			TD.addTalent(new Basictalent(5, 78, "Rechtskunde", new int[] {1, 1, 2}));
+			TD.addTalent(new Basictalent(5, 79, "Sagen/Legenden", new int[] {1, 2, 3}));
+			TD.addTalent(new Basictalent(5, 80, "Schätzen", new int[] {1, 2, 2}));
+			TD.addTalent(new Basictalent(5, 81, "Sprachkunde", new int[] {1, 1, 2}));
 			
-			TD.addTalent(new Basictalent(82, "Staatskunst", new int[] {1, 2, 3}));
-			TD.addTalent(new Basictalent(83, "Sternkunde", new int[] {1, 1, 2}));
-			TD.addTalent(new Basictalent(84, "Tierkunde", new int[] {0, 1, 2}));
+			TD.addTalent(new Basictalent(5, 82, "Staatskunst", new int[] {1, 2, 3}));
+			TD.addTalent(new Basictalent(5, 83, "Sternkunde", new int[] {1, 1, 2}));
+			TD.addTalent(new Basictalent(5, 84, "Tierkunde", new int[] {0, 1, 2}));
 			
 			// Sprachen
 			TD.addTalent(new Communicationtalent(85, "Garethi", true, 18));
@@ -1511,63 +1622,65 @@ public abstract class Loader {
 			TD.addTalent(new Communicationtalent(144, "Zhayad", false, 18));
 			
 			// Handwerkstalente
-			TD.addTalent(new Basictalent(145, "Abrichten", new int[] {0, 2, 3}));
-			TD.addTalent(new Basictalent(146, "Ackerbau", new int[] {2, 4, 6}));
-			TD.addTalent(new Basictalent(147, "Alchemie", new int[] {0, 1, 4}));
-			TD.addTalent(new Basictalent(148, "Bergbau", new int[] {2, 6, 7}));
-			TD.addTalent(new Basictalent(149, "Bogenbau", new int[] {1, 2, 4}));
+			TD.addTalent(new Basictalent(7, 145, "Abrichten", new int[] {0, 2, 3}));
+			TD.addTalent(new Basictalent(7, 146, "Ackerbau", new int[] {2, 4, 6}));
+			TD.addTalent(new Basictalent(7, 147, "Alchemie", new int[] {0, 1, 4}));
+			TD.addTalent(new Basictalent(7, 148, "Bergbau", new int[] {2, 6, 7}));
+			TD.addTalent(new Basictalent(7, 149, "Bogenbau", new int[] {1, 2, 4}));
 			
-			TD.addTalent(new Basictalent(150, "Boote fahren", new int[] {5, 6, 7}));
-			TD.addTalent(new Basictalent(151, "Brauer", new int[] {1, 4, 7}));
-			TD.addTalent(new Basictalent(152, "Drucker", new int[] {1, 4, 7}));
-			TD.addTalent(new Basictalent(153, "Farhzeug lenken", new int[] {2, 3, 4}));
-			TD.addTalent(new Basictalent(154, "Falschspiel", new int[] {0, 3, 4}));
+			TD.addTalent(new Basictalent(7, 150, "Boote fahren", new int[] {5, 6, 7}));
+			TD.addTalent(new Basictalent(7, 151, "Brauer", new int[] {1, 4, 7}));
+			TD.addTalent(new Basictalent(7, 152, "Drucker", new int[] {1, 4, 7}));
+			TD.addTalent(new Basictalent(7, 153, "Farhzeug lenken", new int[] {2, 3, 4}));
+			TD.addTalent(new Basictalent(7, 154, "Falschspiel", new int[] {0, 3, 4}));
 			
-			TD.addTalent(new Basictalent(155, "Feinmechanik", new int[] {1, 4, 4}));
-			TD.addTalent(new Basictalent(156, "Feuersteinbearbeitung", new int[] {1, 4, 4}));
-			TD.addTalent(new Basictalent(157, "Fleischer", new int[] {1, 4, 7}));
-			TD.addTalent(new Basictalent(158, "Gerber/Kürschner", new int[] {1, 4, 6}));
-			TD.addTalent(new Basictalent(159, "Glaskunst", new int[] {4, 4, 6}));
+			TD.addTalent(new Basictalent(7, 155, "Feinmechanik", new int[] {1, 4, 4}));
+			TD.addTalent(new Basictalent(7, 156, "Feuersteinbearbeitung", new int[] {1, 4, 4}));
+			TD.addTalent(new Basictalent(7, 157, "Fleischer", new int[] {1, 4, 7}));
+			TD.addTalent(new Basictalent(7, 158, "Gerber/Kürschner", new int[] {1, 4, 6}));
+			TD.addTalent(new Basictalent(7, 159, "Glaskunst", new int[] {4, 4, 6}));
 			
-			TD.addTalent(new Basictalent(160, "Grobschmied", new int[] {4, 6, 7}));
-			TD.addTalent(new Basictalent(161, "Handel", new int[] {1, 2, 3}));
-			TD.addTalent(new Basictalent(162, "Hauswirtschaft", new int[] {2, 3, 4}));
-			TD.addTalent(new Basictalent(163, "Heilkunde Gift", new int[] {0, 1, 2}));
-			TD.addTalent(new Basictalent(164, "Heilkunde Krankheiten", new int[] {0, 1, 3}));
+			TD.addTalent(new Basictalent(7, 160, "Grobschmied", new int[] {4, 6, 7}));
+			TD.addTalent(new Basictalent(7, 161, "Handel", new int[] {1, 2, 3}));
+			TD.addTalent(new Basictalent(7, 162, "Hauswirtschaft", new int[] {2, 3, 4}));
+			TD.addTalent(new Basictalent(7, 163, "Heilkunde Gift", new int[] {0, 1, 2}));
+			TD.addTalent(new Basictalent(7, 164, "Heilkunde Krankheiten", new int[] {0, 1, 3}));
 			
-			TD.addTalent(new Basictalent(165, "Heilkunde Seele", new int[] {2, 3, 3}));
-			TD.addTalent(new Basictalent(166, "Heilkunde Wunden", new int[] {1, 3, 4}));
-			TD.addTalent(new Basictalent(167, "Holzbearbeitung", new int[] {1, 4, 7}));
-			TD.addTalent(new Basictalent(168, "Instrumentenbauer", new int[] {1, 2, 4}));
-			TD.addTalent(new Basictalent(169, "Kartographie", new int[] {1, 1, 4}));
+			TD.addTalent(new Basictalent(7, 165, "Heilkunde Seele", new int[] {2, 3, 3}));
+			TD.addTalent(new Basictalent(7, 166, "Heilkunde Wunden", new int[] {1, 3, 4}));
+			TD.addTalent(new Basictalent(7, 167, "Holzbearbeitung", new int[] {1, 4, 7}));
+			TD.addTalent(new Basictalent(7, 168, "Instrumentenbauer", new int[] {1, 2, 4}));
+			TD.addTalent(new Basictalent(7, 169, "Kartographie", new int[] {1, 1, 4}));
 			
-			TD.addTalent(new Basictalent(170, "Kochen", new int[] {1, 2, 4}));
-			TD.addTalent(new Basictalent(171, "Kristallzucht", new int[] {1, 2, 4}));
-			TD.addTalent(new Basictalent(172, "Lederarbeiten", new int[] {1, 4, 4}));
-			TD.addTalent(new Basictalent(173, "Malen/Zeichnen", new int[] {1, 2, 4}));
-			TD.addTalent(new Basictalent(174, "Maurer", new int[] {4, 5, 7}));
+			TD.addTalent(new Basictalent(7, 170, "Kochen", new int[] {1, 2, 4}));
+			TD.addTalent(new Basictalent(7, 171, "Kristallzucht", new int[] {1, 2, 4}));
+			TD.addTalent(new Basictalent(7, 172, "Lederarbeiten", new int[] {1, 4, 4}));
+			TD.addTalent(new Basictalent(7, 173, "Malen/Zeichnen", new int[] {1, 2, 4}));
+			TD.addTalent(new Basictalent(7, 174, "Maurer", new int[] {4, 5, 7}));
 			
-			TD.addTalent(new Basictalent(175, "Metallguss", new int[] {1, 4, 7}));
-			TD.addTalent(new Basictalent(176, "Musizieren", new int[] {1, 3, 4}));
-			TD.addTalent(new Basictalent(177, "Schlösser knacken", new int[] {2, 4, 4}));
-			TD.addTalent(new Basictalent(178, "Schnaps brennen", new int[] {1, 2, 4}));
-			TD.addTalent(new Basictalent(179, "Schneidern", new int[] {1, 4, 4}));
+			TD.addTalent(new Basictalent(7, 175, "Metallguss", new int[] {1, 4, 7}));
+			TD.addTalent(new Basictalent(7, 176, "Musizieren", new int[] {1, 3, 4}));
+			TD.addTalent(new Basictalent(7, 177, "Schlösser knacken", new int[] {2, 4, 4}));
+			TD.addTalent(new Basictalent(7, 178, "Schnaps brennen", new int[] {1, 2, 4}));
+			TD.addTalent(new Basictalent(7, 179, "Schneidern", new int[] {1, 4, 4}));
 			
-			TD.addTalent(new Basictalent(180, "Seefahrt", new int[] {4, 5, 7}));
-			TD.addTalent(new Basictalent(181, "Seiler", new int[] {4, 4, 7}));
-			TD.addTalent(new Basictalent(182, "Steinmetz", new int[] {4, 4, 7}));
-			TD.addTalent(new Basictalent(183, "Steinschneider/Juwelier", new int[] {2, 4, 4}));
-			TD.addTalent(new Basictalent(184, "Stellmacher", new int[] {1, 4, 7}));
+			TD.addTalent(new Basictalent(7, 180, "Seefahrt", new int[] {4, 5, 7}));
+			TD.addTalent(new Basictalent(7, 181, "Seiler", new int[] {4, 4, 7}));
+			TD.addTalent(new Basictalent(7, 182, "Steinmetz", new int[] {4, 4, 7}));
+			TD.addTalent(new Basictalent(7, 183, "Steinschneider/Juwelier", new int[] {2, 4, 4}));
+			TD.addTalent(new Basictalent(7, 184, "Stellmacher", new int[] {1, 4, 7}));
 			
-			TD.addTalent(new Basictalent(185, "Stoffe färben", new int[] {1, 4, 7}));
-			TD.addTalent(new Basictalent(186, "Tätowieren", new int[] {2, 4, 4}));
-			TD.addTalent(new Basictalent(187, "Töpfern", new int[] {1, 4, 4}));
-			TD.addTalent(new Basictalent(188, "Viehzucht", new int[] {1, 2, 7}));
-			TD.addTalent(new Basictalent(189, "Webkunst", new int[] {4, 4, 7}));
+			TD.addTalent(new Basictalent(7, 185, "Stoffe färben", new int[] {1, 4, 7}));
+			TD.addTalent(new Basictalent(7, 186, "Tätowieren", new int[] {2, 4, 4}));
+			TD.addTalent(new Basictalent(7, 187, "Töpfern", new int[] {1, 4, 4}));
+			TD.addTalent(new Basictalent(7, 188, "Viehzucht", new int[] {1, 2, 7}));
+			TD.addTalent(new Basictalent(7, 189, "Webkunst", new int[] {4, 4, 7}));
 			
-			TD.addTalent(new Basictalent(190, "Winzer", new int[] {1, 4, 7}));
-			TD.addTalent(new Basictalent(191, "Zimemrmann", new int[] {1, 4, 7}));
-		} catch (Exception ex) {throw ex;}
+			TD.addTalent(new Basictalent(7, 190, "Winzer", new int[] {1, 4, 7}));
+			TD.addTalent(new Basictalent(7, 191, "Zimmermann", new int[] {1, 4, 7}));
+		} catch (Exception ex) {
+			System.out.println(""+ex.getMessage());
+			throw ex;}
 	}
 	/**	Dh	10.6.2020
 	 * 
@@ -1893,6 +2006,8 @@ public abstract class Loader {
 			genTalents();
 			genBasicTalents();
 			genWeapons();
+			genPros();
+			genSpecialCrafts();
 		} catch(Exception ex) {throw ex;}
 	}
 	//--------------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 17.6.2020
+/**	DSA_App v0.0	Dh	 1.7.2020
  * 	
  * 	pDatenbank
  * 	  ProDatabase
@@ -12,6 +12,7 @@
  * 	  06 Wrong Type Error
  * 	  07 Index Error
  * 	  08 Equal Object Error
+ * 	  09 Wrong Selection
  */
 package pDatenbank;
 
@@ -108,13 +109,13 @@ public class ProDatabase {
 		return vRet;
 	}
 	
-	/**	Dh	16.6.2020
+	/**	Dh	25.6.2020
 	 * 
 	 * @return
 	 */
 	@XmlElement(name = "ProList")
 	public List getProList() {
-		return ProList;
+		return ProList.copyList();
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -270,7 +271,7 @@ public class ProDatabase {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pPro
 	 * @return
@@ -294,7 +295,10 @@ public class ProDatabase {
 			vRet.setArkane(pPro.isArkane());
 			vRet.setGift(pPro.isGift());
 			
-			if (pPro instanceof ValuedPro) ((ValuedPro)vRet).setValue(((ValuedPro)pPro).getValue());
+			if (pPro instanceof ValuedPro) {
+				((ValuedPro)vRet).setValue(((ValuedPro)pPro).getValue());
+				((ValuedPro)vRet).setValueLimit(((ValuedPro)pPro).getValueLimit());
+			}
 			if (pPro instanceof StringedPro) ((StringedPro)vRet).setStringedValue(((StringedPro)pPro).getStringedValue());
 			if (pPro instanceof StringedValuedPro) ((StringedValuedPro)vRet).setStringedValue(((StringedValuedPro)pPro).getStringedValue());
 			if (pPro instanceof ReferredPro) ((ReferredPro)vRet).setReferredValue(((ReferredPro)pPro).getReferredValue());

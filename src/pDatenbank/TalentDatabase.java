@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh 10.6.2020
+/**	DSA_App v0.0	Dh 2.7.2020
  * 
  * 	Datenbank
  * 	  TalentDatabase
@@ -357,7 +357,7 @@ public class TalentDatabase {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	9.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * @param pTalent
 	 * @return
@@ -376,6 +376,7 @@ public class TalentDatabase {
 			vRet.setID(pTalent.getID());
 			vRet.setName(pTalent.getName());
 			vRet.setTaW(pTalent.getTaW());
+			vRet.setType(pTalent.getType());
 			
 			if (pTalent instanceof Basictalent) {
 				((Basictalent) vRet).setPropInds(((Basictalent)pTalent).getPropInds().clone());

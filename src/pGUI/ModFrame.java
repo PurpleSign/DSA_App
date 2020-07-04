@@ -30,6 +30,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Color;
@@ -39,9 +40,10 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.Component;
+import javax.swing.SwingConstants;
 
 public class ModFrame extends JFrame {
-	private int zID;
+	private int zID, Width, Height;
 	private FightManager rFM;
 	private MainFrame rMF;
 	
@@ -66,19 +68,26 @@ public class ModFrame extends JFrame {
 	 */
 	public ModFrame(String pName, int pID, FightManager pFM, MainFrame pMF) {
 		if (pFM == null) MainFrame.handleException(new Exception("04; MoFra"));
+		
 		zID = pID;
 		rFM = pFM;
 		rMF = pMF;
+		Point vPos = rMF.getMiddlePosition();
+		
+		Width = 325;
+		Height = 474;
 		
 		setTitle("Mod Fenster");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 332, 555);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setBounds((int)(vPos.getX()-(Width/2)), (int)(vPos.getY()-(Height/2)), Width, Height);
+		//setBounds(100, 100, 325, 474);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		lModFrameTitle = new JLabel("Modifikator Auswahl");
+		lModFrameTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lModFrameTitle.setFont(new Font("Liberation Serif", Font.BOLD, 18));
 			
 		lModFrameSubTitle = new JLabel("");
@@ -113,11 +122,8 @@ public class ModFrame extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(64)
-							.addComponent(lModFrameTitle))
-						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(btModFrameButton_0, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
 							.addComponent(btModFrameButton_1, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(105)
@@ -125,6 +131,7 @@ public class ModFrame extends JFrame {
 						.addComponent(pPropModPanel, GroupLayout.PREFERRED_SIZE, 302, GroupLayout.PREFERRED_SIZE)
 						.addComponent(pStatModPanel, 0, 0, Short.MAX_VALUE))
 					.addContainerGap())
+				.addComponent(lModFrameTitle, GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -140,7 +147,7 @@ public class ModFrame extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btModFrameButton_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btModFrameButton_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(39, Short.MAX_VALUE))
+					.addContainerGap(90, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -156,6 +163,7 @@ public class ModFrame extends JFrame {
 		pPropModPanel.setBackground(Color.WHITE);
 		
 		lPropModTitle = new JLabel("Eigenschafts Mods");
+		lPropModTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lPropModTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
 		
 		lPropModLable_0 = new JLabel("Mut");
@@ -233,14 +241,11 @@ public class ModFrame extends JFrame {
 		GroupLayout gl_pPropModPanel = new GroupLayout(pPropModPanel);
 		gl_pPropModPanel.setHorizontalGroup(
 			gl_pPropModPanel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 302, Short.MAX_VALUE)
 				.addGroup(gl_pPropModPanel.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_pPropModPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lPropModTitle, GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
 						.addGroup(gl_pPropModPanel.createSequentialGroup()
-							.addGap(83)
-							.addComponent(lPropModTitle))
-						.addGroup(gl_pPropModPanel.createSequentialGroup()
-							.addContainerGap()
 							.addGroup(gl_pPropModPanel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lPropModLable_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lPropModLable_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -276,11 +281,10 @@ public class ModFrame extends JFrame {
 										.addComponent(spPropModSpinner_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(spPropModSpinner_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(spPropModSpinner_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))))
-					.addContainerGap(30, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		gl_pPropModPanel.setVerticalGroup(
 			gl_pPropModPanel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 169, Short.MAX_VALUE)
 				.addGroup(gl_pPropModPanel.createSequentialGroup()
 					.addGap(5)
 					.addComponent(lPropModTitle)
@@ -325,6 +329,7 @@ public class ModFrame extends JFrame {
 		pStatModPanel.setBackground(Color.WHITE);
 		
 		lStatModTitle = new JLabel("Basiswert Mods");
+		lStatModTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lStatModTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
 		lStatModTitle.setAlignmentX(0.5f);
 		
@@ -411,57 +416,56 @@ public class ModFrame extends JFrame {
 		GroupLayout gl_pStatModPanel = new GroupLayout(pStatModPanel);
 		gl_pStatModPanel.setHorizontalGroup(
 			gl_pStatModPanel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 305, Short.MAX_VALUE)
 				.addGroup(gl_pStatModPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_pStatModPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lStatModLable_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lStatModLable_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lStatModLable_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lStatModLable_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lStatModLable_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_pStatModPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lStatModTitle)
 						.addGroup(gl_pStatModPanel.createSequentialGroup()
-							.addComponent(spStatModSpinner_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lStatModLable_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_pStatModPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lStatModLable_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lStatModLable_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lStatModLable_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lStatModLable_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lStatModLable_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(spStatModSpinner_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pStatModPanel.createSequentialGroup()
-							.addComponent(spStatModSpinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lStatModLable_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(spStatModSpinner_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pStatModPanel.createSequentialGroup()
-							.addComponent(spStatModSpinner_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lStatModLable_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(spStatModSpinner_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pStatModPanel.createSequentialGroup()
-							.addComponent(spStatModSpinner_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lStatModLable_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(spStatModSpinner_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pStatModPanel.createSequentialGroup()
-							.addComponent(spStatModSpinner_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lStatModLable_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(spStatModSpinner_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(33, Short.MAX_VALUE))
+							.addGroup(gl_pStatModPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_pStatModPanel.createSequentialGroup()
+									.addComponent(spStatModSpinner_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lStatModLable_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(spStatModSpinner_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_pStatModPanel.createSequentialGroup()
+									.addComponent(spStatModSpinner_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lStatModLable_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(spStatModSpinner_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_pStatModPanel.createSequentialGroup()
+									.addComponent(spStatModSpinner_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lStatModLable_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(spStatModSpinner_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_pStatModPanel.createSequentialGroup()
+									.addComponent(spStatModSpinner_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lStatModLable_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(spStatModSpinner_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_pStatModPanel.createSequentialGroup()
+									.addComponent(spStatModSpinner_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lStatModLable_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(spStatModSpinner_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+						.addComponent(lStatModTitle, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		gl_pStatModPanel.setVerticalGroup(
 			gl_pStatModPanel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 169, Short.MAX_VALUE)
-				.addGroup(gl_pStatModPanel.createSequentialGroup()
-					.addGap(0, 4, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_pStatModPanel.createSequentialGroup()
 					.addComponent(lStatModTitle, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
 					.addGroup(gl_pStatModPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lStatModLable_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(spStatModSpinner_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -514,7 +518,7 @@ public class ModFrame extends JFrame {
 	 */
 	private void applyMods() {
 		int[] vTempPropMods = new int[10];
-		double[] vTempStatMods = new double[10];
+		int[] vTempStatMods = new int[10];
 		
 		vTempPropMods[0] = (int)spPropModSpinner_0.getValue();
 		vTempPropMods[1] = (int)spPropModSpinner_1.getValue();
@@ -527,16 +531,16 @@ public class ModFrame extends JFrame {
 		vTempPropMods[8] = (int)spPropModSpinner_8.getValue();
 		vTempPropMods[9] = 0;
 		
-		vTempStatMods[0] = (Double.valueOf((int)spStatModSpinner_0.getValue()));
-		vTempStatMods[1] = (Double.valueOf((int)spStatModSpinner_1.getValue()));
-		vTempStatMods[2] = (Double.valueOf((int)spStatModSpinner_2.getValue()));
-		vTempStatMods[3] = (Double.valueOf((int)spStatModSpinner_3.getValue()));
-		vTempStatMods[4] = (Double.valueOf((int)spStatModSpinner_4.getValue()));
-		vTempStatMods[5] = (Double.valueOf((int)spStatModSpinner_5.getValue()));
-		vTempStatMods[6] = (Double.valueOf((int)spStatModSpinner_6.getValue()));
-		vTempStatMods[7] = (Double.valueOf((int)spStatModSpinner_7.getValue()));
-		vTempStatMods[8] = (Double.valueOf((int)spStatModSpinner_8.getValue()));
-		vTempStatMods[9] = (Double.valueOf((int)spStatModSpinner_9.getValue()));
+		vTempStatMods[0] = ((int)spStatModSpinner_0.getValue());
+		vTempStatMods[1] = ((int)spStatModSpinner_1.getValue());
+		vTempStatMods[2] = ((int)spStatModSpinner_2.getValue());
+		vTempStatMods[3] = ((int)spStatModSpinner_3.getValue());
+		vTempStatMods[4] = ((int)spStatModSpinner_4.getValue());
+		vTempStatMods[5] = ((int)spStatModSpinner_5.getValue());
+		vTempStatMods[6] = ((int)spStatModSpinner_6.getValue());
+		vTempStatMods[7] = ((int)spStatModSpinner_7.getValue());
+		vTempStatMods[8] = ((int)spStatModSpinner_8.getValue());
+		vTempStatMods[9] = ((int)spStatModSpinner_9.getValue());
 		
 		for (int i=0; i < vTempPropMods.length; i++) {
 			try{

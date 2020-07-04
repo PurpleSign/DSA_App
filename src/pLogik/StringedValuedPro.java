@@ -1,9 +1,9 @@
-/**	DSA_App v0.0	Dh	 17.6.2020
+/**	DSA_App v0.0	Dh	 1.7.2020
  * 	
  * 	Logik
  * 	  Pro
  * 		ValuedPro
- * 		  StringedValuedPro
+ * 		  StringedValuedPro   (Stringed)
  *
  *	Type:
  * 	  0: Allgemein
@@ -25,6 +25,7 @@
  * 	  06 Wrong Type Error
  * 	  07 Index Error
  * 	  08 Equal Object Error
+ * 	  09 Wrong Selection
  **/
 package pLogik;
 
@@ -34,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import pGUI.MainFrame;
 
 @XmlRootElement(name = "stringedvaluepro")
-public class StringedValuedPro extends ValuedPro {
+public class StringedValuedPro extends ValuedPro implements Stringed {
 	private String StringedValue;
 	
 	/**	Dh	17.6.2020
@@ -46,40 +47,40 @@ public class StringedValuedPro extends ValuedPro {
 		
 		StringedValue = "";
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName
 	 */
-	public StringedValuedPro(int pID, String pName) {
-		super(pID, pName);
+	public StringedValuedPro(int pID, String pName, int pValueLimit) {
+		super(pID, pName, pValueLimit);
 		
 		StringedValue = "";
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName
 	 * @param pPro
 	 */
-	public StringedValuedPro(int pID, String pName, boolean pPro) {
-		super(pID, pName, pPro);
+	public StringedValuedPro(int pID, String pName, int pValueLimit, boolean pPro) {
+		super(pID, pName, pValueLimit, pPro);
 		
 		StringedValue = "";
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName
 	 * @param pPro
 	 * @param pArkane
 	 */
-	public StringedValuedPro(int pID, String pName, boolean pPro, boolean pArkane) {
-		super(pID, pName, pPro, pArkane);
+	public StringedValuedPro(int pID, String pName, int pValueLimit, boolean pPro, boolean pArkane) {
+		super(pID, pName, pValueLimit, pPro, pArkane);
 		
 		StringedValue = "";
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName
@@ -87,12 +88,12 @@ public class StringedValuedPro extends ValuedPro {
 	 * @param pArkane
 	 * @param pGift
 	 */
-	public StringedValuedPro(int pID, String pName, boolean pPro, boolean pArkane, boolean pGift) {
-		super(pID, pName, pPro, pArkane, pGift);
+	public StringedValuedPro(int pID, String pName, int pValueLimit, boolean pPro, boolean pArkane, boolean pGift) {
+		super(pID, pName, pValueLimit, pPro, pArkane, pGift);
 		
 		StringedValue = "";
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName
@@ -101,12 +102,12 @@ public class StringedValuedPro extends ValuedPro {
 	 * @param pGift
 	 * @param pValue
 	 */
-	public StringedValuedPro(int pID, String pName, boolean pPro, boolean pArkane, boolean pGift, int pValue) {
-		super(pID, pName, pPro, pArkane, pGift, pValue);
+	public StringedValuedPro(int pID, String pName, int pValueLimit, boolean pPro, boolean pArkane, boolean pGift, int pValue) {
+		super(pID, pName, pValueLimit, pPro, pArkane, pGift, pValue);
 		
 		StringedValue = "";
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 	
 	 * @param pID
 	 * @param pName
@@ -115,8 +116,8 @@ public class StringedValuedPro extends ValuedPro {
 	 * @param pGift
 	 * @param pStringedValue
 	 */
-	public StringedValuedPro(int pID, String pName, boolean pPro, boolean pArkane, boolean pGift, String pStringedValue) {
-		super(pID, pName, pPro, pArkane, pGift);
+	public StringedValuedPro(int pID, String pName, int pValueLimit, boolean pPro, boolean pArkane, boolean pGift, String pStringedValue) {
+		super(pID, pName, pValueLimit, pPro, pArkane, pGift);
 		Exception vExc = null ;
 		
 		if (!pStringedValue.equals("")) StringedValue = pStringedValue;
@@ -124,7 +125,7 @@ public class StringedValuedPro extends ValuedPro {
 			
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName
@@ -134,8 +135,8 @@ public class StringedValuedPro extends ValuedPro {
 	 * @param pValue
 	 * @param pArkane
 	 */
-	public StringedValuedPro(int pID, String pName, boolean pPro, boolean pArkane, boolean pGift, int pValue, String pStringedValue) {
-		super(pID, pName, pPro, pArkane, pGift, pValue);
+	public StringedValuedPro(int pID, String pName, int pValueLimit, boolean pPro, boolean pArkane, boolean pGift, int pValue, String pStringedValue) {
+		super(pID, pName, pValueLimit, pPro, pArkane, pGift, pValue);
 		Exception vExc = null ;
 		
 		if (!pStringedValue.equals("")) StringedValue = pStringedValue;

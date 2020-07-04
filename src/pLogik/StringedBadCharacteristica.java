@@ -1,10 +1,10 @@
-/**	DSA_App v0.0	Dh	 17.6.2020
+/**	DSA_App v0.0	Dh	 1.7.2020
  * 	
  * 	Logik
  * 	  Pro
  * 		ValuedPro
  * 		  BadCharacteristic
- * 			StringedBadCharacteristica
+ * 			StringedBadCharacteristica (Stringed)
  *
  *	Type:
  * 	  0: Allgemein
@@ -26,6 +26,7 @@
  * 	  06 Wrong Type Error
  * 	  07 Index Error
  * 	  08 Equal Object Error
+ * 	  09 Wrong Selection
  **/
 package pLogik;
 
@@ -35,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import pGUI.MainFrame;
 
 @XmlRootElement(name = "stringedbadcharacteristica")
-public class StringedBadCharacteristica extends BadCharacteristic {
+public class StringedBadCharacteristica extends BadCharacteristic implements Stringed{
 	private String StringedValue;
 	
 	/**	Dh	17.6.2020
@@ -45,7 +46,7 @@ public class StringedBadCharacteristica extends BadCharacteristic {
 	public StringedBadCharacteristica() {
 		super();
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName
@@ -53,7 +54,7 @@ public class StringedBadCharacteristica extends BadCharacteristic {
 	public StringedBadCharacteristica(int pID, String pName) {
 		super(pID, pName);
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName
@@ -62,7 +63,7 @@ public class StringedBadCharacteristica extends BadCharacteristic {
 	public StringedBadCharacteristica(int pID, String pName, boolean pArkane) {
 		super(pID, pName, pArkane);
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName

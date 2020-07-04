@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 17.6.2020
+/**	DSA_App v0.0	Dh	 1.7.2020
  * 	
  * 	Logik
  * 	  Pro
@@ -25,42 +25,45 @@
  * 	  06 Wrong Type Error
  * 	  07 Index Error
  * 	  08 Equal Object Error
+ * 	  09 Wrong Selection
  **/
 package pLogik;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 import pGUI.MainFrame;
 
 @XmlRootElement(name = "badcharacteristic")
+@XmlSeeAlso(StringedBadCharacteristica.class)
 public class BadCharacteristic extends ValuedPro {
 		
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * 	Bean-STandart Konstruktor.
 	 */
 	public BadCharacteristic() {
 		super();
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName
 	 */
 	public BadCharacteristic(int pID, String pName) {
-		super(pID, pName, false);
+		super(pID, pName, -1, false);
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName
 	 * @param pArkane
 	 */
 	public BadCharacteristic(int pID, String pName, boolean pArkane) {
-		super(pID, pName, false, pArkane);
+		super(pID, pName, -1, false, pArkane);
 	}
-	/**	Dh	17.6.2020
+	/**	Dh	1.7.2020
 	 * 
 	 * @param pID
 	 * @param pName
@@ -68,7 +71,7 @@ public class BadCharacteristic extends ValuedPro {
 	 * @param pValue
 	 */
 	public BadCharacteristic(int pID, String pName, boolean pArkane, int pValue) {
-		super(pID, pName, false, pArkane, false, pValue);
+		super(pID, pName, -1, false, pArkane, false, pValue);
 	}
 	
 //--------------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh 9.6.2020
+/**	DSA_App v0.0	Dh 3.7.2020
  * 
  * 	Datenbank
  * 	  WeaponDatabase
@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.*;
 
 import pDataStructures.List;
 import pLogik.CloseWeapon;
+import pLogik.Pro;
 import pLogik.RangeWeapon;
 import pLogik.Weapon;
 
@@ -70,6 +71,35 @@ public class WeaponDatabase {
 		
 		return vRet;
 	}
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pName
+	 * @return
+	 * @throws Exception
+	 */
+	protected Weapon getWeapon(String pName) throws Exception{
+		Weapon vRet = null;
+		
+		if (pName != "") {
+			if (!WeaponList.isEmpty()) {
+				WeaponList.toFirst();
+				
+				while (!WeaponList.isEnd()) {
+					vRet = (Weapon) WeaponList.getCurrent();
+					
+					if (vRet.getName().equals(pName)) WeaponList.toLast();
+					else vRet = null;
+					
+					WeaponList.next();
+				}
+			}
+			if (vRet == null) throw new Exception("02; WeDat,gW; "+pName);
+			else vRet = copyWeapon(vRet);
+		}else throw new Exception("02; WeDat,gW");
+		
+		return vRet;
+	}
+	
 	/**	Dh	4.6.2020
 	 * 
 	 * @return

@@ -1,7 +1,14 @@
-/**	DSA_App	v0.0	Dh	9.6.2020
+/**	DSA_App	v0.0	Dh	2.7.2020
  * 
  * 	Logik
  * 	  Talent
+ * 
+ * 	Types:
+ * 	  00: Nahkampf				05: Wissens
+ * 	  01: Fernkampf				06: Sprache
+ * 	  02: Koerperliche			07: Handwerks
+ * 	  03: Gesellschaftliche		08: Alle Kampf
+ * 	  04: Natur					09: Alle mundan nicht Kampf
  * 
  * 	Exceptions:
  * 	  01 Wrong length
@@ -26,27 +33,38 @@ import pGUI.MainFrame;
 @XmlRootElement(name = "talent")
 @XmlSeeAlso({Basictalent.class, Fighttalent.class})
 public abstract class Talent {
-	protected int ID, TaW;
+	protected int ID, TaW, Type;
 	protected String Name;
 	
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * 	Bean Standard Konstruktor
 	 */
 	public Talent() {
 		ID = -1;
 		TaW = 0;
+		Type = -1;
 		
 		Name = "";
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
+	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
 	 * 
 	 * @param pID
 	 * @param pName
 	 * @param pGainType
 	 */
-	public Talent(int pID, String pName) {
+	public Talent(int pType, int pID, String pName) {
 		Exception vExc = null;
+		
+		if (pType >= -1) Type = pType;
+		else vExc = new Exception("02; Tal_a");
 		
 		if (pID >= 0) ID = pID;
 		else vExc = new Exception("02; Tal_a");
@@ -57,15 +75,25 @@ public abstract class Talent {
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
+	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
 	 * 
 	 * @param pID
 	 * @param pName
 	 * @param pGainType
 	 * @param pTaW
 	 */
-	public Talent(int pID, String pName, int pTaW) {
+	public Talent(int pType, int pID, String pName, int pTaW) {
 		Exception vExc = null;
+		
+		if (pType >= -1) Type = pType;
+		else vExc = new Exception("02; Tal_b");
 		
 		if (pID >= 0) ID = pID;
 		else vExc = new Exception("02; Tal_b");
@@ -94,6 +122,21 @@ public abstract class Talent {
 	@XmlElement(name = "TaW")
 	public int getTaW() {
 		return TaW;
+	}
+	/**	Dh	2.7.2020
+	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
+	 * 
+	 * @return
+	 */
+	@XmlElement(name = "Type")
+	public int getType() {
+		return Type;
 	}
 	
 	/**	Dh	5.6.2020
@@ -124,6 +167,22 @@ public abstract class Talent {
 	 */
 	public void setTaW(int pTaW) throws Exception{
 		TaW = pTaW;
+	}
+	/**	Dh	2.7.2020
+	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
+	 * 
+	 * @param pType
+	 * @throws Exception
+	 */
+	public void setType(int pType) throws Exception{
+		if ((pType >= -1) && (pType < 10)) Type = pType;
+		else throw new Exception("02; Tal,sT");
 	}
 	
 	/**	Dh	5.6.2020

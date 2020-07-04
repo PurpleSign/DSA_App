@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 18.6.2020
+/**	DSA_App v0.0	Dh	 1.7.2020
  * 	
  * 	Logik
  * 	  SpecialCrafts
@@ -49,7 +49,7 @@ import pDataStructures.List;
 import pGUI.MainFrame;
 
 @XmlRootElement(name = "referredspecialcraft")
-public class ReferredSpecialCraft extends SpecialCraft {
+public class ReferredSpecialCraft extends SpecialCraft implements Referred {
 	private int[] ReferredValue;
 	
 	/**	Dh	17.6.2020

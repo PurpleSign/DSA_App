@@ -31,6 +31,7 @@ import javax.swing.JLabel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -40,10 +41,11 @@ import javax.swing.UIManager;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Dimension;
+import javax.swing.SwingConstants;
 
 public class FightFrame extends JFrame {
 	private boolean Attack, CloseCombat;
-	private int FighterID, OpponentID;
+	private int FighterID, OpponentID, Width, Height;
 	
 	private FightManager rFM;
 	private MainFrame rMF;
@@ -67,8 +69,13 @@ public class FightFrame extends JFrame {
 		rFM = pFM;
 		rMF = pMF;
 		
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 300, 262);
+		Point vPos = rMF.getMiddlePosition();
+		Width = 300;
+		Height = 262;
+		
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setBounds((int)(vPos.getX()-(Width/2)), (int)(vPos.getY()-(Height/2)), Width, Height);
+		//setBounds(100, 100, 300, 262);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -78,6 +85,7 @@ public class FightFrame extends JFrame {
 		contentPane.add(pAttackPanel, BorderLayout.CENTER);
 		
 		lAttackTitle = new JLabel("grefit an");
+		lAttackTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lAttackTitle.setFont(new Font("Liberation Serif", Font.BOLD, 18));
 		
 		lAttackLabel_0 = new JLabel("Angriffswert:");
@@ -109,35 +117,29 @@ public class FightFrame extends JFrame {
 		});
 		
 		lAttackLabel_2 = new JLabel("Angriff");
+		lAttackLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lAttackLabel_2.setFont(new Font("Liberation Serif", Font.BOLD, 12));
 		
 		GroupLayout gl_pAttackPanel = new GroupLayout(pAttackPanel);
 		gl_pAttackPanel.setHorizontalGroup(
 			gl_pAttackPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pAttackPanel.createSequentialGroup()
-					.addGroup(gl_pAttackPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pAttackPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lAttackLabel_0)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tfAttackField_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(30)
-							.addComponent(lAttackLabel_1, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tfAttackField_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pAttackPanel.createSequentialGroup()
-							.addGap(95)
-							.addComponent(lAttackTitle)))
-					.addContainerGap(28, Short.MAX_VALUE))
-				.addGroup(gl_pAttackPanel.createSequentialGroup()
-					.addGap(110)
-					.addComponent(lAttackLabel_2)
-					.addContainerGap(126, Short.MAX_VALUE))
-				.addComponent(spAttackSplitPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+					.addContainerGap()
+					.addComponent(lAttackLabel_0)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tfAttackField_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(30)
+					.addComponent(lAttackLabel_1, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tfAttackField_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(36, Short.MAX_VALUE))
+				.addComponent(spAttackSplitPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
 				.addGroup(gl_pAttackPanel.createSequentialGroup()
 					.addGap(71)
 					.addComponent(btAttackButton_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(83, Short.MAX_VALUE))
+				.addComponent(lAttackTitle, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+				.addComponent(lAttackLabel_2, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
 		);
 		gl_pAttackPanel.setVerticalGroup(
 			gl_pAttackPanel.createParallelGroup(Alignment.LEADING)
@@ -155,7 +157,7 @@ public class FightFrame extends JFrame {
 					.addComponent(spAttackSplitPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btAttackButton_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(50, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		pAttackPanel.setLayout(gl_pAttackPanel);
 		

@@ -1,8 +1,8 @@
-/**	DSA_App v0.0	Dh	 17.6.2020
+/**	DSA_App v0.0	Dh	 25.6.2020
  * 	
  * 	Logik
  * 	  Pro
- * 		StringedPro
+ * 		StringedPro (Stringed)
  *
  *	Type:
  * 	  0: Allgemein
@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import pGUI.MainFrame;
 
 @XmlRootElement(name = "stringedpro")
-public class StringedPro extends Pro {
+public class StringedPro extends Pro implements Stringed{
 	private String StringedValue;
 
 	/**	Dh	17.6.2020

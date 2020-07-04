@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 18.6.2020
+/**	DSA_App v0.0	Dh	 25.6.2020
  * 	
  * 	pDatenbank
  * 	  SpecialCraftDatabase
@@ -45,16 +45,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 import pDataStructures.List;
-import pLogik.Basictalent;
-import pLogik.Communicationtalent;
-import pLogik.Fighttalent;
-import pLogik.PhysicalTalent;
 import pLogik.ReferredSpecialCraft;
 import pLogik.SpecialCraft;
 import pLogik.StringedSpecialCraft;
-import pLogik.Talent;
 
-@XmlRootElement(name = "SpecialCraftdatabase")
+@XmlRootElement(name = "specialcraftdatabase")
 @XmlSeeAlso(SpecialCraft.class)
 public class SpecialCraftDatabase {
 	private List SpecialCraftList;
@@ -133,13 +128,13 @@ public class SpecialCraftDatabase {
 		return vRet;
 	}
 	
-	/**	Dh	16.6.2020
+	/**	Dh	25.6.2020
 	 * 
 	 * @return
 	 */
 	@XmlElement(name = "SpecialCraftList")
 	public List getSpecialCraftList() {
-		return SpecialCraftList;
+		return SpecialCraftList.copyList();
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -345,7 +340,7 @@ public class SpecialCraftDatabase {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	18.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * @param pSpecialCraft
 	 * @return
@@ -363,7 +358,7 @@ public class SpecialCraftDatabase {
 			vRet.setName(pSpecialCraft.getName());
 			
 			vRet.setPropertiePremises(pSpecialCraft.getPropertiePremises());
-			vRet.setTypedPremiseList(vRet.getTypedPremiseList());
+			vRet.setTypedPremiseList(pSpecialCraft.getTypedPremiseList());
 			
 			if (pSpecialCraft instanceof ReferredSpecialCraft) ((ReferredSpecialCraft)pSpecialCraft).setReferredValue(((ReferredSpecialCraft)pSpecialCraft).getReferredValue());
 			if (pSpecialCraft instanceof StringedSpecialCraft) ((StringedSpecialCraft)pSpecialCraft).setStringedValue(((StringedSpecialCraft)pSpecialCraft).getStringedValue());

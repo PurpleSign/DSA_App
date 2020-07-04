@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 18.6.2020
+/**	DSA_App v0.0	Dh	 1.7.2020
  * 	
  * 	Logik
  * 	  Charakter
@@ -56,7 +56,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "character")
 @XmlType(propOrder = {"properties", "proList", "specialCraftList", "SO", "GS", "MR", "WS", "stats", "maxStats", 
-		"fightValues", "talents", "wounds", "RS", "BE", "weapons"})
+		"fightValues", "talentList", "wounds", "RS", "BE", "weaponList"})
 @XmlSeeAlso({Weapon.class, Talent.class, Pro.class, SpecialCraft.class})
 public class Charakter {
 
@@ -1023,8 +1023,8 @@ public class Charakter {
 					
 					ProList.next();
 				}
-			}else throw new Exception("05; Char,gPL");
-		}else throw new Exception("02; Char,gPL");
+			}else throw new Exception("05; Char,gP");
+		}else throw new Exception("02; Char,gP");
 		
 		return vRet;
 	}
@@ -1612,7 +1612,7 @@ public class Charakter {
 			}
 		} else throw new Exception("01; Char,sWos");
 	}
-	/**	Dh	10.2.2020
+	/**	Dh	24.6.2020
 	 * 
 	 * 	pStati:
 	 * 	  0 Lebenspunkte		(5 Wundschwelle)
@@ -1624,36 +1624,55 @@ public class Charakter {
 	 * @param pStati
 	 * @throws Exception
 	 */
-	public void setStats(double[] pStati) throws Exception{
+	public void setStats(int[] pStati) throws Exception{
 		switch(pStati.length){
 		case 4:
 			for (int i=0; i < pStati.length; i++){
-				if (pStati[i] < 0) throw new Exception("02; Char;sSti");
+				if ((pStati[i] < -1) && ((i == 2) || (i == 3))) throw new Exception("02; Char,sSti");
 				Stats[i] = (int)pStati[i];
 			}
 			break;
 		case 5:
 			for (int i=0; i < pStati.length; i++){
-				if (pStati[i] < 0) throw new Exception("02; Char;sSti");
-				if (i < 4) Stats[i] = (int)pStati[i];
-				else MR = pStati[i];
+				if (i < 4) {
+					if ((pStati[i] >= -1) || (i == 0) || (i == 1)) Stats[i] = (int)pStati[i];
+					else throw new Exception("02; Char,sSti");
+				}
+				else {
+					if (pStati[i] >= 0) MR = pStati[i];
+					else throw new Exception("02; Char,sSti");
+				}
 			}
 			break;
 		case 6:
 			for (int i=0; i < pStati.length; i++){
-				if (pStati[i] < 0) throw new Exception("02; Char;sSti");
-				if (i < 4) Stats[i] = (int)pStati[i];
-				else if (i==4) MR = pStati[i];
+				if (i < 4) 
+					if ((pStati[i] >= -1) || (i == 0) || (i == 1)) Stats[i] = (int)pStati[i];
+					else throw new Exception("02; Char,sSti");
+				else if (i==4) {
+					if (pStati[i] >= 0) MR = pStati[i];
+					else throw new Exception("02; Char,sSti");
+				}
 				else WS = pStati[i];
 			}
 			break;
 		case 10:
 			for (int i=0; i < pStati.length; i++){
-				if (pStati[i] < 0) throw new Exception("02; Char;sSti");
-				if (i < 4) MaxStats[i] = (int)pStati[i];
-				else if (i==4) MR = pStati[i];
-				else if (i==5) WS = pStati[i];
-				else FightValues[i-6] = pStati[i];
+				if (i < 4) 
+					if ((pStati[i] >= -1) || (i == 0) || (i == 1)) Stats[i] = (int)pStati[i];
+					else throw new Exception("02; Char,sSti");
+				else if (i==4) {
+					if (pStati[i] >= 0) MR = pStati[i];
+					else throw new Exception("02; Char,sSti");
+				}
+				else if (i==5) {
+					if (pStati[i] >= 1) MR = pStati[i];
+					else throw new Exception("02; Char,sSti");
+				}
+				else {
+					if (pStati[i] >= 0) FightValues[i-6] = pStati[i];
+					else throw new Exception("02; Char,sSti");
+				}
 			}
 			break;
 		default:
@@ -1737,7 +1756,7 @@ public class Charakter {
 	 * @param pSpecialCraftList
 	 * @throws Exception
 	 */
-	public void setSpezialCraftList(List pSpecialCraftList) throws Exception{
+	public void setSpecialCraftList(List pSpecialCraftList) throws Exception{
 		if (pSpecialCraftList != null){
 			if (SpecialCraftList != null){
 				while(!SpecialCraftList.isEmpty()){
@@ -1792,7 +1811,376 @@ public class Charakter {
 		} else throw new Exception("04; Char,sWL");
 	}
 	
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean isUnderTheHalf(int pInd) throws Exception {
+		boolean vRet;
+		
+		if ((pInd >= 0) && (pInd < 4)) {
+			if ((Stats[pInd]/MaxStats[pInd]) < 0.5) vRet = true;
+			else vRet =  false;
+		} else throw new Exception("02; Cha,iUtH");
+		
+		return vRet;
+	}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean isUnderTheThird(int pInd) throws Exception {
+		boolean vRet;
+		
+		if ((pInd >= 0) && (pInd < 4)) {
+			if ((Stats[pInd]/MaxStats[pInd]) < (1/3)) vRet = true;
+			else vRet =  false;
+		} else throw new Exception("02; Cha,iUtT");
+		
+		return vRet;
+	}
+	/**	Dh	23.3.2020
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean isUnderTheQuarter(int pInd) throws Exception {
+		boolean vRet;
+		
+		if ((pInd >= 0) && (pInd < 4)) {
+			if ((Stats[pInd]/MaxStats[pInd]) < 0.25) vRet = true;
+			else vRet =  false;
+		} else throw new Exception("02; Cha,iUtQ");
+		
+		return vRet;
+	}
+	
 //--------------------------------------------------------------------------------------------------------
+	
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pPro
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean havePro(Pro pPro) throws Exception{
+		boolean vRet = false;
+		Pro vCur;
+		
+		if (pPro != null) {
+			if (!ProList.isEmpty()) {
+				ProList.toFirst();
+				
+				while(!ProList.isEnd() && (vRet == false)) {
+					vCur = (Pro) ProList.getCurrent();
+					
+					if (pPro.equals(vCur)) vRet = true;
+					
+					ProList.next();
+				}
+			}
+		} else throw new Exception("04; Cha,hP");
+		
+		return vRet;
+	}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean havePro(int pID) throws Exception{
+		boolean vRet = false;
+		Pro vCur;
+		
+		if (pID >= 0) {
+			if (!ProList.isEmpty()) {
+				ProList.toFirst();
+				
+				while(!ProList.isEnd() && (vRet == false)) {
+					vCur = (Pro) ProList.getCurrent();
+					
+					if (pID == vCur.getID()) vRet = true;
+					
+					ProList.next();
+				}
+			}
+		} else throw new Exception("02; Cha,hP");
+		
+		return vRet;
+	}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pName
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean havePro(String pName) throws Exception{
+		boolean vRet = false;
+		Pro vCur;
+		
+		if (pName != "") {
+			if (!ProList.isEmpty()) {
+				ProList.toFirst();
+				
+				while(!ProList.isEnd() && (vRet == false)) {
+					vCur = (Pro) ProList.getCurrent();
+					
+					if (pName.equals(vCur.getName())) vRet = true;
+					
+					ProList.next();
+				}
+			}
+		} else throw new Exception("02; Cha,hP");
+		
+		return vRet;
+	}
+	//-----
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pSpecialCraft
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean haveSpecialCraft(SpecialCraft pSpecialCraft) throws Exception{
+		boolean vRet = false;
+		SpecialCraft vCur;
+		
+		if (pSpecialCraft != null) {
+			if (!SpecialCraftList.isEmpty()) {
+				SpecialCraftList.toFirst();
+				
+				while(!SpecialCraftList.isEnd() && (vRet == false)) {
+					vCur = (SpecialCraft) SpecialCraftList.getCurrent();
+					
+					if (pSpecialCraft.equals(vCur)) vRet = true;
+					
+					SpecialCraftList.next();
+				}
+			}
+		} else throw new Exception("04; Cha,hSC");
+		
+		return vRet;
+	}
+	/**	Dh	1.7.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean haveSpecialCraft(int pID) throws Exception{
+		boolean vRet = false;
+		SpecialCraft vCur;
+		
+		if (pID >= 0) {
+			if (!SpecialCraftList.isEmpty()) {
+				SpecialCraftList.toFirst();
+				
+				while(!SpecialCraftList.isEnd() && (vRet == false)) {
+					vCur = (SpecialCraft) SpecialCraftList.getCurrent();
+					
+					if (pID == vCur.getID()) vRet = true;
+					
+					SpecialCraftList.next();
+				}
+			}
+		} else throw new Exception("02; Cha,hSC");
+		
+		return vRet;
+	}
+	/**	Dh	1.7.2020
+	 * 
+	 * @param pName
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean haveSpecialCraft(String pName) throws Exception{
+		boolean vRet = false;
+		SpecialCraft vCur;
+		
+		if (pName != "") {
+			if (!SpecialCraftList.isEmpty()) {
+				SpecialCraftList.toFirst();
+				
+				while(!SpecialCraftList.isEnd() && (vRet == false)) {
+					vCur = (SpecialCraft) SpecialCraftList.getCurrent();
+					
+					if (pName.equals(vCur.getName())) vRet = true;
+					
+					SpecialCraftList.next();
+				}
+			}
+		} else throw new Exception("02; Cha,hSC");
+		
+		return vRet;
+	}
+	//-----
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pTalent
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean haveTalent(Talent pTalent) throws Exception{
+		boolean vRet = false;
+		Talent vCur;
+		
+		if (pTalent!= null) {
+			if (!TalentList.isEmpty()) {
+				TalentList.toFirst();
+				
+				while(!TalentList.isEnd() && (vRet == false)) {
+					vCur = (Talent) TalentList.getCurrent();
+					
+					if (pTalent.equals(vCur)) vRet = true;
+					
+					TalentList.next();
+				}
+			}
+		} else throw new Exception("04; Cha,hT");
+		
+		return vRet;
+	}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean haveTalent(int pID) throws Exception{
+		boolean vRet = false;
+		Talent vCur;
+		
+		if (pID >= 0) {
+			if (!TalentList.isEmpty()) {
+				TalentList.toFirst();
+				
+				while(!TalentList.isEnd() && (vRet == false)) {
+					vCur = (Talent) TalentList.getCurrent();
+					
+					if (pID == vCur.getID()) vRet = true;
+					
+					TalentList.next();
+				}
+			}
+		} else throw new Exception("02; Cha,hT");
+		
+		return vRet;
+	}
+	/**	Dh	1.7.2020
+	 * 
+	 * @param pName
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean haveTalent(String pName) throws Exception{
+		boolean vRet = false;
+		Talent vCur;
+		
+		if (pName != "") {
+			if (!TalentList.isEmpty()) {
+				TalentList.toFirst();
+				
+				while(!TalentList.isEnd() && (vRet == false)) {
+					vCur = (Talent) TalentList.getCurrent();
+					
+					if (pName.equals(vCur.getName())) vRet = true;
+					
+					TalentList.next();
+				}
+			}
+		} else throw new Exception("02; Cha,hT");
+		
+		return vRet;
+	}
+	//-----
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pWeapon
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean haveWeapon(Weapon pWeapon) throws Exception{
+		boolean vRet = false;
+		Weapon vCur;
+		
+		if (pWeapon!= null) {
+			if (!WeaponList.isEmpty()) {
+				WeaponList.toFirst();
+				
+				while(!WeaponList.isEnd() && (vRet == false)) {
+					vCur = (Weapon) WeaponList.getCurrent();
+					
+					if (pWeapon.equals(vCur)) vRet = true;
+					
+					WeaponList.next();
+				}
+			}
+		} else throw new Exception("04; Cha,hW");
+		
+		return vRet;
+	}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean haveWeapon(int pID) throws Exception{
+		boolean vRet = false;
+		Weapon vCur;
+		
+		if (pID >= 0) {
+			if (!WeaponList.isEmpty()) {
+				WeaponList.toFirst();
+				
+				while(!WeaponList.isEnd() && (vRet == false)) {
+					vCur = (Weapon) WeaponList.getCurrent();
+					
+					if (pID == vCur.getID()) vRet = true;
+					
+					WeaponList.next();
+				}
+			}
+		} else throw new Exception("02; Cha,hW");
+		
+		return vRet;
+	}
+	/**	Dh	1.7.2020
+	 * 
+	 * @param pName
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean haveWeapon(String pName) throws Exception{
+		boolean vRet = false;
+		Weapon vCur;
+		
+		if (pName != "") {
+			if (!WeaponList.isEmpty()) {
+				WeaponList.toFirst();
+				
+				while(!WeaponList.isEnd() && (vRet == false)) {
+					vCur = (Weapon) WeaponList.getCurrent();
+					
+					if (pName.equals(vCur.getName())) vRet = true;
+					
+					WeaponList.next();
+				}
+			}
+		} else throw new Exception("02; Cha,hW");
+		
+		return vRet;
+	}
+	
+	//----------------------------------------------------------------------------------------------------
 	
 	/**	Dh	27.5.2020
 	 * 
@@ -2106,7 +2494,7 @@ public class Charakter {
 	 * @param pStati
 	 * @throws Exception
 	 */
-	public void addStats(double[] pStati) throws Exception{
+	public void addStats(int[] pStati) throws Exception{
 		switch(pStati.length){
 		case 4:
 			for (int i=0; i < pStati.length; i++){
@@ -2238,11 +2626,23 @@ public class Charakter {
 		}else throw new Exception("01; Char;sRSs");
 	}
 	//-----
-	public void addPros(String pVorteil){
-			// Noch implementieren
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pPro
+	 * @throws Exception
+	 */
+	public void addPro(Pro pPro) throws Exception{
+		if(pPro != null) ProList.append(pPro);
+		else throw new Exception("04; Char,aP");
 	}
-	public void addSpezialCrafts(String pSonder){
-			// Noch implementieren
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pSpecialCraft
+	 * @throws Exception
+	 */
+	public void addSpecialCraft(SpecialCraft pSpecialCraft) throws Exception{
+		if(pSpecialCraft != null) SpecialCraftList.append(pSpecialCraft);
+		else throw new Exception("04; Char,aSC");
 	}
 	/**	Dh	10.6.2020
 	 * 
@@ -2265,20 +2665,47 @@ public class Charakter {
 		}else throw new Exception("04; Char,aW");
 	}
 	
-	//public void addPros(List pVorteilList){
-	//	pVorteilList.toFirst();
-	//	while (!pVorteilList.isEnd()){
-	//		Pros.append(pVorteilList.getCurrent());
-	//		Pros.next();
-	//	}
-	//}
-	//public void addSpezialCrafts(List pSonderList){
-	//	pSonderList.toFirst();
-	//	while (!pSonderList.isEnd()){
-	//		SpezialCrafts.append(pSonderList.getCurrent());
-	//		SpezialCrafts.next();
-	//	}
-	//}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pPros
+	 * @throws Exception
+	 */
+	public void addPros(List pPros) throws Exception{
+		Object vCur;
+		
+		if (!pPros.isEmpty()) {
+			pPros.toFirst();
+			
+			while(!pPros.isEnd()) {
+				vCur = pPros.getCurrent();
+				
+				if (vCur instanceof Pro) pPros.append(vCur);
+				else throw new Exception("06; Char,aPs");
+				
+				pPros.next();
+			}
+		}else throw new Exception("05; Char,aPs");
+	}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pSpecialCrafts
+	 */
+	public void addSpecialCrafts(List pSpecialCrafts) throws Exception{
+		Object vCur;
+		
+		if (!pSpecialCrafts.isEmpty()) {
+			pSpecialCrafts.toFirst();
+			
+			while(!pSpecialCrafts.isEnd()) {
+				vCur = pSpecialCrafts.getCurrent();
+				
+				if (vCur instanceof SpecialCraft) pSpecialCrafts.append(vCur);
+				else throw new Exception("06; Char,aSCs");
+				
+				pSpecialCrafts.next();
+			}
+		}else throw new Exception("05; Char,aSCs");
+	}
 	/**	Dh	10.6.2020
 	 * 
 	 * @param pTalents
@@ -2327,6 +2754,159 @@ public class Charakter {
 	
 	//----------------------------------------------------------------------------------------------------
 	
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pID
+	 * @throws Exception
+	 */
+	public void removePro(int pID) throws Exception{
+		Pro vCur;
+		
+		if (pID >= 0) {
+			if (!ProList.isEmpty()) {
+				ProList.toFirst();
+				
+				while (!ProList.isEnd()){
+					vCur = (Pro)ProList.getCurrent();
+					
+					if (vCur.getID() == pID) {
+						ProList.remove();
+						ProList.toLast();
+					}
+					
+					ProList.next();
+				}
+			}else throw new Exception("05; Char,rP");
+		}else throw new Exception("02; Char,rP");
+	}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pPro
+	 * @throws Exception
+	 */
+	public void removePro(Pro pPro) throws Exception{
+		Pro vCur;
+		
+		if (pPro != null) {
+			if (!ProList.isEmpty()) {
+				ProList.toFirst();
+				
+				while (!ProList.isEnd()){
+					vCur = (Pro)ProList.getCurrent();
+					
+					if (vCur == pPro) {
+						ProList.remove();
+						ProList.toLast();
+					}
+					
+					ProList.next();
+				}
+			}else throw new Exception("05; Char,rP");
+		}else throw new Exception("04; Char,rP");
+	}
+	//-----
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pID
+	 * @throws Exception
+	 */
+	public void removeSpecialCraft(int pID) throws Exception{
+		SpecialCraft vCur;
+		
+		if (pID >= 0) {
+			if (!SpecialCraftList.isEmpty()) {
+				SpecialCraftList.toFirst();
+				
+				while (!SpecialCraftList.isEnd()){
+					vCur = (SpecialCraft)SpecialCraftList.getCurrent();
+					
+					if (vCur.getID() == pID) {
+						SpecialCraftList.remove();
+						SpecialCraftList.toLast();
+					}
+					
+					SpecialCraftList.next();
+				}
+			}else throw new Exception("05; Char,rSC");
+		}else throw new Exception("02; Char,rSC");
+	}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pSpecialCraft
+	 * @throws Exception
+	 */
+	public void removeSpecialCraft(SpecialCraft pSpecialCraft) throws Exception{
+		SpecialCraft vCur;
+		
+		if (pSpecialCraft != null) {
+			if (!SpecialCraftList.isEmpty()) {
+				SpecialCraftList.toFirst();
+				
+				while (!SpecialCraftList.isEnd()){
+					vCur = (SpecialCraft)SpecialCraftList.getCurrent();
+					
+					if (vCur == pSpecialCraft) {
+						SpecialCraftList.remove();
+						SpecialCraftList.toLast();
+					}
+					
+					SpecialCraftList.next();
+				}
+			}else throw new Exception("05; Char,rSC");
+		}else throw new Exception("04; Char,rSC");
+	}
+	//-----
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pID
+	 * @throws Exception
+	 */
+	public void removeTalent(int pID) throws Exception{
+		Talent vCur;
+		
+		if (pID >= 0) {
+			if (!TalentList.isEmpty()) {
+				TalentList.toFirst();
+				
+				while (!TalentList.isEnd()){
+					vCur = (Talent)TalentList.getCurrent();
+					
+					if (vCur.getID() == pID) {
+						TalentList.remove();
+						TalentList.toLast();
+					}
+					
+					TalentList.next();
+				}
+			}else throw new Exception("05; Char,rT");
+		}else throw new Exception("02; Char,rT");
+	}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pTalent
+	 * @throws Exception
+	 */
+	public void removeTalent(Talent pTalent) throws Exception{
+		Talent vCur;
+		
+		if (pTalent != null) {
+			if (!TalentList.isEmpty()) {
+				TalentList.toFirst();
+				
+				while (!TalentList.isEnd()){
+					vCur = (Talent)TalentList.getCurrent();
+					
+					if (vCur == pTalent) {
+						TalentList.remove();
+						TalentList.toLast();
+					}
+					
+					TalentList.next();
+				}
+			}else throw new Exception("05; Char,rT");
+		}else throw new Exception("04; Char,rT");
+	}
+	//-----
 	/**	Dh	28.5.2020
 	 * 
 	 * @param pID
@@ -2378,6 +2958,78 @@ public class Charakter {
 		}else throw new Exception("04; Char,rW");
 	}
 	
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pPros
+	 * @throws Exception
+	 */
+	public void removePro(List pPros) throws Exception{
+		Object vCur;
+		
+		if (pPros != null) {
+			if (!pPros.isEmpty()) {
+				pPros.toFirst();
+				
+				while (!pPros.isEnd()){
+					vCur = (Pro)pPros.getCurrent();
+					
+					if (vCur instanceof Integer) removePro((int) vCur);
+					else if (vCur instanceof Pro) removePro((Pro) vCur);
+					else throw new Exception("06; Char,rPs");
+					
+					pPros.next();
+				}
+			}else throw new Exception("05; Char,rPs");
+		}else throw new Exception("04; Char,rPs");
+	}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pSpecialCrafts
+	 * @throws Exception
+	 */
+	public void removeSpecialCraft(List pSpecialCrafts) throws Exception{
+		Object vCur;
+		
+		if (pSpecialCrafts != null) {
+			if (!pSpecialCrafts.isEmpty()) {
+				pSpecialCrafts.toFirst();
+				
+				while (!pSpecialCrafts.isEnd()){
+					vCur = (SpecialCraft)pSpecialCrafts.getCurrent();
+					
+					if (vCur instanceof Integer) removeSpecialCraft((int) vCur);
+					else if (vCur instanceof SpecialCraft) removeSpecialCraft((SpecialCraft) vCur);
+					else throw new Exception("06; Char,rSCs");
+					
+					pSpecialCrafts.next();
+				}
+			}else throw new Exception("05; Char,rSCs");
+		}else throw new Exception("04; Char,rSCs");
+	}
+	/**	Dh	23.6.2020
+	 * 
+	 * @param pTalents
+	 * @throws Exception
+	 */
+	public void removeTalents(List pTalents) throws Exception{
+		Object vCur;
+		
+		if (pTalents != null) {
+			if (!pTalents.isEmpty()) {
+				pTalents.toFirst();
+				
+				while (!pTalents.isEnd()){
+					vCur = (Talent)pTalents.getCurrent();
+					
+					if (vCur instanceof Integer) removeTalent((int) vCur);
+					else if (vCur instanceof Talent) removeTalent((Talent) vCur);
+					else throw new Exception("06; Char,rTs");
+					
+					pTalents.next();
+				}
+			}else throw new Exception("05; Char,rTs");
+		}else throw new Exception("04; Char,rTs");
+	}
 	/**	Dh	28.5.2020
 	 * 
 	 * @param pWeapons
@@ -2395,12 +3047,12 @@ public class Charakter {
 					
 					if (vCur instanceof Integer) removeWeapon((int) vCur);
 					else if (vCur instanceof Weapon) removeWeapon((Weapon) vCur);
-					else throw new Exception("06; Char,rWes");
+					else throw new Exception("06; Char,rWs");
 					
 					pWeapons.next();
 				}
-			}else throw new Exception("05; Char,rWes");
-		}else throw new Exception("04; Char,rWes");
+			}else throw new Exception("05; Char,rWs");
+		}else throw new Exception("04; Char,rWs");
 	}
 	
 	//----------------------------------------------------------------------------------------------------

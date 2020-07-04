@@ -1,4 +1,4 @@
-/**	DSA_App	v0.0	Dh	5.6.2020
+/**	DSA_App	v0.0	Dh	2.7.2020
  * 
  * 	Logik
  * 	  Talent
@@ -9,7 +9,12 @@
  *     1: Waffenloser Kampf
  *     2: Fernkampf
  *     
- *  
+ *  Types:
+ * 	  00: Nahkampf				05: Wissens
+ * 	  01: Fernkampf				06: Sprache
+ * 	  02: Koerperliche			07: Handwerks
+ * 	  03: Gesellschaftliche		08: Alle Kampf
+ * 	  04: Natur					09: Alle mundan nicht Kampf
  *  
  * 	Exceptions:
  * 	  01 Wrong length
@@ -49,7 +54,14 @@ public class Fighttalent extends Talent {
 		eBE = new int[] {0, 0};
 		usableWeaponTypes = new int[] {-1};
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
+	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
 	 * 
 	 * 	Category:
 	 *     0: Bewaffneter Nahkampf
@@ -78,10 +90,16 @@ public class Fighttalent extends Talent {
 	 * @param pUsableWeaponTypes
 	 */
 	public Fighttalent(int pID, String pName, int pCategory, int[] pEBE, int[] pUsableWeaponTypes) {
-		super(pID, pName);
+		super(-1, pID, pName);
 		Exception vExc = null;
 		
-		if ((pCategory >= 0) && (pCategory < 3)) Category = pCategory;
+		if ((pCategory >= 0) && (pCategory < 3)) {
+			Category = pCategory;
+			try {
+				if ((pCategory == 0) || (pCategory == 1)) super.setType(0);
+				else super.setType(1);
+			} catch (Exception ex) {vExc = ex;}
+		}
 		else vExc = new Exception("02; FiTal_a");
 		
 		FightValues = new int[] {0, 0};
@@ -97,7 +115,14 @@ public class Fighttalent extends Talent {
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
+	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
 	 * 
 	 * 	Category:
 	 *     0: Bewaffneter Nahkampf
@@ -127,10 +152,16 @@ public class Fighttalent extends Talent {
 	 * @param pTaW
 	 */
 	public Fighttalent(int pID, String pName, int pCategory, int[] pEBE, int[] pUsableWeaponTypes, int pTaW) {
-		super(pID, pName, pTaW);
+		super(-1, pID, pName, pTaW);
 		Exception vExc = null;
 		
-		if ((pCategory >= 0) && (pCategory < 3)) Category = pCategory;
+		if ((pCategory >= 0) && (pCategory < 3)) {
+			Category = pCategory;
+			try {
+				if ((pCategory == 0) || (pCategory == 1)) super.setType(0);
+				else super.setType(1);
+			} catch (Exception ex) {vExc = ex;}
+		}
 		else vExc = new Exception("02; FiTal_b");
 		
 		if (pCategory != 2) FightValues = new int[] {0, 0};
@@ -147,7 +178,14 @@ public class Fighttalent extends Talent {
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
+	 * 
+	 * Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
 	 * 
 	 * Category:
 	 *     0: Bewaffneter Nahkampf
@@ -178,10 +216,16 @@ public class Fighttalent extends Talent {
 	 * @param pFightValues
 	 */
 	public Fighttalent(int pID, String pName, int pCategory, int[] pEBE, int[] pUsableWeaponTypes, int pTaW, int[] pFightValues) {
-		super(pID, pName, pTaW);
+		super(-1, pID, pName, pTaW);
 		Exception vExc = null;
 		
-		if ((pCategory >= 0) && (pCategory < 3)) Category = pCategory;
+		if ((pCategory >= 0) && (pCategory < 3)) {
+			Category = pCategory;
+			try {
+				if ((pCategory == 0) || (pCategory == 1)) super.setType(0);
+				else super.setType(1);
+			} catch (Exception ex) {vExc = ex;}
+		}
 		else vExc = new Exception("02; FiTal_c");
 		
 		if (pFightValues != null) {

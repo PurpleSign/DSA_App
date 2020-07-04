@@ -12,6 +12,7 @@
  * 	  06 Wrong Type Error
  * 	  07 Index Error
  * 	  08 Equal Object Error
+ * 	  09 Wrong Selection
  **/
 package pLogik;
 

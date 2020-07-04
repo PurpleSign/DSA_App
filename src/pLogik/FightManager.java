@@ -414,7 +414,7 @@ public class FightManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public double[] getStatModsOfFighter(int pID) throws Exception{
+	public int[] getStatModsOfFighter(int pID) throws Exception{
 		try{ return getFightElement(pID).getStatMods();}
 		catch(Exception vExc) { throw vExc;}
 	}
@@ -1975,7 +1975,6 @@ public class FightManager {
 	public void setFightList(List pFightList) throws Exception{
 		if (pFightList != null) FightList = pFightList;
 		else throw new Exception("04; FiMan_sFL");
-		
 	}
 	/**	Dh	1.5.2020
 	 * 	
@@ -1985,7 +1984,7 @@ public class FightManager {
 	public void setIniList(List pIniList) throws Exception{
 		if (pIniList != null) {
 			IniList = pIniList;
-			
+
 			updateIniList();
 		}
 		else throw new Exception("04; FiMan_sIL");
@@ -2040,7 +2039,7 @@ public class FightManager {
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void setStatModToFighter(int pID, double pStatMod, int pInd) throws Exception{
+	public void setStatModToFighter(int pID, int pStatMod, int pInd) throws Exception{
 		if ((pInd >= 0) && (pInd < 10)){
 			try{
 				if (pInd == 6) setIniOfIniElement(pID, (int)Math.round(pStatMod));
@@ -2104,7 +2103,7 @@ public class FightManager {
 	 * @param pStatMods
 	 * @throws Exception
 	 */
-	public void setStatModsToFighter(int pID, double[] pStatMods) throws Exception{
+	public void setStatModsToFighter(int pID, int[] pStatMods) throws Exception{
 		if (pStatMods != null){
 			if (pStatMods.length == 10){
 				try{
@@ -2213,7 +2212,7 @@ public class FightManager {
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void setStatModToFighters(double pStatMod, int pInd) throws Exception{
+	public void setStatModToFighters(int pStatMod, int pInd) throws Exception{
 		Object vFiEle;
 		
 		if ((pInd >= 0) && (pInd < 10)){
@@ -2262,9 +2261,9 @@ public class FightManager {
 						vFiEle = FightList.getCurrent();
 						vPrEle = pStatsModList.getCurrent();
 						
-						if ((vFiEle instanceof FightElement)&& (vPrEle instanceof Double)) {
-							if (pInd == 6) setIniOfIniElement(((FightElement) vFiEle).getID(), (int)Math.round((double)vPrEle));
-							((FightElement) vFiEle).setStatMod((double)vPrEle, pInd);
+						if ((vFiEle instanceof FightElement)&& (vPrEle instanceof Integer)) {
+							if (pInd == 6) setIniOfIniElement(((FightElement) vFiEle).getID(), (int)Math.round((int)vPrEle));
+							((FightElement) vFiEle).setStatMod((int)vPrEle, pInd);
 						}
 						else throw new Exception("06; FiMan,sSsMFs");
 				
@@ -2412,7 +2411,7 @@ public class FightManager {
 	 * @param pStatMods
 	 * @throws Exception
 	 */
-	public void setStatModsToFighters(double[] pStatMods) throws Exception{
+	public void setStatModsToFighters(int[] pStatMods) throws Exception{
 		Object vFiEle;
 		
 		if (pStatMods != null){
@@ -2462,9 +2461,9 @@ public class FightManager {
 					vFiEle = FightList.getCurrent();
 					vPrEle = pStatsModsList.getCurrent();
 						
-					if ((vFiEle instanceof FightElement) && (vPrEle instanceof Double)) {
-						if (((double[])vPrEle)[6] != 0) setIniOfIniElement(((FightElement) vFiEle).getID(), (int)Math.round(((double[])vPrEle)[6]));
-						((FightElement) vFiEle).setStatMods((double[])vPrEle);
+					if ((vFiEle instanceof FightElement) && (vPrEle instanceof Integer[])) {
+						if (((double[])vPrEle)[6] != 0) setIniOfIniElement(((FightElement) vFiEle).getID(), (int)Math.round(((int[])vPrEle)[6]));
+						((FightElement) vFiEle).setStatMods((int[])vPrEle);
 					}
 					else throw new Exception("06; FiMan,sSsMFs");
 			
@@ -3525,36 +3524,6 @@ public class FightManager {
 		vIni = calcIni(pChar);
 		addIniElement(vID, vIni, 2);
 	}
-	/**	Dh	28.5.2020
-	 * 
-	 * 	Fuegt eine neue Kaempfer*In zur KaempferListe hinzu und erzeugt einen neuen Ini-Eintrag dafuer.
-	 * 
-	 * 	pStatiMod:
-	 * 	  0 Lebenspunkte		5 Wundschwelle
-	 * 	  1 Ausdauerpunkte		6 Initiativ-Basiswert
-	 * 	  2 Astralpunkte		7 Attack-Basiswert
-	 * 	  3 Karmalpunkte		8 Parade-Basiswert
-	 * 	  4 Magieresitenz		9 Fernkampf-Basiswert
-	 * 
-	 * @param pChar
-	 * @param pActiveWeapons
-	 * @param pStatMods
-	 * @throws Exception
-	 */
-	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, double[] pStatMods) throws Exception{
-		int vID, vIni;
-		
-		if (FightList != null) vID = FightList.getContentNumber();
-		else throw new Exception("04; FiMan,aFi_c");
-		
-		if ((pChar != null) && (pStatMods != null)){
-			if (pStatMods.length == 10) FightList.append(new FightElement(vID, pChar, pActiveWeapons, pStatMods));
-			else throw new Exception("01; FiMan,aFi_c");
-		} else throw new Exception("04; FiMan,aFi_c");
-		
-		vIni = calcIni(pChar);
-		addIniElement(vID, vIni, 2);
-	}
 	/**	Dh	4.5.2020
 	 * 
 	 * 	Fuegt eine neue Kaempfer*In zur KaempferListe hinzu und erzeugt einen neuen Ini-Eintrag dafuer.
@@ -3568,10 +3537,10 @@ public class FightManager {
 		int vID, vIni;
 		
 		if (FightList != null) vID = FightList.getContentNumber();
-		else throw new Exception("04; FiMan,aFi_d");
+		else throw new Exception("04; FiMan,aFi_c");
 		
 		if ((pChar != null) && (pNeighbours != null))FightList.append(new FightElement(vID, pChar, pActiveWeapons, pNeighbours));
-		else throw new Exception("04; FiMan,aFi_d");
+		else throw new Exception("04; FiMan,aFi_c");
 		
 		vIni = calcIni(pChar);
 		addIniElement(vID, vIni, 2);
@@ -3600,16 +3569,16 @@ public class FightManager {
 	 * @param pStatMods
 	 * @throws Exception
 	 */
-	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, double[] pStatMods) throws Exception{
+	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, int[] pStatMods) throws Exception{
 		int vID, vIni;
 		
 		if (FightList != null) vID = FightList.getContentNumber();
-		else throw new Exception("04; FiMan,aFi_e");
+		else throw new Exception("04; FiMan,aFi_d");
 		
 		if ((pChar != null) && (pPropMods != null) && (pStatMods != null)){
 			if ((pPropMods.length == 10) && (pStatMods.length == 10)) FightList.append(new FightElement(vID, pChar, pActiveWeapons, pPropMods, pStatMods));
-			else throw new Exception("01; FiMan,aFi_e");
-		} else throw new Exception("04; FiMan,aFi_e");
+			else throw new Exception("01; FiMan,aFi_d");
+		} else throw new Exception("04; FiMan,aFi_d");
 		
 		vIni = calcIni(pChar);
 		addIniElement(vID, vIni, 2);
@@ -3635,43 +3604,12 @@ public class FightManager {
 		int vID, vIni;
 		
 		if (FightList != null) vID = FightList.getContentNumber();
-		else throw new Exception("04; FiMan,aFi_f");
+		else throw new Exception("04; FiMan,aFi_e");
 		
 		if ((pChar != null) && (pPropMods != null) && (pNeighbours != null)){
 			if (pPropMods.length == 10) FightList.append(new FightElement(vID, pChar, pActiveWeapons, pPropMods, pNeighbours));
-			else throw new Exception("01; FiMan,aFi_f");
-		} else throw new Exception("04; FiMan,aFi_f");
-		
-		vIni = calcIni(pChar);
-		addIniElement(vID, vIni, 2);
-	}
-	/**	Dh	4.5.2020
-	 * 
-	 * 	Fuegt eine neue Kaempfer*In zur KaempferListe hinzu und erzeugt einen neuen Ini-Eintrag dafuer.
-	 * 
-	 * 	pStatiMod:
-	 * 	  0 Lebenspunkte		5 Wundschwelle
-	 * 	  1 Ausdauerpunkte		6 Initiativ-Basiswert
-	 * 	  2 Astralpunkte		7 Attack-Basiswert
-	 * 	  3 Karmalpunkte		8 Parade-Basiswert
-	 * 	  4 Magieresitenz		9 Fernkampf-Basiswert
-	 * 
-	 * @param pChar
-	 * @param pActiveWeapons
-	 * @param pStatMods
-	 * @param pNeighbours
-	 * @throws Exception
-	 */
-	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, double[] pStatMods, List pNeighbours) throws Exception{
-		int vID, vIni;
-		
-		if (FightList != null) vID = FightList.getContentNumber();
-		else throw new Exception("04; FiMan,aFi_g");
-		
-		if ((pChar != null) && (pStatMods != null) && (pNeighbours != null)){
-			if (pStatMods.length == 10) FightList.append(new FightElement(vID, pChar, pActiveWeapons, pStatMods, pNeighbours));
-			else throw new Exception("01; FiMan,aFi_g");
-		} else throw new Exception("04; FiMan,aFi_g");
+			else throw new Exception("01; FiMan,aFi_e");
+		} else throw new Exception("04; FiMan,aFi_e");
 		
 		vIni = calcIni(pChar);
 		addIniElement(vID, vIni, 2);
@@ -3701,16 +3639,16 @@ public class FightManager {
 	 * @param pNeighbours
 	 * @throws Exception
 	 */
-	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, double[] pStatMods, List pNeighbours) throws Exception{
+	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, int[] pStatMods, List pNeighbours) throws Exception{
 		int vID, vIni;
 		
 		if (FightList != null) vID = FightList.getContentNumber();
-		else throw new Exception("04; FiMan,aFi_h");
+		else throw new Exception("04; FiMan,aFi_f");
 		
 		if ((pChar != null) && (pPropMods != null) && (pStatMods != null) && (pNeighbours != null)){
 			if ((pPropMods.length == 10) && (pStatMods.length == 10)) FightList.append(new FightElement(vID, pChar, pActiveWeapons, pPropMods, pStatMods, pNeighbours));
-			else throw new Exception("01; FiMan,aFi_h");
-		} else throw new Exception("04; FiMan,aFi_h");
+			else throw new Exception("01; FiMan,aFi_f");
+		} else throw new Exception("04; FiMan,aFi_f");
 		
 		vIni = calcIni(pChar);
 		addIniElement(vID, vIni, 2);
@@ -3817,7 +3755,7 @@ public class FightManager {
 	 * @param pStatMods
 	 * @throws Exception
 	 */
-	public void addStatModsToFighter(int pID, double[] pStatMods) throws Exception{
+	public void addStatModsToFighter(int pID, int[] pStatMods) throws Exception{
 		if (pStatMods != null){
 			if (pStatMods.length == 10){
 				try{ 
@@ -4122,7 +4060,7 @@ public class FightManager {
 	 * @param pStatMods
 	 * @throws Exception
 	 */
-	public void addStatModsToFighters(double[] pStatMods) throws Exception{
+	public void addStatModsToFighters(int[] pStatMods) throws Exception{
 		Object vFiEle;
 		
 		if (pStatMods != null){
@@ -4172,9 +4110,9 @@ public class FightManager {
 					vFiEle = FightList.getCurrent();
 					vPrEle = pStatsModsList.getCurrent();
 						
-					if ((vFiEle instanceof FightElement)&& (vPrEle instanceof Double[])) {
-						((FightElement) vFiEle).addStatMods((double[])vPrEle);
-						if (((double[])vPrEle)[6] != 0) addIniOfIniElement(((FightElement) vFiEle).getID(), (int) Math.round(((double[])vPrEle)[6]));
+					if ((vFiEle instanceof FightElement)&& (vPrEle instanceof Integer[])) {
+						((FightElement) vFiEle).addStatMods((int[])vPrEle);
+						if (((double[])vPrEle)[6] != 0) addIniOfIniElement(((FightElement) vFiEle).getID(), (int) Math.round(((int[])vPrEle)[6]));
 					}
 					else throw new Exception("06; FiMan,aSsMFs");
 			
@@ -5907,7 +5845,7 @@ public class FightManager {
 			if (!IniList.isLast())IniList.next();
 		} else IniList.insert(pIniElement);
 	}
-	/**	Dh	20.5.2020
+	/**	Dh	24.6.2020
 	 * 
 	 * 	Updatet die IniList.
 	 * 
@@ -5943,7 +5881,7 @@ public class FightManager {
 						IniList.prior();
 						vTempIni = vIni;
 						vTempIniBasis = vIniBasis;
-					} else if ((vTempIni == vIni) && (vTempIniBasis >= vIniBasis)) {
+					} else if ((vTempIni == vIni) && (vTempIniBasis > vIniBasis)) {
 						IniList.remove();
 						if (!IniList.isLast()) IniList.prior();
 						try { recElementUpdateIniList(vTempIniEle, vTempIni, vTempIniBasis); }

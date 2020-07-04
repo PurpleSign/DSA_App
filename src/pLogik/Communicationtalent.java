@@ -1,9 +1,16 @@
-/**	DSA_App	v0.0	Dh	5.6.2020
+/**	DSA_App	v0.0	Dh	2.7.2020
  * 
  * 	Logik
  * 	  Talent
  * 		BasicTalent
  *		  Communicationtalent
+ * 
+ * 	Types:
+ * 	  00: Nahkampf				05: Wissens
+ * 	  01: Fernkampf				06: Sprache
+ * 	  02: Koerperliche			07: Handwerks
+ * 	  03: Gesellschaftliche		08: Alle Kampf
+ * 	  04: Natur					09: Alle mundan nicht Kampf
  * 
  * 	Exceptions:
  * 	  01 Wrong length
@@ -28,14 +35,23 @@ public class Communicationtalent extends Basictalent {
 	private boolean Language;
 	private int Complexity;
 	
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 */
 	public Communicationtalent() {
+		super();
+		
 		Language = false;
 		Complexity = -1;
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
+	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
 	 * 
 	 * @param pID
 	 * @param pName
@@ -43,7 +59,7 @@ public class Communicationtalent extends Basictalent {
 	 * @param pComplexity
 	 */
 	public Communicationtalent(int pID, String pName, boolean pLanguage, int pComplexity) {
-		super(pID, pName, new int[] {1, 2, 3});
+		super(6, pID, pName, new int[] {1, 2, 3});
 		Exception vExc = null;
 		
 		Language = pLanguage;
@@ -55,7 +71,14 @@ public class Communicationtalent extends Basictalent {
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
+	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
 	 * 
 	 * @param pID
 	 * @param pName
@@ -64,7 +87,7 @@ public class Communicationtalent extends Basictalent {
 	 * @param pTaW
 	 */
 	public Communicationtalent(int pID, String pName, boolean pLanguage, int pComplexity, int pTaW) {
-		super(pID, pName, new int[] {1, 2, 3}, pTaW);
+		super(6, pID, pName, new int[] {1, 2, 3}, pTaW);
 		Exception vExc = null;
 		
 		Language = pLanguage;

@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 18.6.2020
+/**	DSA_App v0.0	Dh	 2.7.2020
  * 	
  * 	Logik
  * 	  SpecialCrafts
@@ -11,7 +11,7 @@
  * 
  * 	PremiseTypes:
  * 	  0: Vorteile				4: Talentgruppe
- * 	  1: Sodnerfertigkeiten		5: Zauber
+ * 	  1: Sonderfertigkeiten		5: Zauber
  * 	  2: Kampfwert				6: Rituale
  * 	  3: Talente				7: Liturgien
  * 
@@ -45,7 +45,7 @@ import pGUI.MainFrame;
 
 @XmlRootElement(name = "SpecialCraft")
 @XmlType(propOrder = {"name", "propertiePremises", "typedPremiseList"})
-@XmlSeeAlso({StringedSpecialCraft.class, ReferredSpecialCraft.class})
+@XmlSeeAlso({StringedSpecialCraft.class, ReferredSpecialCraft.class, int[].class})
 public class SpecialCraft {
 	private int ID, Type;
 	private String Name;
@@ -307,7 +307,7 @@ public class SpecialCraft {
 	@XmlElementWrapper(name = "PropertiePremisesArray")
 	@XmlElement(name = "PropertiePermise")
 	public int[] getPropertiePremises() {
-		return PropertiePremises;
+		return PropertiePremises.clone();
 	}
 	
 	/**	Dh	18.6.2020
@@ -366,7 +366,7 @@ public class SpecialCraft {
 		
 		return vRet;
 	}
-	/**	Dh	18.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * 	PremiseTypes:
 	 * 	  0: Vorteile				4: Talentgruppe
@@ -396,9 +396,9 @@ public class SpecialCraft {
 			}
 		} else throw new Exception("02; SpCra,gTPbT");
 		
-		return vRet;
+		return vRet.copyList();
 	}
-	/**	Dh	18.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * PremiseTypes:
 	 * 	  0: Vorteile				4: Talentgruppe
@@ -410,7 +410,7 @@ public class SpecialCraft {
 	 */
 	@XmlElement(name = "TypedPremiseList")
 	public List getTypedPremiseList() {
-		return TypedPremiseList;
+		return TypedPremiseList.copyList();
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -476,7 +476,7 @@ public class SpecialCraft {
 		} else throw new Exception("01; SpCra,sPPs");
 	}
 	
-	/**	Dh	18.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * 	PremiseTypes:
 	 * 	  0: Vorteile				4: Talentgruppe
@@ -497,15 +497,15 @@ public class SpecialCraft {
 				while (!pTypedPremiseList.isEnd()) {
 					vCur = pTypedPremiseList.getCurrent();
 					
-					if (!(vCur instanceof Integer[])) throw new Exception("06; SpCra,sTPL");
+					if (!((vCur instanceof Integer[]) || (vCur instanceof int[]))) throw new Exception("06; SpCra,sTPL"+vCur.getClass());
 					else if ((((int[])vCur).length != 3)) throw new Exception("01; SpCra,sTPL");
-					else if (( ((int[])vCur)[0] < 0 ) || ( ((int[])vCur)[0] >= 6) || ( ((int[])vCur)[1] < 0 ) || ( ((int[])vCur)[2] < 0 )) throw new Exception("02; SpCra,sTPL");
+					else if (( ((int[])vCur)[0] < 0 ) || ( ((int[])vCur)[0] >= 8) || ( ((int[])vCur)[1] < 0 ) || ( ((int[])vCur)[2] < -1 )) throw new Exception("02; SpCra,sTPL");
 					
 					pTypedPremiseList.next();
 				}
 			}
 			
-			TypedPremiseList = pTypedPremiseList;
+			TypedPremiseList = pTypedPremiseList.copyList();
 		} else throw new Exception("04; SpCra,sTPL");
 	}
 	

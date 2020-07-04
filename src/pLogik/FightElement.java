@@ -51,8 +51,7 @@ import pDataStructures.List;
 @XmlType(propOrder = {"character", "propMods", "statMods", "neighbourList", "activeWeapons"})
 public class FightElement {
 	private int ID;
-	private int[] PropMods;
-	private double[] StatMods;
+	private int[] PropMods, StatMods;
 	private List NeighbourList;
 	private Weapon[] ActiveWeapons; 
 	private Charakter Character;
@@ -62,7 +61,7 @@ public class FightElement {
 	public FightElement() {
 		ID = -1;
 		PropMods = new int[10];
-		StatMods = new double[10];
+		StatMods = new int[10];
 		ActiveWeapons = null;
 		Character = null;
 		NeighbourList = new List();
@@ -84,7 +83,7 @@ public class FightElement {
 		
 		ActiveWeapons = pActiveWeapons;
 		PropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		StatMods = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		StatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
 		NeighbourList = new List();
 	}
@@ -119,43 +118,7 @@ public class FightElement {
 			}
 			else vExc = new Exception("01; FiEle_b");
 		} catch(Exception exc) {vExc = exc;}
-		StatMods = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		
-		NeighbourList = new List();
-	}
-	/**	Dh	28.5.2020
-	 * 
-	 * 	StatMods:
-	 * 	  0 Lebenspunkte		5 Wundschwelle
-	 * 	  1 Ausdauerpunkte		6 Initiativ-Basiswert
-	 * 	  2 Astralpunkte		7 Attack-Basiswert
-	 * 	  3 Karmalpunkte		8 Parade-Basiswert
-	 * 	  4 Magieresitenz		9 Fernkampf-Basiswert
-	 * 
-	 * @param pID
-	 * @param pChar
-	 * @param pActiveWeapons
-	 * @param pStatMod
-	 */
-	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons, double[] pStatMod){
-		Exception vExc;
-		
-		if (pID >= 0) ID = pID;
-		else vExc = new Exception("02; FiEle_c");
-		
-		if (pChar != null) Character = pChar;
-		else vExc = new Exception("04; FiEle_c");
-		
-		ActiveWeapons = pActiveWeapons;
-		PropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		try{
-			if (pStatMod.length == 10){
-				pChar.addStats(pStatMod);
-				StatMods = pStatMod;
-			}
-			else vExc = new Exception("01; FiEle_c");
-		} catch(Exception exc) {vExc = exc;}
-		
+		StatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
 		NeighbourList = new List();
 	}
@@ -170,17 +133,17 @@ public class FightElement {
 		Exception vExc;
 		
 		if (pID >= 0) ID = pID;
-		else vExc = new Exception("02; FiEle_d");
+		else vExc = new Exception("02; FiEle_c");
 		
 		if (pChar != null) Character = pChar;
-		else vExc = new Exception("04; FiEle_d");
+		else vExc = new Exception("04; FiEle_c");
 		
 		ActiveWeapons = pActiveWeapons;
 		PropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		StatMods = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		StatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
 		if (pNeighbours != null)	NeighbourList = pNeighbours;
-		else vExc = new Exception("04; FiEle_d");
+		else vExc = new Exception("04; FiEle_c");
 	}
 	/**	Dh	28.5.2020
 	 * 
@@ -204,14 +167,14 @@ public class FightElement {
 	 * @param pPropMods
 	 * @param pStatMod
 	 */
-	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, double[] pStatMod){
+	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, int[] pStatMod){
 		Exception vExc;
 		
 		if (pID >= 0) ID = pID;
-		else vExc = new Exception("02; FiEle_e");
+		else vExc = new Exception("02; FiEle_d");
 		
 		if (pChar != null) Character = pChar;
-		else vExc = new Exception("04; FiEle_e");
+		else vExc = new Exception("04; FiEle_d");
 		
 		ActiveWeapons = pActiveWeapons;
 		try{
@@ -221,7 +184,7 @@ public class FightElement {
 				PropMods = pPropMods;
 				StatMods = pStatMod;
 			}
-			else vExc = new Exception("01; FiEle_e");
+			else vExc = new Exception("01; FiEle_d");
 		} catch(Exception exc) {vExc = exc;}
 		
 		
@@ -246,10 +209,10 @@ public class FightElement {
 		Exception vExc;
 		
 		if (pID >= 0) ID = pID;
-		else vExc = new Exception("02; FiEle_f");
+		else vExc = new Exception("02; FiEle_e");
 		
 		if (pChar != null) Character = pChar;
-		else vExc = new Exception("04; FiEle_f");
+		else vExc = new Exception("04; FiEle_e");
 		
 		ActiveWeapons = pActiveWeapons;
 		try{
@@ -257,49 +220,12 @@ public class FightElement {
 				pChar.addProperties(pPropMods);
 				PropMods = pPropMods;
 			}
-			else vExc = new Exception("01; FiEle_f");
+			else vExc = new Exception("01; FiEle_e");
 		} catch(Exception exc) {vExc = exc;}
-		StatMods = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		StatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
 		if (pNeighbours != null)	NeighbourList = pNeighbours;
-		else vExc = new Exception("04; FiEle_f");
-	}
-	/**	Dh	28.5.2020
-	 * 
-	 * 	StatMods:
-	 * 	  0 Lebenspunkte		5 Wundschwelle
-	 * 	  1 Ausdauerpunkte		6 Initiativ-Basiswert
-	 * 	  2 Astralpunkte		7 Attack-Basiswert
-	 * 	  3 Karmalpunkte		8 Parade-Basiswert
-	 * 	  4 Magieresitenz		9 Fernkampf-Basiswert
-	 * 
-	 * @param pID
-	 * @param pChar
-	 * @param pActiveWeapons
-	 * @param pStatMod
-	 * @param pNeighbours
-	 */
-	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons, double[] pStatMod, List pNeighbours){
-		Exception vExc;
-		
-		if (pID >= 0) ID = pID;
-		else vExc = new Exception("02; FiEle_g");
-		
-		if (pChar != null) Character = pChar;
-		else vExc = new Exception("04; FiEle_g");
-		
-		ActiveWeapons = pActiveWeapons;
-		PropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		try{
-			if (pStatMod.length == 10){
-				pChar.addStats(pStatMod);
-				StatMods = pStatMod;
-			}
-			else vExc = new Exception("01; FiEle_g");
-		} catch(Exception exc) {vExc = exc;}
-		
-		if (pNeighbours != null)	NeighbourList = pNeighbours;
-		else vExc = new Exception("04; FiEle_g");
+		else vExc = new Exception("04; FiEle_e");
 	}
 	/**	Dh	28.5.2020
 	 * 
@@ -324,14 +250,14 @@ public class FightElement {
 	 * @param pStatMod
 	 * @param pNeighbours
 	 */
-	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, double[] pStatMod, List pNeighbours){
+	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, int[] pStatMod, List pNeighbours){
 		Exception vExc;
 		
 		if (pID >= 0) ID = pID;
-		else vExc = new Exception("02; FiEle_h");
+		else vExc = new Exception("02; FiEle_f");
 		
 		if (pChar != null) Character = pChar;
-		else vExc = new Exception("04; FiEle_h");
+		else vExc = new Exception("04; FiEle_f");
 		
 		ActiveWeapons = pActiveWeapons;
 		try{
@@ -341,11 +267,11 @@ public class FightElement {
 				PropMods = pPropMods;
 				StatMods = pStatMod;
 			}
-			else vExc = new Exception("01; FiEle_h");
+			else vExc = new Exception("01; FiEle_f");
 		} catch(Exception exc) {vExc = exc;}
 		
 		if (pNeighbours != null)	NeighbourList = pNeighbours;
-		else vExc = new Exception("04; FiEle_h");
+		else vExc = new Exception("04; FiEle_f");
 	}
 	
 	/**	Dh	12.2.2020
@@ -461,7 +387,7 @@ public class FightElement {
 	 */
 	@XmlElementWrapper(name = "StatusModArray")
 	@XmlElement(name = "StatusMod")
-	public double[] getStatMods(){
+	public int[] getStatMods(){
 		return StatMods;
 	}
 	/**	Dh	28.5.2020
@@ -822,7 +748,7 @@ public class FightElement {
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void setStatMod(double pStatMod, int pInd) throws Exception{
+	public void setStatMod(int pStatMod, int pInd) throws Exception{
 		if ((pInd >= 0) && (pInd < StatMods.length)){
 			double vTemp = pStatMod - StatMods[pInd];
 			StatMods[pInd] = pStatMod;
@@ -885,9 +811,9 @@ public class FightElement {
 	 * @param pStatMod
 	 * @throws Exception
 	 */
-	public void setStatMods(double[] pStatMods) throws Exception{
+	public void setStatMods(int[] pStatMods) throws Exception{
 		if (pStatMods.length == StatMods.length){
-			double[] vTemp = new double[StatMods.length];
+			int[] vTemp = new int[StatMods.length];
 			for (int i=0; i<vTemp.length; i++){
 				vTemp[i] = pStatMods[i] - StatMods[i];
 			}
@@ -1048,7 +974,7 @@ public class FightElement {
 	 * @param pStatMod
 	 * @throws Exception
 	 */
-	public void addStatMods(double[] pStatMods) throws Exception{
+	public void addStatMods(int[] pStatMods) throws Exception{
 		if (pStatMods.length == StatMods.length){
 			for (int i=0; i<StatMods.length; i++){
 				StatMods[i] += pStatMods[i];

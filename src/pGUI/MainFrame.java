@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	11.6.2020
+/**	DSA_App v0.0	Dh	3.7.2020
  * 
  * 	pGUI
  * 	  MainFrame
@@ -16,12 +16,21 @@
  */
 package pGUI;
 
+import pLogik.CharacterManager;
+import pLogik.Charakter;
 import pLogik.CloseWeapon;
 import pLogik.FightElement;
 import pLogik.FightManager;
 import pLogik.IniElement;
 import pLogik.MainManager;
 import pLogik.NeighbourElement;
+import pLogik.Pro;
+import pLogik.Referred;
+import pLogik.SpecialCraft;
+import pLogik.Stringed;
+import pLogik.Talent;
+import pLogik.Valued;
+import pLogik.Weapon;
 import pDatenbank.Loader;
 import pDataStructures.List;
 
@@ -69,20 +78,30 @@ import javax.swing.JInternalFrame;
 import javax.swing.JCheckBox;
 import java.awt.Insets;
 import javax.swing.JProgressBar;
+import javax.swing.UIManager;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class MainFrame {
 	private boolean HexFMCharFieldGrid;
 	private int zHeight, zWidth, zFightTabPanleWidth;
-	private int[] zGenPropMods;
-	private double[] zGenStatMods;
+	private int[] zGenPropMods, zGenStatMods;
 	
 	private JFrame frmDsaAppV;
 	private JPanel pFMCharInfoPanel, pFMCharInfoPanel_0, pFMCharInfoPanel_1, pFMCharInfoPanel_2, lFMNeiInfoPanel;
 	private JPanel pFMSpezModPanel_0, pFMSpezModPanel_1, pFMGenModPanel_0, pFMGenModPanel_1;
+	//-----
+	private JPanel pCMPanel_0,  pCMPanel_1;
+	private JPanel pCMGenPanel, pCMPropPanel, pCMStatPanel, pCMProPanel, pCMSpecialPanel, pCMArmorPanel, pCMEquipmentPanel, pCMTalentPanel;
 	
 	private JTabbedPane tpFMCharInfoTabbedPane;
+	private JScrollPane spCharListScrollPane, spProPanelScrollPane, spSpecialPanelScrollPane, spCMEquipmentScrollPane, spCMTalentScrollPane;
 	
 	private JList liFMFightList, liFMIniList, liFMNeiList;
+	private JList liCMCharList;
+	private JTable tCMTalentPanelTable;
 	
 	private JLabel lFMSpezPropModLable, lFMSpezPropModLable_0, lFMSpezPropModLable_1, lFMSpezPropModLable_2, lFMSpezPropModLable_3, lFMSpezPropModLable_4,
 		lFMSpezPropModLable_5, lFMSpezPropModLable_6, lFMSpezPropModLable_7, lFMSpezPropModLable_8;
@@ -96,6 +115,16 @@ public class MainFrame {
 		lFMGenPropModLabel_5, lFMGenPropModLabel_6, lFMGenPropModLabel_7, lFMGenPropModLabel_8;
 	private JLabel lFMGenStatModLabel_0, lFMGenStatModLabel_1, lFMGenStatModLabel_2, lFMGenStatModLabel_3, lFMGenStatModLabel_4,
 		lFMGenStatModLabel_5, lFMGenStatModLabel_6, lFMGenStatModLabel_7, lFMGenStatModLabel_8, lFMGenStatModLabel_9;
+	//-----
+	private JLabel lCMP0Title, lCMP1Title;
+	private JLabel lCMGenTitle, lCMGenLable_0, lCMGenLable_1, lCMGenLable_2, lCMGenLable_3;
+	private JLabel lCMPropTitle, lCMPropLabel_0, lCMPropLabel_1, lCMPropLabel_2, lCMPropLabel_3, lCMPropLabel_4, lCMPropLabel_5, lCMPropLabel_6, 
+		lCMPropLabel_7,	lCMPropLabel_8, lCMPropLabel_9;
+	private JLabel lCMStatTitel, lCMStatLabel_0, lCMStatLabel_1, lCMStatLabel_2, lCMStatLabel_3, lCMStatLabel_4, lCMStatLabel_5, lCMStatLabel_6,
+		lCMStatLabel_7, lCMStatLabel_8, lCMStatLabel_9;
+	private JLabel lCMArmorTitle, lCMArmorLabel_0, lCMArmorLabel_1, lCMArmorLabel_2, lCMArmorLabel_3, lCMArmorLabel_4, lCMArmorLabel_5,
+		lCMArmorLabel_6, lCMArmorLabel_7;
+	private JLabel lCMProTitel, lCMSpecialTitle, lCMEquipmentTitle, lCMTalentTitle;
 	
 	private JTextField tfOverviewField_0, tfOverviewField_1, tfOverviewField_2, tfOverviewField_3;
 	private JTextField tfFMSpezStatModField_0, tfFMSpezStatModField_1, tfFMSpezStatModField_2, tfFMSpezStatModField_3, tfFMSpezStatModField_4,
@@ -107,20 +136,36 @@ public class MainFrame {
 	private JTextField tfFMGenStatModField_0, tfFMGenStatModField_1, tfFMGenStatModField_2, tfFMGenStatModField_3, tfFMGenStatModField_4,
 		tfFMGenStatModField_5, tfFMGenStatModField_6, tfFMGenStatModField_7, tfFMGenStatModField_8, tfFMGenStatModField_9;
 	private JTextField tfFMNeiInfoField_1, tfFMNeiInfoField_2, tfFMNeiInfoField_3, tfFMNeiInfoField_4;
+	//-----
+	private JTextField tfCMGenField_0, tfCMGenField_1, tfCMGenField_2, tfCMGenField_3;
+	private JTextField tfCMPropField_0, tfCMPropField_1, tfCMPropField_2, tfCMPropField_3, tfCMPropField_4, tfCMPropField_5, tfCMPropField_6,
+		tfCMPropField_7, tfCMPropField_8, tfCMPropField_9;
+	private JTextField tfCMStatField_0, tfCMStatField_1, tfCMStatField_2, tfCMStatField_3, tfCMStatField_4, tfCMStatField_5, tfCMStatField_6,
+		tfCMStatField_7, tfCMStatField_8, tfCMStatField_9;
+	private JTextField tfCMArmorField_0, tfCMArmorField_1, tfCMArmorField_2, tfCMArmorField_3, tfCMArmorField_4, 
+		tfCMArmorField_5, tfCMArmorField_6, tfCMArmorField_7;
+	
+	
+	
+	private JTextArea taCMProTextArea, taCMSpecialTextArea;
 	
 	private JButton btCharFieldButton_0;
 	private JButton btFMSpezModButton_0, btFMSpezModButton_1, btFMSpezModButton_2;
 	private JButton btFMNeiButton_0, btFMNeiButton_1, btFMNeiButton_2, btFMNeiButton_3;
 	private JButton btFMFightListButton_0, btFMFightListButton_1, btFMFightListButton_2;
 	private JButton btFMGenModButton_0, btFMGenModButton_1, btFMGenModButton_2;
+	//-----
+	private JButton btCharListButton_0, btCharListButton_1, btCharListButton_2;
+	private JButton btCMGenButton, btCMPropButton, btCMStatButton, btCMProButton, btCMSpecialButton, btCMArmorButton, btCMEquipmentButton, btCMTalentButton;
 	
 	private JCheckBox chFMNeiInfoBox;
 	
 	private JTabbedPane tpTabbedPane;
-	private JSplitPane spFMSplitPane;
+	private JSplitPane spFMSplitPane, spCMSplitPane;
 	private JPanel pFMPanel_0;
 	
 	private FightManager rFM;
+	private CharacterManager rCM;
 	private CharakterPanel[] aCharPanelArray; 
 	
 	private JPanel pFMCharPanel;
@@ -128,8 +173,16 @@ public class MainFrame {
 	private JProgressBar pbFMCharBar_0, pbFMCharBar_1, pbFMCharBar_2, pbFMCharBar_3;
 	private JButton lFMCharButton;
 	
-	private JListModel rListModel1, rListModel2, rNeiListModel;
+	private JListModel rListModel1, rListModel2, rNeiListModel, rCharManListModel;
+	private JTableModel rCMTalentTableModel;
+	
 	private JLabel lblNewLabel_2;
+	private JTextArea taCMEquipmentTextArea;
+	private JLabel lCMArmorLabel_8;
+	private JTextField tfCMArmorField_8;
+	private JLabel lCMArmorLabel_9;
+	private JTextField tfCMArmorField_9;
+	
 
 	/**	Dh	6.5.2020
 	 * 
@@ -152,12 +205,13 @@ public class MainFrame {
 	 * @wbp.parser.entryPoint
 	 * 
 	 */
-	public MainFrame(FightManager pFM) {
+	public MainFrame(FightManager pFM, CharacterManager pCM) {
 		rFM = pFM;
+		rCM = pCM;
 		HexFMCharFieldGrid = false;
 		
 		zGenPropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		zGenStatMods = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		zGenStatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
 		aCharPanelArray = new CharakterPanel[9];
 		
@@ -175,6 +229,8 @@ public class MainFrame {
 		rListModel1 = new JListModel();
 		rListModel2 = new JListModel();
 		rNeiListModel = new JListModel();
+		rCharManListModel = new JListModel();
+		rCMTalentTableModel = new JTableModel();
 		
 		frmDsaAppV = new JFrame();
 		frmDsaAppV.setResizable(false);
@@ -188,22 +244,9 @@ public class MainFrame {
 		tpTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frmDsaAppV.getContentPane().add(tpTabbedPane, BorderLayout.CENTER);
 		
-		spFMSplitPane = new JSplitPane();
-		spFMSplitPane.setEnabled(false);
-		spFMSplitPane.setDividerSize(10);
-		spFMSplitPane.setDividerLocation(300);
-		spFMSplitPane.setDividerLocation(zHeight*5 / 8);
-		spFMSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		tpTabbedPane.addTab("Kampf Manager", null, spFMSplitPane, null);
-		
-		initFirstFightManagerPanel();
-		initSecondFightManagerPanel();
-		
-		JPanel tbpanel1 = new JPanel();
-		tpTabbedPane.addTab("Test", null, tbpanel1, null);
-		
-		JSplitPane spCMSplitPane = new JSplitPane();
-		tpTabbedPane.addTab("New tab", null, spCMSplitPane, null);
+		initFightManagerTab();
+		initFightOverviewTab();
+		initCharacterManagerTab();
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmDsaAppV.setJMenuBar(menuBar);
@@ -225,10 +268,49 @@ public class MainFrame {
 		
 		JMenu mnNewMenu_2 = new JMenu("Hilfe");
 		menuBar.add(mnNewMenu_2);
-		
+
 		try {			
 			updateLists();
-		} catch(Exception ex) {handleException(ex);}
+		} catch(Exception ex) {if (ex.getMessage() != null) handleException(ex);}
+	}
+	
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	24.6.2020
+	 * 
+	 * 	Erstellt den KampfManager Tab
+	 */
+	private void initFightManagerTab() {
+		spFMSplitPane = new JSplitPane();
+		spFMSplitPane.setEnabled(false);
+		spFMSplitPane.setDividerSize(10);
+		spFMSplitPane.setDividerLocation(300);
+		spFMSplitPane.setDividerLocation(zHeight*5 / 8);
+		spFMSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		tpTabbedPane.addTab("Kampf Manager", null, spFMSplitPane, null);
+		
+		initFirstFightManagerPanel();
+		initSecondFightManagerPanel();
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 * 	Erstellt den KampfUebersichts Tab
+	 */
+	private void initFightOverviewTab() {
+		JPanel tbpanel1 = new JPanel();
+		tpTabbedPane.addTab("Kampf \u00DCbersicht", null, tbpanel1, null);
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 * 	Erstellt den Charactermanager Tab
+	 */
+	private void initCharacterManagerTab() {
+		spCMSplitPane = new JSplitPane();
+		spCMSplitPane.setEnabled(false);
+		tpTabbedPane.addTab("Charakter Manager", null, spCMSplitPane, null);
+		
+		initFirstCharacterManagerPanel();
+		initSecondCharacterManagerPanel();
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -269,6 +351,7 @@ public class MainFrame {
 		pFMPanel_0.add(pFMCharInfoPanel);
 		
 		lFMCharInfoTitle = new JLabel("Name");
+		lFMCharInfoTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lFMCharInfoTitle.setFont(new Font("Liberation Serif", Font.BOLD, 18));
 		
 		tpFMCharInfoTabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -276,11 +359,11 @@ public class MainFrame {
 		GroupLayout gl_pFMCharInfoPanel = new GroupLayout(pFMCharInfoPanel);
 		gl_pFMCharInfoPanel.setHorizontalGroup(
 			gl_pFMCharInfoPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pFMCharInfoPanel.createSequentialGroup()
-					.addGap(136)
-					.addComponent(lFMCharInfoTitle)
-					.addContainerGap(120, Short.MAX_VALUE))
 				.addComponent(tpFMCharInfoTabbedPane, GroupLayout.PREFERRED_SIZE, 306, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_pFMCharInfoPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lFMCharInfoTitle, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
+					.addGap(10))
 		);
 		gl_pFMCharInfoPanel.setVerticalGroup(
 			gl_pFMCharInfoPanel.createParallelGroup(Alignment.LEADING)
@@ -581,6 +664,7 @@ public class MainFrame {
 		tpFMCharInfoTabbedPane.addTab("Mods", null, pFMCharInfoPanel_1, null);
 		
 		lblNewLabel_2 = new JLabel("spezifische Mods");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("Liberation Serif", Font.BOLD, 18));
 		
 		initSpezPropModPanel();
@@ -618,29 +702,24 @@ public class MainFrame {
 		gl_pFMCharInfoPanel_1.setHorizontalGroup(
 			gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
-					.addGroup(gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.TRAILING)
+					.addContainerGap()
+					.addGroup(gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
-							.addContainerGap()
+							.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
 							.addComponent(btFMSpezModButton_0, GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
 								.addComponent(btFMSpezModButton_1, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btFMSpezModButton_2, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE))
 							.addGap(29))
-						.addGap(88))
-					.addGap(0))
-				.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(pFMSpezModPanel_1, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-					.addGap(31))
-				.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(pFMSpezModPanel_0, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-					.addGap(31))
-				.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
-					.addGap(81)
-					.addComponent(lblNewLabel_2)
-					.addContainerGap(99, Short.MAX_VALUE))
+						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+							.addComponent(pFMSpezModPanel_1, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+							.addGap(31))
+						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+							.addComponent(pFMSpezModPanel_0, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+							.addGap(31))))
 		);
 		gl_pFMCharInfoPanel_1.setVerticalGroup(
 			gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
@@ -659,7 +738,7 @@ public class MainFrame {
 							.addComponent(btFMSpezModButton_1, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btFMSpezModButton_2, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(30, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		pFMCharInfoPanel_1.setLayout(gl_pFMCharInfoPanel_1);
 		
@@ -674,6 +753,7 @@ public class MainFrame {
 		tpFMCharInfoTabbedPane.addTab("Kampfnachbar*Innen", null, pFMCharInfoPanel_2, null);
 		
 		lFMNeiTitle = new JLabel("Kampfnachber*Innen");
+		lFMNeiTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lFMNeiTitle.setFont(new Font("Liberation Serif", Font.BOLD, 18));
 		
 		JPanel lFMNeiInfoPanel = new JPanel();
@@ -683,6 +763,7 @@ public class MainFrame {
 		lFMNeiListTitle.setFont(new Font("Liberation Serif", Font.BOLD, 12));
 		
 		liFMNeiList = new JList();
+		liFMNeiList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		liFMNeiList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent arg0) {
 				updateSelectedNeighbour();
@@ -739,12 +820,10 @@ public class MainFrame {
 		gl_pFMCharInfoPanel_2.setHorizontalGroup(
 			gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
+						.addComponent(lFMNeiTitle, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
 						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
-							.addGap(62)
-							.addComponent(lFMNeiTitle))
-						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
-							.addContainerGap()
 							.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING, false)
 									.addComponent(btFMNeiButton_0, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
@@ -754,7 +833,7 @@ public class MainFrame {
 								.addComponent(btFMNeiButton_1, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
-								.addComponent(liFMNeiList, GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
+								.addComponent(liFMNeiList, GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
 								.addComponent(lFMNeiListTitle))))
 					.addContainerGap())
 		);
@@ -762,6 +841,7 @@ public class MainFrame {
 			gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
 					.addComponent(lFMNeiTitle)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
 							.addGap(45)
@@ -910,6 +990,7 @@ public class MainFrame {
 		pFMSpezModPanel_0.setBackground(Color.WHITE);
 		
 		lFMSpezPropModLable = new JLabel("Eigenschafts Mods");
+		lFMSpezPropModLable.setHorizontalAlignment(SwingConstants.CENTER);
 		lFMSpezPropModLable.setFont(new Font("Liberation Serif", Font.BOLD, 16));
 		
 		lFMSpezPropModLable_0 = new JLabel("Mut");
@@ -1017,31 +1098,27 @@ public class MainFrame {
 				.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
 					.addGroup(gl_pFMSpezModPanel_0.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
+							.addContainerGap()
 							.addGroup(gl_pFMSpezModPanel_0.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
-									.addContainerGap()
-									.addGroup(gl_pFMSpezModPanel_0.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
-											.addComponent(lFMSpezPropModLable_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(tfFMSpezPropModField_0, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
-											.addComponent(lFMSpezPropModLable_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(tfFMSpezPropModField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))
+									.addComponent(lFMSpezPropModLable_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tfFMSpezPropModField_0, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
-									.addContainerGap()
+									.addComponent(lFMSpezPropModLable_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tfFMSpezPropModField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
 									.addComponent(lFMSpezPropModLable_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(tfFMSpezPropModField_2, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
-									.addContainerGap()
 									.addComponent(lFMSpezPropModLable_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(tfFMSpezPropModField_3, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+							.addGap(18)
 							.addGroup(gl_pFMSpezModPanel_0.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
-									.addGap(18)
 									.addGroup(gl_pFMSpezModPanel_0.createParallelGroup(Alignment.TRAILING)
 										.addComponent(lFMSpezPropModLable_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(lFMSpezPropModLable_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -1052,19 +1129,18 @@ public class MainFrame {
 										.addComponent(tfFMSpezPropModField_6, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 										.addComponent(tfFMSpezPropModField_5, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
 								.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
-									.addGap(18)
 									.addComponent(lFMSpezPropModLable_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(tfFMSpezPropModField_4, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
-							.addGap(69)
-							.addComponent(lFMSpezPropModLable))
-						.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
 							.addGap(60)
 							.addComponent(lFMSpezPropModLable_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tfFMSpezPropModField_8, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(63, Short.MAX_VALUE))
+							.addComponent(tfFMSpezPropModField_8, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pFMSpezModPanel_0.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lFMSpezPropModLable, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))
+					.addContainerGap())
 		);
 		gl_pFMSpezModPanel_0.setVerticalGroup(
 			gl_pFMSpezModPanel_0.createParallelGroup(Alignment.LEADING)
@@ -1103,7 +1179,7 @@ public class MainFrame {
 					.addGroup(gl_pFMSpezModPanel_0.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lFMSpezPropModLable_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(tfFMSpezPropModField_8, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(12, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		pFMSpezModPanel_0.setLayout(gl_pFMSpezModPanel_0);
 	}
@@ -1116,6 +1192,7 @@ public class MainFrame {
 		pFMSpezModPanel_1.setBackground(Color.WHITE);
 		
 		lFMSpezStatModLable = new JLabel("Basiswert Mods");
+		lFMSpezStatModLable.setHorizontalAlignment(SwingConstants.CENTER);
 		lFMSpezStatModLable.setFont(new Font("Liberation Serif", Font.BOLD, 16));
 		lFMSpezStatModLable.setAlignmentX(0.5f);
 		
@@ -1233,9 +1310,9 @@ public class MainFrame {
 		gl_pFMSpezModPanel_1.setHorizontalGroup(
 			gl_pFMSpezModPanel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pFMSpezModPanel_1.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_pFMSpezModPanel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pFMSpezModPanel_1.createSequentialGroup()
-							.addContainerGap()
 							.addGroup(gl_pFMSpezModPanel_1.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_pFMSpezModPanel_1.createSequentialGroup()
 									.addGroup(gl_pFMSpezModPanel_1.createParallelGroup(Alignment.LEADING)
@@ -1270,18 +1347,15 @@ public class MainFrame {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(tfFMSpezStatModField_5, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_pFMSpezModPanel_1.createSequentialGroup()
-							.addGap(79)
-							.addComponent(lFMSpezStatModLable))
-						.addGroup(gl_pFMSpezModPanel_1.createSequentialGroup()
-							.addContainerGap()
 							.addComponent(lFMSpezStatModLable_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(tfFMSpezStatModField_0, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(lFMSpezStatModLable_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tfFMSpezStatModField_6, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(61, Short.MAX_VALUE))
+							.addComponent(tfFMSpezStatModField_6, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lFMSpezStatModLable, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		gl_pFMSpezModPanel_1.setVerticalGroup(
 			gl_pFMSpezModPanel_1.createParallelGroup(Alignment.TRAILING)
@@ -1299,7 +1373,7 @@ public class MainFrame {
 						.addComponent(lFMSpezStatModLable_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(tfFMSpezStatModField_7, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lFMSpezStatModLable_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(gl_pFMSpezModPanel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lFMSpezStatModLable_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(tfFMSpezStatModField_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
@@ -1333,6 +1407,7 @@ public class MainFrame {
 		pFMGenModPanel_0.setBackground(Color.WHITE);
 		
 		lFMGenPropModTitle = new JLabel("Eigenschafts Mods");
+		lFMGenPropModTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lFMGenPropModTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
 		
 		lFMGenPropModLabel_0 = new JLabel("Mut");
@@ -1428,7 +1503,6 @@ public class MainFrame {
 		GroupLayout gl_pFMGenModPanel_0 = new GroupLayout(pFMGenModPanel_0);
 		gl_pFMGenModPanel_0.setHorizontalGroup(
 			gl_pFMGenModPanel_0.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 270, Short.MAX_VALUE)
 				.addGroup(gl_pFMGenModPanel_0.createSequentialGroup()
 					.addGroup(gl_pFMGenModPanel_0.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pFMGenModPanel_0.createSequentialGroup()
@@ -1467,18 +1541,17 @@ public class MainFrame {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(tfFMGenPropModField_4, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_pFMGenModPanel_0.createSequentialGroup()
-							.addGap(69)
-							.addComponent(lFMGenPropModTitle))
-						.addGroup(gl_pFMGenModPanel_0.createSequentialGroup()
 							.addGap(60)
 							.addComponent(lFMGenPropModLabel_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tfFMGenPropModField_8, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(26, Short.MAX_VALUE))
+							.addComponent(tfFMGenPropModField_8, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pFMGenModPanel_0.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lFMGenPropModTitle, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))
+					.addContainerGap())
 		);
 		gl_pFMGenModPanel_0.setVerticalGroup(
 			gl_pFMGenModPanel_0.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 157, Short.MAX_VALUE)
 				.addGroup(gl_pFMGenModPanel_0.createSequentialGroup()
 					.addComponent(lFMGenPropModTitle)
 					.addGap(11)
@@ -1527,6 +1600,7 @@ public class MainFrame {
 		pFMGenModPanel_1.setBackground(Color.WHITE);
 		
 		lFMGenStatModTitle = new JLabel("Basiswert Mods");
+		lFMGenStatModTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lFMGenStatModTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
 		lFMGenStatModTitle.setAlignmentX(0.5f);
 		
@@ -1633,11 +1707,10 @@ public class MainFrame {
 		GroupLayout gl_pFMGenModPanel_1 = new GroupLayout(pFMGenModPanel_1);
 		gl_pFMGenModPanel_1.setHorizontalGroup(
 			gl_pFMGenModPanel_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 270, Short.MAX_VALUE)
 				.addGroup(gl_pFMGenModPanel_1.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_pFMGenModPanel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_pFMGenModPanel_1.createSequentialGroup()
-							.addContainerGap()
 							.addGroup(gl_pFMGenModPanel_1.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_pFMGenModPanel_1.createSequentialGroup()
 									.addGroup(gl_pFMGenModPanel_1.createParallelGroup(Alignment.LEADING)
@@ -1672,22 +1745,18 @@ public class MainFrame {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(tfFMGenStatModField_5, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_pFMGenModPanel_1.createSequentialGroup()
-							.addGap(79)
-							.addComponent(lFMGenStatModTitle))
-						.addGroup(gl_pFMGenModPanel_1.createSequentialGroup()
-							.addContainerGap()
 							.addComponent(lFMGenStatModLabel_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(tfFMGenStatModField_0, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(lFMGenStatModLabel_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tfFMGenStatModField_6, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(26, Short.MAX_VALUE))
+							.addComponent(tfFMGenStatModField_6, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lFMGenStatModTitle, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		gl_pFMGenModPanel_1.setVerticalGroup(
 			gl_pFMGenModPanel_1.createParallelGroup(Alignment.TRAILING)
-				.addGap(0, 144, Short.MAX_VALUE)
 				.addGroup(gl_pFMGenModPanel_1.createSequentialGroup()
 					.addComponent(lFMGenStatModTitle, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -1844,6 +1913,1118 @@ public class MainFrame {
 		pFMCharPanel.setLayout(gl_pFMCharPanel);
 	}
 	
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void initFirstCharacterManagerPanel() {
+		pCMPanel_0 = new JPanel();
+		spCMSplitPane.setLeftComponent(pCMPanel_0);
+		
+		lCMP0Title = new JLabel("Charakter Liste");
+		lCMP0Title.setHorizontalAlignment(SwingConstants.CENTER);
+		lCMP0Title.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lCMP0Title.setFont(new Font("Liberation Serif", Font.BOLD, 24));
+		
+		btCharListButton_0 = new JButton("Neuer Charakter");
+		btCharListButton_0.setPreferredSize(new Dimension(175, 30));
+		btCharListButton_0.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btCharListButton_0.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addCharacter();
+			}
+		});
+		
+		btCharListButton_1 = new JButton("Charakter entfernen");
+		btCharListButton_1.setPreferredSize(new Dimension(175, 30));
+		btCharListButton_1.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btCharListButton_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				deleteCharacter();
+			}
+		});
+		
+		btCharListButton_2 = new JButton("Liste leeren");
+		btCharListButton_2.setPreferredSize(new Dimension(175, 30));
+		btCharListButton_2.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btCharListButton_2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				deleteAllCharacters();
+			}
+		});
+		
+		spCharListScrollPane = new JScrollPane();
+		
+		liCMCharList = new JList();
+		spCharListScrollPane.setViewportView(liCMCharList);
+		liCMCharList.setFont(new Font("Liberation Serif", Font.BOLD, 18));
+		liCMCharList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		liCMCharList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				updateSelectedCharacter();
+			}
+		});
+		liCMCharList.setModel(rCharManListModel);
+		
+		GroupLayout gl_pCMPanel_0 = new GroupLayout(pCMPanel_0);
+		gl_pCMPanel_0.setHorizontalGroup(
+			gl_pCMPanel_0.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pCMPanel_0.createSequentialGroup()
+					.addGroup(gl_pCMPanel_0.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pCMPanel_0.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_pCMPanel_0.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btCharListButton_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+								.addComponent(btCharListButton_0, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)))
+						.addGroup(gl_pCMPanel_0.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btCharListButton_2, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
+						.addGroup(gl_pCMPanel_0.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lCMP0Title, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)))
+					.addContainerGap())
+				.addComponent(spCharListScrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+		);
+		gl_pCMPanel_0.setVerticalGroup(
+			gl_pCMPanel_0.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMPanel_0.createSequentialGroup()
+					.addGap(5)
+					.addComponent(lCMP0Title)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(spCharListScrollPane, GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btCharListButton_0, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btCharListButton_1, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btCharListButton_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		pCMPanel_0.setLayout(gl_pCMPanel_0);
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	private void initSecondCharacterManagerPanel() {
+		pCMPanel_1 = new JPanel();
+		spCMSplitPane.setRightComponent(pCMPanel_1);
+		pCMPanel_1.setLayout(null);
+		
+		lCMP1Title = new JLabel("Charaktername");
+		lCMP1Title.setHorizontalAlignment(SwingConstants.CENTER);
+		lCMP1Title.setMaximumSize(new Dimension(200, 30));
+		lCMP1Title.setPreferredSize(new Dimension(150, 20));
+		lCMP1Title.setFont(new Font("Liberation Serif", Font.BOLD, 24));
+		lCMP1Title.setBounds(10, 0, 909, 27);
+		pCMPanel_1.add(lCMP1Title);
+		
+		initCharManGenPanel();
+		initCharManPropPanel();
+		initCharManStatPanel();
+		initCharManProPanel();
+		initCharManSpecialPanel();
+		initCharManArmorPanel();
+		initCharManEquimentPanel();
+		initCharManTalentPanel();
+		
+		spCMSplitPane.setDividerLocation(250);
+	}
+	
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	private void initCharManGenPanel() {
+		pCMGenPanel = new JPanel();
+		pCMGenPanel.setBackground(Color.WHITE);
+		pCMGenPanel.setBounds(10, 33, 290, 157);
+		pCMPanel_1.add(pCMGenPanel);
+		
+		lCMGenTitle = new JLabel("Allgemeines");
+		lCMGenTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lCMGenTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
+		
+		lCMGenLable_0 = new JLabel("Name");
+		lCMGenLable_0.setPreferredSize(new Dimension(80, 15));
+		lCMGenLable_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMGenLable_1 = new JLabel("Rasse");
+		lCMGenLable_1.setPreferredSize(new Dimension(80, 15));
+		lCMGenLable_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMGenLable_2 = new JLabel("Kultur");
+		lCMGenLable_2.setPreferredSize(new Dimension(80, 15));
+		lCMGenLable_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMGenLable_3 = new JLabel("Profession");
+		lCMGenLable_3.setPreferredSize(new Dimension(80, 15));
+		lCMGenLable_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		tfCMGenField_0 = new JTextField("");
+		tfCMGenField_0.setPreferredSize(new Dimension(6, 15));
+		tfCMGenField_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMGenField_0.setEditable(false);
+		tfCMGenField_0.setColumns(4);
+		
+		tfCMGenField_1 = new JTextField("");
+		tfCMGenField_1.setPreferredSize(new Dimension(6, 15));
+		tfCMGenField_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMGenField_1.setEditable(false);
+		tfCMGenField_1.setColumns(4);
+		
+		tfCMGenField_2 = new JTextField("");
+		tfCMGenField_2.setPreferredSize(new Dimension(6, 15));
+		tfCMGenField_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMGenField_2.setEditable(false);
+		tfCMGenField_2.setColumns(4);
+		
+		tfCMGenField_3 = new JTextField("");
+		tfCMGenField_3.setPreferredSize(new Dimension(6, 15));
+		tfCMGenField_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMGenField_3.setEditable(false);
+		tfCMGenField_3.setColumns(4);
+		
+		btCMGenButton = new JButton("Modifizieren");
+		btCMGenButton.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btCMGenButton.setEnabled(false);
+		btCMGenButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openGeneralFrame();
+			}
+		});
+		
+		GroupLayout gl_pCMGenPanel = new GroupLayout(pCMGenPanel);
+		gl_pCMGenPanel.setHorizontalGroup(
+			gl_pCMGenPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMGenPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pCMGenPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lCMGenTitle, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+						.addGroup(gl_pCMGenPanel.createSequentialGroup()
+							.addGroup(gl_pCMGenPanel.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(btCMGenButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(Alignment.LEADING, gl_pCMGenPanel.createSequentialGroup()
+									.addGroup(gl_pCMGenPanel.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(lCMGenLable_3, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+										.addComponent(lCMGenLable_2, 0, 0, Short.MAX_VALUE)
+										.addComponent(lCMGenLable_1, 0, 0, Short.MAX_VALUE)
+										.addComponent(lCMGenLable_0, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_pCMGenPanel.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(tfCMGenField_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(tfCMGenField_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(tfCMGenField_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(tfCMGenField_0, GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))))
+							.addPreferredGap(ComponentPlacement.RELATED, 8, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_pCMGenPanel.setVerticalGroup(
+			gl_pCMGenPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMGenPanel.createSequentialGroup()
+					.addComponent(lCMGenTitle, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMGenPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMGenLable_0, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMGenField_0, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMGenPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMGenLable_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMGenField_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMGenPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMGenLable_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMGenField_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMGenPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMGenLable_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMGenField_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(btCMGenButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		pCMGenPanel.setLayout(gl_pCMGenPanel);
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void initCharManPropPanel() {
+		pCMPropPanel = new JPanel();
+		pCMPropPanel.setBackground(Color.WHITE);
+		pCMPropPanel.setBounds(310, 33, 290, 199);
+		pCMPanel_1.add(pCMPropPanel);
+		
+		lCMPropTitle = new JLabel("Eigenschaften");
+		lCMPropTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lCMPropTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
+		
+		lCMPropLabel_0 = new JLabel("Mut");
+		lCMPropLabel_0.setPreferredSize(new Dimension(80, 15));
+		lCMPropLabel_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMPropLabel_1 = new JLabel("Klugheit");
+		lCMPropLabel_1.setPreferredSize(new Dimension(80, 15));
+		lCMPropLabel_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMPropLabel_2 = new JLabel("Intuition");
+		lCMPropLabel_2.setPreferredSize(new Dimension(80, 15));
+		lCMPropLabel_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMPropLabel_3 = new JLabel("Charisma");
+		lCMPropLabel_3.setPreferredSize(new Dimension(80, 15));
+		lCMPropLabel_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMPropLabel_4 = new JLabel("Fingerfertigkeit");
+		lCMPropLabel_4.setPreferredSize(new Dimension(80, 15));
+		lCMPropLabel_4.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMPropLabel_5 = new JLabel("Gewandtheit");
+		lCMPropLabel_5.setPreferredSize(new Dimension(80, 15));
+		lCMPropLabel_5.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMPropLabel_6 = new JLabel("Konstitution");
+		lCMPropLabel_6.setPreferredSize(new Dimension(80, 15));
+		lCMPropLabel_6.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMPropLabel_7 = new JLabel("K\u00F6rperkraft");
+		lCMPropLabel_7.setPreferredSize(new Dimension(80, 15));
+		lCMPropLabel_7.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMPropLabel_8 = new JLabel("Geschwindigkeit");
+		lCMPropLabel_8.setPreferredSize(new Dimension(80, 15));
+		lCMPropLabel_8.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMPropLabel_9 = new JLabel("Sozialstatus");
+		lCMPropLabel_9.setPreferredSize(new Dimension(80, 15));
+		lCMPropLabel_9.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		tfCMPropField_0 = new JTextField("0");
+		tfCMPropField_0.setPreferredSize(new Dimension(6, 15));
+		tfCMPropField_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_0.setEditable(false);
+		tfCMPropField_0.setColumns(2);
+		
+		tfCMPropField_1 = new JTextField("0");
+		tfCMPropField_1.setPreferredSize(new Dimension(6, 15));
+		tfCMPropField_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_1.setEditable(false);
+		tfCMPropField_1.setColumns(2);
+		
+		tfCMPropField_2 = new JTextField("0");
+		tfCMPropField_2.setPreferredSize(new Dimension(6, 15));
+		tfCMPropField_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_2.setEditable(false);
+		tfCMPropField_2.setColumns(2);
+		
+		tfCMPropField_3 = new JTextField("0");
+		tfCMPropField_3.setPreferredSize(new Dimension(6, 15));
+		tfCMPropField_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_3.setEditable(false);
+		tfCMPropField_3.setColumns(2);
+		
+		tfCMPropField_4 = new JTextField("0");
+		tfCMPropField_4.setPreferredSize(new Dimension(6, 15));
+		tfCMPropField_4.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_4.setEditable(false);
+		tfCMPropField_4.setColumns(2);
+		
+		tfCMPropField_5 = new JTextField("0");
+		tfCMPropField_5.setPreferredSize(new Dimension(6, 15));
+		tfCMPropField_5.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_5.setEditable(false);
+		tfCMPropField_5.setColumns(2);
+		
+		tfCMPropField_6 = new JTextField("0");
+		tfCMPropField_6.setPreferredSize(new Dimension(6, 15));
+		tfCMPropField_6.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_6.setEditable(false);
+		tfCMPropField_6.setColumns(2);
+		
+		tfCMPropField_7 = new JTextField("0");
+		tfCMPropField_7.setPreferredSize(new Dimension(6, 15));
+		tfCMPropField_7.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_7.setEditable(false);
+		tfCMPropField_7.setColumns(2);
+		
+		tfCMPropField_8 = new JTextField("0");
+		tfCMPropField_8.setPreferredSize(new Dimension(6, 15));
+		tfCMPropField_8.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_8.setEditable(false);
+		tfCMPropField_8.setColumns(2);
+		
+		tfCMPropField_9 = new JTextField("0");
+		tfCMPropField_9.setPreferredSize(new Dimension(6, 15));
+		tfCMPropField_9.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_9.setEditable(false);
+		tfCMPropField_9.setColumns(2);
+		
+		btCMPropButton = new JButton("Modifizieren");
+		btCMPropButton.setEnabled(false);
+		btCMPropButton.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btCMPropButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openPropertyFrame();
+			}
+		});
+		
+		GroupLayout gl_pCMPropPanel = new GroupLayout(pCMPropPanel);
+		gl_pCMPropPanel.setHorizontalGroup(
+			gl_pCMPropPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMPropPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pCMPropPanel.createSequentialGroup()
+							.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_pCMPropPanel.createSequentialGroup()
+									.addComponent(lCMPropLabel_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tfCMPropField_0, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_pCMPropPanel.createSequentialGroup()
+									.addComponent(lCMPropLabel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tfCMPropField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_pCMPropPanel.createSequentialGroup()
+									.addComponent(lCMPropLabel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tfCMPropField_2, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_pCMPropPanel.createSequentialGroup()
+									.addComponent(lCMPropLabel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tfCMPropField_3, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+							.addGap(32)
+							.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_pCMPropPanel.createSequentialGroup()
+									.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.TRAILING)
+										.addComponent(lCMPropLabel_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lCMPropLabel_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lCMPropLabel_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.LEADING)
+											.addComponent(tfCMPropField_7, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+											.addComponent(tfCMPropField_6, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+										.addComponent(tfCMPropField_5, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(gl_pCMPropPanel.createSequentialGroup()
+									.addComponent(lCMPropLabel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tfCMPropField_4, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))
+						.addComponent(lCMPropTitle, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+						.addGroup(gl_pCMPropPanel.createSequentialGroup()
+							.addComponent(lCMPropLabel_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMPropField_8, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(32)
+							.addComponent(lCMPropLabel_9, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMPropField_9, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btCMPropButton, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_pCMPropPanel.setVerticalGroup(
+			gl_pCMPropPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMPropPanel.createSequentialGroup()
+					.addComponent(lCMPropTitle)
+					.addGap(11)
+					.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMPropLabel_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMPropField_0, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMPropField_4, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMPropLabel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lCMPropLabel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(tfCMPropField_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lCMPropLabel_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(tfCMPropField_5, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lCMPropLabel_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(tfCMPropField_6, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lCMPropLabel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(tfCMPropField_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lCMPropLabel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lCMPropLabel_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(tfCMPropField_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+						.addComponent(tfCMPropField_7, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_pCMPropPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMPropLabel_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMPropField_8, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMPropField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMPropLabel_9, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btCMPropButton)
+					.addContainerGap(17, Short.MAX_VALUE))
+		);
+		pCMPropPanel.setLayout(gl_pCMPropPanel);
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void initCharManStatPanel() {
+		pCMStatPanel = new JPanel();
+		pCMStatPanel.setBackground(Color.WHITE);
+		pCMStatPanel.setBounds(10, 201, 290, 191);
+		pCMPanel_1.add(pCMStatPanel);
+		
+		lCMStatTitel = new JLabel("Basiswerte");
+		lCMStatTitel.setHorizontalAlignment(SwingConstants.CENTER);
+		lCMStatTitel.setFont(new Font("Liberation Serif", Font.BOLD, 16));
+		lCMStatTitel.setAlignmentX(0.5f);
+		
+		lCMStatLabel_0 = new JLabel("Lebenspunkte");
+		lCMStatLabel_0.setPreferredSize(new Dimension(80, 15));
+		lCMStatLabel_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMStatLabel_1 = new JLabel("Ausdauerpunkte");
+		lCMStatLabel_1.setPreferredSize(new Dimension(80, 15));
+		lCMStatLabel_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMStatLabel_2 = new JLabel("Astralpunkte");
+		lCMStatLabel_2.setPreferredSize(new Dimension(80, 15));
+		lCMStatLabel_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMStatLabel_3 = new JLabel("Karmapunkte");
+		lCMStatLabel_3.setPreferredSize(new Dimension(80, 15));
+		lCMStatLabel_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMStatLabel_4 = new JLabel("Magieresistenz");
+		lCMStatLabel_4.setPreferredSize(new Dimension(80, 15));
+		lCMStatLabel_4.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMStatLabel_5 = new JLabel("Wundschwelle");
+		lCMStatLabel_5.setPreferredSize(new Dimension(80, 15));
+		lCMStatLabel_5.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMStatLabel_6 = new JLabel("Ini-Basiswert");
+		lCMStatLabel_6.setPreferredSize(new Dimension(80, 15));
+		lCMStatLabel_6.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMStatLabel_7 = new JLabel("At-Basiswert");
+		lCMStatLabel_7.setPreferredSize(new Dimension(80, 15));
+		lCMStatLabel_7.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMStatLabel_8 = new JLabel("Pa-Pasiswert");
+		lCMStatLabel_8.setPreferredSize(new Dimension(80, 15));
+		lCMStatLabel_8.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMStatLabel_9 = new JLabel("Fk-Basiswert");
+		lCMStatLabel_9.setPreferredSize(new Dimension(80, 15));
+		lCMStatLabel_9.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		tfCMStatField_0 = new JTextField("0");
+		tfCMStatField_0.setPreferredSize(new Dimension(6, 15));
+		tfCMStatField_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_0.setEditable(false);
+		tfCMStatField_0.setColumns(4);
+		
+		tfCMStatField_1 = new JTextField("0");
+		tfCMStatField_1.setPreferredSize(new Dimension(6, 15));
+		tfCMStatField_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_1.setEditable(false);
+		tfCMStatField_1.setColumns(4);
+		
+		tfCMStatField_2 = new JTextField("0");
+		tfCMStatField_2.setPreferredSize(new Dimension(6, 15));
+		tfCMStatField_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_2.setEditable(false);
+		tfCMStatField_2.setColumns(4);
+		
+		tfCMStatField_3 = new JTextField("0");
+		tfCMStatField_3.setPreferredSize(new Dimension(6, 15));
+		tfCMStatField_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_3.setEditable(false);
+		tfCMStatField_3.setColumns(4);
+		
+		tfCMStatField_4 = new JTextField("0");
+		tfCMStatField_4.setPreferredSize(new Dimension(6, 15));
+		tfCMStatField_4.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_4.setEditable(false);
+		tfCMStatField_4.setColumns(2);
+		
+		tfCMStatField_5 = new JTextField("0");
+		tfCMStatField_5.setPreferredSize(new Dimension(6, 15));
+		tfCMStatField_5.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_5.setEditable(false);
+		tfCMStatField_5.setColumns(2);
+		
+		tfCMStatField_6 = new JTextField("0");
+		tfCMStatField_6.setPreferredSize(new Dimension(6, 15));
+		tfCMStatField_6.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_6.setEditable(false);
+		tfCMStatField_6.setColumns(2);
+		
+		tfCMStatField_7 = new JTextField("0");
+		tfCMStatField_7.setPreferredSize(new Dimension(6, 15));
+		tfCMStatField_7.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_7.setEditable(false);
+		tfCMStatField_7.setColumns(2);
+		
+		tfCMStatField_8 = new JTextField("0");
+		tfCMStatField_8.setPreferredSize(new Dimension(6, 15));
+		tfCMStatField_8.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_8.setEditable(false);
+		tfCMStatField_8.setColumns(2);
+		
+		tfCMStatField_9 = new JTextField("0");
+		tfCMStatField_9.setPreferredSize(new Dimension(6, 15));
+		tfCMStatField_9.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_9.setEditable(false);
+		tfCMStatField_9.setColumns(2);
+		
+		btCMStatButton = new JButton("Modifizieren");
+		btCMStatButton.setEnabled(false);
+		btCMStatButton.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btCMStatButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openStatusFrame();
+			}
+		});
+		
+		GroupLayout gl_pCMStatPanel = new GroupLayout(pCMStatPanel);
+		gl_pCMStatPanel.setHorizontalGroup(
+			gl_pCMStatPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMStatPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pCMStatPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lCMStatTitel, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+						.addGroup(gl_pCMStatPanel.createSequentialGroup()
+							.addComponent(lCMStatLabel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMStatField_1, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lCMStatLabel_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMStatField_7, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pCMStatPanel.createSequentialGroup()
+							.addComponent(lCMStatLabel_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMStatField_0, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lCMStatLabel_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMStatField_6, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pCMStatPanel.createSequentialGroup()
+							.addComponent(lCMStatLabel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMStatField_2, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lCMStatLabel_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMStatField_8, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pCMStatPanel.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(btCMStatButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGroup(Alignment.LEADING, gl_pCMStatPanel.createSequentialGroup()
+								.addGroup(gl_pCMStatPanel.createParallelGroup(Alignment.TRAILING, false)
+									.addGroup(Alignment.LEADING, gl_pCMStatPanel.createSequentialGroup()
+										.addComponent(lCMStatLabel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(tfCMStatField_4, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lCMStatLabel_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addGroup(Alignment.LEADING, gl_pCMStatPanel.createSequentialGroup()
+										.addComponent(lCMStatLabel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(tfCMStatField_3, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(lCMStatLabel_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_pCMStatPanel.createParallelGroup(Alignment.LEADING)
+									.addComponent(tfCMStatField_5, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+									.addComponent(tfCMStatField_9, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))))
+					.addContainerGap())
+		);
+		gl_pCMStatPanel.setVerticalGroup(
+			gl_pCMStatPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_pCMStatPanel.createSequentialGroup()
+					.addComponent(lCMStatTitel, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMStatPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMStatLabel_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMStatField_0, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMStatLabel_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMStatField_6, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addGap(5)
+					.addGroup(gl_pCMStatPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(tfCMStatField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMStatLabel_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMStatLabel_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMStatField_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMStatPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMStatLabel_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMStatField_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMStatLabel_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMStatField_8, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMStatPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMStatLabel_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMStatField_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMStatLabel_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMStatField_9, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_pCMStatPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMStatLabel_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMStatField_4, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMStatLabel_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMStatField_5, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btCMStatButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(47, Short.MAX_VALUE))
+		);
+		pCMStatPanel.setLayout(gl_pCMStatPanel);
+		
+		
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void initCharManProPanel() {
+		pCMProPanel = new JPanel();
+		pCMProPanel.setBackground(UIManager.getColor("Button.highlight"));
+		pCMProPanel.setBounds(10, 413, 290, 145);
+		pCMPanel_1.add(pCMProPanel);
+		
+		lCMProTitel = new JLabel("Vor- und Nachteile");
+		lCMProTitel.setHorizontalAlignment(SwingConstants.CENTER);
+		lCMProTitel.setFont(new Font("Liberation Serif", Font.BOLD, 16));
+		
+		btCMProButton = new JButton("Modifizieren");
+		btCMProButton.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btCMProButton.setEnabled(false);
+		btCMProButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openProFrame();
+			}
+		});
+		
+		spProPanelScrollPane = new JScrollPane();
+		spProPanelScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		taCMProTextArea = new JTextArea();
+		taCMProTextArea.setLineWrap(true);
+		spProPanelScrollPane.setViewportView(taCMProTextArea);
+		taCMProTextArea.setFont(new Font("Liberation Serif", Font.PLAIN, 10));
+		taCMProTextArea.setEditable(false);
+		taCMProTextArea.setBackground(SystemColor.controlHighlight);
+		
+		GroupLayout gl_pCMProPanel = new GroupLayout(pCMProPanel);
+		gl_pCMProPanel.setHorizontalGroup(
+			gl_pCMProPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pCMProPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pCMProPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(spProPanelScrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+						.addComponent(lCMProTitel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+						.addComponent(btCMProButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_pCMProPanel.setVerticalGroup(
+			gl_pCMProPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMProPanel.createSequentialGroup()
+					.addComponent(lCMProTitel)
+					.addGap(1)
+					.addComponent(spProPanelScrollPane, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btCMProButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		pCMProPanel.setLayout(gl_pCMProPanel);
+	}
+	/**	Dh	2.7.2020
+	 * 
+	 */
+	private void initCharManSpecialPanel() {
+		pCMSpecialPanel = new JPanel();
+		pCMSpecialPanel.setBackground(Color.WHITE);
+		pCMSpecialPanel.setBounds(310, 455, 290, 254);
+		pCMPanel_1.add(pCMSpecialPanel);
+		
+		lCMSpecialTitle = new JLabel("Sonderfertigkeiten");
+		lCMSpecialTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lCMSpecialTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
+		
+		btCMSpecialButton = new JButton("Modifizieren");
+		btCMSpecialButton.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btCMSpecialButton.setEnabled(false);
+		btCMSpecialButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openSpecialCraftFrame();
+			}
+		});
+		
+		spSpecialPanelScrollPane = new JScrollPane();
+		spSpecialPanelScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		taCMSpecialTextArea = new JTextArea();
+		taCMSpecialTextArea.setLineWrap(true);
+		spSpecialPanelScrollPane.setViewportView(taCMSpecialTextArea);
+		taCMSpecialTextArea.setFont(new Font("Liberation Serif", Font.PLAIN, 10));
+		taCMSpecialTextArea.setEditable(false);
+		taCMSpecialTextArea.setBackground(SystemColor.controlHighlight);
+		
+		GroupLayout gl_pCMSpecialPanel = new GroupLayout(pCMSpecialPanel);
+		gl_pCMSpecialPanel.setHorizontalGroup(
+			gl_pCMSpecialPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_pCMSpecialPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pCMSpecialPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(spSpecialPanelScrollPane, Alignment.LEADING)
+						.addComponent(lCMSpecialTitle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+						.addComponent(btCMSpecialButton, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_pCMSpecialPanel.setVerticalGroup(
+			gl_pCMSpecialPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMSpecialPanel.createSequentialGroup()
+					.addComponent(lCMSpecialTitle)
+					.addGap(1)
+					.addComponent(spSpecialPanelScrollPane, GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btCMSpecialButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		pCMSpecialPanel.setLayout(gl_pCMSpecialPanel);
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	private void initCharManArmorPanel() {
+		pCMArmorPanel = new JPanel();
+		pCMArmorPanel.setBackground(Color.WHITE);
+		pCMArmorPanel.setBounds(310, 243, 290, 191);
+		pCMPanel_1.add(pCMArmorPanel);
+		
+		lCMArmorTitle = new JLabel("R\u00FCstung");
+		lCMArmorTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lCMArmorTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
+		
+		lCMArmorLabel_0 = new JLabel("Kopf");
+		lCMArmorLabel_0.setPreferredSize(new Dimension(80, 15));
+		lCMArmorLabel_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMArmorLabel_1 = new JLabel("Brust");
+		lCMArmorLabel_1.setPreferredSize(new Dimension(80, 15));
+		lCMArmorLabel_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMArmorLabel_2 = new JLabel("R\u00FCcken");
+		lCMArmorLabel_2.setPreferredSize(new Dimension(80, 15));
+		lCMArmorLabel_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMArmorLabel_3 = new JLabel("rechter Arm");
+		lCMArmorLabel_3.setPreferredSize(new Dimension(80, 15));
+		lCMArmorLabel_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMArmorLabel_4 = new JLabel("linker Arm");
+		lCMArmorLabel_4.setPreferredSize(new Dimension(80, 15));
+		lCMArmorLabel_4.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMArmorLabel_5 = new JLabel("Bauch");
+		lCMArmorLabel_5.setPreferredSize(new Dimension(80, 15));
+		lCMArmorLabel_5.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMArmorLabel_6 = new JLabel("rechtes Bein");
+		lCMArmorLabel_6.setPreferredSize(new Dimension(80, 15));
+		lCMArmorLabel_6.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMArmorLabel_7 = new JLabel("linkes Bein");
+		lCMArmorLabel_7.setPreferredSize(new Dimension(80, 15));
+		lCMArmorLabel_7.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMArmorLabel_8 = new JLabel("Gesamte RS");
+		lCMArmorLabel_8.setPreferredSize(new Dimension(80, 15));
+		lCMArmorLabel_8.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lCMArmorLabel_9 = new JLabel("Behinderung");
+		lCMArmorLabel_9.setPreferredSize(new Dimension(80, 15));
+		lCMArmorLabel_9.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		tfCMArmorField_0 = new JTextField("0");
+		tfCMArmorField_0.setPreferredSize(new Dimension(6, 15));
+		tfCMArmorField_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_0.setEditable(false);
+		tfCMArmorField_0.setColumns(2);
+		
+		tfCMArmorField_1 = new JTextField("0");
+		tfCMArmorField_1.setPreferredSize(new Dimension(6, 15));
+		tfCMArmorField_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_1.setEditable(false);
+		tfCMArmorField_1.setColumns(2);
+		
+		tfCMArmorField_2 = new JTextField("0");
+		tfCMArmorField_2.setPreferredSize(new Dimension(6, 15));
+		tfCMArmorField_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_2.setEditable(false);
+		tfCMArmorField_2.setColumns(2);
+		
+		tfCMArmorField_3 = new JTextField("0");
+		tfCMArmorField_3.setPreferredSize(new Dimension(6, 15));
+		tfCMArmorField_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_3.setEditable(false);
+		tfCMArmorField_3.setColumns(2);
+		
+		tfCMArmorField_4 = new JTextField("0");
+		tfCMArmorField_4.setPreferredSize(new Dimension(6, 15));
+		tfCMArmorField_4.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_4.setEditable(false);
+		tfCMArmorField_4.setColumns(2);
+		
+		tfCMArmorField_5 = new JTextField("0");
+		tfCMArmorField_5.setPreferredSize(new Dimension(6, 15));
+		tfCMArmorField_5.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_5.setEditable(false);
+		tfCMArmorField_5.setColumns(2);
+		
+		tfCMArmorField_6 = new JTextField("0");
+		tfCMArmorField_6.setPreferredSize(new Dimension(6, 15));
+		tfCMArmorField_6.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_6.setEditable(false);
+		tfCMArmorField_6.setColumns(2);
+		
+		tfCMArmorField_7 = new JTextField("0");
+		tfCMArmorField_7.setPreferredSize(new Dimension(6, 15));
+		tfCMArmorField_7.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_7.setEditable(false);
+		tfCMArmorField_7.setColumns(2);
+		
+		tfCMArmorField_8 = new JTextField("0");
+		tfCMArmorField_8.setPreferredSize(new Dimension(6, 15));
+		tfCMArmorField_8.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_8.setEditable(false);
+		tfCMArmorField_8.setColumns(2);
+		
+		tfCMArmorField_9 = new JTextField("0");
+		tfCMArmorField_9.setPreferredSize(new Dimension(6, 15));
+		tfCMArmorField_9.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_9.setEditable(false);
+		tfCMArmorField_9.setColumns(2);
+		
+		btCMArmorButton = new JButton("Modifizieren");
+		btCMArmorButton.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btCMArmorButton.setEnabled(false);
+		btCMArmorButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openArmorFrame();
+			}
+		});
+		
+		GroupLayout gl_pCMArmorPanel = new GroupLayout(pCMArmorPanel);
+		gl_pCMArmorPanel.setHorizontalGroup(
+			gl_pCMArmorPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMArmorPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pCMArmorPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lCMArmorTitle, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+						.addGroup(gl_pCMArmorPanel.createSequentialGroup()
+							.addComponent(lCMArmorLabel_0, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMArmorField_0, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lCMArmorLabel_4, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMArmorField_4, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pCMArmorPanel.createSequentialGroup()
+							.addComponent(lCMArmorLabel_1, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMArmorField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lCMArmorLabel_5, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMArmorField_5, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pCMArmorPanel.createSequentialGroup()
+							.addComponent(lCMArmorLabel_2, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMArmorField_2, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lCMArmorLabel_6, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMArmorField_6, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pCMArmorPanel.createSequentialGroup()
+							.addComponent(lCMArmorLabel_3, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMArmorField_3, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lCMArmorLabel_7, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMArmorField_7, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pCMArmorPanel.createSequentialGroup()
+							.addComponent(lCMArmorLabel_8, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMArmorField_8, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lCMArmorLabel_9, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfCMArmorField_9, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btCMArmorButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_pCMArmorPanel.setVerticalGroup(
+			gl_pCMArmorPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMArmorPanel.createSequentialGroup()
+					.addComponent(lCMArmorTitle, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMArmorPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMArmorLabel_0, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMArmorField_0, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMArmorLabel_4, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMArmorField_4, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMArmorPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMArmorLabel_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMArmorField_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMArmorLabel_5, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMArmorField_5, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMArmorPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMArmorLabel_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMArmorField_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMArmorLabel_6, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMArmorField_6, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pCMArmorPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMArmorLabel_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMArmorField_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMArmorLabel_7, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMArmorField_7, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_pCMArmorPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lCMArmorLabel_8, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMArmorField_8, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lCMArmorLabel_9, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfCMArmorField_9, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(btCMArmorButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(29, Short.MAX_VALUE))
+		);
+		pCMArmorPanel.setLayout(gl_pCMArmorPanel);
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	private void initCharManEquimentPanel() {
+		pCMEquipmentPanel = new JPanel();
+		pCMEquipmentPanel.setBackground(Color.WHITE);
+		pCMEquipmentPanel.setBounds(10, 569, 290, 140);
+		pCMPanel_1.add(pCMEquipmentPanel);
+		
+		spCMEquipmentScrollPane = new JScrollPane();
+		spCMEquipmentScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		taCMEquipmentTextArea = new JTextArea();
+		taCMEquipmentTextArea.setLineWrap(true);
+		taCMEquipmentTextArea.setFont(new Font("Liberation Serif", Font.PLAIN, 10));
+		taCMEquipmentTextArea.setEditable(false);
+		taCMEquipmentTextArea.setBackground(SystemColor.controlHighlight);
+		spCMEquipmentScrollPane.setViewportView(taCMEquipmentTextArea);
+		
+		lCMEquipmentTitle = new JLabel("Ausr\u00FCstung");
+		lCMEquipmentTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lCMEquipmentTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
+		
+		btCMEquipmentButton = new JButton("Modifizieren");
+		btCMEquipmentButton.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btCMEquipmentButton.setEnabled(false);
+		btCMEquipmentButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openEquipmentFrame();
+			}
+		});
+		
+		GroupLayout gl_pCMEquipmentPanel = new GroupLayout(pCMEquipmentPanel);
+		gl_pCMEquipmentPanel.setHorizontalGroup(
+			gl_pCMEquipmentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_pCMEquipmentPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pCMEquipmentPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(spCMEquipmentScrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+						.addComponent(lCMEquipmentTitle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+						.addComponent(btCMEquipmentButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_pCMEquipmentPanel.setVerticalGroup(
+			gl_pCMEquipmentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMEquipmentPanel.createSequentialGroup()
+					.addComponent(lCMEquipmentTitle)
+					.addGap(1)
+					.addComponent(spCMEquipmentScrollPane, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btCMEquipmentButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		pCMEquipmentPanel.setLayout(gl_pCMEquipmentPanel);
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	private void initCharManTalentPanel() {
+		pCMTalentPanel = new JPanel();
+		pCMTalentPanel.setBackground(Color.WHITE);
+		pCMTalentPanel.setBounds(610, 33, 309, 676);
+		pCMPanel_1.add(pCMTalentPanel);
+		
+		lCMTalentTitle = new JLabel("Talente");
+		lCMTalentTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lCMTalentTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
+		
+		spCMTalentScrollPane = new JScrollPane();
+		
+		tCMTalentPanelTable = new JTable();
+		tCMTalentPanelTable.setEnabled(false);
+		tCMTalentPanelTable.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tCMTalentPanelTable.setModel(rCMTalentTableModel);
+		tCMTalentPanelTable.getTableHeader().setReorderingAllowed(false);
+		spCMTalentScrollPane.setViewportView(tCMTalentPanelTable);
+		
+		btCMTalentButton = new JButton("Modifizieren");
+		btCMTalentButton.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btCMTalentButton.setEnabled(false);
+		btCMTalentButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openTalentFrame();
+			}
+		});
+		
+		GroupLayout gl_pCMTalentPanel = new GroupLayout(pCMTalentPanel);
+		gl_pCMTalentPanel.setHorizontalGroup(
+			gl_pCMTalentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_pCMTalentPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pCMTalentPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(spCMTalentScrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
+						.addComponent(lCMTalentTitle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
+						.addComponent(btCMTalentButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_pCMTalentPanel.setVerticalGroup(
+			gl_pCMTalentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pCMTalentPanel.createSequentialGroup()
+					.addComponent(lCMTalentTitle, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(spCMTalentScrollPane, GroupLayout.PREFERRED_SIZE, 600, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btCMTalentButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		pCMTalentPanel.setLayout(gl_pCMTalentPanel);
+	}
+	
 //--------------------------------------------------------------------------------------------------------
 	
 	/**	Dh	17.5.2020
@@ -1869,7 +3050,7 @@ public class MainFrame {
 	 * @param pGenStatMods
 	 * @throws Exception
 	 */
-	protected void addGenStatMods(double[] pGenStatMods) throws Exception {
+	protected void addGenStatMods(int[] pGenStatMods) throws Exception {
 		if(pGenStatMods != null) {
 			if (pGenStatMods.length == 10) {
 				for (int i=0; i<pGenStatMods.length; i++) {
@@ -1881,7 +3062,18 @@ public class MainFrame {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	20.5.2020
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	protected Point getMiddlePosition() {
+		Point vPos = frmDsaAppV.getLocation();
+		vPos.setLocation(vPos.getX()+(zWidth/2), vPos.getY()+(zHeight/2));
+		return vPos;
+	}
+	
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	24.6.2020
 	 * 	
 	 * 	Ueberfuehrt die gegebener FighterList in das angegebene ListModel.
 	 * 
@@ -1919,12 +3111,116 @@ public class MainFrame {
 						vFiEle = rFM.getFightElement(((NeighbourElement)vListEle).getID());
 						if (vFiEle != null) pJLM.addElement(vFiEle.getCharacter().getName(), ((NeighbourElement)vListEle).getID());
 						else throw new Exception("04; MaFra, aLtM");
+					} else if (vListEle instanceof Charakter) {
+						pJLM.addElement(((Charakter)vListEle).getName(), ((Charakter)vListEle).getID());
 					} else throw new Exception("06; MaFra, aLtM");
 					
 					pList.next();
 				}
 			}else throw new Exception("04; MaFra, aLtM");
 		}//else throw new Exception("05; MaFra, aLtM");
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pTA
+	 * @param pList
+	 * @throws Exception
+	 */
+	private void addListToTextArea(JTextArea pTA, List pList) throws Exception{
+		Object vListEle;
+		String vText = "";
+		
+		if (!pList.isEmpty()) {
+			if (pTA != null) {
+				pTA.setText("");
+				pList.toFirst();
+				
+				while(!pList.isEnd()) {
+					vListEle = pList.getCurrent();
+					
+					if (vListEle instanceof Pro) vText = ((Pro)vListEle).getName();
+					else if (vListEle instanceof SpecialCraft) vText = (((SpecialCraft)vListEle).getName());
+					else if (vListEle instanceof Weapon) vText = (((Weapon)vListEle).getName());
+					else throw new Exception("06; MaFra, aLtTA");
+					
+					//if (vListEle instanceof Referred) 
+					if (vListEle instanceof Stringed) vText += " " + ((Stringed)vListEle).getStringedValue();
+					if (vListEle instanceof Valued) vText += " " + ((Valued)vListEle).getValue();
+					
+					pTA.append(vText);
+					
+					if (!pList.isLast()) pTA.append(", ");
+					else pTA.append(".");
+					
+					pList.next();
+				}
+			}else throw new Exception("04; MaFra, aLtTA");
+		}//else throw new Exception("05; MaFra, aLtTA");
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * 	TableType:
+	 * 	  00: BasicTalents
+	 * 
+	 * @param pJTM
+	 * @param pList
+	 * @param pTableType
+	 * @throws Exception
+	 */
+	private void addListToTable(JTable pJT, List pList, int pTableType) throws Exception{
+		Object vListEle;
+		String vText = "";
+		Object[][] vData;
+		int[] vIDs;
+		String[] vColTitle;
+		
+		if (pJT != null) {
+			if (!pList.isEmpty()) {
+				if ((pTableType >= 0) && (pTableType < 1)) {
+					pList.toFirst();
+					
+					vIDs = new int[pList.getContentNumber()];
+					if (pTableType == 0) {
+						vColTitle = new String[] {"Talent", "TaW"};
+						vData = new Object[vIDs.length][2];
+					}
+					else {
+						vColTitle = null;
+						vData = null;
+					}
+					
+					for(int i=0; !pList.isEnd(); i++) {
+						vListEle = pList.getCurrent();
+						
+						if (vListEle instanceof Talent) {
+							vIDs[i] = ((Talent)vListEle).getID();
+							vData[i][0] = ((Talent)vListEle).getName();
+							vData[i][1] = ((Talent)vListEle).getTaW();
+						}
+						else throw new Exception("06; MaFra, aLtT");
+						
+						pList.next();
+					}
+					
+					((JTableModel)pJT.getModel()).setNewTable(vColTitle, vIDs, vData);
+					
+					//pJT.setEnabled(true);
+					pJT.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer() {
+						@Override
+						public Component getTableCellRendererComponent(JTable pTable, Object pObj, boolean isSelected, boolean hasFocus, int pRow, int pCol) {
+							setHorizontalAlignment(SwingConstants.CENTER);
+							setText(""+pTable.getValueAt(pRow, pCol));
+							return this;
+						}
+					});
+					//pJT.getColumnModel().getColumn(1).setWidth(15);
+					pJT.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+					pJT.getColumnModel().getColumn(0).setPreferredWidth(250);
+					
+					
+				} else throw new Exception("02; MaFra, aLtT");
+			}else ((JTableModel)pJT.getModel()).clearTable();
+		}else throw new Exception("04; MaFra, aLtT");
 	}
 	
 	/**	Dh	17.5.2020
@@ -1994,6 +3290,39 @@ public class MainFrame {
 			btCharFieldButton_0.setEnabled(pEnable);
 		}
 	}
+	//-----
+	/**	Dh	24.6.2020
+	 * 
+	 * @param pEnable
+	 */
+	private void setCharacterLisSelectionObjectsEnable(boolean pEnable) {
+		int vIndSel = liCMCharList.getSelectedIndex();
+		
+		btCharListButton_0.setEnabled(pEnable);
+		if ((rCharManListModel.getSize() > 0) || (pEnable == false)) {
+			if ((pEnable == false) || (vIndSel == -1)) btCharListButton_1.setEnabled(pEnable);
+			btCharListButton_2.setEnabled(pEnable);
+		}
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 * @param pEnable
+	 */
+	private void setCharManSelectedObjectes(boolean pEnable) {
+		int vIndSel = liCMCharList.getSelectedIndex();
+		
+		if ((vIndSel != -1) || (pEnable == false)) {
+			btCharListButton_1.setEnabled(pEnable);
+			//btCMGenButton.setEnabled(pEnable);
+			btCMPropButton.setEnabled(pEnable);
+			btCMStatButton.setEnabled(pEnable);
+			btCMProButton.setEnabled(pEnable);
+			btCMSpecialButton.setEnabled(pEnable);
+			btCMArmorButton.setEnabled(pEnable);
+			btCMEquipmentButton.setEnabled(pEnable);
+			//btCMTalentButton.setEnabled(pEnable);
+		}
+	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
@@ -2044,6 +3373,7 @@ public class MainFrame {
 	 */
 	private void updateNeighbourList() {
 		int vFightID, vID, vTempID, vInd, vFightInd;
+
 		vInd = liFMNeiList.getSelectedIndex();
 		vFightInd = liFMFightList.getSelectedIndex();
 		if (vInd != -1) vID = (int)((JListModelElement)rNeiListModel.get(vInd)).getObject();
@@ -2071,15 +3401,55 @@ public class MainFrame {
 		updateSelectedNeighbour();
 		updateCharaField();
 	}
+	//-----
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void updateCharacterList() {
+		int vID, vTempID, vInd;
+		vInd = liCMCharList.getSelectedIndex();
+		if (vInd != -1) vID = (int)((JListModelElement)rCharManListModel.get(vInd)).getObject();
+		else vID = -1;
+		
+		rCharManListModel.removeAllElements();
+		try {addListToModel(rCharManListModel, rCM.getCharacterList());}
+		catch(Exception ex) {handleException(ex);}
+		
+		if (vInd != -1) {
+			for (int i=0; i<rCharManListModel.getSize(); i++) {
+				vTempID = (int)((JListModelElement)rCharManListModel.get(i)).getObject();
+				
+				if (vID == vTempID) {
+					liCMCharList.setSelectedIndex(i);
+					i = rCharManListModel.getSize();
+				}
+			}
+		}
+		if (rCharManListModel.getSize() > 0) setCharacterLisSelectionObjectsEnable(true);
+		//else setCharacterLisSelectionObjectsEnable(false);
+	}
 	
-	/**	Dh	11.5.2020
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void updateFightManagerLists() {
+		updateFightList();
+		updateIniList();
+		updateNeighbourList();
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void updateCharacterManagerLists() {
+		updateCharacterList();
+	}
+	/**	Dh	24.6.2020
 	 * 
 	 * 	Updated alle Listen der GUI.
 	 */
 	private void updateLists() {
-		updateFightList();
-		updateIniList();
-		updateNeighbourList();
+		updateCharacterManagerLists();
+		updateFightManagerLists();
 	}
 	
 	/**	Dh	20.5.2020
@@ -2231,7 +3601,7 @@ public class MainFrame {
 		tfFMGenStatModField_9.setText(""+(int)zGenStatMods[9]);
 	}
 	
-	/**	Dh	26.5.2020
+	/**	Dh	24.5.2020
 	 * 
 	 * 	Updatet die angezeigten Kaempfer*Innen.
 	 */
@@ -2243,7 +3613,6 @@ public class MainFrame {
 		
 		vInd = liFMIniList.getSelectedIndex();
 		if (vInd != -1) {
-	
 			for (int u=0; u < aCharPanelArray.length; u++) {
 				if(aCharPanelArray[u] != null) {
 					aCharPanelArray[u].removePanel();
@@ -2280,12 +3649,15 @@ public class MainFrame {
 					}
 				}
 			} catch (Exception ex) {if (!ex.getMessage().contains("05")) handleException(ex);}
+			
 			updateCharFieldPos();
+			
 			pFMPanel_0.update(pFMPanel_0.getGraphics());
 			pFMPanel_0.validate();
+			
 		}
 	}
-	/**	Dh	26.5.2020
+	/**	Dh	24.5.2020
 	 * 
 	 * 	Updatet die Positionen der angezeigten Kaempfer*Innen.
 	 */
@@ -2348,6 +3720,115 @@ public class MainFrame {
 			} catch(Exception ex) {handleException(ex);}
 		}
 	}
+	//-----
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	private void updateSelectedCharacter() {
+		int vSelInd, vID;
+		
+		vSelInd = liCMCharList.getSelectedIndex();
+		if (vSelInd != -1) {
+			vID = (int) rCharManListModel.getObjectAt(vSelInd);
+			try {
+				lCMP1Title.setText(""+rCM.getNameOfCharacter(vID));
+				
+				tfCMGenField_0.setText(""+rCM.getNameOfCharacter(vID));
+				tfCMGenField_1.setText(""+rCM.getRaceOfCharacter(vID));
+				tfCMGenField_2.setText("");
+				tfCMGenField_3.setText("");
+				
+				tfCMPropField_0.setText(""+rCM.getPropertyOfCharacter(vID, 0));
+				tfCMPropField_1.setText(""+rCM.getPropertyOfCharacter(vID, 1));
+				tfCMPropField_2.setText(""+rCM.getPropertyOfCharacter(vID, 2));
+				tfCMPropField_3.setText(""+rCM.getPropertyOfCharacter(vID, 3));
+				tfCMPropField_4.setText(""+rCM.getPropertyOfCharacter(vID, 4));
+				tfCMPropField_5.setText(""+rCM.getPropertyOfCharacter(vID, 5));
+				tfCMPropField_6.setText(""+rCM.getPropertyOfCharacter(vID, 6));
+				tfCMPropField_7.setText(""+rCM.getPropertyOfCharacter(vID, 7));
+				tfCMPropField_8.setText(""+rCM.getVelocityOfCharacter(vID));
+				tfCMPropField_9.setText(""+rCM.getSocialStatusOfCharacter(vID));
+				
+				tfCMStatField_0.setText(""+rCM.getStatOfCharacter(vID, 0)+"/"+rCM.getMaxStatOfCharacter(vID, 0));
+				tfCMStatField_1.setText(""+rCM.getStatOfCharacter(vID, 1)+"/"+rCM.getMaxStatOfCharacter(vID, 1));
+				tfCMStatField_2.setText(""+rCM.getStatOfCharacter(vID, 2)+"/"+rCM.getMaxStatOfCharacter(vID, 2));
+				tfCMStatField_3.setText(""+rCM.getStatOfCharacter(vID, 3)+"/"+rCM.getMaxStatOfCharacter(vID, 3));
+				tfCMStatField_4.setText(""+(int)rCM.getMagicResistanceOfCharacter(vID));
+				tfCMStatField_5.setText(""+(int)rCM.getWoundThresholdOfCharacter(vID));
+				tfCMStatField_6.setText(""+(int)rCM.getFightValueOfCharacter(vID, 0));
+				tfCMStatField_7.setText(""+(int)rCM.getFightValueOfCharacter(vID, 1));
+				tfCMStatField_8.setText(""+(int)rCM.getFightValueOfCharacter(vID, 2));
+				tfCMStatField_9.setText(""+(int)rCM.getFightValueOfCharacter(vID, 3));
+				
+				addListToTextArea(taCMProTextArea, rCM.getProListOfCharacter(vID));
+				addListToTextArea(taCMSpecialTextArea, rCM.getSpecialCraftListOfCharacter(vID));
+				
+				tfCMArmorField_0.setText(""+(int)rCM.getArmorValueOfCharacter(vID, 0));
+				tfCMArmorField_1.setText(""+(int)rCM.getArmorValueOfCharacter(vID, 1));
+				tfCMArmorField_2.setText(""+(int)rCM.getArmorValueOfCharacter(vID, 2));
+				tfCMArmorField_3.setText(""+(int)rCM.getArmorValueOfCharacter(vID, 3));
+				tfCMArmorField_4.setText(""+(int)rCM.getArmorValueOfCharacter(vID, 4));
+				tfCMArmorField_5.setText(""+(int)rCM.getArmorValueOfCharacter(vID, 5));
+				tfCMArmorField_6.setText(""+(int)rCM.getArmorValueOfCharacter(vID, 6));
+				tfCMArmorField_7.setText(""+(int)rCM.getArmorValueOfCharacter(vID, 7));
+				tfCMArmorField_8.setText("");
+				tfCMArmorField_9.setText(""+(int)rCM.getHandicapOfCharacter(vID));
+				
+				addListToTextArea(taCMEquipmentTextArea, rCM.getWeaponListOfCharacter(vID));
+				addListToTable(tCMTalentPanelTable, rCM.getTalentListOfCharacter(vID), 0);
+				
+				setCharManSelectedObjectes(true);
+			} catch (Exception ex) {handleException(ex);}
+		} else {
+			lCMP1Title.setText("");
+			
+			tfCMGenField_0.setText("");
+			tfCMGenField_1.setText("");
+			tfCMGenField_2.setText("");
+			tfCMGenField_3.setText("");
+			
+			tfCMPropField_0.setText("");
+			tfCMPropField_1.setText("");
+			tfCMPropField_2.setText("");
+			tfCMPropField_3.setText("");
+			tfCMPropField_4.setText("");
+			tfCMPropField_5.setText("");
+			tfCMPropField_6.setText("");
+			tfCMPropField_7.setText("");
+			tfCMPropField_8.setText("");
+			tfCMPropField_9.setText("");
+			
+			tfCMStatField_0.setText("");
+			tfCMStatField_1.setText("");
+			tfCMStatField_2.setText("");
+			tfCMStatField_3.setText("");
+			tfCMStatField_4.setText("");
+			tfCMStatField_5.setText("");
+			tfCMStatField_6.setText("");
+			tfCMStatField_7.setText("");
+			tfCMStatField_8.setText("");
+			tfCMStatField_9.setText("");
+			
+			taCMProTextArea.setText("");
+			taCMSpecialTextArea.setText("");
+			
+			tfCMArmorField_0.setText("");
+			tfCMArmorField_1.setText("");
+			tfCMArmorField_2.setText("");
+			tfCMArmorField_3.setText("");
+			tfCMArmorField_4.setText("");
+			tfCMArmorField_5.setText("");
+			tfCMArmorField_6.setText("");
+			tfCMArmorField_7.setText("");
+			tfCMArmorField_8.setText("");
+			tfCMArmorField_9.setText("");
+			
+			taCMEquipmentTextArea.setText("");
+			rCMTalentTableModel.clearTable();
+			
+			setCharManSelectedObjectes(false);
+		}
+	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
@@ -2360,22 +3841,57 @@ public class MainFrame {
 		catch(Exception ex) {handleException(ex);}
 		updateIniList();
 	}
-	/**	Dh	11.5.2020
+	/**	Dh	24.6.2020
 	 * 
 	 * 	Fuegt einen kämpfenden dem FightManager hinzu.
 	 */
 	private void addFighter() {
 		try {rFM.addFighter(Loader.loadNewRandomCharakter());}
 		catch(Exception ex) {handleException(ex);}
-		updateLists();
+		updateFightManagerLists();
 	}
-	/**	Dh	11.5.2020
+	/**	Dh	24.6.2020
 	 * 
 	 */
 	private void deleteAllFighter() {
 		rFM.removeAllFighters();
-		updateLists();
+		updateFightManagerLists();
 		updateSelectedFighter();
+	}
+	//-----
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void addCharacter() {
+		try {rCM.addCharacter(Loader.loadNewRandomCharakter());}
+		catch(Exception ex) {handleException(ex);}
+		updateCharacterManagerLists();
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void deleteCharacter() {
+		Object vID;
+		int vSelInd = liCMCharList.getSelectedIndex();
+		
+		if (vSelInd != -1) {
+			vID = rCharManListModel.getObjectAt(vSelInd);
+			try {
+				if (vID instanceof Integer){
+					rCM.removeCharacter((int) vID);
+					updateCharacterManagerLists();
+					//updateSelectedCharacter();
+				} else throw new Exception("06; MaFra,dC");
+			} catch (Exception ex) {handleException(ex);}
+		}
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void deleteAllCharacters() {
+		rCM.removeAllCharacters();
+		updateCharacterManagerLists();
+		//updateSelectedCharacter();
 	}
 	
 	/**	Dh	16.5.2020
@@ -2389,7 +3905,7 @@ public class MainFrame {
 			rFM.addPropModsToFighters(zGenPropMods);
 			rFM.addStatModsToFighters(zGenStatMods);
 			zGenPropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-			zGenStatMods = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			zGenStatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		}catch(Exception ex) {if (!ex.getMessage().contains("03")) handleException(ex);}
 		/**
 		spFMGenPropModSpinner_0.setValue(zGenPropMods[0]);
@@ -2429,7 +3945,7 @@ public class MainFrame {
 		}catch(Exception ex) {handleException(ex);}
 		
 		zGenPropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		zGenStatMods = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		zGenStatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
 		updateLists();
 		updateGenModFields();
@@ -2441,8 +3957,7 @@ public class MainFrame {
 	 */
 	private void removeAllSpezMods() {
 		int vID, vInd;
-		int[] vSpezPropMod;
-		double[] vSpezStatMod;
+		int[] vSpezPropMod, vSpezStatMod;
 		
 		vInd = liFMFightList.getSelectedIndex();
 		if (vInd != -1) {
@@ -2638,6 +4153,114 @@ public class MainFrame {
 		setCharFieldObjectsEnable(true);
 		
 		if (pCloseSpez != 0) nextTurn();
+	}
+	//-----
+	
+	private void openGeneralFrame() {
+		int vSelInd = liCMCharList.getSelectedIndex();
+		
+		if (vSelInd != -1) {
+			//PropertyFrame vPropFrame = new PropertyFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
+			//vPropFrame.setVisible(true);
+			
+			//setCharManSelectedObjectes(false);
+		} else handleException(new Exception("09; MaFra,oGF"));
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void openPropertyFrame() {
+		int vSelInd = liCMCharList.getSelectedIndex();
+		
+		if (vSelInd != -1) {
+			PropertyFrame vPropFrame = new PropertyFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
+			vPropFrame.setVisible(true);
+			
+			setCharManSelectedObjectes(false);
+		} else handleException(new Exception("09; MaFra,oPF"));
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	private void openStatusFrame() {
+		int vSelInd = liCMCharList.getSelectedIndex();
+		
+		if (vSelInd != -1) {
+			StatusFrame vStatFrame = new StatusFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
+			vStatFrame.setVisible(true);
+			
+			setCharManSelectedObjectes(false);
+		} else handleException(new Exception("09; MaFra,oSF"));
+	}
+	/**	Dh	25.6.2020
+	 * 
+	 */
+	private void openProFrame() {
+		int vSelInd = liCMCharList.getSelectedIndex();
+		
+		if (vSelInd != -1) {
+			ProFrame vProFrame = new ProFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
+			vProFrame.setVisible(true);
+			
+			setCharManSelectedObjectes(false);
+		} else handleException(new Exception("09; MaFra,oPF"));
+	}
+	/**	Dh	1.7.2020
+	 * 
+	 */
+	private void openSpecialCraftFrame() {
+		int vSelInd = liCMCharList.getSelectedIndex();
+		
+		if (vSelInd != -1) {
+			SpecialCraftFrame vSpecialFrame = new SpecialCraftFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
+			vSpecialFrame.setVisible(true);
+			
+			setCharManSelectedObjectes(false);
+		} else handleException(new Exception("09; MaFra,oSCF"));
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	private void openArmorFrame() {
+		int vSelInd = liCMCharList.getSelectedIndex();
+		
+		if (vSelInd != -1) {
+			ArmorFrame vArmorFrame = new ArmorFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
+			vArmorFrame.setVisible(true);
+			
+			setCharManSelectedObjectes(false);
+		} else handleException(new Exception("09; MaFra,oAF"));
+	}
+	/**	Dh	3.7.2020
+	 * 
+	 */
+	private void openEquipmentFrame() {
+		int vSelInd = liCMCharList.getSelectedIndex();
+		
+		if (vSelInd != -1) {
+			EquipmentFrame vEquipFrame = new EquipmentFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
+			vEquipFrame.setVisible(true);
+			
+			setCharManSelectedObjectes(false);
+		} else handleException(new Exception("09; MaFra,oEF"));
+	}
+	
+	private void openTalentFrame() {
+		int vSelInd = liCMCharList.getSelectedIndex();
+		
+		if (vSelInd != -1) {
+			//SpecialCraftFrame vSpecialFrame = new SpecialCraftFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
+			//vSpecialFrame.setVisible(true);
+			
+			//setCharManSelectedObjectes(false);
+		} else handleException(new Exception("09; MaFra,oTF"));
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 */
+	protected void closeCharManModFrame() {
+		setCharManSelectedObjectes(true);
+		updateSelectedCharacter();
 	}
 	
 //--------------------------------------------------------------------------------------------------------

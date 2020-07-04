@@ -1,4 +1,4 @@
-/**	DSA_App	v0.0	Dh	5.6.2020
+/**	DSA_App	v0.0	Dh	2.7.2020
  * 
  * 	Logik
  * 	  Talent
@@ -9,6 +9,13 @@
  * 	  1 Klugkheit			5 Gewandheit
  * 	  2 Intuition			6 Konstitution
  * 	  3 Charisma			7 Koerperkraft
+ * 
+ * 	Types:
+ * 	  00: Nahkampf				05: Wissens
+ * 	  01: Fernkampf				06: Sprache
+ * 	  02: Koerperliche			07: Handwerks
+ * 	  03: Gesellschaftliche		08: Alle Kampf
+ * 	  04: Natur					09: Alle mundan nicht Kampf
  * 
  * 	Exceptions:
  * 	  01 Wrong length
@@ -46,7 +53,7 @@ public class Basictalent extends Talent {
 		
 		PropInds = new int[] {-1, -1, -1};
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * Properties: 
 	 * 	  0 Mut					4 Fingerfertigkeit
@@ -54,12 +61,19 @@ public class Basictalent extends Talent {
 	 * 	  2 Intuition			6 Konstitution
 	 * 	  3 Charisma			7 Koerperkraft
 	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
+	 * 
 	 * @param pID
 	 * @param pName
 	 * @param pPropInds
 	 */
-	public Basictalent(int pID, String pName, int[] pPropInds) {
-		super(pID, pName);
+	public Basictalent(int pType, int pID, String pName, int[] pPropInds) {
+		super(pType, pID, pName);
 		Exception vExc = null;
 		
 		if (pPropInds != null) {
@@ -72,7 +86,7 @@ public class Basictalent extends Talent {
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	5.6.2020
+	/**	Dh	2.7.2020
 	 * 
 	 * 	Properties: 
 	 * 	  0 Mut					4 Fingerfertigkeit
@@ -80,13 +94,20 @@ public class Basictalent extends Talent {
 	 * 	  2 Intuition			6 Konstitution
 	 * 	  3 Charisma			7 Koerperkraft
 	 * 
+	 * 	Types:
+	 * 	  00: Nahkampf				05: Wissens
+	 * 	  01: Fernkampf				06: Sprache
+	 * 	  02: Koerperliche			07: Handwerks
+	 * 	  03: Gesellschaftliche		08: Alle Kampf
+	 * 	  04: Natur					09: Alle mundan nicht Kampf
+	 * 
 	 * @param pID
 	 * @param pName
 	 * @param pPropInds
 	 * @param pTaW
 	 */
-	public Basictalent(int pID, String pName, int[] pPropInds, int pTaW) {
-		super(pID, pName, pTaW);
+	public Basictalent(int pType, int pID, String pName, int[] pPropInds, int pTaW) {
+		super(pType, pID, pName, pTaW);
 		Exception vExc = null;
 		
 		if (pPropInds != null) {

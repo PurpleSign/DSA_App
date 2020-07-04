@@ -62,4 +62,16 @@ public class JListModel extends DefaultListModel {
 			addElement(new JListModelElement(pText, pObject));
 		} else throw new Exception("04; JLiMod, aE");
 	}
+	
+//--------------------------------------------------------------------------------------------------------
+	
+	/**	Dh	1.7.2020
+	 * 
+	 * @param pEle
+	 * @param pInd
+	 * @throws Exception
+	 */
+	public void changeElementAt(JListModelElement pEle,  int pInd) throws Exception {
+		super.setElementAt(pEle, pInd);
+	}
 }

@@ -1,8 +1,8 @@
-/**	DSA_App v0.0	Dh	 17.6.2020
+/**	DSA_App v0.0	Dh	 25.6.2020
  * 	
  * 	Logik
  * 	  Pro
- * 		ReferredPro
+ * 		ReferredPro (Referred)
  *
  *	ReferredType:
  * 	  0: Eigenschaft	5: Merkmale
@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import pGUI.MainFrame;
 
 @XmlRootElement(name = "referredpro")
-public class ReferredPro extends Pro {
+public class ReferredPro extends Pro implements Referred{
 	private int[] ReferredValue;
 	
 	/**	Dh	17.6.2020
