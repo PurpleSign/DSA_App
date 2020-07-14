@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 25.6.2020
+/**	DSA_App v0.0	Dh	 9.7.2020
  * 	
  * 	pDatenbank
  * 	  SpecialCraftDatabase
@@ -52,20 +52,20 @@ import pLogik.StringedSpecialCraft;
 @XmlRootElement(name = "specialcraftdatabase")
 @XmlSeeAlso(SpecialCraft.class)
 public class SpecialCraftDatabase {
-	private List SpecialCraftList;
+	private List specialCraftList;
 	
 	/**	Dh	16.6.2020
 	 * 
 	 */
 	public SpecialCraftDatabase() {
-		SpecialCraftList = new List();
+		specialCraftList = new List();
 	}
 	/**	Dh	16.6.2020
 	 * 
 	 * @param pSpecialCraftList
 	 */
 	public SpecialCraftDatabase(List pSpecialCraftList) {
-		SpecialCraftList = new List();
+		specialCraftList = new List();
 		try {setSpecialCraftList(pSpecialCraftList);}
 		catch(Exception ex) {System.out.println(ex);}
 	}
@@ -81,16 +81,16 @@ public class SpecialCraftDatabase {
 	protected SpecialCraft getSpecialCraft(int pID) throws Exception {
 		SpecialCraft vRet = null;
 		
-		if ((pID >= 0) && (pID < SpecialCraftList.getContentNumber())) {
-			SpecialCraftList.toFirst();
+		if ((pID >= 0) && (pID < specialCraftList.getContentNumber())) {
+			specialCraftList.toFirst();
 			
-			while (!SpecialCraftList.isEnd()) {
-				vRet = (SpecialCraft) SpecialCraftList.getCurrent();
+			while (!specialCraftList.isEnd()) {
+				vRet = (SpecialCraft) specialCraftList.getCurrent();
 				
-				if (vRet.getID() == pID) SpecialCraftList.toLast();
+				if (vRet.getId() == pID) specialCraftList.toLast();
 				else vRet = null;
 				
-				SpecialCraftList.next();
+				specialCraftList.next();
 			}
 			
 			if (vRet == null) throw new Exception("02; SpCrDat,gSC");
@@ -109,16 +109,16 @@ public class SpecialCraftDatabase {
 		SpecialCraft vRet = null;
 		
 		if (pName != "") {
-			if (!SpecialCraftList.isEmpty()) {
-				SpecialCraftList.toFirst();
+			if (!specialCraftList.isEmpty()) {
+				specialCraftList.toFirst();
 				
-				while (!SpecialCraftList.isEnd()) {
-					vRet = (SpecialCraft) SpecialCraftList.getCurrent();
+				while (!specialCraftList.isEnd()) {
+					vRet = (SpecialCraft) specialCraftList.getCurrent();
 					
-					if (vRet.getName().equals(pName)) SpecialCraftList.toLast();
+					if (vRet.getName().equals(pName)) specialCraftList.toLast();
 					else vRet = null;
 					
-					SpecialCraftList.next();
+					specialCraftList.next();
 				}
 			}
 			if (vRet == null) throw new Exception("02; SpCrDat,gSC; "+pName);
@@ -134,7 +134,7 @@ public class SpecialCraftDatabase {
 	 */
 	@XmlElement(name = "SpecialCraftList")
 	public List getSpecialCraftList() {
-		return SpecialCraftList.copyList();
+		return specialCraftList.copyList();
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -160,9 +160,9 @@ public class SpecialCraftDatabase {
 					pSpecialCraftList.next();
 				}
 				
-				if (containsOnlySpecialCrafts == true) SpecialCraftList = pSpecialCraftList;
+				if (containsOnlySpecialCrafts == true) specialCraftList = pSpecialCraftList;
 				else throw new Exception("06; SpCrDat,sSCL");
-			} SpecialCraftList = pSpecialCraftList;
+			} specialCraftList = pSpecialCraftList;
 		} else throw new Exception("04; SpCrDat,sSCL");
 	}
 	
@@ -175,8 +175,8 @@ public class SpecialCraftDatabase {
 	 */
 	protected void addSpecialCraft(SpecialCraft pSpecialCraft) throws Exception{
 		if (pSpecialCraft != null) {
-			pSpecialCraft.setID(SpecialCraftList.getContentNumber());
-			SpecialCraftList.append(pSpecialCraft);
+			pSpecialCraft.setId(specialCraftList.getContentNumber());
+			specialCraftList.append(pSpecialCraft);
 		}else throw new Exception("04; SpCrDat,aSC");
 	}
 	/**	Dh	16.6.2020
@@ -214,15 +214,15 @@ public class SpecialCraftDatabase {
 		SpecialCraft vCur = null;
 		
 		if (pName != "") {
-			if (!SpecialCraftList.isEmpty()) {
-				SpecialCraftList.toFirst();
+			if (!specialCraftList.isEmpty()) {
+				specialCraftList.toFirst();
 				
-				while (!SpecialCraftList.isEnd()) {
-					vCur = (SpecialCraft) SpecialCraftList.getCurrent();
+				while (!specialCraftList.isEnd()) {
+					vCur = (SpecialCraft) specialCraftList.getCurrent();
 					
 					if (vCur.getName().equals(pName)) vCur.addTypedPremise(pPremiseType, pID, -1);
 					
-					SpecialCraftList.next();
+					specialCraftList.next();
 				}
 			}
 		}else throw new Exception("02; SpCrDat,aTPoSC");
@@ -239,15 +239,15 @@ public class SpecialCraftDatabase {
 		SpecialCraft vCur = null;
 		
 		if (pName != "") {
-			if (!SpecialCraftList.isEmpty()) {
-				SpecialCraftList.toFirst();
+			if (!specialCraftList.isEmpty()) {
+				specialCraftList.toFirst();
 				
-				while (!SpecialCraftList.isEnd()) {
-					vCur = (SpecialCraft) SpecialCraftList.getCurrent();
+				while (!specialCraftList.isEnd()) {
+					vCur = (SpecialCraft) specialCraftList.getCurrent();
 					
 					if (vCur.getName().equals(pName)) vCur.addTypedPremise(pPremiseType, pID, pValue);
 					
-					SpecialCraftList.next();
+					specialCraftList.next();
 				}
 			}
 		}else throw new Exception("02; SpCrDat,aTPoSC");
@@ -259,16 +259,16 @@ public class SpecialCraftDatabase {
 	 * @throws Exception
 	 */
 	protected void removeSpecialCraft(int pID) throws Exception{
-		if ((pID >= 0) && (pID < SpecialCraftList.getContentNumber())) {
-			SpecialCraftList.toFirst();
+		if ((pID >= 0) && (pID < specialCraftList.getContentNumber())) {
+			specialCraftList.toFirst();
 			
-			while(!SpecialCraftList.isEnd()) {
-				if (((SpecialCraft)SpecialCraftList.getCurrent()).getID() == pID) {
-					SpecialCraftList.remove();
-					SpecialCraftList.toLast();
+			while(!specialCraftList.isEnd()) {
+				if (((SpecialCraft)specialCraftList.getCurrent()).getId() == pID) {
+					specialCraftList.remove();
+					specialCraftList.toLast();
 				}
 				
-				SpecialCraftList.next();
+				specialCraftList.next();
 			}
 		}else throw new Exception("02; SpCrDat,rSC");
 	}
@@ -306,7 +306,7 @@ public class SpecialCraftDatabase {
 		boolean vRet = false;
 		
 		if (pID >= 0) {
-			if (pID < SpecialCraftList.getContentNumber()) vRet = true;
+			if (pID < specialCraftList.getContentNumber()) vRet = true;
 		}else throw new Exception("02; SpCrDat,hSC");
 		
 		return vRet;
@@ -322,15 +322,15 @@ public class SpecialCraftDatabase {
 		SpecialCraft vCur;
 		
 		if (pSpecialCraft != null) {
-			if (!SpecialCraftList.isEmpty()) {
-				SpecialCraftList.toFirst();
+			if (!specialCraftList.isEmpty()) {
+				specialCraftList.toFirst();
 				
-				while((!SpecialCraftList.isEnd()) && (vRet == false)) {
-					vCur = (SpecialCraft)SpecialCraftList.getCurrent();
+				while((!specialCraftList.isEnd()) && (vRet == false)) {
+					vCur = (SpecialCraft)specialCraftList.getCurrent();
 					
-					if (vCur.getID() == pSpecialCraft.getID()) vRet = true;
+					if (vCur.getId() == pSpecialCraft.getId()) vRet = true;
 					
-					SpecialCraftList.next();
+					specialCraftList.next();
 				}
 			}
 		} else throw new Exception("04; SpCrDat,hSC");
@@ -353,7 +353,7 @@ public class SpecialCraftDatabase {
 			else if (pSpecialCraft instanceof StringedSpecialCraft) vRet = new StringedSpecialCraft();
 			else vRet = new SpecialCraft();
 			
-			vRet.setID(pSpecialCraft.getID());
+			vRet.setId(pSpecialCraft.getId());
 			vRet.setType(pSpecialCraft.getType());
 			vRet.setName(pSpecialCraft.getName());
 			

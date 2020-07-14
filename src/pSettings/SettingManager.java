@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh 11.6.2020
+/**	DSA_App v0.0	Dh 9.7.2020
  * 
  * 	pSettings
  * 	  SettingManager
@@ -22,27 +22,27 @@ package pSettings;
 import pDatenbank.Loader;
 
 public abstract class SettingManager {
-	private static AppSettings AS;
-	private static GameSettings GS;
-	private static GUISettings GUIS;
+	private static AppSettings rAS;
+	private static GameSettings rGS;
+	private static GUISettings rGUIS;
 	
 	/**	Dh	11.6.2020
 	 * 
 	 * @throws Exception
 	 */
 	public static void initSettingManager() throws Exception{
-		try {AS = Loader.loadAppSettings();}
+		try {rAS = Loader.loadAppSettings();}
 		catch(Exception ex) {
-			if (ex.getMessage().equals("21; Loa,lAS")) AS = new AppSettings();
+			if (ex.getMessage().equals("21; Loa,lAS")) rAS = new AppSettings();
 			else throw ex;;
 		}
-		try {GUIS = Loader.loadGUISettings();}
+		try {rGUIS = Loader.loadGUISettings();}
 		catch(Exception ex) {
-			if (ex.getMessage().equals("21; Loa,lGUIS")) GUIS = new GUISettings();
+			if (ex.getMessage().equals("21; Loa,lGUIS")) rGUIS = new GUISettings();
 			else throw ex;
 		}
 		
-		GS = null;
+		rGS = null;
 	}
 	/**	Dh	11.6.2020
 	 * 
@@ -50,19 +50,19 @@ public abstract class SettingManager {
 	 * @throws Exception
 	 */
 	public static void initSettingManager(int pGameID) throws Exception{
-		try {AS = Loader.loadAppSettings();}
+		try {rAS = Loader.loadAppSettings();}
 		catch(Exception ex) {
-			if (ex.getMessage().equals("21; Loa,lAS")) AS = new AppSettings();
+			if (ex.getMessage().equals("21; Loa,lAS")) rAS = new AppSettings();
 			else throw ex;
 		}
-		try {GUIS = Loader.loadGUISettings();}
+		try {rGUIS = Loader.loadGUISettings();}
 		catch(Exception ex) {
-			if (ex.getMessage().equals("21; Loa,lGUIS")) GUIS = new GUISettings();
+			if (ex.getMessage().equals("21; Loa,lGUIS")) rGUIS = new GUISettings();
 			else throw ex;
 		}
-		try {GS = Loader.loadGameSettings(); }
+		try {rGS = Loader.loadGameSettings(); }
 		catch(Exception ex) {
-			if (ex.getMessage().equals("21; Loa,lSS")) GS = new GameSettings(pGameID);
+			if (ex.getMessage().equals("21; Loa,lSS")) rGS = new GameSettings(pGameID);
 			else throw ex;
 		}
 	}
@@ -73,9 +73,9 @@ public abstract class SettingManager {
 	 */
 	public static void saveSettingManager() throws Exception {
 		try {
-			Loader.saveAppSettings(AS);
-			Loader.saveGUISettings(GUIS);
-			if (GS != null)	Loader.saveGameSettings(GS);
+			Loader.saveAppSettings(rAS);
+			Loader.saveGUISettings(rGUIS);
+			if (rGS != null)	Loader.saveGameSettings(rGS);
 		}catch(Exception ex) {throw ex;}
 	}
 	
@@ -87,7 +87,7 @@ public abstract class SettingManager {
 	 * @throws Exception
 	 */
 	public static int getGameID() throws Exception{
-		if (GS != null) return GS.getID();
+		if (rGS != null) return rGS.getID();
 		else throw new Exception("04; SeMan,gGID");
 	}
 	
@@ -97,7 +97,7 @@ public abstract class SettingManager {
 	 * @throws Exception
 	 */
 	public static boolean isWithDistances() throws Exception {
-		if (GS != null) return GS.isWithDistances();
+		if (rGS != null) return rGS.isWithDistances();
 		else throw new Exception("04; SeMan,iWD");
 	}
 	/**	Dh	11.6.2020
@@ -106,7 +106,7 @@ public abstract class SettingManager {
 	 * @throws Exception
 	 */
 	public static boolean getWithHitZones() throws Exception{
-		if (GS != null) return GS.isWithHitZones();
+		if (rGS != null) return rGS.isWithHitZones();
 		else throw new Exception("04; SeMan,iWHZ");
 	}
 	
@@ -118,7 +118,7 @@ public abstract class SettingManager {
 	 * @throws Exception
 	 */
 	public static void setGameSettings(GameSettings pGS) throws Exception{
-		if (pGS != null) GS = pGS;
+		if (pGS != null) rGS = pGS;
 		else throw new Exception("04; SeMan,sGS");
 	}
 	
@@ -128,7 +128,7 @@ public abstract class SettingManager {
 	 * @throws Exception
 	 */
 	public static void setWithDistances(boolean pWithDistances) throws Exception{
-		if (GS != null) GS.setWithHitZones(pWithDistances);
+		if (rGS != null) rGS.setWithHitZones(pWithDistances);
 		else throw new Exception("04; SeMan,sWD");
 	}
 	/**	Dh	11.6.2020
@@ -137,7 +137,7 @@ public abstract class SettingManager {
 	 * @throws Exception
 	 */
 	public static void setWithHitZones(boolean pWithHitZones) throws Exception{
-		if (GS != null) GS.setWithHitZones(pWithHitZones);
+		if (rGS != null) rGS.setWithHitZones(pWithHitZones);
 		else throw new Exception("04; SeMan,sWHZ");
 	}
 	

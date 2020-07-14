@@ -1,23 +1,23 @@
-/**	DSA_App v0.0	Dh	 1.7.2020
+/**	DSA_App v0.0	Dh	 14.7.2020
  * 	
  * 	Logik
  * 	  Charakter
  * 
- * 	MundType:
+ * 	mundaneType:
  * 	  0 mundan				2 karmal
  *    1 magisch				3 alles
  * 
- * 	Properties: 
+ * 	properties: 
  * 	  0 Mut					4 Fingerfertigkeit
  * 	  1 Klugkheit			5 Gewandheit
  * 	  2 Intuition			6 Konstitution
  * 	  3 Charisma			7 Koerperkraft
  * 
- * 	za(Max)Stati:
+ * 	(max)Stati:
  * 	  0 Lebenspunkte		2 Astralenergie
  * 	  1 Ausdauer			3 Karmalenergie
  * 
- * 	FightValuess:
+ * 	fightValuess:
  * 	  0 Ini-Basiswert		2 Parade-Basiswert
  * 	  1 Attacke-Basiswert	3 Fernkampf-Basiswert
  * 
@@ -55,44 +55,53 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "character")
-@XmlType(propOrder = {"properties", "proList", "specialCraftList", "SO", "GS", "MR", "WS", "stats", "maxStats", 
-		"fightValues", "talentList", "wounds", "RS", "BE", "weaponList"})
+@XmlType(propOrder = {"properties", "propertieMods", "proList", "specialCraftList", "so", "gs", "mr", "ws", "stats", "maxStats", 
+		"fightValues", "talentList", "wounds", "rs", "be", "weaponList"})
 @XmlSeeAlso({Weapon.class, Talent.class, Pro.class, SpecialCraft.class})
 public class Charakter {
 
-	private String Name, Race;
-	private int ID, SO, GS, MundType;
-	private double MR, WS, BE;
-	private int[] Properties, MaxStats, Stats, Wounds;
-	private double[] FightValues, RS, StatMods;
-	private List ProList, SpecialCraftList, TalentList, WeaponList;
+	private String name, race, culture, profession;
+	private int id, so, gs, mundaneType;
+	private double mr, ws, be;
+	private int[] properties, propertieMods, stats, wounds;
+	private double[] maxStats, fightValues, rs, statMods;
+	private List proList, specialCraftList, talentList, weaponList;
 	
-	/**	Dh	27.5.2020
+	/**	Dh	14.7.2020
 	 * 
 	 * 	Kosntruktor nach Bea-Standard.
 	 */
 	public Charakter() {
-		Name = "";
-		Race = "";
-		SO = -1;
-		GS = -1;
-		MundType = -1;
+		name = "";
+		race = "";
+		culture = "";
+		profession = "";
 		
-		Properties = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
-		MaxStats = new int[] {0, 0, 0, 0};
-		Stats = new int[]{0, 0, 0, 0};
-		Wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		so = -1;
+		gs = -1;
+		mundaneType = -1;
 		
-		FightValues = new double[] {0, 0, 0, 0};
-		RS = new double[] {0, 0, 0, 0, 0, 0, 0, 0};
-		StatMods = new double[] {0, 0, 0, 0};
+		properties = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		propertieMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		stats = new int[]{0, 0, 0, 0};
+		wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
 		
-		ProList = new List();
-		SpecialCraftList = new List();
-		TalentList = new List();
-		WeaponList = new List();
+		maxStats = new double[] {0, 0, 0, 0};
+		fightValues = new double[] {0, 0, 0, 0};
+		rs = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+		statMods = new double[] {0, 0, 0, 0};
+		
+		proList = new List();
+		specialCraftList = new List();
+		talentList = new List();
+		weaponList = new List();
 	}
-	/**	Dh	18.6.2020
+	/**	Dh	14.7.2020
+	 * 
+	 *  pCharSetting:
+	 *    0: Rasse
+	 *    1: Kultur
+	 *    2: Profession
 	 * 
 	 * 	pEigen:
 	 * 	  0 Mut					5 Gewandheit
@@ -106,77 +115,88 @@ public class Charakter {
 	 * @param pRasse
 	 * @param pEigen
 	 */
-	public Charakter(int pID, String pName, String pRasse, int[] pEigen){
+	public Charakter(int pID, String pName, String[] pCharSetting, int[] pEigen){
 		Exception vExc = null ;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Char_a");
 		
-		Name = pName;
-		Race = pRasse;
-		MundType = 0;
+		name = pName;
+		if (pCharSetting != null) {
+			if (pCharSetting.length == 3) {
+				race = pCharSetting[0];
+				culture = pCharSetting[1];
+				profession = pCharSetting[2];
+			} else vExc = new Exception("01; Char_a");
+		} else vExc = new Exception("04; Char_a");
 		
-		Properties = new int[8];
+		mundaneType = 0;
+		
+		properties = new int[8];
 		switch(pEigen.length){
 		case 8:
 			for (int i=0; i < pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_a");
-				Properties[i] = pEigen[i];
+				properties[i] = pEigen[i];
 			}
-			GS = 8;
-			SO = 0;
+			gs = 8;
+			so = 0;
 			break;
 		case 9:
 			for (int i=0; i < pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_a");
-				if (i < 8) Properties[i] = pEigen[i];
-				else GS = pEigen[i];
+				if (i < 8) properties[i] = pEigen[i];
+				else gs = pEigen[i];
 			}
-			SO = 0;
+			so = 0;
 			break;
 		case 10:
 			for (int i=0; i < pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_a");
-				if (i < 8) Properties[i] = pEigen[i];
-				else if (i == 9)GS = pEigen[i];
-				else SO = pEigen[i];
+				if (i < 8) properties[i] = pEigen[i];
+				else if (i == 9)gs = pEigen[i];
+				else so = pEigen[i];
 			}
 			break;
 		default:
 			vExc = new Exception("01; Char_a");
 		}
-		Wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		propertieMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
 		
-		try {TalentList = Loader.getBasicTalents();}
+		try {talentList = Loader.getBasicTalents();}
 		catch(Exception ex) {vExc = ex;}
 		
-		ProList = new List();
-		SpecialCraftList = new List();
-		WeaponList = new List();
+		proList = new List();
+		specialCraftList = new List();
+		weaponList = new List();
 		
-		StatMods = new double[4];
-		for (int i=0; i<StatMods.length; i++){
-			StatMods[i] = 0;
+		statMods = new double[4];
+		for (int i=0; i<statMods.length; i++){
+			statMods[i] = 0;
 		}
 		
 		try{
-			MaxStats = Calculator.calCharBasisStati(Properties, MundType);
-			MR = Calculator.calCharMr(Properties);
-			WS = Properties[6]/2;
-			FightValues = Calculator.calCharFightValue(Properties);
+			maxStats = Calculator.calCharBasisStati(properties, mundaneType);
+			mr = Calculator.calCharMr(properties);
+			ws = properties[6]/2;
+			fightValues = Calculator.calCharFightValue(properties);
 		}catch(Exception exc){vExc = exc;}
-
-		Stats = MaxStats;
 		
-		RS = new double[8];
-		for (int i=0; i<RS.length; i++){
-			RS[i] = 0;
-		}
-		BE = 0;
+		
+		stats = new int[] {(int)maxStats[0], (int)maxStats[1], (int)maxStats[2], (int)maxStats[3]};
+		
+		rs = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+		be = 0;
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	18.6.2020
+	/**	Dh	14.7.2020
+	 * 
+	 *  pCharSetting:
+	 *    0: Rasse
+	 *    1: Kultur
+	 *    2: Profession
 	 * 
 	 * 	pEigen:
 	 * 	  0 Mut					5 Gewandheit
@@ -198,113 +218,123 @@ public class Charakter {
 	 * @param pEigen
 	 * @param pStatiMod
 	 */
-	public Charakter(int pID, String pName, String pRasse, int[] pEigen, double[] pStatiMod){
+	public Charakter(int pID, String pName, String[] pCharSetting, int[] pEigen, double[] pStatiMod){
 		Exception vExc = null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Char_b");
 		
-		Name = pName;
-		Race = pRasse;
+		name = pName;
+		if (pCharSetting != null) {
+			if (pCharSetting.length == 3) {
+				race = pCharSetting[0];
+				culture = pCharSetting[1];
+				profession = pCharSetting[2];
+			} else vExc = new Exception("01; Char_b");
+		} else vExc = new Exception("04; Char_b");
+		
 		if (((4 <= pStatiMod.length) && (pStatiMod.length <= 6)) || (pStatiMod.length == 10)){
-			if (pStatiMod[2] >= 0 && pStatiMod[3] >= 0) MundType = 3;
-			else if (pStatiMod[2] >= 0) MundType = 1;
-			else if (pStatiMod[3] >= 0) MundType = 2;
-			else MundType = 0;
+			if (pStatiMod[2] >= 0 && pStatiMod[3] >= 0) mundaneType = 3;
+			else if (pStatiMod[2] >= 0) mundaneType = 1;
+			else if (pStatiMod[3] >= 0) mundaneType = 2;
+			else mundaneType = 0;
 		}
 		else vExc = new Exception("01; Char_b");
 		
-		Properties = new int[8];
+		properties = new int[8];
 		switch(pEigen.length){
 		case 8:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_b");
-				Properties[i] = pEigen[i];
+				properties[i] = pEigen[i];
 			}
-			GS = 8;
-			SO = 0;
+			gs = 8;
+			so = 0;
 			break;
 		case 9:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_b");
-				if (i < 8) Properties[i] = pEigen[i];
-				else GS = pEigen[i];
+				if (i < 8) properties[i] = pEigen[i];
+				else gs = pEigen[i];
 			}
-			SO = 0;
+			so = 0;
 			break;
 		case 10:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_b");
-				if (i < 8) Properties[i] = pEigen[i];
-				else if (i == 9)GS = pEigen[i];
-				else SO = pEigen[i];
+				if (i < 8) properties[i] = pEigen[i];
+				else if (i == 9)gs = pEigen[i];
+				else so = pEigen[i];
 			}
 			break;
 		default:
 			vExc = new Exception("01; Char_b");
 		}
-		Wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		propertieMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
 		
-		try {TalentList = Loader.getBasicTalents();}
+		try {talentList = Loader.getBasicTalents();}
 		catch(Exception ex) {vExc = ex;}
 		
-		ProList = new List();
-		SpecialCraftList = new List();
-		WeaponList = new List();
+		proList = new List();
+		specialCraftList = new List();
+		weaponList = new List();
 		
-		StatMods = pStatiMod;
+		statMods = pStatiMod;
 		
 		try{
-			MaxStats = Calculator.calCharBasisStati(Properties, 0);
-			MR = Calculator.calCharMr(Properties);
-			WS = Properties[6]/2;
-			FightValues = Calculator.calCharFightValue(Properties);
+			maxStats = Calculator.calCharBasisStati(properties, 0);
+			mr = Calculator.calCharMr(properties);
+			ws = properties[6]/2;
+			fightValues = Calculator.calCharFightValue(properties);
 		}catch(Exception exc){vExc = exc;}
 
 		switch(pStatiMod.length){
 		case 4:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_b");
-				MaxStats[i] += (int)pStatiMod[i];
+				maxStats[i] += (int)pStatiMod[i];
 			}
 			break;
 		case 5:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_b");
-				if (i < 4) MaxStats[i] += (int)pStatiMod[i];
-				else MR += pStatiMod[i];
+				if (i < 4) maxStats[i] += (int)pStatiMod[i];
+				else mr += pStatiMod[i];
 			}
 			break;
 		case 6:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_b");
-				if (i < 4) MaxStats[i] += (int)pStatiMod[i];
-				else if (i==4) MR += pStatiMod[i];
-				else WS += pStatiMod[i];
+				if (i < 4) maxStats[i] += (int)pStatiMod[i];
+				else if (i==4) mr += pStatiMod[i];
+				else ws += pStatiMod[i];
 			}
 			break;
 		case 10:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_b");
-				if (i < 4) MaxStats[i] += (int)pStatiMod[i];
-				else if (i==4) MR += pStatiMod[i];
-				else if (i==5) WS += pStatiMod[i];
-				else FightValues[i-6] += pStatiMod[i];
+				if (i < 4) maxStats[i] += (int)pStatiMod[i];
+				else if (i==4) mr += pStatiMod[i];
+				else if (i==5) ws += pStatiMod[i];
+				else fightValues[i-6] += pStatiMod[i];
 			}
 			break;
 		}
 		
-		Stats = MaxStats;
+		stats = new int[]{(int)maxStats[0], (int)maxStats[1], (int)maxStats[2], (int)maxStats[3]};
 		
-		RS = new double[8];
-		for (int i=0; i<RS.length; i++){
-			RS[i] = 0;
-		}
-		BE = 0;
+		rs = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+		be = 0;
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	18.6.2020
+	/**	Dh	14.7.2020
+	 * 
+	 * 	pCharSetting:
+	 *    0: Rasse
+	 *    1: Kultur
+	 *    2: Profession
 	 * 
 	 * 	pEigen:
 	 * 	  0 Mut					5 Gewandheit
@@ -319,76 +349,86 @@ public class Charakter {
 	 * @param pEigen
 	 * @param pTalents
 	 */
-	public Charakter(int pID, String pName, String pRasse, int[] pEigen, List pTalents){
+	public Charakter(int pID, String pName, String[] pCharSetting, int[] pEigen, List pTalents){
 		Exception vExc = null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Char_c");
 		
-		Name = pName;
-		Race = pRasse;
-		MundType = 0;
+		name = pName;
+		if (pCharSetting != null) {
+			if (pCharSetting.length == 3) {
+				race = pCharSetting[0];
+				culture = pCharSetting[1];
+				profession = pCharSetting[2];
+			} else vExc = new Exception("01; Char_c");
+		} else vExc = new Exception("04; Char_c");
 		
-		Properties = new int[8];
+		mundaneType = 0;
+		
+		properties = new int[8];
 		switch(pEigen.length){
 		case 8:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_c");
-				Properties[i] = pEigen[i];
+				properties[i] = pEigen[i];
 			}
-			GS = 8;
-			SO = 0;
+			gs = 8;
+			so = 0;
 			break;
 		case 9:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_c");
-				if (i < 8) Properties[i] = pEigen[i];
-				else GS = pEigen[i];
+				if (i < 8) properties[i] = pEigen[i];
+				else gs = pEigen[i];
 			}
-			SO = 0;
+			so = 0;
 			break;
 		case 10:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_c");
-				if (i < 8) Properties[i] = pEigen[i];
-				else if (i == 9)GS = pEigen[i];
-				else SO = pEigen[i];
+				if (i < 8) properties[i] = pEigen[i];
+				else if (i == 9)gs = pEigen[i];
+				else so = pEigen[i];
 			}
 			break;
 		default:
 			vExc = new Exception("01; Char_c");
 		}
-		Wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		propertieMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
 		
-		TalentList = pTalents;
+		talentList = pTalents;
 		
-		ProList = new List();
-		SpecialCraftList = new List();
-		WeaponList = new List();
+		proList = new List();
+		specialCraftList = new List();
+		weaponList = new List();
 		
-		StatMods = new double[4];
-		for (int i=0; i<StatMods.length; i++){
-			StatMods[i] = 0;
+		statMods = new double[4];
+		for (int i=0; i<statMods.length; i++){
+			statMods[i] = 0;
 		}
 		
 		try{
-			MaxStats = Calculator.calCharBasisStati(Properties, 0);
-			MR = Calculator.calCharMr(Properties);
-			WS = Properties[6]/2;
-			FightValues = Calculator.calCharFightValue(Properties);
+			maxStats = Calculator.calCharBasisStati(properties, 0);
+			mr = Calculator.calCharMr(properties);
+			ws = properties[6]/2;
+			fightValues = Calculator.calCharFightValue(properties);
 		}catch(Exception exc){vExc = exc;}
 		
-		Stats = MaxStats;
+		stats = new int[]{(int)maxStats[0], (int)maxStats[1], (int)maxStats[2], (int)maxStats[3]};
 		
-		RS = new double[8];
-		for (int i=0; i<RS.length; i++){
-			RS[i] = 0;
-		}
-		BE = 0;
+		rs = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+		be = 0;
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	18.6.2020
+	/**	Dh	14.7.2020
+	 * 
+	 * 	pCharSetting:
+	 *    0: Rasse
+	 *    1: Kultur
+	 *    2: Profession
 	 * 
 	 * 	pEigen:
 	 * 	  0 Mut					5 Gewandheit
@@ -411,111 +451,123 @@ public class Charakter {
 	 * @param pStatiMod
 	 * @param pTalents
 	 */
-	public Charakter(int pID, String pName, String pRasse, int[] pEigen, double[] pStatiMod, List pTalents){
+	public Charakter(int pID, String pName, String[] pCharSetting, int[] pEigen, double[] pStatiMod, List pTalents){
 		Exception vExc= null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Char_d");
 		
-		Name = pName;
-		Race = pRasse;
-		if (((4 <= pStatiMod.length) && (pStatiMod.length <= 6)) || (pStatiMod.length == 10)){
-			if (pStatiMod[2] >= 0 && pStatiMod[3] >= 0) MundType = 3;
-			else if (pStatiMod[2] >= 0) MundType = 1;
-			else if (pStatiMod[3] >= 0) MundType = 2;
-			else MundType = 0;
-		}
-		else vExc = new Exception("01; Char_b");
+		name = pName;
+		if (pCharSetting != null) {
+			if (pCharSetting.length == 3) {
+				race = pCharSetting[0];
+				culture = pCharSetting[1];
+				profession = pCharSetting[2];
+			} else vExc = new Exception("01; Char_d");
+		} else vExc = new Exception("04; Char_d");
 		
-		Properties = new int[8];
+		if (((4 <= pStatiMod.length) && (pStatiMod.length <= 6)) || (pStatiMod.length == 10)){
+			if (pStatiMod[2] >= 0 && pStatiMod[3] >= 0) mundaneType = 3;
+			else if (pStatiMod[2] >= 0) mundaneType = 1;
+			else if (pStatiMod[3] >= 0) mundaneType = 2;
+			else mundaneType = 0;
+		}
+		else vExc = new Exception("01; Char_d");
+		
+		properties = new int[8];
 		switch(pEigen.length){
 		case 8:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_d");
-				Properties[i] = pEigen[i];
+				properties[i] = pEigen[i];
 			}
-			GS = 8;
-			SO = 0;
+			gs = 8;
+			so = 0;
 			break;
 		case 9:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_d");
-				if (i < 8) Properties[i] = pEigen[i];
-				else GS = pEigen[i];
+				if (i < 8) properties[i] = pEigen[i];
+				else gs = pEigen[i];
 			}
-			SO = 0;
+			so = 0;
 			break;
 		case 10:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_d");
-				if (i < 8) Properties[i] = pEigen[i];
-				else if (i == 9)GS = pEigen[i];
-				else SO = pEigen[i];
+				if (i < 8) properties[i] = pEigen[i];
+				else if (i == 9)gs = pEigen[i];
+				else so = pEigen[i];
 			}
 			break;
 		default:
 			vExc = new Exception("01; Char_d");
 		}
-		Wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		propertieMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
 		
-		ProList = new List();
-		SpecialCraftList = new List();
-		TalentList = pTalents;
-		WeaponList = new List();
+		proList = new List();
+		specialCraftList = new List();
+		talentList = new List();
+		try {addTalents(pTalents);}
+		catch(Exception ex) {vExc = ex;}
+		weaponList = new List();
 		
-		StatMods = pStatiMod;
+		statMods = pStatiMod;
 		
 		try{
-			MaxStats = Calculator.calCharBasisStati(Properties, 0);
-			MR = Calculator.calCharMr(Properties);
-			WS = Properties[6]/2;
-			FightValues = Calculator.calCharFightValue(Properties);
+			maxStats = Calculator.calCharBasisStati(properties, 0);
+			mr = Calculator.calCharMr(properties);
+			ws = properties[6]/2;
+			fightValues = Calculator.calCharFightValue(properties);
 		}catch(Exception exc){vExc = exc;}
 
 		switch(pStatiMod.length){
 		case 4:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_d");
-				MaxStats[i] += (int)pStatiMod[i];
+				maxStats[i] += (int)pStatiMod[i];
 			}
 			break;
 		case 5:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_d");
-				if (i < 4) MaxStats[i] += (int)pStatiMod[i];
-				else MR += pStatiMod[i];
+				if (i < 4) maxStats[i] += (int)pStatiMod[i];
+				else mr += pStatiMod[i];
 			}
 			break;
 		case 6:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_d");
-				if (i < 4) MaxStats[i] += (int)pStatiMod[i];
-				else if (i==4) MR += pStatiMod[i];
-				else WS += pStatiMod[i];
+				if (i < 4) maxStats[i] += (int)pStatiMod[i];
+				else if (i==4) mr += pStatiMod[i];
+				else ws += pStatiMod[i];
 			}
 			break;
 		case 10:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_d");
-				if (i < 4) MaxStats[i] += (int)pStatiMod[i];
-				else if (i==4) MR += pStatiMod[i];
-				else if (i==5) WS += pStatiMod[i];
-				else FightValues[i-6] += pStatiMod[i];
+				if (i < 4) maxStats[i] += (int)pStatiMod[i];
+				else if (i==4) mr += pStatiMod[i];
+				else if (i==5) ws += pStatiMod[i];
+				else fightValues[i-6] += pStatiMod[i];
 			}
 			break;
 		}
 		
-		Stats = MaxStats;
+		stats = new int[]{(int)maxStats[0], (int)maxStats[1], (int)maxStats[2], (int)maxStats[3]};
 		
-		RS = new double[8];
-		for (int i=0; i<RS.length; i++){
-			RS[i] = 0;
-		}
-		BE = 0;
+		rs = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+		be = 0;
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	18.6.2020
+	/**	Dh	14.7.2020
+	 * 
+	 * 	pCharSetting:
+	 *    0: Rasse
+	 *    1: Kultur
+	 *    2: Profession
 	 * 
 	 * 	pEigen:
 	 * 	  0 Mut					5 Gewandheit
@@ -539,115 +591,122 @@ public class Charakter {
 	 * @param pTalents
 	 * @param pWeapons
 	 */
-	public Charakter(int pID, String pName, String pRasse, int[] pEigen, double[] pStatiMod, List pTalents, List pWeapons) {
+	public Charakter(int pID, String pName, String[] pCharSetting, int[] pEigen, double[] pStatiMod, List pTalents, List pWeapons) {
 		Exception vExc= null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Char_e");
 		
-		Name = pName;
-		Race = pRasse;
+		name = pName;
+		if (pCharSetting != null) {
+			if (pCharSetting.length == 3) {
+				race = pCharSetting[0];
+				culture = pCharSetting[1];
+				profession = pCharSetting[2];
+			} else vExc = new Exception("01; Char_e");
+		} else vExc = new Exception("04; Char_e");
+		
 		if (((4 <= pStatiMod.length) && (pStatiMod.length <= 6)) || (pStatiMod.length == 10)){
-			if (pStatiMod[2] >= 0 && pStatiMod[3] >= 0) MundType = 3;
-			else if (pStatiMod[2] >= 0) MundType = 1;
-			else if (pStatiMod[3] >= 0) MundType = 2;
-			else MundType = 0;
+			if (pStatiMod[2] >= 0 && pStatiMod[3] >= 0) mundaneType = 3;
+			else if (pStatiMod[2] >= 0) mundaneType = 1;
+			else if (pStatiMod[3] >= 0) mundaneType = 2;
+			else mundaneType = 0;
 		}
 		else vExc = new Exception("01; Char_e");
 		
-		Properties = new int[8];
+		properties = new int[8];
 		switch(pEigen.length){
 		case 8:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_e");
-				Properties[i] = pEigen[i];
+				properties[i] = pEigen[i];
 			}
-			GS = 8;
-			SO = 0;
+			gs = 8;
+			so = 0;
 			break;
 		case 9:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_e");
-				if (i < 8) Properties[i] = pEigen[i];
-				else GS = pEigen[i];
+				if (i < 8) properties[i] = pEigen[i];
+				else gs = pEigen[i];
 			}
-			SO = 0;
+			so = 0;
 			break;
 		case 10:
 			for (int i=0; i<pEigen.length; i++){
 				if (pEigen[i] < 0) vExc = new Exception("02; Char_e");
-				if (i < 8) Properties[i] = pEigen[i];
-				else if (i == 9)GS = pEigen[i];
-				else SO = pEigen[i];
+				if (i < 8) properties[i] = pEigen[i];
+				else if (i == 9)gs = pEigen[i];
+				else so = pEigen[i];
 			}
 			break;
 		default:
 			vExc = new Exception("01; Char_e");
 		}
-		Wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		propertieMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
+		wounds = new int[] {0, 0, 0, 0, 0, 0, 0, 0};
 		
-		ProList = new List();
-		SpecialCraftList = new List();
-		TalentList = pTalents;
+		proList = new List();
+		specialCraftList = new List();
+		talentList = new List();
+		try { addTalents(pTalents);}
+		catch(Exception ex) {vExc = ex;}
 		if (pWeapons != null) {
 			pWeapons.toFirst();
 			for (int i=0; i < pWeapons.getContentNumber(); i++) {
-				try{ ((Weapon)pWeapons.getCurrent()).setID(i);}
+				try{ ((Weapon)pWeapons.getCurrent()).setId(i);}
 				catch(Exception ex) {vExc = ex;}
 				pWeapons.next();
 			}
 		}
-		WeaponList = pWeapons;
+		weaponList = pWeapons;
 		
-		StatMods = pStatiMod;
+		statMods = pStatiMod;
 		
 		try{
-			MaxStats = Calculator.calCharBasisStati(Properties, 0);
-			MR = Calculator.calCharMr(Properties);
-			WS = Properties[6]/2;
-			FightValues = Calculator.calCharFightValue(Properties);
+			maxStats = Calculator.calCharBasisStati(properties, 0);
+			mr = Calculator.calCharMr(properties);
+			ws = properties[6]/2;
+			fightValues = Calculator.calCharFightValue(properties);
 		}catch(Exception exc){vExc = exc;}
 
 		switch(pStatiMod.length){
 		case 4:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_e");
-				MaxStats[i] += (int)pStatiMod[i];
+				maxStats[i] += (int)pStatiMod[i];
 			}
 			break;
 		case 5:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_e");
-				if (i < 4) MaxStats[i] += (int)pStatiMod[i];
-				else MR += pStatiMod[i];
+				if (i < 4) maxStats[i] += (int)pStatiMod[i];
+				else mr += pStatiMod[i];
 			}
 			break;
 		case 6:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_e");
-				if (i < 4) MaxStats[i] += (int)pStatiMod[i];
-				else if (i==4) MR += pStatiMod[i];
-				else WS += pStatiMod[i];
+				if (i < 4) maxStats[i] += (int)pStatiMod[i];
+				else if (i==4) mr += pStatiMod[i];
+				else ws += pStatiMod[i];
 			}
 			break;
 		case 10:
 			for (int i=0; i < pStatiMod.length; i++){
 				if (pStatiMod[i] < 0) vExc = new Exception("02; Char_e");
-				if (i < 4) MaxStats[i] += (int)pStatiMod[i];
-				else if (i==4) MR += pStatiMod[i];
-				else if (i==5) WS += pStatiMod[i];
-				else FightValues[i-6] += pStatiMod[i];
+				if (i < 4) maxStats[i] += (int)pStatiMod[i];
+				else if (i==4) mr += pStatiMod[i];
+				else if (i==5) ws += pStatiMod[i];
+				else fightValues[i-6] += pStatiMod[i];
 			}
 			break;
 		}
 		
-		Stats = MaxStats;
+		stats = new int[]{(int)maxStats[0], (int)maxStats[1], (int)maxStats[2], (int)maxStats[3]};
 		
-		RS = new double[8];
-		for (int i=0; i<RS.length; i++){
-			RS[i] = 0;
-		}
-		BE = 0;
+		rs = new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
+		be = 0;
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
@@ -655,36 +714,36 @@ public class Charakter {
 	public void destroyCharacter() throws Exception{
 		Exception vExc = null;
 		
-		Name = null;
-		Race = null;
+		name = null;
+		race = null;
 		
-		if (ProList != null){
-			while(!ProList.isEmpty()){
-				ProList.toFirst();
-				ProList.remove();
+		if (proList != null){
+			while(!proList.isEmpty()){
+				proList.toFirst();
+				proList.remove();
 			}
-			ProList = null;
+			proList = null;
 		} else vExc = new Exception("04; Char,dC");
-		if (SpecialCraftList != null){
-			while(!SpecialCraftList.isEmpty()){
-				SpecialCraftList.toFirst();
-				SpecialCraftList.remove();
+		if (specialCraftList != null){
+			while(!specialCraftList.isEmpty()){
+				specialCraftList.toFirst();
+				specialCraftList.remove();
 			}
-			SpecialCraftList = null;
+			specialCraftList = null;
 		} else vExc = new Exception("04; Char,dc");
-		if (TalentList != null){
-			while (!TalentList.isEmpty()){
-				TalentList.toFirst();
-				TalentList.remove();
+		if (talentList != null){
+			while (!talentList.isEmpty()){
+				talentList.toFirst();
+				talentList.remove();
 			}
-			TalentList = null;
+			talentList = null;
 		} else vExc = new Exception("04; Char,dc");
-		if (WeaponList != null){
-			while (!WeaponList.isEmpty()){
-				WeaponList.toFirst();
-				WeaponList.remove();
+		if (weaponList != null){
+			while (!weaponList.isEmpty()){
+				weaponList.toFirst();
+				weaponList.remove();
 			}
-			WeaponList = null;
+			weaponList = null;
 		} else vExc = new Exception("04; Char,dc");
 		
 		if (vExc != null) throw vExc;
@@ -697,8 +756,8 @@ public class Charakter {
 	 * @return
 	 */
 	@XmlAttribute
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -706,7 +765,7 @@ public class Charakter {
 	 */
 	@XmlAttribute
 	public String getName(){
-		return Name;
+		return name;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -714,57 +773,75 @@ public class Charakter {
 	 */
 	@XmlAttribute
 	public String getRace(){
-		return Race;
+		return race;
 	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @return
+	 */
+	@XmlAttribute
+	public String getCulture() {
+		return culture;
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @return
+	 */
+	@XmlAttribute
+	public String getProfession() {
+		return profession;
+	}
+	
 	/**	Dh	11.6.2020
 	 * 
 	 * @return
 	 */
 	@XmlAttribute
-	public int getMundType() {
-		return MundType;
+	public int getMundaneType() {
+		return mundaneType;
 	}
 	/**	Dh	27.5.2020
 	 * 
 	 * @return
 	 */
 	@XmlElement(name = "SozialStatus")
-	public int getSO(){
-		return SO;
+	public int getSo(){
+		return so;
 	}
 	/**	Dh	27.5.2020
 	 * 
 	 * @return
 	 */
 	@XmlElement(name = "Geschwindigkeit")
-	public int getGS(){
-		return GS;
+	public int getGs(){
+		return gs;
 	}
+	
 	/**	Dh	27.5.2020
 	 * 
 	 * @return
 	 */
 	@XmlElement(name = "Magieresistenz")
-	public double getMR(){
-		return MR;
+	public double getMr(){
+		return mr;
 	}
 	/**	Dh	27.5.2020
 	 * 
 	 * @return
 	 */
 	@XmlElement(name = "Wundschwelle")
-	public double getWS(){
-		return WS;
+	public double getWs(){
+		return ws;
 	}
 	/**	Dh	27.5.2020
 	 * 
 	 * @return
 	 */
 	@XmlElement(name = "Behinderung")
-	public double getBE(){
-		return BE;
+	public double getBe(){
+		return be;
 	}
-	//-----
+	
 	/**	Dh 10.2.2020
 	 * 
 	 * 	Properties: 
@@ -778,9 +855,20 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public int getPropertie(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < Properties.length)){
-			return Properties[pInd];
+		if ((pInd >= 0) && (pInd < properties.length)){
+			return properties[pInd];
 		}else throw new Exception("07; Char,gPr");
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public int getPropertieMod(int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < propertieMods.length)){
+			return propertieMods[pInd];
+		}else throw new Exception("07; Char,gPM");
 	}
 	/**	Dh	10.2.2020
 	 * 
@@ -793,24 +881,9 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public int getStat(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < Stats.length)){
-			return Stats[pInd];
+		if ((pInd >= 0) && (pInd < stats.length)){
+			return stats[pInd];
 		}else throw new Exception("07; Char,gSt");
-	}
-	/**	Dh	10.2.2020
-	 * 
-	 * 	MaxStats:
-	 * 	  0 Lebenspunkte		2 Astralenergie
-	 * 	  1 Ausdauer			3 Karmalenergie
-	 * 
-	 * @param pInd
-	 * @return
-	 * @throws Exception
-	 */
-	public int getMaxStat(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < MaxStats.length)){
-			return MaxStats[pInd];
-		}else throw new Exception("07; Char,gMS");
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -825,43 +898,11 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public int getWound(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < Wounds.length)){
-			return Wounds[pInd];
+		if ((pInd >= 0) && (pInd < wounds.length)){
+			return wounds[pInd];
 		}else throw new Exception("07; Char,gWo");
 	}
-	/**	Dh	10.2.2020
-	 * 
-	 * 	FightValuess:
-	 * 	  0 Ini-Basiswert		2 Parade-Basiswert
-	 * 	  1 Attacke-Basiswert	3 Fernkampf-Basiswert
-	 * 
-	 * @param pInd
-	 * @return
-	 * @throws Exception
-	 */
-	public double getFightValue(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < FightValues.length)){
-			return FightValues[pInd];
-		}else throw new Exception("07; Char,gFV");
-	}
-	/**	Dh	10.2.2020
-	 * 
-	 * 	BodyRegion:
-	 * 	  0 Kopf				4 linker Arm
-	 * 	  1 Brust				5 Bauch
-	 * 	  2 Rücken				6 rechtes Bein
-	 * 	  3 rechter Arm			7 linkes Bein
-	 * 
-	 * @param pInd
-	 * @return
-	 * @throws Exception
-	 */
-	public double getRS(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < RS.length)){
-			return RS[pInd];
-		}else throw new Exception("07; Char,gRS");
-	}
-	
+	//-----
 	/**	Dh	10.2.2020
 	 * 
 	 * 	Properties: 
@@ -875,7 +916,16 @@ public class Charakter {
 	@XmlElementWrapper(name = "EigenschaftsArray")
 	@XmlElement(name = "Eigenschaft")
 	public int[] getProperties(){
-		return Properties;
+		return properties;
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @return
+	 */
+	@XmlElementWrapper(name = "EigenschaftModsArray")
+	@XmlElement(name = "EigenschaftMod")
+	public int[] getPropertieMods() {
+		return propertieMods;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -892,7 +942,7 @@ public class Charakter {
 	@XmlElementWrapper(name = "StatusArray")
 	@XmlElement(name = "Status")
 	public int[] getStats() {
-		return Stats;
+		return stats;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -907,8 +957,57 @@ public class Charakter {
 	@XmlElementWrapper(name = "WundenArray")
 	@XmlElement(name = "Wunde")
 	public int[] getWounds() {
-		return Wounds;
+		return wounds;
 	}
+	
+	/**	Dh	10.2.2020
+	 * 
+	 * 	MaxStats:
+	 * 	  0 Lebenspunkte		2 Astralenergie
+	 * 	  1 Ausdauer			3 Karmalenergie
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public double getMaxStat(int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < maxStats.length)){
+			return maxStats[pInd];
+		}else throw new Exception("07; Char,gMS");
+	}
+	/**	Dh	10.2.2020
+	 * 
+	 * 	FightValuess:
+	 * 	  0 Ini-Basiswert		2 Parade-Basiswert
+	 * 	  1 Attacke-Basiswert	3 Fernkampf-Basiswert
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public double getFightValue(int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < fightValues.length)){
+			return fightValues[pInd];
+		}else throw new Exception("07; Char,gFV");
+	}
+	/**	Dh	10.2.2020
+	 * 
+	 * 	BodyRegion:
+	 * 	  0 Kopf				4 linker Arm
+	 * 	  1 Brust				5 Bauch
+	 * 	  2 Rücken				6 rechtes Bein
+	 * 	  3 rechter Arm			7 linkes Bein
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public double getRs(int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < rs.length)){
+			return rs[pInd];
+		}else throw new Exception("07; Char,gRS");
+	}
+	//-----
 	/**	Dh	27.5.2020
 	 * 
 	 * 	Stats:
@@ -928,31 +1027,31 @@ public class Charakter {
 		case 0:
 			vRet = new double[4];
 			for (int i=0; i<vRet.length;i++){
-				vRet[i] = (double)Stats[i];
+				vRet[i] = (double)stats[i];
 			}
 			break;
 		case 1:
 			vRet = new double[5];
 			for (int i=0; i<vRet.length;i++){
-				if (i < (vRet.length-1)) vRet[i] = (double)Stats[i];
-				else vRet[i] = MR;
+				if (i < (vRet.length-1)) vRet[i] = (double)stats[i];
+				else vRet[i] = mr;
 			}
 			break;
 		case 2:
 			vRet = new double[6];
 			for (int i=0; i<vRet.length;i++){
-				if (i < (vRet.length-1)) vRet[i] = (double)Stats[i];
-				else if (i == 4) vRet[i] = MR;
-				else vRet[i] = WS;
+				if (i < (vRet.length-1)) vRet[i] = (double)stats[i];
+				else if (i == 4) vRet[i] = mr;
+				else vRet[i] = ws;
 			}
 			break;
 		case 3:
 			vRet = new double[10];
 			for (int i=0; i<vRet.length;i++){
-				if (i < (vRet.length-1)) vRet[i] = (double)Stats[i];
-				else if (i == 4) vRet[i] = MR;
-				else if (i == 5) vRet[i] = WS;
-				else vRet[i] = FightValues[i-6];
+				if (i < (vRet.length-1)) vRet[i] = (double)stats[i];
+				else if (i == 4) vRet[i] = mr;
+				else if (i == 5) vRet[i] = ws;
+				else vRet[i] = fightValues[i-6];
 			}
 			break;
 		default:
@@ -970,8 +1069,8 @@ public class Charakter {
 	 */
 	@XmlElementWrapper(name = "MaxStatusArray")
 	@XmlElement(name = "MaxStatus")
-	public int[] getMaxStats(){
-		return MaxStats;
+	public double[] getMaxStats(){
+		return maxStats;
 	}
 	/**	Dh	10.2.2020
 	 * 
@@ -984,7 +1083,7 @@ public class Charakter {
 	@XmlElementWrapper(name = "KampfwertArray")
 	@XmlElement(name = "Kampfwert")
 	public double[] getFightValues(){
-		return FightValues;
+		return fightValues;
 	}
 	/**	Dh	10.2.2020
 	 * 
@@ -998,8 +1097,8 @@ public class Charakter {
 	 */
 	@XmlElementWrapper(name = "RuestungsArray")
 	@XmlElement(name = "Ruestungswert")
-	public double[] getRS(){
-		return RS;
+	public double[] getRs(){
+		return rs;
 	}
 	//-----
 	
@@ -1013,15 +1112,15 @@ public class Charakter {
 		Pro vRet = null;
 		
 		if (pID >= 0) {
-			if (!ProList.isEmpty()) {
-				ProList.toFirst();
-				while (!ProList.isEnd()) {
-					vRet = (Pro)ProList.getCurrent();
+			if (!proList.isEmpty()) {
+				proList.toFirst();
+				while (!proList.isEnd()) {
+					vRet = (Pro)proList.getCurrent();
 					
-					if (vRet.getID() == pID) ProList.toLast();
+					if (vRet.getId() == pID) proList.toLast();
 					else vRet = null;
 					
-					ProList.next();
+					proList.next();
 				}
 			}else throw new Exception("05; Char,gP");
 		}else throw new Exception("02; Char,gP");
@@ -1038,15 +1137,15 @@ public class Charakter {
 		SpecialCraft vRet = null;
 		
 		if (pID >= 0) {
-			if (!SpecialCraftList.isEmpty()) {
-				SpecialCraftList.toFirst();
-				while (!SpecialCraftList.isEnd()) {
-					vRet = (SpecialCraft)SpecialCraftList.getCurrent();
+			if (!specialCraftList.isEmpty()) {
+				specialCraftList.toFirst();
+				while (!specialCraftList.isEnd()) {
+					vRet = (SpecialCraft)specialCraftList.getCurrent();
 					
-					if (vRet.getID() == pID) SpecialCraftList.toLast();
+					if (vRet.getId() == pID) specialCraftList.toLast();
 					else vRet = null;
 					
-					SpecialCraftList.next();
+					specialCraftList.next();
 				}
 			}else throw new Exception("05; Char,gSCL");
 		}else throw new Exception("02; Char,SCPL");
@@ -1063,15 +1162,15 @@ public class Charakter {
 		Talent vRet = null;
 		
 		if (pID >= 0) {
-			if (!TalentList.isEmpty()) {
-				TalentList.toFirst();
-				while (!TalentList.isEnd()) {
-					vRet = (Talent)TalentList.getCurrent();
+			if (!talentList.isEmpty()) {
+				talentList.toFirst();
+				while (!talentList.isEnd()) {
+					vRet = (Talent)talentList.getCurrent();
 					
-					if (vRet.getID() == pID) TalentList.toLast();
+					if (vRet.getId() == pID) talentList.toLast();
 					else vRet = null;
 					
-					TalentList.next();
+					talentList.next();
 				}
 			}else throw new Exception("05; Char,gT");
 		}else throw new Exception("02; Char,gT");
@@ -1088,15 +1187,15 @@ public class Charakter {
 		Weapon vRet = null;
 		
 		if (pID >= 0) {
-			if (!WeaponList.isEmpty()) {
-				WeaponList.toFirst();
-				while (!WeaponList.isEnd()) {
-					vRet = (Weapon)WeaponList.getCurrent();
+			if (!weaponList.isEmpty()) {
+				weaponList.toFirst();
+				while (!weaponList.isEnd()) {
+					vRet = (Weapon)weaponList.getCurrent();
 					
-					if (vRet.getID() == pID) WeaponList.toLast();
+					if (vRet.getId() == pID) weaponList.toLast();
 					else vRet = null;
 					
-					WeaponList.next();
+					weaponList.next();
 				}
 			}else throw new Exception("05; Char,gW");
 		}else throw new Exception("02; Char,gW");
@@ -1116,21 +1215,21 @@ public class Charakter {
 		List vRet = new List();
 		
 		if (!pIDList.isEmpty()) {
-			if (!ProList.isEmpty()) {
+			if (!proList.isEmpty()) {
 				pIDList.toFirst();
 				
 				while (pIDList.isEnd()) {
 					vID = pIDList.getCurrent();
-					ProList.toFirst();
+					proList.toFirst();
 					
-					while (!ProList.isEnd()) {
-						vCur = (Pro)ProList.getCurrent();
+					while (!proList.isEnd()) {
+						vCur = (Pro)proList.getCurrent();
 						
 						if (vID instanceof Integer) {
-							if ((int)vID == vCur.getID()) vRet.append(vCur);
+							if ((int)vID == vCur.getId()) vRet.append(vCur);
 						}else throw new Exception("06; Char_gPs");
 						
-						ProList.next();
+						proList.next();
 					}
 					
 					pIDList.next();
@@ -1152,21 +1251,21 @@ public class Charakter {
 		List vRet = new List();
 		
 		if (!pIDList.isEmpty()) {
-			if (!SpecialCraftList.isEmpty()) {
+			if (!specialCraftList.isEmpty()) {
 				pIDList.toFirst();
 				
 				while (pIDList.isEnd()) {
 					vID = pIDList.getCurrent();
-					SpecialCraftList.toFirst();
+					specialCraftList.toFirst();
 					
-					while (!SpecialCraftList.isEnd()) {
-						vCur = (SpecialCraft)SpecialCraftList.getCurrent();
+					while (!specialCraftList.isEnd()) {
+						vCur = (SpecialCraft)specialCraftList.getCurrent();
 						
 						if (vID instanceof Integer) {
-							if ((int)vID == vCur.getID()) vRet.append(vCur);
+							if ((int)vID == vCur.getId()) vRet.append(vCur);
 						}else throw new Exception("06; Char_gSCs");
 						
-						SpecialCraftList.next();
+						specialCraftList.next();
 					}
 					
 					pIDList.next();
@@ -1188,21 +1287,21 @@ public class Charakter {
 		List vRet = new List();
 		
 		if (!pIDList.isEmpty()) {
-			if (!TalentList.isEmpty()) {
+			if (!talentList.isEmpty()) {
 				pIDList.toFirst();
 				
 				while (pIDList.isEnd()) {
 					vID = pIDList.getCurrent();
-					TalentList.toFirst();
+					talentList.toFirst();
 					
-					while (!TalentList.isEnd()) {
-						vCur = (Talent)TalentList.getCurrent();
+					while (!talentList.isEnd()) {
+						vCur = (Talent)talentList.getCurrent();
 						
 						if (vID instanceof Integer) {
-							if ((int)vID == vCur.getID()) vRet.append(vCur);
+							if ((int)vID == vCur.getId()) vRet.append(vCur);
 						}else throw new Exception("06; Char_gTs");
 						
-						TalentList.next();
+						talentList.next();
 					}
 					
 					pIDList.next();
@@ -1224,21 +1323,21 @@ public class Charakter {
 		List vRet = new List();
 		
 		if (!pIDList.isEmpty()) {
-			if (!WeaponList.isEmpty()) {
+			if (!weaponList.isEmpty()) {
 				pIDList.toFirst();
 				
 				while (pIDList.isEnd()) {
 					vID = pIDList.getCurrent();
-					WeaponList.toFirst();
+					weaponList.toFirst();
 					
-					while (!WeaponList.isEnd()) {
-						vCur = (Weapon)WeaponList.getCurrent();
+					while (!weaponList.isEnd()) {
+						vCur = (Weapon)weaponList.getCurrent();
 						
 						if (vID instanceof Integer) {
-							if ((int)vID == vCur.getID()) vRet.append(vCur);
+							if ((int)vID == vCur.getId()) vRet.append(vCur);
 						}else throw new Exception("06; Char_gWs");
 						
-						WeaponList.next();
+						weaponList.next();
 					}
 					
 					pIDList.next();
@@ -1255,7 +1354,7 @@ public class Charakter {
 	 */
 	@XmlElement(name = "ProList")
 	public List getProList(){
-		return ProList;
+		return proList;
 	}
 	/**	Dh	18.6.2020
 	 * 
@@ -1263,7 +1362,7 @@ public class Charakter {
 	 */
 	@XmlElement(name = "SpecialCraftList")
 	public List getSpecialCraftList(){
-		return SpecialCraftList;
+		return specialCraftList;
 	}
 	/**	Dh	10.6.2020
 	 * 
@@ -1271,7 +1370,7 @@ public class Charakter {
 	 */
 	@XmlElement(name = "TalentListe")
 	public List getTalentList(){
-		return TalentList;
+		return talentList;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -1279,7 +1378,7 @@ public class Charakter {
 	 */
 	@XmlElement(name = "WaffenListe")
 	public List getWeaponList() {
-		return WeaponList;
+		return weaponList;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -1289,31 +1388,58 @@ public class Charakter {
 	 * @param pID
 	 * @throws Exception
 	 */
-	public void setID(int pID) throws Exception{
-		if (pID >= 0) ID = pID;
+	public void setId(int pID) throws Exception{
+		if (pID >= 0) id = pID;
 		else throw new Exception("02; Char,sID");
 	}
-	/**	Dh	27.5.2020
+	
+	/**	Dh	14.7.2020
 	 * 
 	 * @param pName
 	 */
-	public void setName(String pName){
-		Name = pName;
+	public void setName(String pName) throws Exception{
+		if (pName != null) {
+			if (!pName.equals("")) {
+				name = pName;
+			} else throw new Exception("02; Char,sN");
+		}else throw new Exception("04; Char,sN"); 
 	}
 	/**	Dh	27.5.2020
 	 * 
 	 * @param pRasse
 	 */
-	public void setRace(String pRasse){
-		Race = pRasse;
+	public void setRace(String pRasse) throws Exception{
+		if (pRasse != null) {
+			race = pRasse;
+		} else throw new Exception("04; Char,sR");
 	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pCulture
+	 */
+	public void setCulture(String pCulture) throws Exception {
+		if (pCulture != null) {
+			culture = pCulture;
+		} else throw new Exception("04; Char,sC");
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pProfession
+	 * @throws Exception
+	 */
+	public void setProfession(String pProfession) throws Exception {
+		if (pProfession != null) {
+			profession = pProfession;
+		} else throw new Exception("04; Char,sP");
+	}
+	
 	/**	Dh	27.5.2020	
 	 * 
 	 * @param pSO
 	 * @throws Exception
 	 */
- 	public void setSO(int pSO) throws Exception{
-		if (pSO >= 0) SO = pSO;
+ 	public void setSo(int pSO) throws Exception{
+		if (pSO >= 0) so = pSO;
 		else throw new Exception("02; Char,sSO");
 	}
  	/**	Dh	27.5.2020
@@ -1321,8 +1447,8 @@ public class Charakter {
  	 * @param pGS
  	 * @throws Exception
  	 */
-	public void setGS(int pGS) throws Exception{
-		if (pGS >= 0) GS = pGS;
+	public void setGs(int pGS) throws Exception{
+		if (pGS >= 0) gs = pGS;
 		else throw new Exception("02; Char,sGS");
 	}
 	/**	Dh	11.6.2020
@@ -1330,17 +1456,18 @@ public class Charakter {
 	 * @param pMundType
 	 * @throws Exception
 	 */
-	public void setMundType(int pMundType) throws Exception {
-		if ((pMundType >= 0) && (pMundType < 4)) MundType = pMundType;
+	public void setMundaneType(int pMundType) throws Exception {
+		if ((pMundType >= 0) && (pMundType < 4)) mundaneType = pMundType;
 		else throw new Exception("02; Cha,sMT");
 	}
+	
 	/**	Dh	27.5.2020
 	 * 
 	 * @param pMR
 	 * @throws Exception
 	 */
-	public void setMR(double pMR) throws Exception{
-		if (pMR >= 0) MR = pMR;
+	public void setMr(double pMR) throws Exception{
+		if (pMR >= 0) mr = pMR;
 		else throw new Exception("02; Char,sMR");
 	}
 	/**	Dh	27.5.2020
@@ -1348,8 +1475,8 @@ public class Charakter {
 	 * @param pWS
 	 * @throws Exception
 	 */
-	public void setWS(double pWS) throws Exception{
-		if (pWS >= 0) WS = pWS;
+	public void setWs(double pWS) throws Exception{
+		if (pWS >= 0) ws = pWS;
 		else throw new Exception("02; Char,sWS");
 	}
 	/**	Dh	27.5.2020
@@ -1357,12 +1484,12 @@ public class Charakter {
 	 * @param pBe
 	 * @throws Exception
 	 */
-	public void setBE(double pBE) throws Exception{
-		if (pBE >= 0) BE = pBE;
+	public void setBe(double pBE) throws Exception{
+		if (pBE >= 0) be = pBE;
 		else throw new Exception("02; Char,sBe");
 	}
 	//-----
-	/**	Dh	10.2.2020
+	/**	Dh	14.7.2020
 	 * 
 	 * 	pEigenschaften: 
 	 * 	  0 Mut					4 Fingerfertigkeit
@@ -1375,10 +1502,27 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public void setPropertie(int pProp, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < Properties.length)){
-			if (pProp >= 0) Properties[pInd] = pProp;
+		if ((pInd >= 0) && (pInd < properties.length)){
+			if (pProp >= 0) {
+				if (pProp != properties[pInd]) {
+					makePropDepChange(pProp-properties[pInd], pInd);
+					properties[pInd] = pProp;
+				}
+			}
 			else throw new Exception("02; Char,sPr");
 		}else throw new Exception("07; Char,sPr");
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pPropMod
+	 * @param pInd
+	 * @throws Exception
+	 */
+	public void setPropertieMod(int pPropMod, int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < propertieMods.length)){
+			if (pPropMod >= 0) properties[pInd] = pPropMod;
+			else throw new Exception("02; Char,sPM");
+		}else throw new Exception("07; Char,sPM");
 	}
 	/**	Dh	10.2.2020
 	 * 
@@ -1391,31 +1535,10 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public void setStat(int pStat, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < Stats.length)){
-			if ((pInd == 0) || ((pStat >= 0) && (pInd >= 1))) Stats[pInd] = pStat;
+		if ((pInd >= 0) && (pInd < stats.length)){
+			if ((pInd == 0) || ((pStat >= -1) && (pInd >= 1))) stats[pInd] = pStat;
 			else throw new Exception("02; Char,sSt");
 		}else throw new Exception("07; Char,sSt");
-	}
-	/**	Dh	10.2.2020
-	 * 
-	 * 	pMaxStati:
-	 * 	  0 Lebenspunkte		2 Astralenergie
-	 * 	  1 Ausdauer			3 Karmalenergie
-	 * 
-	 * @param pMaxStat
-	 * @param pInd
-	 * @throws Exception
-	 */
-	public void setMaxStat(int pMaxStat, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < MaxStats.length)){
-			if ((pMaxStat >= 0) || (((pInd == 2) || (pInd==3)) && (pMaxStat == -1))) {
-				if ((MaxStats[pInd] == Stats[pInd]) || (((pMaxStat - MaxStats[pInd]) < 0) && ((pMaxStat < Stats[pInd]) && (Stats[pInd] < MaxStats[pInd])))){
-					Stats[pInd] = pMaxStat;
-				}
-				MaxStats[pInd] = pMaxStat;
-			}
-			else throw new Exception("02; Char,sMS");
-		}else throw new Exception("07; Char,sMS");
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -1449,9 +1572,9 @@ public class Charakter {
 		int vWoundDiff;
 		Random vRan = new Random();
 		
-		if ((pInd >= 0) && (pInd < Wounds.length)){
+		if ((pInd >= 0) && (pInd < wounds.length)){
 			if (pWoundCount >= 0) {
-				vWoundDiff = pWoundCount - Wounds[pInd];
+				vWoundDiff = pWoundCount - wounds[pInd];
 				if (pInd == 0) {
 					addPropertie(-2*vWoundDiff, 0);
 					addPropertie(-2*vWoundDiff, 1);
@@ -1478,7 +1601,7 @@ public class Charakter {
 					}
 				}
 				if (pInd == 5) {
-					addGS(-1*vWoundDiff);
+					addGs(-1*vWoundDiff);
 					addFightValue(-1*vWoundDiff, 0);
 				}
 				if ((pInd == 3) || (pInd == 4)) {
@@ -1487,7 +1610,7 @@ public class Charakter {
 				}
 				if ((pInd == 6) || (pInd == 7)) {
 					addPropertie(-2*vWoundDiff, 5);
-					addGS(-1*vWoundDiff);
+					addGs(-1*vWoundDiff);
 					addFightValue(-2*vWoundDiff, 0);
 				}
 				if ((pInd == 6) || (pInd == 7) || (pInd == 3)) {
@@ -1496,46 +1619,12 @@ public class Charakter {
 					addFightValue(-2*vWoundDiff, 3);
 				}
 				
-				Wounds[pInd] = pWoundCount;
+				wounds[pInd] = pWoundCount;
 			}else throw new Exception("02; Char,sWo");
 		}else throw new Exception("07; Char,sWo");
 	}
-	/**	Dh	10.2.2020
-	 * 
-	 * 	pFightValues:
-	 * 	  0 Ini-Basiswert		2 Parade-Basiswert
-	 * 	  1 Attacke-Basiswert	3 Fernkampf-Basiswert
-	 * 
-	 * @param pFightValue
-	 * @param pInd
-	 * @throws Exception
-	 */
-	public void setFightValue(double pFightValue, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < FightValues.length)){
-			if ((pInd == 0) || ((pFightValue >= 0) && (pInd >= 1))) FightValues[pInd] = pFightValue;
-			else throw new Exception("02; Char,sFV");
-		}else throw new Exception("07; Char,sFV");
-	}
-	/**	Dh	10.2.2020
-	 * 
-	 * 	BodyRegion:
-	 * 	  0 Kopf				4 linker Arm
-	 * 	  1 Brust				5 Bauch
-	 * 	  2 Rücken				6 rechtes Bein
-	 * 	  3 rechter Arm			7 linkes Bein
-	 * 
-	 * @param pRS
-	 * @param pInd
-	 * @throws Exception
-	 */
-	public void setRS(double pRS, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < RS.length)){
-			if ((pInd == 0) || ((pRS >= 0) && (pInd >= 1))) RS[pInd] = pRS;
-			else throw new Exception("02; Char,sRS");
-		}else throw new Exception("07; Char,sRS");
-	}
-	
-	/**	Dh 10.2.2020
+	//-----	
+	/**	Dh 14.7.2020
 	 * 
 	 * 	pEigen:
 	 * 	  0 Mut					5 Gewandheit
@@ -1552,27 +1641,41 @@ public class Charakter {
 		case 8:
 			for (int i=0; i < pEigen.length; i++){
 				if (pEigen[i] < 0) throw new Exception("02; Char,sPrs");
-				Properties[i] = pEigen[i];
+				setPropertie(pEigen[i], i);
 			}
 			break;
 		case 9:
 			for (int i=0; i < pEigen.length; i++){
 				if (pEigen[i] < 0) throw new Exception("02; Char,sPrs");
-				if (i < 8) Properties[i] = pEigen[i];
-				else GS = pEigen[i];
+				if (i < 8) setPropertie(pEigen[i], i);
+				else gs = pEigen[i];
 			}
 			break;
 		case 10:
 			for (int i=0; i < pEigen.length; i++){
 				if (pEigen[i] < 0) throw new Exception("02; Char,sPrs");
-				if (i < 8) Properties[i] = pEigen[i];
-				else if (i == 9)GS = pEigen[i];
-				else SO = pEigen[i];
+				if (i < 8) setPropertie(pEigen[i], i);
+				else if (i == 9)gs = pEigen[i];
+				else so = pEigen[i];
 			}
 			break;
 		default:
 			throw new Exception("01; Char,sPrs");
 		}
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pPropMods
+	 * @throws Exception
+	 */
+	public void setPropertieMods(int[] pPropMods) throws Exception{
+		if (pPropMods != null) {
+			if (pPropMods.length == propertieMods.length) {
+				for (int i=0; i<propertieMods.length; i++) {
+					setPropertieMod(pPropMods[i], i);
+				}
+			} else throw new Exception("01; Char,sPMs");
+		} else throw new Exception("04; Char,sPM");
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -1587,8 +1690,8 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public void setWounds(int[] pWounds) throws Exception{
-		if (pWounds.length == Wounds.length) {
-			for (int i=0; i < Wounds.length; i++) {
+		if (pWounds.length == wounds.length) {
+			for (int i=0; i < wounds.length; i++) {
 				setWound(pWounds[i], i);
 			}
 		} else throw new Exception("01; Char,sWos");
@@ -1606,8 +1709,8 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public void setWounds(int[] pWounds, int[] pDiceRolls) throws Exception {
-		if ((pWounds.length == Wounds.length) && (pDiceRolls.length == Wounds.length)) {
-			for (int i=0; i < Wounds.length; i++) {
+		if ((pWounds.length == wounds.length) && (pDiceRolls.length == wounds.length)) {
+			for (int i=0; i < wounds.length; i++) {
 				setWound(pWounds[i], i, pDiceRolls[i]);
 			}
 		} else throw new Exception("01; Char,sWos");
@@ -1629,17 +1732,17 @@ public class Charakter {
 		case 4:
 			for (int i=0; i < pStati.length; i++){
 				if ((pStati[i] < -1) && ((i == 2) || (i == 3))) throw new Exception("02; Char,sSti");
-				Stats[i] = (int)pStati[i];
+				stats[i] = (int)pStati[i];
 			}
 			break;
 		case 5:
 			for (int i=0; i < pStati.length; i++){
 				if (i < 4) {
-					if ((pStati[i] >= -1) || (i == 0) || (i == 1)) Stats[i] = (int)pStati[i];
+					if ((pStati[i] >= -1) || (i == 0) || (i == 1)) stats[i] = (int)pStati[i];
 					else throw new Exception("02; Char,sSti");
 				}
 				else {
-					if (pStati[i] >= 0) MR = pStati[i];
+					if (pStati[i] >= 0) mr = pStati[i];
 					else throw new Exception("02; Char,sSti");
 				}
 			}
@@ -1647,30 +1750,30 @@ public class Charakter {
 		case 6:
 			for (int i=0; i < pStati.length; i++){
 				if (i < 4) 
-					if ((pStati[i] >= -1) || (i == 0) || (i == 1)) Stats[i] = (int)pStati[i];
+					if ((pStati[i] >= -1) || (i == 0) || (i == 1)) stats[i] = (int)pStati[i];
 					else throw new Exception("02; Char,sSti");
 				else if (i==4) {
-					if (pStati[i] >= 0) MR = pStati[i];
+					if (pStati[i] >= 0) mr = pStati[i];
 					else throw new Exception("02; Char,sSti");
 				}
-				else WS = pStati[i];
+				else ws = pStati[i];
 			}
 			break;
 		case 10:
 			for (int i=0; i < pStati.length; i++){
 				if (i < 4) 
-					if ((pStati[i] >= -1) || (i == 0) || (i == 1)) Stats[i] = (int)pStati[i];
+					if ((pStati[i] >= -1) || (i == 0) || (i == 1)) stats[i] = (int)pStati[i];
 					else throw new Exception("02; Char,sSti");
 				else if (i==4) {
-					if (pStati[i] >= 0) MR = pStati[i];
+					if (pStati[i] >= 0) mr = pStati[i];
 					else throw new Exception("02; Char,sSti");
 				}
 				else if (i==5) {
-					if (pStati[i] >= 1) MR = pStati[i];
+					if (pStati[i] >= 1) mr = pStati[i];
 					else throw new Exception("02; Char,sSti");
 				}
 				else {
-					if (pStati[i] >= 0) FightValues[i-6] = pStati[i];
+					if (pStati[i] >= 0) fightValues[i-6] = pStati[i];
 					else throw new Exception("02; Char,sSti");
 				}
 			}
@@ -1679,6 +1782,63 @@ public class Charakter {
 			throw new Exception("01; Char;sSti");
 		}
 	}
+	
+	/**	Dh	10.2.2020
+	 * 
+	 * 	pMaxStati:
+	 * 	  0 Lebenspunkte		2 Astralenergie
+	 * 	  1 Ausdauer			3 Karmalenergie
+	 * 
+	 * @param pMaxStat
+	 * @param pInd
+	 * @throws Exception
+	 */
+	public void setMaxStat(double pMaxStat, int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < maxStats.length)){
+			if ((pMaxStat >= 0) || (((pInd == 2) || (pInd==3)) && (pMaxStat == -1))) {
+				if ((maxStats[pInd] == stats[pInd]) || (((pMaxStat - maxStats[pInd]) < 0) && ((pMaxStat < stats[pInd]) && (stats[pInd] < maxStats[pInd])))){
+					stats[pInd] = (int)pMaxStat;
+				}
+				maxStats[pInd] = pMaxStat;
+			}
+			else throw new Exception("02; Char,sMS");
+		}else throw new Exception("07; Char,sMS");
+	}
+	/**	Dh	10.2.2020
+	 * 
+	 * 	pFightValues:
+	 * 	  0 Ini-Basiswert		2 Parade-Basiswert
+	 * 	  1 Attacke-Basiswert	3 Fernkampf-Basiswert
+	 * 
+	 * @param pFightValue
+	 * @param pInd
+	 * @throws Exception
+	 */
+	public void setFightValue(double pFightValue, int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < fightValues.length)){
+			if ((pInd == 0) || ((pFightValue >= 0) && (pInd >= 1))) fightValues[pInd] = pFightValue;
+			else throw new Exception("02; Char,sFV");
+		}else throw new Exception("07; Char,sFV");
+	}
+	/**	Dh	10.2.2020
+	 * 
+	 * 	BodyRegion:
+	 * 	  0 Kopf				4 linker Arm
+	 * 	  1 Brust				5 Bauch
+	 * 	  2 Rücken				6 rechtes Bein
+	 * 	  3 rechter Arm			7 linkes Bein
+	 * 
+	 * @param pRS
+	 * @param pInd
+	 * @throws Exception
+	 */
+	public void setRs(double pRS, int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < rs.length)){
+			if ((pInd == 0) || ((pRS >= 0) && (pInd >= 1))) rs[pInd] = pRS;
+			else throw new Exception("02; Char,sRS");
+		}else throw new Exception("07; Char,sRS");
+	}
+	//-----
 	/**	Dh	10.2.2020
 	 * 
 	 * 	pMaxStati:
@@ -1688,8 +1848,8 @@ public class Charakter {
 	 * @param pMaxStati
 	 * @throws Exception
 	 */
-	public void setMaxStats(int[] pMaxStati) throws Exception{
-		if (pMaxStati.length == MaxStats.length){
+	public void setMaxStats(double[] pMaxStati) throws Exception{
+		if (pMaxStati.length == maxStats.length){
 			for (int i=0; i < pMaxStati.length; i++){
 				try{ setMaxStat(pMaxStati[i], i);}
 				catch(Exception exc) {throw exc;}
@@ -1706,9 +1866,9 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public void setFightValues(double[] pFightValues) throws Exception{
-		if (pFightValues.length == FightValues.length){
+		if (pFightValues.length == fightValues.length){
 			for (int i=0; i < pFightValues.length; i++){
-				if (pFightValues[i] >= 0) FightValues[i] = pFightValues[i];
+				if (pFightValues[i] >= 0) fightValues[i] = pFightValues[i];
 				else throw new Exception("02; Char;sFVs");
 			}
 		}else throw new Exception("01; Char;sFVs");
@@ -1724,15 +1884,15 @@ public class Charakter {
 	 * @param pRS
 	 * @throws Exception
 	 */
-	public void setRS(double[] pRS) throws Exception{
-		if (pRS.length == RS.length){
+	public void setRs(double[] pRS) throws Exception{
+		if (pRS.length == rs.length){
 			for (int i=0; i < pRS.length; i++){
-				if (pRS[i] >= 0) RS[i] = pRS[i];
+				if (pRS[i] >= 0) rs[i] = pRS[i];
 				else throw new Exception("02; Char;sRSs");
 			}
 		}else throw new Exception("01; Char;sRSs");
 	}
-	//-----
+	
 	/**	Dh	18.6.2020
 	 * 
 	 * @param pProList
@@ -1740,14 +1900,14 @@ public class Charakter {
 	 */
 	public void setProList(List pProList) throws Exception{
 		if (pProList != null){
-			if (ProList != null){
-				while(!ProList.isEmpty()){
-					ProList.toFirst();
-					ProList.remove();
+			if (proList != null){
+				while(!proList.isEmpty()){
+					proList.toFirst();
+					proList.remove();
 				}
 			}
 				
-			ProList = pProList;
+			proList = pProList;
 		}
 		else throw new Exception("04; Char,sPL");
 	}
@@ -1758,14 +1918,14 @@ public class Charakter {
 	 */
 	public void setSpecialCraftList(List pSpecialCraftList) throws Exception{
 		if (pSpecialCraftList != null){
-			if (SpecialCraftList != null){
-				while(!SpecialCraftList.isEmpty()){
-					SpecialCraftList.toFirst();
-					SpecialCraftList.remove();
+			if (specialCraftList != null){
+				while(!specialCraftList.isEmpty()){
+					specialCraftList.toFirst();
+					specialCraftList.remove();
 				}
 			}
 				
-			SpecialCraftList = pSpecialCraftList;
+			specialCraftList = pSpecialCraftList;
 		}
 		else throw new Exception("04; Char,sSCL");
 	}
@@ -1776,14 +1936,14 @@ public class Charakter {
 	 */
 	public void setTalentList(List pTalentList) throws Exception{
 		if (pTalentList != null){
-			if (TalentList != null){
-				while(!TalentList.isEmpty()){
-					TalentList.toFirst();
-					TalentList.remove();
+			if (talentList != null){
+				while(!talentList.isEmpty()){
+					talentList.toFirst();
+					talentList.remove();
 				}
 			}
 				
-			TalentList = pTalentList;
+			talentList = pTalentList;
 		}
 		else throw new Exception("04; Char,sTL");
 	}
@@ -1794,20 +1954,20 @@ public class Charakter {
 	 */
 	public void setWeaponList(List pWeaponList) throws Exception {
 		if (pWeaponList != null){
-			if (WeaponList != null){
-				while(!WeaponList.isEmpty()){
-					WeaponList.toFirst();
-					WeaponList.remove();
+			if (weaponList != null){
+				while(!weaponList.isEmpty()){
+					weaponList.toFirst();
+					weaponList.remove();
 				}
 			}
 			
 			pWeaponList.toFirst();
 			for (int i=0; i < pWeaponList.getContentNumber(); i++) {
-				((Weapon)pWeaponList.getCurrent()).setID(i);
+				((Weapon)pWeaponList.getCurrent()).setId(i);
 				pWeaponList.next();
 			}
 			
-			WeaponList = pWeaponList;
+			weaponList = pWeaponList;
 		} else throw new Exception("04; Char,sWL");
 	}
 	
@@ -1823,7 +1983,7 @@ public class Charakter {
 		boolean vRet;
 		
 		if ((pInd >= 0) && (pInd < 4)) {
-			if ((Stats[pInd]/MaxStats[pInd]) < 0.5) vRet = true;
+			if ((stats[pInd]/maxStats[pInd]) < 0.5) vRet = true;
 			else vRet =  false;
 		} else throw new Exception("02; Cha,iUtH");
 		
@@ -1839,7 +1999,7 @@ public class Charakter {
 		boolean vRet;
 		
 		if ((pInd >= 0) && (pInd < 4)) {
-			if ((Stats[pInd]/MaxStats[pInd]) < (1/3)) vRet = true;
+			if ((stats[pInd]/maxStats[pInd]) < (1/3)) vRet = true;
 			else vRet =  false;
 		} else throw new Exception("02; Cha,iUtT");
 		
@@ -1855,7 +2015,7 @@ public class Charakter {
 		boolean vRet;
 		
 		if ((pInd >= 0) && (pInd < 4)) {
-			if ((Stats[pInd]/MaxStats[pInd]) < 0.25) vRet = true;
+			if ((stats[pInd]/maxStats[pInd]) < 0.25) vRet = true;
 			else vRet =  false;
 		} else throw new Exception("02; Cha,iUtQ");
 		
@@ -1875,15 +2035,15 @@ public class Charakter {
 		Pro vCur;
 		
 		if (pPro != null) {
-			if (!ProList.isEmpty()) {
-				ProList.toFirst();
+			if (!proList.isEmpty()) {
+				proList.toFirst();
 				
-				while(!ProList.isEnd() && (vRet == false)) {
-					vCur = (Pro) ProList.getCurrent();
+				while(!proList.isEnd() && (vRet == false)) {
+					vCur = (Pro) proList.getCurrent();
 					
 					if (pPro.equals(vCur)) vRet = true;
 					
-					ProList.next();
+					proList.next();
 				}
 			}
 		} else throw new Exception("04; Cha,hP");
@@ -1901,15 +2061,15 @@ public class Charakter {
 		Pro vCur;
 		
 		if (pID >= 0) {
-			if (!ProList.isEmpty()) {
-				ProList.toFirst();
+			if (!proList.isEmpty()) {
+				proList.toFirst();
 				
-				while(!ProList.isEnd() && (vRet == false)) {
-					vCur = (Pro) ProList.getCurrent();
+				while(!proList.isEnd() && (vRet == false)) {
+					vCur = (Pro) proList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = true;
+					if (pID == vCur.getId()) vRet = true;
 					
-					ProList.next();
+					proList.next();
 				}
 			}
 		} else throw new Exception("02; Cha,hP");
@@ -1927,15 +2087,15 @@ public class Charakter {
 		Pro vCur;
 		
 		if (pName != "") {
-			if (!ProList.isEmpty()) {
-				ProList.toFirst();
+			if (!proList.isEmpty()) {
+				proList.toFirst();
 				
-				while(!ProList.isEnd() && (vRet == false)) {
-					vCur = (Pro) ProList.getCurrent();
+				while(!proList.isEnd() && (vRet == false)) {
+					vCur = (Pro) proList.getCurrent();
 					
 					if (pName.equals(vCur.getName())) vRet = true;
 					
-					ProList.next();
+					proList.next();
 				}
 			}
 		} else throw new Exception("02; Cha,hP");
@@ -1954,15 +2114,15 @@ public class Charakter {
 		SpecialCraft vCur;
 		
 		if (pSpecialCraft != null) {
-			if (!SpecialCraftList.isEmpty()) {
-				SpecialCraftList.toFirst();
+			if (!specialCraftList.isEmpty()) {
+				specialCraftList.toFirst();
 				
-				while(!SpecialCraftList.isEnd() && (vRet == false)) {
-					vCur = (SpecialCraft) SpecialCraftList.getCurrent();
+				while(!specialCraftList.isEnd() && (vRet == false)) {
+					vCur = (SpecialCraft) specialCraftList.getCurrent();
 					
 					if (pSpecialCraft.equals(vCur)) vRet = true;
 					
-					SpecialCraftList.next();
+					specialCraftList.next();
 				}
 			}
 		} else throw new Exception("04; Cha,hSC");
@@ -1980,15 +2140,15 @@ public class Charakter {
 		SpecialCraft vCur;
 		
 		if (pID >= 0) {
-			if (!SpecialCraftList.isEmpty()) {
-				SpecialCraftList.toFirst();
+			if (!specialCraftList.isEmpty()) {
+				specialCraftList.toFirst();
 				
-				while(!SpecialCraftList.isEnd() && (vRet == false)) {
-					vCur = (SpecialCraft) SpecialCraftList.getCurrent();
+				while(!specialCraftList.isEnd() && (vRet == false)) {
+					vCur = (SpecialCraft) specialCraftList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = true;
+					if (pID == vCur.getId()) vRet = true;
 					
-					SpecialCraftList.next();
+					specialCraftList.next();
 				}
 			}
 		} else throw new Exception("02; Cha,hSC");
@@ -2006,15 +2166,15 @@ public class Charakter {
 		SpecialCraft vCur;
 		
 		if (pName != "") {
-			if (!SpecialCraftList.isEmpty()) {
-				SpecialCraftList.toFirst();
+			if (!specialCraftList.isEmpty()) {
+				specialCraftList.toFirst();
 				
-				while(!SpecialCraftList.isEnd() && (vRet == false)) {
-					vCur = (SpecialCraft) SpecialCraftList.getCurrent();
+				while(!specialCraftList.isEnd() && (vRet == false)) {
+					vCur = (SpecialCraft) specialCraftList.getCurrent();
 					
 					if (pName.equals(vCur.getName())) vRet = true;
 					
-					SpecialCraftList.next();
+					specialCraftList.next();
 				}
 			}
 		} else throw new Exception("02; Cha,hSC");
@@ -2033,15 +2193,15 @@ public class Charakter {
 		Talent vCur;
 		
 		if (pTalent!= null) {
-			if (!TalentList.isEmpty()) {
-				TalentList.toFirst();
+			if (!talentList.isEmpty()) {
+				talentList.toFirst();
 				
-				while(!TalentList.isEnd() && (vRet == false)) {
-					vCur = (Talent) TalentList.getCurrent();
+				while(!talentList.isEnd() && (vRet == false)) {
+					vCur = (Talent) talentList.getCurrent();
 					
 					if (pTalent.equals(vCur)) vRet = true;
 					
-					TalentList.next();
+					talentList.next();
 				}
 			}
 		} else throw new Exception("04; Cha,hT");
@@ -2059,15 +2219,15 @@ public class Charakter {
 		Talent vCur;
 		
 		if (pID >= 0) {
-			if (!TalentList.isEmpty()) {
-				TalentList.toFirst();
+			if (!talentList.isEmpty()) {
+				talentList.toFirst();
 				
-				while(!TalentList.isEnd() && (vRet == false)) {
-					vCur = (Talent) TalentList.getCurrent();
+				while(!talentList.isEnd() && (vRet == false)) {
+					vCur = (Talent) talentList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = true;
+					if (pID == vCur.getId()) vRet = true;
 					
-					TalentList.next();
+					talentList.next();
 				}
 			}
 		} else throw new Exception("02; Cha,hT");
@@ -2085,15 +2245,15 @@ public class Charakter {
 		Talent vCur;
 		
 		if (pName != "") {
-			if (!TalentList.isEmpty()) {
-				TalentList.toFirst();
+			if (!talentList.isEmpty()) {
+				talentList.toFirst();
 				
-				while(!TalentList.isEnd() && (vRet == false)) {
-					vCur = (Talent) TalentList.getCurrent();
+				while(!talentList.isEnd() && (vRet == false)) {
+					vCur = (Talent) talentList.getCurrent();
 					
 					if (pName.equals(vCur.getName())) vRet = true;
 					
-					TalentList.next();
+					talentList.next();
 				}
 			}
 		} else throw new Exception("02; Cha,hT");
@@ -2112,15 +2272,15 @@ public class Charakter {
 		Weapon vCur;
 		
 		if (pWeapon!= null) {
-			if (!WeaponList.isEmpty()) {
-				WeaponList.toFirst();
+			if (!weaponList.isEmpty()) {
+				weaponList.toFirst();
 				
-				while(!WeaponList.isEnd() && (vRet == false)) {
-					vCur = (Weapon) WeaponList.getCurrent();
+				while(!weaponList.isEnd() && (vRet == false)) {
+					vCur = (Weapon) weaponList.getCurrent();
 					
 					if (pWeapon.equals(vCur)) vRet = true;
 					
-					WeaponList.next();
+					weaponList.next();
 				}
 			}
 		} else throw new Exception("04; Cha,hW");
@@ -2138,15 +2298,15 @@ public class Charakter {
 		Weapon vCur;
 		
 		if (pID >= 0) {
-			if (!WeaponList.isEmpty()) {
-				WeaponList.toFirst();
+			if (!weaponList.isEmpty()) {
+				weaponList.toFirst();
 				
-				while(!WeaponList.isEnd() && (vRet == false)) {
-					vCur = (Weapon) WeaponList.getCurrent();
+				while(!weaponList.isEnd() && (vRet == false)) {
+					vCur = (Weapon) weaponList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = true;
+					if (pID == vCur.getId()) vRet = true;
 					
-					WeaponList.next();
+					weaponList.next();
 				}
 			}
 		} else throw new Exception("02; Cha,hW");
@@ -2164,15 +2324,15 @@ public class Charakter {
 		Weapon vCur;
 		
 		if (pName != "") {
-			if (!WeaponList.isEmpty()) {
-				WeaponList.toFirst();
+			if (!weaponList.isEmpty()) {
+				weaponList.toFirst();
 				
-				while(!WeaponList.isEnd() && (vRet == false)) {
-					vCur = (Weapon) WeaponList.getCurrent();
+				while(!weaponList.isEnd() && (vRet == false)) {
+					vCur = (Weapon) weaponList.getCurrent();
 					
 					if (pName.equals(vCur.getName())) vRet = true;
 					
-					WeaponList.next();
+					weaponList.next();
 				}
 			}
 		} else throw new Exception("02; Cha,hW");
@@ -2187,10 +2347,10 @@ public class Charakter {
 	 * @param pSO
 	 * @throws Exception
 	 */
-	public void addSO(int pSO) throws Exception{
-		if ((pSO >= 0) || ((pSO < 0) && (-pSO <= SO))) SO += pSO;
+	public void addSo(int pSO) throws Exception{
+		if ((pSO >= 0) || ((pSO < 0) && (-pSO <= so))) so += pSO;
 		else{
-			SO = 0;
+			so = 0;
 			throw new Exception("03; Char,aSO");
 		}
 	}
@@ -2199,22 +2359,23 @@ public class Charakter {
 	 * @param pGS
 	 * @throws Exception
 	 */
-	public void addGS(int pGS) throws Exception{
-		if ((pGS >= 0) || ((pGS < 0) && (-pGS <= GS))) GS += pGS;
+	public void addGs(int pGS) throws Exception{
+		if ((pGS >= 0) || ((pGS < 0) && (-pGS <= gs))) gs += pGS;
 		else{
-			GS = 0;
+			gs = 0;
 			throw new Exception("03; Char,aGS");
 		}
 	}
+	
 	/**	Dh	27.5.2020
 	 * 
 	 * @param pMR
 	 * @throws Exception
 	 */
-	public void addMR(double pMR) throws Exception{
-		if ((pMR >= 0) || ((pMR < 0) && (-pMR <= MR))) MR += pMR;
+	public void addMr(double pMR) throws Exception{
+		if ((pMR >= 0) || ((pMR < 0) && (-pMR <= mr))) mr += pMR;
 		else{
-			MR = 0;
+			mr = 0;
 			throw new Exception("03; Char,aMR");
 		}
 	}
@@ -2223,10 +2384,10 @@ public class Charakter {
 	 * @param pWS
 	 * @throws Exception
 	 */
-	public void addWS(double pWS) throws Exception{
-		if ((pWS >= 0) || ((pWS < 0) && (-pWS < WS))) WS += pWS;
+	public void addWs(double pWS) throws Exception{
+		if ((pWS >= 0) || ((pWS < 0) && (-pWS < ws))) ws += pWS;
 		else{
-			WS = 0;
+			ws = 0;
 			throw new Exception("03; Char,aWS");
 		}
 	}
@@ -2235,10 +2396,10 @@ public class Charakter {
 	 * @param pBe
 	 * @throws Exception
 	 */
-	public void addBE(double pBE) throws Exception{
-		if ((pBE >= 0) || ((pBE < 0) && (-pBE <= BE))) BE += pBE;
+	public void addBe(double pBE) throws Exception{
+		if ((pBE >= 0) || ((pBE < 0) && (-pBE <= be))) be += pBE;
 		else{
-			BE = 0;
+			be = 0;
 			throw new Exception("03; Char,aBe");
 		}
 	}
@@ -2256,21 +2417,33 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public void addPropertie(int pProp, int pInd) throws Exception{		
-		if ((pInd >= 0) && (pInd < Properties.length)){
-			if ((pProp >= 0) || ((pProp < 0) && (-pProp < Properties[pInd]))) {
+		if ((pInd >= 0) && (pInd < properties.length)){
+			if ((pProp >= 0) || ((pProp < 0) && (-pProp < properties[pInd]))) {
 				try{ makePropDepChange(pProp, pInd);}
 				catch(Exception exc) {throw exc;}
 				
-				Properties[pInd] += pProp;
+				properties[pInd] += pProp;
 			}
 			else{
-				try{ makePropDepChange(-Properties[pInd], pInd);}
+				try{ makePropDepChange(-properties[pInd], pInd);}
 				catch(Exception exc) {throw exc;}
 				
-				Properties[pInd] = 0;
+				properties[pInd] = 0;
 				throw new Exception("03; Char,aPr");
 			}
 		}else throw new Exception("07; Char,aPr");
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pPropMod
+	 * @param pInd
+	 * @throws Exception
+	 */
+	public void addPropertieMod(int pPropMod, int pInd) throws Exception {
+		if ((pInd >= 0) && (pInd < propertieMods.length)){
+			if (pPropMod >= 0) properties[pInd] += pPropMod;
+			else throw new Exception("02; Char,aPM");
+		}else throw new Exception("07; Char,aPM");
 	}
 	/**	Dh	11.2.2020
 	 * 
@@ -2283,39 +2456,16 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public void addStat(int pStat, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < Stats.length)){
-			if ((pStat >= 0) || ((pStat < 0) && (-pStat < Stats[pInd]))) {
-				if ((Stats[pInd] > MaxStats[pInd]) || ((Stats[pInd]+pStat) <= MaxStats[pInd])) Stats[pInd] += pStat;
-				else Stats[pInd] = MaxStats[pInd];
+		if ((pInd >= 0) && (pInd < stats.length)){
+			if ((pStat >= 0) || ((pStat < 0) && (-pStat < stats[pInd]))) {
+				if ((stats[pInd] > maxStats[pInd]) || ((stats[pInd]+pStat) <= maxStats[pInd])) stats[pInd] += pStat;
+				else stats[pInd] = (int)maxStats[pInd];
 			}
 			else{
-				Stats[pInd] = 0;
+				stats[pInd] = 0;
 				throw new Exception("03; Char,aSt");
 			}
 		}else throw new Exception("07; Char,aSt");
-	}
-	/**	Dh	11.2.2020
-	 * 
-	 * 	pMaxStati:
-	 * 	  0 Lebenspunkte		2 Astralenergie
-	 * 	  1 Ausdauer			3 Karmalenergie
-	 * 
-	 * @param pMaxStat
-	 * @param pInd
-	 * @throws Exception
-	 */
-	public void addMaxStat(int pMaxStat, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < MaxStats.length)){
-			if ((pMaxStat >= 0) || ((pMaxStat < 0) && (-pMaxStat < MaxStats[pInd]))) {
-				if ((MaxStats[pInd] >= Stats[pInd]) && ((MaxStats[pInd]+pMaxStat) < Stats[pInd] )) Stats[pInd] = MaxStats[pInd] + pMaxStat;
-				MaxStats[pInd] += pMaxStat;
-			}
-			else{
-				if ((Stats[pInd] > 0) && (Stats[pInd] <= MaxStats[pInd])) Stats[pInd] = 0;
-				MaxStats[pInd] = 0;
-				throw new Exception("03; Char,aMS");
-			}
-		}else throw new Exception("07; Char,aMS");
 	}
 	/**	Dh	28.5.2020
 	 * 
@@ -2349,8 +2499,8 @@ public class Charakter {
 	public void addWound(int pWound, int pInd, int pDiceRoll) throws Exception {
 		Random vRan = new Random();
 		
-		if ((pInd >= 0) && (pInd < Wounds.length)){
-			if ((Wounds[pInd]+pWound) >= 0) {
+		if ((pInd >= 0) && (pInd < wounds.length)){
+			if ((wounds[pInd]+pWound) >= 0) {
 				
 				if (pInd == 0) {
 					addPropertie(-2*pWound, 0);
@@ -2378,7 +2528,7 @@ public class Charakter {
 					}
 				}
 				if (pInd == 5) {
-					addGS(-1*pWound);
+					addGs(-1*pWound);
 					addFightValue(-1*pWound, 0);
 				}
 				if ((pInd == 3) || (pInd == 4)) {
@@ -2387,7 +2537,7 @@ public class Charakter {
 				}
 				if ((pInd == 6) || (pInd == 7)) {
 					addPropertie(-2*pWound, 5);
-					addGS(-1*pWound);
+					addGs(-1*pWound);
 					addFightValue(-2*pWound, 0);
 				}
 				if ((pInd == 6) || (pInd == 7) || (pInd == 3)) {
@@ -2396,9 +2546,33 @@ public class Charakter {
 					addFightValue(-2*pWound, 3);
 				}
 				
-				Wounds[pInd] += pWound;
+				wounds[pInd] += pWound;
 			}else throw new Exception("02; Char,sWo");
 		}else throw new Exception("07; Char,sWo");
+	}
+	
+	/**	Dh	11.2.2020
+	 * 
+	 * 	pMaxStati:
+	 * 	  0 Lebenspunkte		2 Astralenergie
+	 * 	  1 Ausdauer			3 Karmalenergie
+	 * 
+	 * @param pMaxStat
+	 * @param pInd
+	 * @throws Exception
+	 */
+	public void addMaxStat(double pMaxStat, int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < maxStats.length)){
+			if ((pMaxStat >= 0) || ((pMaxStat < 0) && (-pMaxStat < maxStats[pInd]))) {
+				if ((maxStats[pInd] >= stats[pInd]) && ((maxStats[pInd]+pMaxStat) < stats[pInd] )) stats[pInd] = (int)(maxStats[pInd] + pMaxStat);
+				maxStats[pInd] += pMaxStat;
+			}
+			else{
+				if ((stats[pInd] > 0) && (stats[pInd] <= maxStats[pInd])) stats[pInd] = 0;
+				maxStats[pInd] = 0;
+				throw new Exception("03; Char,aMS");
+			}
+		}else throw new Exception("07; Char,aMS");
 	}
 	/**	Dh	11.2.2020
 	 * 
@@ -2411,10 +2585,10 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public void addFightValue(double pFightValue, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < FightValues.length)){
-			if ((pFightValue >= 0) || ((pFightValue < 0) && (-pFightValue < FightValues[pInd]))) FightValues[pInd] += pFightValue;
+		if ((pInd >= 0) && (pInd < fightValues.length)){
+			if ((pFightValue >= 0) || ((pFightValue < 0) && (-pFightValue < fightValues[pInd]))) fightValues[pInd] += pFightValue;
 			else{
-				FightValues[pInd] = 0;
+				fightValues[pInd] = 0;
 				throw new Exception("03; Char,aFV");
 			}
 		}else throw new Exception("07; Char,aFV");
@@ -2431,11 +2605,11 @@ public class Charakter {
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void addRS(double pRS, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < RS.length)){
-			if ((pRS >= 0) || ((pRS < 0) && (-pRS <= RS[pInd]))) RS[pInd] += pRS;
+	public void addRs(double pRS, int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < rs.length)){
+			if ((pRS >= 0) || ((pRS < 0) && (-pRS <= rs[pInd]))) rs[pInd] += pRS;
 			else{
-				RS[pInd] = 0;
+				rs[pInd] = 0;
 				throw new Exception("03; Char,aRS");
 			}
 		}else throw new Exception("07; Char,aRS");
@@ -2465,7 +2639,7 @@ public class Charakter {
 			for (int i=0; i < pEigen.length; i++){
 				try{
 					if (i < 8) addPropertie(pEigen[i], i);
-					else addGS(pEigen[i]);
+					else addGs(pEigen[i]);
 				} catch(Exception exc) {throw exc;}
 			}
 			break;
@@ -2473,14 +2647,28 @@ public class Charakter {
 			for (int i=0; i < pEigen.length; i++){
 				try{
 					if (i < 8) addPropertie(pEigen[i], i);
-					else if (i == 9) addGS(pEigen[i]);
-					else addSO(pEigen[i]);
+					else if (i == 9) addGs(pEigen[i]);
+					else addSo(pEigen[i]);
 				} catch(Exception exc) {throw exc;}
 			}
 			break;
 		default:
 			throw new Exception("01; Char,aPrs");
 		}
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pPropMods
+	 * @throws Exception
+	 */
+	public void addPropertieMods(int[] pPropMods) throws Exception{
+		if (pPropMods != null) {
+			if (pPropMods.length == propertieMods.length) {
+				for (int i=0; i < propertieMods.length; i++) {
+					addPropertieMod(pPropMods[i],i);
+				}
+			} else throw new Exception("01; Char,aPMs");
+		} else throw new Exception("04; Char,aPMs");
 	}
 	/**	Dh 11.2.2020
 	 * 
@@ -2506,7 +2694,7 @@ public class Charakter {
 			for (int i=0; i < pStati.length; i++){
 				try{
 					if (i < 4) addStat((int) pStati[i], i);
-					else addMR(pStati[i]);
+					else addMr(pStati[i]);
 				} catch(Exception exc) {throw exc;}
 			}
 			break;
@@ -2514,8 +2702,8 @@ public class Charakter {
 			for (int i=0; i < pStati.length; i++){
 				try{
 					if (i < 4) addStat((int) pStati[i], i);
-					else if (i==4) addMR(pStati[i]);
-					else addWS(pStati[i]);
+					else if (i==4) addMr(pStati[i]);
+					else addWs(pStati[i]);
 				} catch(Exception exc) {throw exc;}
 			}
 			break;
@@ -2523,8 +2711,8 @@ public class Charakter {
 			for (int i=0; i < pStati.length; i++){
 				try{
 					if (i < 4) addStat((int) pStati[i], i);
-					else if (i==4) addMR(pStati[i]);
-					else if (i==5) addWS(pStati[i]);
+					else if (i==4) addMr(pStati[i]);
+					else if (i==5) addWs(pStati[i]);
 					else addFightValue(pStati[i], i-6);
 				} catch(Exception exc) {throw exc;}
 			}
@@ -2532,23 +2720,6 @@ public class Charakter {
 		default:
 			throw new Exception("01; Char;aSti");
 		}
-	}
-	/**	Dh	11.2.2020
-	 * 
-	 * 	pMaxStati:
-	 * 	  0 Lebenspunkte		2 Astralpunkte
-	 * 	  1 Ausdauerpunkte		3 Karmalpunkte
-	 * 
-	 * @param pMaxStati
-	 * @throws Exception
-	 */
-	public void addMaxStats(int[] pMaxStati) throws Exception{
-		if (pMaxStati.length == MaxStats.length){
-			for (int i=0; i < pMaxStati.length; i++){
-				try{ addMaxStat(pMaxStati[i], i);}
-				catch(Exception exc) {throw exc;}
-			}
-		}else throw new Exception("01; Char;aMSti");
 	}
 	/**	Dh	28.5.2020
 	 * 
@@ -2562,8 +2733,8 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public void addWounds(int[] pWounds) throws Exception{
-		if (pWounds.length == Wounds.length) {
-			for (int i=0; i<Wounds.length; i++) {
+		if (pWounds.length == wounds.length) {
+			for (int i=0; i<wounds.length; i++) {
 				try {addWound(pWounds[i], i, -1);}
 				catch (Exception ex) {throw ex;}
 			}
@@ -2582,12 +2753,30 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public void addWounds(int[] pWounds, int[] pDiceRolls) throws Exception{
-		if ((pWounds.length == Wounds.length) && (pDiceRolls.length == Wounds.length)) {
-			for (int i=0; i<Wounds.length; i++) {
+		if ((pWounds.length == wounds.length) && (pDiceRolls.length == wounds.length)) {
+			for (int i=0; i<wounds.length; i++) {
 				try {addWound(pWounds[i], i, pDiceRolls[i]);}
 				catch (Exception ex) {throw ex;}
 			}
 		}else throw new Exception("01; Char_aWos");
+	}
+	
+	/**	Dh	11.2.2020
+	 * 
+	 * 	pMaxStati:
+	 * 	  0 Lebenspunkte		2 Astralpunkte
+	 * 	  1 Ausdauerpunkte		3 Karmalpunkte
+	 * 
+	 * @param pMaxStati
+	 * @throws Exception
+	 */
+	public void addMaxStats(double[] pMaxStati) throws Exception{
+		if (pMaxStati.length == maxStats.length){
+			for (int i=0; i < pMaxStati.length; i++){
+				try{ addMaxStat(pMaxStati[i], i);}
+				catch(Exception exc) {throw exc;}
+			}
+		}else throw new Exception("01; Char;aMSti");
 	}
 	/**	Dh	11.2.2020
 	 * 
@@ -2599,7 +2788,7 @@ public class Charakter {
 	 * @throws Exception
 	 */
 	public void addFightValues(double[] pFightValues) throws Exception{
-		if (pFightValues.length == FightValues.length){
+		if (pFightValues.length == fightValues.length){
 			for (int i=0; i < pFightValues.length; i++){
 				try{ addFightValue(pFightValues[i], i);}
 				catch(Exception exc) {throw exc;}
@@ -2617,40 +2806,103 @@ public class Charakter {
 	 * @param pRS
 	 * @throws Exception
 	 */
-	public void addRS(double[] pRS) throws Exception{
-		if (pRS.length == RS.length){
+	public void addRs(double[] pRS) throws Exception{
+		if (pRS.length == rs.length){
 			for (int i=0; i < pRS.length; i++){
-				try{ RS[i] = pRS[i];}
+				try{ rs[i] = pRS[i];}
 				catch(Exception exc) {throw exc;}
 			}
 		}else throw new Exception("01; Char;sRSs");
 	}
 	//-----
-	/**	Dh	23.6.2020
+	/**	Dh	14.7.2020
+	 * 
+	 * 	Fuegt den uebergeben Vorteil nach ID sortiert in die Vorteilsliste ein.
 	 * 
 	 * @param pPro
 	 * @throws Exception
 	 */
 	public void addPro(Pro pPro) throws Exception{
-		if(pPro != null) ProList.append(pPro);
+		int vID;
+		Pro vCur;
+		
+		if(pPro != null) {
+			vID = pPro.getId();
+			
+			if (!proList.isEmpty() && ((Pro)proList.getLast()).getId() > vID) {
+				proList.toFirst();
+				
+				while(!proList.isEnd()) {
+					vCur = (Pro) proList.getCurrent();
+					
+					if (vCur.getId() > vID) {
+						proList.insert(pPro);
+						proList.toLast();
+					}
+					
+					proList.next();
+				}
+			} else proList.append(pPro);
+		}
 		else throw new Exception("04; Char,aP");
 	}
-	/**	Dh	23.6.2020
+	/**	Dh	14.7.2020
+	 * 
+	 * 	Fuegt die uebergebene Sonderfertigkeit nach ID sortiert in die Sonderfertigkeitslsite ein.
 	 * 
 	 * @param pSpecialCraft
 	 * @throws Exception
 	 */
 	public void addSpecialCraft(SpecialCraft pSpecialCraft) throws Exception{
-		if(pSpecialCraft != null) SpecialCraftList.append(pSpecialCraft);
-		else throw new Exception("04; Char,aSC");
+		int vID;
+		SpecialCraft vCur;
+		
+		if(pSpecialCraft != null) {
+			vID = pSpecialCraft.getId();
+			if (!specialCraftList.isEmpty() && ((SpecialCraft)specialCraftList.getLast()).getId() > vID) {
+				specialCraftList.toFirst();
+			
+				while(!specialCraftList.isEnd()) {
+					vCur = (SpecialCraft) specialCraftList.getCurrent();
+					
+					if (vCur.getId() > vID) {
+						specialCraftList.insert(pSpecialCraft);
+						specialCraftList.toLast();
+					}
+					
+					specialCraftList.next();
+				}
+			} else specialCraftList.append(pSpecialCraft);
+		}else throw new Exception("04; Char,aSC");
 	}
-	/**	Dh	10.6.2020
+	/**	Dh	14.7.2020
+	 * 
+	 * 	Sortiert das hinzugefuegte Talent nach der ID in die Liste ein.
 	 * 
 	 * @param pTalent
 	 * @throws Exception
 	 */
 	public void addTalent(Talent pTalent) throws Exception{
-		if(pTalent != null) TalentList.append(pTalent);
+		int vID;
+		Talent vCur;
+		
+		if(pTalent != null) {
+			vID = pTalent.getId();
+			if (!talentList.isEmpty() && ((Talent)talentList.getLast()).getId() > vID) {
+				talentList.toFirst();
+				
+				while(!talentList.isEnd()) {
+					vCur = (Talent) talentList.getCurrent();
+					
+					if (vCur.getId() > vID) {
+						talentList.insert(pTalent);
+						talentList.toLast();
+					}
+					
+					talentList.next();
+				}
+			} else talentList.append(pTalent);
+		}
 		else throw new Exception("04; Char,aT");
 	}
 	/**	Dh	27.5.2020
@@ -2660,12 +2912,14 @@ public class Charakter {
 	 */
 	public void addWeapon(Weapon pWeapon) throws Exception {
 		if(pWeapon != null) {
-			pWeapon.setID(WeaponList.getContentNumber());
-			WeaponList.append(pWeapon);
+			pWeapon.setId(weaponList.getContentNumber());
+			weaponList.append(pWeapon);
 		}else throw new Exception("04; Char,aW");
 	}
 	
-	/**	Dh	23.6.2020
+	/**	Dh	14.7.2020
+	 * 
+	 * 	Fuegt die Vorteile der Liste nach ID sortiert in die ProListe ein.
 	 * 
 	 * @param pPros
 	 * @throws Exception
@@ -2679,14 +2933,16 @@ public class Charakter {
 			while(!pPros.isEnd()) {
 				vCur = pPros.getCurrent();
 				
-				if (vCur instanceof Pro) pPros.append(vCur);
+				if (vCur instanceof Pro) addPro((Pro)vCur);
 				else throw new Exception("06; Char,aPs");
 				
 				pPros.next();
 			}
 		}else throw new Exception("05; Char,aPs");
 	}
-	/**	Dh	23.6.2020
+	/**	Dh	14.7.2020
+	 * 
+	 * 	Fuegt die Sonderfertigkeiten der List nach ID sortiert in die specialCraftList ein.
 	 * 
 	 * @param pSpecialCrafts
 	 */
@@ -2699,14 +2955,16 @@ public class Charakter {
 			while(!pSpecialCrafts.isEnd()) {
 				vCur = pSpecialCrafts.getCurrent();
 				
-				if (vCur instanceof SpecialCraft) pSpecialCrafts.append(vCur);
+				if (vCur instanceof SpecialCraft) addSpecialCraft((SpecialCraft)vCur);
 				else throw new Exception("06; Char,aSCs");
 				
 				pSpecialCrafts.next();
 			}
 		}else throw new Exception("05; Char,aSCs");
 	}
-	/**	Dh	10.6.2020
+	/**	Dh	14.7.2020
+	 * 
+	 * 	Fuegt die Talente der uebergebeben pListe nach ID sortiert in die talentList ein.
 	 * 
 	 * @param pTalents
 	 * @throws Exception
@@ -2720,7 +2978,7 @@ public class Charakter {
 			while(!pTalents.isEnd()) {
 				vCur = pTalents.getCurrent();
 				
-				if (vCur instanceof Talent) pTalents.append(vCur);
+				if (vCur instanceof Talent) addTalent((Talent)vCur);
 				else throw new Exception("06; Char,aTs");
 				
 				pTalents.next();
@@ -2742,8 +3000,8 @@ public class Charakter {
 				vCur = pWeapons.getCurrent();
 				
 				if (vCur instanceof Weapon) {
-					((Weapon)vCur).setID(WeaponList.getContentNumber());
-					WeaponList.append(vCur);
+					((Weapon)vCur).setId(weaponList.getContentNumber());
+					weaponList.append(vCur);
 				}
 				else throw new Exception("06; Char,aWs");
 				
@@ -2763,18 +3021,18 @@ public class Charakter {
 		Pro vCur;
 		
 		if (pID >= 0) {
-			if (!ProList.isEmpty()) {
-				ProList.toFirst();
+			if (!proList.isEmpty()) {
+				proList.toFirst();
 				
-				while (!ProList.isEnd()){
-					vCur = (Pro)ProList.getCurrent();
+				while (!proList.isEnd()){
+					vCur = (Pro)proList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						ProList.remove();
-						ProList.toLast();
+					if (vCur.getId() == pID) {
+						proList.remove();
+						proList.toLast();
 					}
 					
-					ProList.next();
+					proList.next();
 				}
 			}else throw new Exception("05; Char,rP");
 		}else throw new Exception("02; Char,rP");
@@ -2788,18 +3046,18 @@ public class Charakter {
 		Pro vCur;
 		
 		if (pPro != null) {
-			if (!ProList.isEmpty()) {
-				ProList.toFirst();
+			if (!proList.isEmpty()) {
+				proList.toFirst();
 				
-				while (!ProList.isEnd()){
-					vCur = (Pro)ProList.getCurrent();
+				while (!proList.isEnd()){
+					vCur = (Pro)proList.getCurrent();
 					
 					if (vCur == pPro) {
-						ProList.remove();
-						ProList.toLast();
+						proList.remove();
+						proList.toLast();
 					}
 					
-					ProList.next();
+					proList.next();
 				}
 			}else throw new Exception("05; Char,rP");
 		}else throw new Exception("04; Char,rP");
@@ -2814,18 +3072,18 @@ public class Charakter {
 		SpecialCraft vCur;
 		
 		if (pID >= 0) {
-			if (!SpecialCraftList.isEmpty()) {
-				SpecialCraftList.toFirst();
+			if (!specialCraftList.isEmpty()) {
+				specialCraftList.toFirst();
 				
-				while (!SpecialCraftList.isEnd()){
-					vCur = (SpecialCraft)SpecialCraftList.getCurrent();
+				while (!specialCraftList.isEnd()){
+					vCur = (SpecialCraft)specialCraftList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						SpecialCraftList.remove();
-						SpecialCraftList.toLast();
+					if (vCur.getId() == pID) {
+						specialCraftList.remove();
+						specialCraftList.toLast();
 					}
 					
-					SpecialCraftList.next();
+					specialCraftList.next();
 				}
 			}else throw new Exception("05; Char,rSC");
 		}else throw new Exception("02; Char,rSC");
@@ -2839,18 +3097,18 @@ public class Charakter {
 		SpecialCraft vCur;
 		
 		if (pSpecialCraft != null) {
-			if (!SpecialCraftList.isEmpty()) {
-				SpecialCraftList.toFirst();
+			if (!specialCraftList.isEmpty()) {
+				specialCraftList.toFirst();
 				
-				while (!SpecialCraftList.isEnd()){
-					vCur = (SpecialCraft)SpecialCraftList.getCurrent();
+				while (!specialCraftList.isEnd()){
+					vCur = (SpecialCraft)specialCraftList.getCurrent();
 					
 					if (vCur == pSpecialCraft) {
-						SpecialCraftList.remove();
-						SpecialCraftList.toLast();
+						specialCraftList.remove();
+						specialCraftList.toLast();
 					}
 					
-					SpecialCraftList.next();
+					specialCraftList.next();
 				}
 			}else throw new Exception("05; Char,rSC");
 		}else throw new Exception("04; Char,rSC");
@@ -2865,18 +3123,18 @@ public class Charakter {
 		Talent vCur;
 		
 		if (pID >= 0) {
-			if (!TalentList.isEmpty()) {
-				TalentList.toFirst();
+			if (!talentList.isEmpty()) {
+				talentList.toFirst();
 				
-				while (!TalentList.isEnd()){
-					vCur = (Talent)TalentList.getCurrent();
+				while (!talentList.isEnd()){
+					vCur = (Talent)talentList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						TalentList.remove();
-						TalentList.toLast();
+					if (vCur.getId() == pID) {
+						talentList.remove();
+						talentList.toLast();
 					}
 					
-					TalentList.next();
+					talentList.next();
 				}
 			}else throw new Exception("05; Char,rT");
 		}else throw new Exception("02; Char,rT");
@@ -2890,18 +3148,18 @@ public class Charakter {
 		Talent vCur;
 		
 		if (pTalent != null) {
-			if (!TalentList.isEmpty()) {
-				TalentList.toFirst();
+			if (!talentList.isEmpty()) {
+				talentList.toFirst();
 				
-				while (!TalentList.isEnd()){
-					vCur = (Talent)TalentList.getCurrent();
+				while (!talentList.isEnd()){
+					vCur = (Talent)talentList.getCurrent();
 					
 					if (vCur == pTalent) {
-						TalentList.remove();
-						TalentList.toLast();
+						talentList.remove();
+						talentList.toLast();
 					}
 					
-					TalentList.next();
+					talentList.next();
 				}
 			}else throw new Exception("05; Char,rT");
 		}else throw new Exception("04; Char,rT");
@@ -2916,18 +3174,18 @@ public class Charakter {
 		Weapon vCur;
 		
 		if (pID >= 0) {
-			if (!WeaponList.isEmpty()) {
-				WeaponList.toFirst();
+			if (!weaponList.isEmpty()) {
+				weaponList.toFirst();
 				
-				while (!WeaponList.isEnd()){
-					vCur = (Weapon)WeaponList.getCurrent();
+				while (!weaponList.isEnd()){
+					vCur = (Weapon)weaponList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						WeaponList.remove();
-						WeaponList.toLast();
+					if (vCur.getId() == pID) {
+						weaponList.remove();
+						weaponList.toLast();
 					}
 					
-					WeaponList.next();
+					weaponList.next();
 				}
 			}else throw new Exception("05; Char,rW");
 		}else throw new Exception("02; Char,rW");
@@ -2941,18 +3199,18 @@ public class Charakter {
 		Weapon vCur;
 		
 		if (pWeapon != null) {
-			if (!WeaponList.isEmpty()) {
-				WeaponList.toFirst();
+			if (!weaponList.isEmpty()) {
+				weaponList.toFirst();
 				
-				while (!WeaponList.isEnd()){
-					vCur = (Weapon)WeaponList.getCurrent();
+				while (!weaponList.isEnd()){
+					vCur = (Weapon)weaponList.getCurrent();
 					
 					if (vCur == pWeapon) {
-						WeaponList.remove();
-						WeaponList.toLast();
+						weaponList.remove();
+						weaponList.toLast();
 					}
 					
-					WeaponList.next();
+					weaponList.next();
 				}
 			}else throw new Exception("05; Char,rW");
 		}else throw new Exception("04; Char,rW");
@@ -3143,9 +3401,9 @@ public class Charakter {
 		int vDmg = calActualDamage(pDamage, pLethal, pDamageType);
 		
 		if ((pDamage >= 0) && (pRegion >= -1) && (pRegion < 8)) {
-			if ((pRegion != -1) && (pRSIgnoring == false))vDmg = vDmg - ((int)Math.round(RS[pRegion]));					// Option mit gRS einbauen.!!!!
-			if ((pLethal == false) && (vDmg > (((int)Math.round(WS))-pWSMod))){
-				if ( (((int)Math.round(WS))-pWSMod) != 0) vWoundCount = vDmg/(((int)Math.round(WS))-pWSMod);
+			if ((pRegion != -1) && (pRSIgnoring == false))vDmg = vDmg - ((int)Math.round(rs[pRegion]));					// Option mit gRS einbauen.!!!!
+			if ((pLethal == false) && (vDmg > (((int)Math.round(ws))-pWSMod))){
+				if ( (((int)Math.round(ws))-pWSMod) != 0) vWoundCount = vDmg/(((int)Math.round(ws))-pWSMod);
 				else vWoundCount = vDmg;
 				
 				vRet = new int[] {pRegion, vWoundCount};
@@ -3177,15 +3435,15 @@ public class Charakter {
 		case 0:
 			try{
 				addStat(pProp/2, 1);
-				addMR(pProp/5);
+				addMr(pProp/5);
 				addFightValue(2*pProp/5, 0);
 				addFightValue(pProp/5, 1);
 			
-				if (MaxStats[2] > 0) addStat(pProp/2, 2);
+				if (maxStats[2] > 0) addStat(pProp/2, 2);
 			} catch(Exception exc) {throw exc;}
 			break;
 		case 1:
-			try { addMR(pProp/5);}
+			try { addMr(pProp/5);}
 			catch(Exception exc) {throw exc;}
 			
 			break;
@@ -3195,11 +3453,11 @@ public class Charakter {
 				addFightValue(pProp/5, 2);
 				addFightValue(pProp/5, 3);
 			
-				if (MaxStats[2] > 0) addStat(pProp/2, 2);
+				if (maxStats[2] > 0) addStat(pProp/2, 2);
 			} catch(Exception exc) {throw exc;}
 			break;
 		case 3:																		// Sonderfertigkeiten Gefäss der Sterne einbauen.
-			try{ if (MaxStats[2] > 0) addStat(pProp/2, 2);}
+			try{ if (maxStats[2] > 0) addStat(pProp/2, 2);}
 			catch(Exception exc) {throw exc;}
 			
 			break;
@@ -3220,8 +3478,8 @@ public class Charakter {
 			try{
 				addStat(pProp, 0);
 				addStat(pProp/2, 1);
-				addMR(pProp/5);
-				addWS(pProp/2);
+				addMr(pProp/5);
+				addWs(pProp/2);
 			} catch(Exception exc) {throw exc;}
 			
 			break;

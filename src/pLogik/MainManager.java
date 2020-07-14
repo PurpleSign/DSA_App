@@ -41,7 +41,6 @@ public class MainManager {
 		try {
 			Loader.initLoader();
 			SettingManager.initSettingManager();
-			
 		} catch(Exception ex) {vExc = ex;}
 		
 		try {rFM = Loader.loadFightManager();}
@@ -81,8 +80,8 @@ public class MainManager {
 	 */
 	public static void closeApp() {
 		try {
-			//Loader.saveFightManager(rFM);
-			//Loader.saveCharacterManager(rCM);
+			Loader.saveFightManager(rFM);
+			Loader.saveCharacterManager(rCM);
 			//Loader.saveDatabases();
 			//SettingManager.saveSettingManager();		
 		} catch (Exception ex) {System.out.println(ex.getMessage());}

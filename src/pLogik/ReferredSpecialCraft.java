@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 1.7.2020
+/**	DSA_App v0.0	Dh	 9.7.2020
  * 	
  * 	Logik
  * 	  SpecialCrafts
@@ -50,7 +50,7 @@ import pGUI.MainFrame;
 
 @XmlRootElement(name = "referredspecialcraft")
 public class ReferredSpecialCraft extends SpecialCraft implements Referred {
-	private int[] ReferredValue;
+	private int[] referredValue;
 	
 	/**	Dh	17.6.2020
 	 * 
@@ -59,7 +59,7 @@ public class ReferredSpecialCraft extends SpecialCraft implements Referred {
 	public ReferredSpecialCraft() {
 		super();
 		
-		ReferredValue = new int[] {-1, -1};
+		referredValue = new int[] {-1, -1};
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -69,7 +69,7 @@ public class ReferredSpecialCraft extends SpecialCraft implements Referred {
 	public ReferredSpecialCraft(int pID, String pName) {
 		super(pID, pName);
 		
-		ReferredValue = new int[] {-1, -1};
+		referredValue = new int[] {-1, -1};
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -86,7 +86,7 @@ public class ReferredSpecialCraft extends SpecialCraft implements Referred {
 	public ReferredSpecialCraft(int pID, String pName, int pType) {
 		super(pID, pName, pType);
 		
-		ReferredValue = new int[] {-1, -1};
+		referredValue = new int[] {-1, -1};
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -104,7 +104,7 @@ public class ReferredSpecialCraft extends SpecialCraft implements Referred {
 	public ReferredSpecialCraft(int pID, String pName, int pType, int[] pPropertiePremises) {
 		super(pID, pName, pType, pPropertiePremises);
 
-		ReferredValue = new int[] {-1, -1};
+		referredValue = new int[] {-1, -1};
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -160,7 +160,7 @@ public class ReferredSpecialCraft extends SpecialCraft implements Referred {
 	public ReferredSpecialCraft(int pID, String pName, int pType, List pTypedPremiseList) {
 		super(pID, pName, pType, pTypedPremiseList);
 
-		ReferredValue = new int[] {-1, -1};
+		referredValue = new int[] {-1, -1};
 	}
 	/**	Dh	18.6.2020
 	 * 
@@ -223,7 +223,7 @@ public class ReferredSpecialCraft extends SpecialCraft implements Referred {
 	public ReferredSpecialCraft(int pID, String pName, int pType, int[] pPropertiePremises, List pTypedPremiseList) {
 		super(pID, pName, pType, pPropertiePremises, pTypedPremiseList);
 
-		ReferredValue = new int[] {-1, -1};
+		referredValue = new int[] {-1, -1};
 	}
 	/**	Dh	18.6.2020
 	 * 	
@@ -283,7 +283,7 @@ public class ReferredSpecialCraft extends SpecialCraft implements Referred {
 	 * @throws Exception
 	 */
 	public int getReferredValue(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < ReferredValue.length)) return ReferredValue[pInd];
+		if ((pInd >= 0) && (pInd < referredValue.length)) return referredValue[pInd];
 		else throw new Exception("02; ReSpCra,gRV");
 	}
 	/**	Dh	17.6.2020
@@ -301,7 +301,7 @@ public class ReferredSpecialCraft extends SpecialCraft implements Referred {
 	 */
 	@XmlElement(name = "ReferredValue")
 	public int[] getReferredValue() {
-		return ReferredValue;
+		return referredValue;
 	}
 		
 	//----------------------------------------------------------------------------------------------------
@@ -322,8 +322,8 @@ public class ReferredSpecialCraft extends SpecialCraft implements Referred {
 	 * @throws Exception
 	 */
 	public void setReferredValue(int pValue, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < ReferredValue.length)) {
-			if ((pValue >= -1) && (((pInd == 0) && (pValue < 14)) || (pInd == 1))) ReferredValue[pInd] = pValue;
+		if ((pInd >= 0) && (pInd < referredValue.length)) {
+			if ((pValue >= -1) && (((pInd == 0) && (pValue < 14)) || (pInd == 1))) referredValue[pInd] = pValue;
 			else throw new Exception("02; ReSpCra,sRV");
 		}else throw new Exception("01; ReSpCra,sRV");
 	}
@@ -342,8 +342,8 @@ public class ReferredSpecialCraft extends SpecialCraft implements Referred {
 	 * @throws Exception
 	 */
 	public void setReferredValue(int[] pReferredValue) throws Exception{
-		if (pReferredValue.length == ReferredValue.length) {
-			if ((pReferredValue[0] >= -1) && (pReferredValue[0] < 14) && (pReferredValue[1] >= -1)) ReferredValue = pReferredValue;
+		if (pReferredValue.length == referredValue.length) {
+			if ((pReferredValue[0] >= -1) && (pReferredValue[0] < 14) && (pReferredValue[1] >= -1)) referredValue = pReferredValue;
 			else throw new Exception("02; ReSpCra,sRV");
 		} else throw new Exception("01; ReSpCra,sRv");
 	}

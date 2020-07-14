@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	3.7.2020
+/**	DSA_App v0.0	Dh	8.7.2020
  * 
  * 	pGUI
  * 	  JTableModel
@@ -22,18 +22,20 @@ import javax.swing.table.*;
 
 public class JTableModel extends AbstractTableModel {
 	Object[][] tableData;
+	boolean[][] editableCells;;
 	int[] ids;
 	String[] titles;
 	 
-	/**	Dh	3.7.2020
+	/**	Dh	8.7.2020
 	 * 
 	 */
 	public JTableModel() {
 		titles = new String[] {};
 		ids = new int[] {};
 		tableData = new Object[][] {{}};
+		editableCells = new boolean[][] {{}};
 	}
-	/**	Dh	3.7.2020
+	/**	Dh	8.7.2020
 	 * 
 	 * @param pColumnTitles
 	 * @param pRowCount
@@ -44,14 +46,18 @@ public class JTableModel extends AbstractTableModel {
 		if (pColumnTitles != null) {
 			if (pColumnTitles.length >= 1) {
 				titles = pColumnTitles.clone();
-				ids = new int[titles.length];
-				tableData = new JListModelElement[pRowCount][pColumnTitles.length];
+				ids = new int[pRowCount];
+				tableData = new Object[pRowCount][titles.length];
+				editableCells = new boolean[pRowCount][titles.length];
+				
+				try{setEditableTable(false);}
+				catch(Exception ex) {vExc = ex;}
 			} else vExc = new Exception("01; JTaMod_a");
 		} else vExc = new Exception("04; JTaMod_a");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	3.7.2020
+	/**	Dh	8.7.2020
 	 * 
 	 * @param pColumnTitles
 	 * @param pIDs
@@ -60,12 +66,15 @@ public class JTableModel extends AbstractTableModel {
 	public JTableModel(String[] pColumnTitles, int[] pIDs, Object[][] pData) {
 		Exception vExc = null ;
 		
-		try {setNewTable(pColumnTitles, pIDs, pData);}
-		catch(Exception ex) {vExc = ex;}
+		try {
+			setNewTable(pColumnTitles, pIDs, pData);
+			editableCells = new boolean[ids.length][titles.length];
+			setEditableTable(false);
+		}catch(Exception ex) {vExc = ex;}
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	3.7.2020
+	/**	Dh	8.7.2020
 	 * 
 	 * @param pColumnTitles
 	 * @param pIDList
@@ -74,14 +83,61 @@ public class JTableModel extends AbstractTableModel {
 	public JTableModel(String[] pColumnTitles, List pIDList, List pDataDoubleList) {
 		Exception vExc = null ;
 		
-		try {setNewTable(pColumnTitles, pIDList, pDataDoubleList);}
-		catch(Exception ex) {vExc = ex;}
+		try {
+			setNewTable(pColumnTitles, pIDList, pDataDoubleList);
+			editableCells = new boolean[ids.length][titles.length];
+			setEditableTable(false);
+		} catch(Exception ex) {vExc = ex;}
+		
+		if (vExc != null) MainFrame.handleException(vExc);
+	}
+	/**	Dh	8.7.2020
+	 * 
+	 * @param pColumnTitles
+	 * @param pIDs
+	 * @param pData
+	 * @param pEditableCells
+	 */
+	public JTableModel(String[] pColumnTitles, int[] pIDs, Object[][] pData, boolean[][] pEditableCells) {
+		Exception vExc = null ;
+		
+		try {
+			setNewTable(pColumnTitles, pIDs, pData);
+			editableCells = new boolean[ids.length][titles.length];
+			setEditableTable(pEditableCells);
+		}catch(Exception ex) {vExc = ex;}
+		
+		if (vExc != null) MainFrame.handleException(vExc);
+	}
+	/**	Dh	8.7.2020
+	 * 
+	 * @param pColumnTitles
+	 * @param pIDList
+	 * @param pDataDoubleList
+	 * @param pEditableCells
+	 */
+	public JTableModel(String[] pColumnTitles, List pIDList, List pDataDoubleList, boolean[][] pEditableCells) {
+		Exception vExc = null ;
+		
+		try {
+			setNewTable(pColumnTitles, pIDList, pDataDoubleList);
+			editableCells = new boolean[ids.length][titles.length];
+			setEditableTable(pEditableCells);
+		} catch(Exception ex) {vExc = ex;}
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
 	
-	
 //--------------------------------------------------------------------------------------------------------
+	
+	/**	Dh	8.7.2020
+	 * 
+	 */
+	public boolean isCellEditable(int pRowInd, int pColInd) {
+        return editableCells[pRowInd][pColInd];
+    }
+	
+	//----------------------------------------------------------------------------------------------------
 	
 	/**	Dh	3.7.2020
 	 * 
@@ -144,13 +200,112 @@ public class JTableModel extends AbstractTableModel {
 		titles[pColInd] = pTitle;
 	}
 	
-	/**	Dh	3.7.2020
+	/**	Dh	8.7.2020
+	 * 
+	 * @param pIsEditable
+	 * @param pRowInd
+	 * @param pColInd
+	 * @throws Exception
+	 */
+	public void setEditableCell(boolean pIsEditable, int pRowInd, int pColInd) throws Exception{
+		if ((pRowInd >= 0) && (pRowInd < editableCells.length) && (pColInd >= 0) && (pColInd < editableCells[0].length)) {
+			editableCells[pRowInd][pColInd] = pIsEditable;
+		}else throw new Exception("02; JTaMod,sEC");
+	}
+	//-----
+	/**	Dh	8.7.2020
+	 * 
+	 * @param pIsEditbale
+	 * @param pRowInd
+	 * @throws Exception
+	 */
+	public void setEditableRow(boolean pIsEditbale, int pRowInd) throws Exception{
+		if ((pRowInd >= 0) && (pRowInd < editableCells.length)) {
+			for (int i=0; i < editableCells[pRowInd].length; i++) {
+				editableCells[pRowInd][i] = pIsEditbale;
+			}
+		}else throw new Exception("02; JTaMod,sER");
+	}
+	/**	Dh	8.7.2020
+	 * 
+	 * @param pIsEditbale
+	 * @param pColInd
+	 * @throws Exception
+	 */
+	public void setEditableColumn(boolean pIsEditbale, int pColInd) throws Exception{
+		for (int i=0; i < editableCells.length; i++) {
+			if ((pColInd >= 0) && (pColInd < editableCells.length)) {
+				editableCells[i][pColInd] = pIsEditbale;
+			}else throw new Exception("02; JTaMod,sEC");
+		}
+	}
+	/**	Dh	8.7.2020
+	 * 
+	 * @param pIsEditbale
+	 * @param pRowInd
+	 * @throws Exception
+	 */
+	public void setEditableRow(boolean[] pIsEditbale, int pRowInd) throws Exception{
+		if ((pRowInd >= 0) && (pRowInd < editableCells.length)) {
+			if (pIsEditbale.length == editableCells[pRowInd].length) {
+				for (int i=0; i < editableCells[pRowInd].length; i++) {
+					editableCells[pRowInd][i] = pIsEditbale[i];
+				}
+			} else throw new Exception("01; JTaMod,sER");
+		} else throw new Exception("02; JTaMod,sER");
+	}
+	/**	Dh	8.7.2020
+	 * 
+	 * @param pIsEditbale
+	 * @param pColInd
+	 * @throws Exception
+	 */
+	public void setEditableColumn(boolean[] pIsEditbale, int pColInd) throws Exception{
+		if (pIsEditbale.length == editableCells.length) {
+			for (int i=0; i < editableCells.length; i++) {
+				if ((pColInd >= 0) && (pColInd < editableCells.length)) {
+					editableCells[i][pColInd] = pIsEditbale[i];
+				}else throw new Exception("02; JTaMod,sEC");
+			}
+		}else throw new Exception("01; JTaMod,sEC");
+	}
+	//-----
+	/**	Dh	8.7.2020
+	 * 
+	 * @param pIsEditbale
+	 * @throws Exception
+	 */
+	public void setEditableTable(boolean pIsEditbale) throws Exception{
+		for (int i=0; i < editableCells.length; i++) {
+			for (int u=0; u < editableCells[i].length; u++) {
+				editableCells[i][u] = pIsEditbale;
+			}
+		}
+	}
+	/**	Dh	8.7.2020
+	 * 
+	 * @param pIsEditbale
+	 * @throws Exception
+	 */
+	public void setEditableTable(boolean[][] pIsEditbale) throws Exception{
+		if (pIsEditbale.length == editableCells.length) {
+			for (int i=0; i < editableCells.length; i++) {
+				if (pIsEditbale[i].length == editableCells[i].length) {
+					for (int u=0; u < editableCells[i].length; u++) {
+						editableCells[i][u] = pIsEditbale[i][u];
+					}
+				} else throw new Exception("01; JTaMod,sET");
+			}
+		} else throw new Exception("01; JTaMod,sET");
+	}
+	
+	/**	Dh	8.7.2020
 	 * 
 	 * @param pObj
 	 * @param pRowInd
 	 * @param pColInd
 	 */
-	public void setValue(Object pObj, int pRowInd, int pColInd) {
+	public void setValueAt(Object pObj, int pRowInd, int pColInd) {
 		tableData[pRowInd][pColInd] = pObj;
 		fireTableCellUpdated(pRowInd, pColInd);
 	}

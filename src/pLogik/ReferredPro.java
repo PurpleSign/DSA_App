@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 25.6.2020
+/**	DSA_App v0.0	Dh	 9.7.2020
  * 	
  * 	Logik
  * 	  Pro
@@ -41,7 +41,7 @@ import pGUI.MainFrame;
 
 @XmlRootElement(name = "referredpro")
 public class ReferredPro extends Pro implements Referred{
-	private int[] ReferredValue;
+	private int[] referredValue;
 	
 	/**	Dh	17.6.2020
 	 * 
@@ -50,7 +50,7 @@ public class ReferredPro extends Pro implements Referred{
 	public ReferredPro() {
 		super();
 		
-		ReferredValue = new int[] {-1, -1};
+		referredValue = new int[] {-1, -1};
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -60,7 +60,7 @@ public class ReferredPro extends Pro implements Referred{
 	public ReferredPro(int pID, String pName) {
 		super(pID, pName);
 		
-		ReferredValue = new int[] {-1, -1};
+		referredValue = new int[] {-1, -1};
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -71,7 +71,7 @@ public class ReferredPro extends Pro implements Referred{
 	public ReferredPro(int pID, String pName, boolean pPro) {
 		super(pID, pName, pPro);
 		
-		ReferredValue = new int[] {-1, -1};
+		referredValue = new int[] {-1, -1};
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -83,7 +83,7 @@ public class ReferredPro extends Pro implements Referred{
 	public ReferredPro(int pID, String pName, boolean pPro, boolean pArkane) {
 		super(pID, pName, pPro, pArkane);
 		
-		ReferredValue = new int[] {-1, -1};
+		referredValue = new int[] {-1, -1};
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -96,7 +96,7 @@ public class ReferredPro extends Pro implements Referred{
 	public ReferredPro(int pID, String pName, boolean pPro, boolean pArkane, boolean pGift) {
 		super(pID, pName, pPro, pArkane, pGift);
 		
-		ReferredValue = new int[] {-1, -1};
+		referredValue = new int[] {-1, -1};
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -140,7 +140,7 @@ public class ReferredPro extends Pro implements Referred{
 	 * @throws Exception
 	 */
 	public int getReferredValue(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < ReferredValue.length)) return ReferredValue[pInd];
+		if ((pInd >= 0) && (pInd < referredValue.length)) return referredValue[pInd];
 		else throw new Exception("02; RePro,gRV");
 	}
 	/**	Dh	17.6.2020
@@ -156,7 +156,7 @@ public class ReferredPro extends Pro implements Referred{
 	 */
 	@XmlElement(name = "ReferredValue")
 	public int[] getReferredValue() {
-		return ReferredValue;
+		return referredValue;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -175,8 +175,8 @@ public class ReferredPro extends Pro implements Referred{
 	 * @throws Exception
 	 */
 	public void setReferredValue(int pValue, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < ReferredValue.length)) {
-			if ((pValue >= -1) && (((pInd == 0) && (pValue < 9)) || (pInd == 1))) ReferredValue[pInd] = pValue;
+		if ((pInd >= 0) && (pInd < referredValue.length)) {
+			if ((pValue >= -1) && (((pInd == 0) && (pValue < 9)) || (pInd == 1))) referredValue[pInd] = pValue;
 			else throw new Exception("02; RePro,sRV");
 		}else throw new Exception("01; RePro,sRV");
 	}
@@ -193,8 +193,8 @@ public class ReferredPro extends Pro implements Referred{
 	 * @throws Exception
 	 */
 	public void setReferredValue(int[] pReferredValue) throws Exception{
-		if (pReferredValue.length == ReferredValue.length) {
-			if ((pReferredValue[0] >= -1) && (pReferredValue[0] < 9) && (pReferredValue[1] >= -1)) ReferredValue = pReferredValue;
+		if (pReferredValue.length == referredValue.length) {
+			if ((pReferredValue[0] >= -1) && (pReferredValue[0] < 9) && (pReferredValue[1] >= -1)) referredValue = pReferredValue;
 			else throw new Exception("02; RePro,sRV");
 		} else throw new Exception("01; RePro,sRv");
 	}

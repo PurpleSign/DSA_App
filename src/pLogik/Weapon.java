@@ -1,4 +1,4 @@
-/**	DSA_App	v0.0	Dh	5.6.2020
+/**	DSA_App	v0.0	Dh	9.7.2020
  * 
  * 	Logik
  * 	  Weapon
@@ -6,14 +6,14 @@
  * 	
  * 
  * pMund:
- * 	 00: Mundan			  	08: Arkan+Holy
- * 	 01: Nonleathal		  	09: Arkan+Unholy
- * 	 02: Arkan			  	10: Holy+Unholy
- * 	 03: Holy			  	11: Nonle+Ark+Hol
- * 	 04: Unholy				12: Nonle+Ark+Unho
- * 	 05: Nonlethal+Arkan	13: Nonle+Ho+Unho
- * 	 06: Nonlethal+Holy		14: Ark+Ho+Unho
- *   07: Nonlehtal+Unholy	15: All
+ * 	 00: Mundan			  	08: Unholy
+ * 	 01: Nonleathal		  	09: Nonlehtal+Unholy
+ * 	 02: Arkan			  	10: Arkan+Unholy
+ * 	 03: Nonlethal+Arkan  	11: Nonle+Ark+Unho
+ * 	 04: Holy				12: Holy+Unholy
+ * 	 05: Nonlethal+Holy		13: Nonle+Ho+Unho
+ * 	 06: Arkan+Holy			14: Ark+Ho+Unho
+ *   07: Nonle+Ark+Hol		15: All
  *   
  *   WeaponType:
  * 	 00: Raufen				13: Staebe
@@ -55,13 +55,13 @@ import pGUI.MainFrame;
 
 @XmlRootElement(name="weapon")
 @XmlSeeAlso({CloseWeapon.class, RangeWeapon.class})
-@XmlType(propOrder = { "name", "TP", "TPKK", "arkan", "holy", "unholy", "nonlethal" })
+@XmlType(propOrder = { "name", "tp", "tpkk", "arkan", "holy", "unholy", "nonLethal" })
 public abstract class Weapon {
-	private boolean Arkan, Holy, Unholy, Nonlethal;
-	private int ID, WeaponType;
-	private int[] TP;
-	private int[] TPKK;
-	private String Name;
+	private boolean isArkan, isHoly, isUnholy, isNonLethal;
+	private int id, weaponType;
+	private int[] tp;
+	private int[] tpkk;
+	private String name;
 	
 	/**	Dh	28.5.2020
 	 * 
@@ -69,33 +69,35 @@ public abstract class Weapon {
 	 * 
 	 */
 	public Weapon() {
-		ID = -1;
-		WeaponType = -1;
-		Name = "";
+		id = -1;
+		weaponType = -1;
+		name = "";
 		
-		TP = new int[] {0, 0};
-		TPKK = new int[] {0, 0};
+		tp = new int[] {0, 0};
+		tpkk = new int[] {0, 0};
 		
-		Arkan = false;
-		Holy = false;
-		Unholy = false;
+		isArkan = false;
+		isHoly = false;
+		isUnholy = false;
 	}
 	/**	Dh	28.5.2020
 	 * 
 	 * pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
+	 * 	 00: Raufen				15: Zweihand-Hiebwaffen
+	 * 	 01: Ringen				16: Zweihandschwerter
+	 * 	 02: Anderhalbhaender	17: Improvisiert
+	 * 	 03: Dolche				18: Armbrust
+	 * 	 04: Fechtwaffen		19: Blasrohr
+	 * 	 05: Hiebwaffen			20: Bogen
+	 * 	 06: Infanteriewaffen	21: Diskus
+	 * 	 07: Kettenstaebe		22: Schleuder
+	 * 	 08: Kettenwaffen		23: Wurfbeil
+	 * 	 09: Peitsche			24: Wurfmesser
+	 * 	 10: Saebel				25: Wurfspeer
+	 * 	 11: Schwerter			26: kleine Schilde
+	 * 	 12: Speere				27: große Schilde
+	 * 	 13: Staebe				28: sehr große Schilde
+	 * 	 14: Zweihandpflegel	29: Parierwaffen
 	 * 
 	 * @param pID
 	 * @param pName
@@ -104,42 +106,44 @@ public abstract class Weapon {
 	public Weapon(int pID, String pName, int pWeaponType, int[] pTP) {
 		Exception vExc = null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Wea_a");
-		if (pWeaponType >= 0) WeaponType = pWeaponType;
+		if (pWeaponType >= 0) weaponType = pWeaponType;
 		else vExc = new Exception("02; Wea_a");
-		if ((pName != null) && (pName != "")) Name = pName;
+		if ((pName != null) && (pName != "")) name = pName;
 		else vExc =  new Exception("02; Wea_a");
 		
 		if (pTP.length == 2) {
-			if (pTP[0] >= 1) TP = pTP;
+			if (pTP[0] >= 0) tp = pTP;
 			else vExc = new Exception("02, Wea_a");
 		} else vExc = new Exception("01; Wea_a");
-		TPKK = new int[] {0, 0};
+		tpkk = new int[] {0, 0};
 		
-		Nonlethal = false;
-		Arkan = false;
-		Holy = false;
-		Unholy = false;
+		isNonLethal = false;
+		isArkan = false;
+		isHoly = false;
+		isUnholy = false;
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
 	/**	Dh	28.5.2020
 	 * 
 	 * pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
+	 * 	 00: Raufen				15: Zweihand-Hiebwaffen
+	 * 	 01: Ringen				16: Zweihandschwerter
+	 * 	 02: Anderhalbhaender	17: Improvisiert
+	 * 	 03: Dolche				18: Armbrust
+	 * 	 04: Fechtwaffen		19: Blasrohr
+	 * 	 05: Hiebwaffen			20: Bogen
+	 * 	 06: Infanteriewaffen	21: Diskus
+	 * 	 07: Kettenstaebe		22: Schleuder
+	 * 	 08: Kettenwaffen		23: Wurfbeil
+	 * 	 09: Peitsche			24: Wurfmesser
+	 * 	 10: Saebel				25: Wurfspeer
+	 * 	 11: Schwerter			26: kleine Schilde
+	 * 	 12: Speere				27: große Schilde
+	 * 	 13: Staebe				28: sehr große Schilde
+	 * 	 14: Zweihandpflegel	29: Parierwaffen
 	 * 
 	 * @param pID
 	 * @param pName
@@ -149,55 +153,57 @@ public abstract class Weapon {
 	public Weapon(int pID, String pName, int pWeaponType, int[] pTP, int[] pTPKK) {
 		Exception vExc = null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Wea_b");
-		if (pWeaponType >= 0) WeaponType = pWeaponType;
+		if (pWeaponType >= 0) weaponType = pWeaponType;
 		else vExc = new Exception("02; Wea_b");
-		if ((pName != null) && (pName != "")) Name = pName;
+		if ((pName != null) && (pName != "")) name = pName;
 		else vExc =  new Exception("02; Wea_b");
 		
 		if (pTP.length == 2) {
-			if (pTP[0] >= 1) TP = pTP;
+			if (pTP[0] >= 0) tp = pTP;
 			else vExc = new Exception("02, Wea_b");
 		} else vExc = new Exception("01; Wea_b");
 		if (pTPKK.length == 2) {
-			if ((pTPKK[0] >= 0) && (pTPKK[1] > 0)) TPKK = pTPKK;
+			if ((pTPKK[0] >= 0) && (pTPKK[1] >= 0)) tpkk = pTPKK;
 			else vExc = new Exception("02; Wea_b");
 		} else vExc = new Exception("01; Wea_b");
 		
-		Nonlethal = false;
-		Arkan = false;
-		Holy = false;
-		Unholy = false;
+		isNonLethal = false;
+		isArkan = false;
+		isHoly = false;
+		isUnholy = false;
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/** Dh	28.5.2020
+	/** Dh	9.7.2020
 	 * 
 	 * pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
+	 * 	 00: Raufen				15: Zweihand-Hiebwaffen
+	 * 	 01: Ringen				16: Zweihandschwerter
+	 * 	 02: Anderhalbhaender	17: Improvisiert
+	 * 	 03: Dolche				18: Armbrust
+	 * 	 04: Fechtwaffen		19: Blasrohr
+	 * 	 05: Hiebwaffen			20: Bogen
+	 * 	 06: Infanteriewaffen	21: Diskus
+	 * 	 07: Kettenstaebe		22: Schleuder
+	 * 	 08: Kettenwaffen		23: Wurfbeil
+	 * 	 09: Peitsche			24: Wurfmesser
+	 * 	 10: Saebel				25: Wurfspeer
+	 * 	 11: Schwerter			26: kleine Schilde
+	 * 	 12: Speere				27: große Schilde
+	 * 	 13: Staebe				28: sehr große Schilde
+	 * 	 14: Zweihandpflegel	29: Parierwaffen
 	 * 
 	 * pMund:
-	 * 	 00: Mundan			  	08: Arkan+Holy
-	 * 	 01: Nonleathal		  	09: Arkan+Unholy
-	 * 	 02: Arkan			  	10: Holy+Unholy
-	 * 	 03: Holy			  	11: Nonle+Ark+Hol
-	 * 	 04: Unholy				12: Nonle+Ark+Unho
-	 * 	 05: Nonlethal+Arkan	13: Nonle+Ho+Unho
-	 * 	 06: Nonlethal+Holy		14: Ark+Ho+Unho
-	 *   07: Nonlehtal+Unholy	15: All
+	 * 	 00: Mundan			  	08: Unholy
+	 * 	 01: Nonleathal		  	09: Nonlehtal+Unholy
+	 * 	 02: Arkan			  	10: Arkan+Unholy
+	 * 	 03: Nonlethal+Arkan  	11: Nonle+Ark+Unho
+	 * 	 04: Holy				12: Holy+Unholy
+	 * 	 05: Nonlethal+Holy		13: Nonle+Ho+Unho
+	 * 	 06: Arkan+Holy			14: Ark+Ho+Unho
+	 *   07: Nonle+Ark+Hol		15: All
 	 * 
 	 * @param pID
 	 * @param pName
@@ -207,61 +213,52 @@ public abstract class Weapon {
 	public Weapon(int pID, String pName, int pWeaponType, int[] pTP, int pMund) {
 		Exception vExc = null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Wea_c");
-		if (pWeaponType >= 0) WeaponType = pWeaponType;
+		if (pWeaponType >= 0) weaponType = pWeaponType;
 		else vExc = new Exception("02; Wea_c");
-		if ((pName != null) && (pName != "")) Name = pName;
+		if ((pName != null) && (pName != "")) name = pName;
 		else vExc =  new Exception("02; Wea_c");
 		
 		if (pTP.length == 2) {
-			if (pTP[0] >= 1) TP = pTP;
-			else vExc = new Exception("02, Wea_a");
-		} else vExc = new Exception("01; Wea_a");
-		TPKK = new int[] {0, 0};
+			if (pTP[0] >= 0) tp = pTP;
+			else vExc = new Exception("02, Wea_c");
+		} else vExc = new Exception("01; Wea_c");
+		tpkk = new int[] {0, 0};
 		
-		if ((pMund < 0) || (pMund >= 16)) vExc = new Exception("02; Wea_c");
-		if ((pMund == 1) || (pMund == 5) || (pMund == 6) || (pMund == 7) || (pMund == 11) ||
-				(pMund == 12) || (pMund == 13) || (pMund == 15)) Nonlethal = true;
-		else Nonlethal = false;
-		if ((pMund == 2) || (pMund == 5) || (pMund == 8) || (pMund == 9) || (pMund == 11) ||
-				(pMund == 12) || (pMund == 13) || (pMund == 15)) Arkan = true;
-		else Arkan = false;
-		if ((pMund == 3) || (pMund == 6) || (pMund == 8) || (pMund == 10) || (pMund == 11) ||
-				(pMund == 13) || (pMund == 14) || (pMund == 15)) Holy = true;
-		else Holy = false;
-		if ((pMund == 4) || (pMund == 7) || (pMund == 9) || (pMund == 10) || (pMund == 12) ||
-				(pMund == 13) || (pMund == 14) || (pMund == 15)) Unholy = true;
-		else Unholy = false;
+		try {setMund(pMund);}
+		catch(Exception ex) {vExc = ex;}
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	9.7.2020
 	 * 
 	 * pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
+	 * 	 00: Raufen				15: Zweihand-Hiebwaffen
+	 * 	 01: Ringen				16: Zweihandschwerter
+	 * 	 02: Anderhalbhaender	17: Improvisiert
+	 * 	 03: Dolche				18: Armbrust
+	 * 	 04: Fechtwaffen		19: Blasrohr
+	 * 	 05: Hiebwaffen			20: Bogen
+	 * 	 06: Infanteriewaffen	21: Diskus
+	 * 	 07: Kettenstaebe		22: Schleuder
+	 * 	 08: Kettenwaffen		23: Wurfbeil
+	 * 	 09: Peitsche			24: Wurfmesser
+	 * 	 10: Saebel				25: Wurfspeer
+	 * 	 11: Schwerter			26: kleine Schilde
+	 * 	 12: Speere				27: große Schilde
+	 * 	 13: Staebe				28: sehr große Schilde
+	 * 	 14: Zweihandpflegel	29: Parierwaffen
 	 * 
 	 * 	pMund:
-	 * 	 00: Mundan			  	08: Arkan+Holy
-	 * 	 01: Nonleathal		  	09: Arkan+Unholy
-	 * 	 02: Arkan			  	10: Holy+Unholy
-	 * 	 03: Holy			  	11: Nonle+Ark+Hol
-	 * 	 04: Unholy				12: Nonle+Ark+Unho
-	 * 	 05: Nonlethal+Arkan	13: Nonle+Ho+Unho
-	 * 	 06: Nonlethal+Holy		14: Ark+Ho+Unho
-	 *   07: Nonlehtal+Unholy	15: All
+	 * 	 00: Mundan			  	08: Unholy
+	 * 	 01: Nonleathal		  	09: Nonlehtal+Unholy
+	 * 	 02: Arkan			  	10: Arkan+Unholy
+	 * 	 03: Nonlethal+Arkan  	11: Nonle+Ark+Unho
+	 * 	 04: Holy				12: Holy+Unholy
+	 * 	 05: Nonlethal+Holy		13: Nonle+Ho+Unho
+	 * 	 06: Arkan+Holy			14: Ark+Ho+Unho
+	 *   07: Nonle+Ark+Hol		15: All
 	 * 
 	 * @param pID
 	 * @param pName
@@ -272,36 +269,25 @@ public abstract class Weapon {
 	public Weapon(int pID, String pName, int pWeaponType, int[] pTP, int[] pTPKK, int pMund) {
 		Exception vExc= null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Wea_d");
-		if (pWeaponType >= 0) WeaponType = pWeaponType;
+		if (pWeaponType >= 0) weaponType = pWeaponType;
 		else vExc = new Exception("02; Wea_d");
-		if ((pName != null) && (pName != "")) Name = pName;
+		if ((pName != null) && (pName != "")) name = pName;
 		else vExc =  new Exception("02; Wea_d");
 
 		if (pTP.length == 2) {
-			if (pTP[0] >= 1) TP = pTP;
-			else vExc = new Exception("02, Wea_a");
-		} else vExc = new Exception("01; Wea_a");
+			if (pTP[0] >= 0) tp = pTP;
+			else vExc = new Exception("02, Wea_d");
+		} else vExc = new Exception("01; Wea_d");
 		if (pTPKK.length == 2) {
-			if ((pTPKK[0] >= 0) && (pTPKK[1] > 0)) TPKK = pTPKK;
+			if ((pTPKK[0] >= 0) && (pTPKK[1] >= 0)) tpkk = pTPKK;
 			else vExc = new Exception("02; Wea_d");
 		}
 		else vExc = new Exception("01; Wea_d");
 		
-		if ((pMund < 0) || (pMund >= 16)) vExc = new Exception("02; Wea_d");
-		if ((pMund == 1) || (pMund == 5) || (pMund == 6) || (pMund == 7) || (pMund == 11) ||
-				(pMund == 12) || (pMund == 13) || (pMund == 15)) Nonlethal = true;
-		else Nonlethal = false;
-		if ((pMund == 2) || (pMund == 5) || (pMund == 8) || (pMund == 9) || (pMund == 11) ||
-				(pMund == 12) || (pMund == 13) || (pMund == 15)) Arkan = true;
-		else Arkan = false;
-		if ((pMund == 3) || (pMund == 6) || (pMund == 8) || (pMund == 10) || (pMund == 11) ||
-				(pMund == 13) || (pMund == 14) || (pMund == 15)) Holy = true;
-		else Holy = false;
-		if ((pMund == 4) || (pMund == 7) || (pMund == 9) || (pMund == 10) || (pMund == 12) ||
-				(pMund == 13) || (pMund == 14) || (pMund == 15)) Unholy = true;
-		else Unholy = false;
+		try {setMund(pMund);}
+		catch(Exception ex) {vExc = ex;}
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
@@ -313,31 +299,33 @@ public abstract class Weapon {
 	 * @return
 	 */
 	@XmlAttribute
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 	/**	Dh	5.6.2020
 	 * 
 	 * pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
+	 * 	 00: Raufen				15: Zweihand-Hiebwaffen
+	 * 	 01: Ringen				16: Zweihandschwerter
+	 * 	 02: Anderhalbhaender	17: Improvisiert
+	 * 	 03: Dolche				18: Armbrust
+	 * 	 04: Fechtwaffen		19: Blasrohr
+	 * 	 05: Hiebwaffen			20: Bogen
+	 * 	 06: Infanteriewaffen	21: Diskus
+	 * 	 07: Kettenstaebe		22: Schleuder
+	 * 	 08: Kettenwaffen		23: Wurfbeil
+	 * 	 09: Peitsche			24: Wurfmesser
+	 * 	 10: Saebel				25: Wurfspeer
+	 * 	 11: Schwerter			26: kleine Schilde
+	 * 	 12: Speere				27: große Schilde
+	 * 	 13: Staebe				28: sehr große Schilde
+	 * 	 14: Zweihandpflegel	29: Parierwaffen
 	 * 
 	 * @return
 	 */
 	@XmlAttribute
 	public int getWeaponType() {
-		return WeaponType;
+		return weaponType;
 	}
 
 	/**	Dh	28.5.2020
@@ -346,8 +334,8 @@ public abstract class Weapon {
 	 * @return
 	 * @throws Exception
 	 */
-	public int getTP(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < 2)) return TPKK[pInd];
+	public int getTp(int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < 2)) return tpkk[pInd];
 		else throw new Exception("07; Wea,gTP");
 	}
 	/**	Dh	28.5.2020
@@ -355,8 +343,9 @@ public abstract class Weapon {
 	 * @return
 	 */
 	@XmlElementWrapper(name = "TPArray")
-	public int[] getTP() {
-		return TP;
+	@XmlElement(name = "TP")
+	public int[] getTp() {
+		return tp;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -364,8 +353,8 @@ public abstract class Weapon {
 	 * @return
 	 * @throws Exception
 	 */
-	public int getTPKK(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < 2)) return TPKK[pInd];
+	public int getTpkk(int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < 2)) return tpkk[pInd];
 		else throw new Exception("07; Wea,gTPKK");
 	}
 	/**	Dh	27.5.2020
@@ -373,8 +362,9 @@ public abstract class Weapon {
 	 * @return
 	 */
 	@XmlElementWrapper(name = "TPKKArray")
-	public int[] getTPKK() {
-		return TPKK;
+	@XmlElement(name = "TPKK")
+	public int[] getTpkk() {
+		return tpkk;
 	}
 	
 	/**	Dh	27.5.2020
@@ -383,7 +373,7 @@ public abstract class Weapon {
 	 */
 	@XmlElement(name = "Name")
 	public String getName() {
-		return Name;
+		return name;
 	}
 	
 	/**	Dh	27.5.2020
@@ -392,7 +382,7 @@ public abstract class Weapon {
 	 */
 	@XmlElement(name = "Arkan")
 	public boolean isArkan() {
-		return Arkan;
+		return isArkan;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -400,7 +390,7 @@ public abstract class Weapon {
 	 */
 	@XmlElement(name = "Holy")
 	public boolean isHoly() {
-		return Holy;
+		return isHoly;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -408,15 +398,24 @@ public abstract class Weapon {
 	 */
 	@XmlElement(name = "Unholy")
 	public boolean isUnholy() {
-		return Unholy;
+		return isUnholy;
 	}
 	/**	Dh	4.6.2020
 	 * 
 	 * @return
 	 */
 	@XmlElement(name = "Nonlethal")
-	public boolean isNonlethal() {
-		return Nonlethal;
+	public boolean isNonLethal() {
+		return isNonLethal;
+	}
+	
+	/**	Dh	9.7.2020
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public int getMundType() throws Exception {
+		return Calculator.convertBitToInt(new boolean[] {isNonLethal, isArkan, isHoly, isUnholy});
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -426,32 +425,34 @@ public abstract class Weapon {
 	 * @param pID
 	 * @throws Exception
 	 */
-	public void setID(int pID) throws Exception {
-		if (pID >= 0) ID = pID;
+	public void setId(int pID) throws Exception {
+		if (pID >= 0) id = pID;
 		else throw new Exception("02; Wea,sID");
 	}
 	/**	Dh	5.6.2020
 	 * 
 	 * pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
+	 * 	 00: Raufen				15: Zweihand-Hiebwaffen
+	 * 	 01: Ringen				16: Zweihandschwerter
+	 * 	 02: Anderhalbhaender	17: Improvisiert
+	 * 	 03: Dolche				18: Armbrust
+	 * 	 04: Fechtwaffen		19: Blasrohr
+	 * 	 05: Hiebwaffen			20: Bogen
+	 * 	 06: Infanteriewaffen	21: Diskus
+	 * 	 07: Kettenstaebe		22: Schleuder
+	 * 	 08: Kettenwaffen		23: Wurfbeil
+	 * 	 09: Peitsche			24: Wurfmesser
+	 * 	 10: Saebel				25: Wurfspeer
+	 * 	 11: Schwerter			26: kleine Schilde
+	 * 	 12: Speere				27: große Schilde
+	 * 	 13: Staebe				28: sehr große Schilde
+	 * 	 14: Zweihandpflegel	29: Parierwaffen
 	 * 
 	 * @param pWeaponType
 	 * @throws Exception
 	 */
 	public void setWeaponType(int pWeaponType) throws Exception{
-		if (pWeaponType >= 0) WeaponType = pWeaponType;
+		if (pWeaponType >= 0) weaponType = pWeaponType;
 		else throw new Exception("02; Wea,sWT");
 	}
 	/**	Dh	27.5.2020
@@ -460,7 +461,7 @@ public abstract class Weapon {
 	 * @throws Exception
 	 */
 	public void setName(String pName) throws Exception {
-		if ((pName != null) && (pName != "")) Name = pName;
+		if ((pName != null) && (pName != "")) name = pName;
 		else throw new Exception("02; Wea,sN");
 	}
 	
@@ -470,9 +471,9 @@ public abstract class Weapon {
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void setTP(int pTPValue, int pInd) throws Exception{
+	public void setTp(int pTPValue, int pInd) throws Exception{
 		if ((pInd >= 0) && (pInd < 2)) {
-			if ((pInd == 1) ||(pTPValue >= 0)) TP[pInd] = pTPValue;
+			if ((pInd == 1) ||(pTPValue >= 0)) tp[pInd] = pTPValue;
 			else throw new Exception("02; Wea,sTP");
 		} else throw new Exception("07; Wea,sTP");
 	}
@@ -481,9 +482,9 @@ public abstract class Weapon {
 	 * @param pTP
 	 * @throws Exception
 	 */
-	public void setTP(int[] pTP) throws Exception{
-		if (pTP.length == TP.length) {
-			if (pTP[0] >= 0) TP = pTP;
+	public void setTp(int[] pTP) throws Exception{
+		if (pTP.length == tp.length) {
+			if (pTP[0] >= 0) tp = pTP;
 			else throw new Exception("02; Wea,sTP");
 		} else throw new Exception("01; Wea,sTP");
 	}
@@ -493,9 +494,9 @@ public abstract class Weapon {
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void setTPKK(int pTPKKValue, int pInd) throws Exception{
+	public void setTpkk(int pTPKKValue, int pInd) throws Exception{
 		if ((pInd >= 0) && (pInd < 2)) {
-			if (pTPKKValue >= 0) TPKK[pInd] = pTPKKValue;
+			if (pTPKKValue >= 0) tpkk[pInd] = pTPKKValue;
 			else throw new Exception("02; Wea,sTPKK");
 		} else throw new Exception("07; Wea,sTPKK");
 	}
@@ -504,9 +505,9 @@ public abstract class Weapon {
 	 * @param pTPKK
 	 * @throws Exception
 	 */
-	public void setTPKK(int[] pTPKK) throws Exception{
+	public void setTpkk(int[] pTPKK) throws Exception{
 		if (pTPKK.length == 2) {
-			if ((pTPKK[0] >= 0) && (pTPKK[1] >= 0)) TPKK = pTPKK;
+			if ((pTPKK[0] >= 0) && (pTPKK[1] >= 0)) tpkk = pTPKK;
 			else throw new Exception("02; Wea,sTPKK");
 		} else throw new Exception("01; Wea,sTPKK");
 	}
@@ -516,62 +517,57 @@ public abstract class Weapon {
 	 * @param pArkan
 	 */
 	public void setArkan(boolean pArkan) {
-		Arkan = pArkan;
+		isArkan = pArkan;
 	}
 	/**	Dh	27.5.2020
 	 * 
 	 * @param pHoly
 	 */
 	public void setHoly(boolean pHoly) {
-		Holy = pHoly;
+		isHoly = pHoly;
 	}
 	/**	Dh	27.5.2020
 	 * 
 	 * @param pUnholy
 	 */
 	public void setUnholy(boolean pUnholy) {
-		Unholy = pUnholy;
+		isUnholy = pUnholy;
 	}
 	/**	Dh	4.6.2020
 	 * 
 	 * @param pNonletahl
 	 */
-	public void setNonlethal(boolean pNonletahl) {
-		Nonlethal =pNonletahl;
+	public void setNonLethal(boolean pNonletahl) {
+		isNonLethal =pNonletahl;
 	}
 	
-	/**	Dh	27.5.2020
+	/**	Dh	9.7.2020
 	 * 
 	 * 	
 	 * 	pMund:
-	 * 	 00: Mundan			  	08: Arkan+Holy
-	 * 	 01: Nonleathal		  	09: Arkan+Unholy
-	 * 	 02: Arkan			  	10: Holy+Unholy
-	 * 	 03: Holy			  	11: Nonle+Ark+Hol
-	 * 	 04: Unholy				12: Nonle+Ark+Unho
-	 * 	 05: Nonlethal+Arkan	13: Nonle+Ho+Unho
-	 * 	 06: Nonlethal+Holy		14: Ark+Ho+Unho
-	 *   07: Nonlehtal+Unholy	15: All	
+	 * 	 00: Mundan			  	08: Unholy
+	 * 	 01: Nonleathal		  	09: Nonlehtal+Unholy
+	 * 	 02: Arkan			  	10: Arkan+Unholy
+	 * 	 03: Nonlethal+Arkan  	11: Nonle+Ark+Unho
+	 * 	 04: Holy				12: Holy+Unholy
+	 * 	 05: Nonlethal+Holy		13: Nonle+Ho+Unho
+	 * 	 06: Arkan+Holy			14: Ark+Ho+Unho
+	 *   07: Nonle+Ark+Hol		15: All
 	 * 
 	 * @param pMund
 	 * @throws Exception
 	 */
 	public void setMund(int pMund) throws Exception{
-		if ((pMund >= 0) && (pMund <= 15)) {
-			if ((pMund == 1) || (pMund == 5) || (pMund == 6) || (pMund == 7) || (pMund == 11) ||
-					(pMund == 12) || (pMund == 13) || (pMund == 15)) Nonlethal = true;
-			else Nonlethal = false;
-			if ((pMund == 2) || (pMund == 5) || (pMund == 8) || (pMund == 9) || (pMund == 11) ||
-					(pMund == 12) || (pMund == 13) || (pMund == 15)) Arkan = true;
-			else Arkan = false;
-			if ((pMund == 3) || (pMund == 6) || (pMund == 8) || (pMund == 10) || (pMund == 11) ||
-					(pMund == 13) || (pMund == 14) || (pMund == 15)) Holy = true;
-			else Holy = false;
-			if ((pMund == 4) || (pMund == 7) || (pMund == 9) || (pMund == 10) || (pMund == 12) ||
-					(pMund == 13) || (pMund == 14) || (pMund == 15)) Unholy = true;
-			else Unholy = false;
-		} else throw new Exception("02; Wea,sM");
+		boolean[] vBitfolge;
 		
+		if ((pMund >= 0) && (pMund <= 15)) {
+			vBitfolge = Calculator.convertIntToBit(pMund, 4);
+			
+			isNonLethal = vBitfolge[0];
+			isArkan = vBitfolge[1];
+			isHoly = vBitfolge[2];
+			isUnholy = vBitfolge[3];
+		} else throw new Exception("02; Wea,sM");
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -586,10 +582,10 @@ public abstract class Weapon {
 		int vRet = 0;
 		Random vRan = new Random();
 		
-		for (int i=0; i < TP[0]; i++) {
+		for (int i=0; i < tp[0]; i++) {
 			vRet += vRan.nextInt(6)+1;
 		}
-		vRet += TP[1];
+		vRet += tp[1];
 		
 		return vRet;
 	}
@@ -605,8 +601,8 @@ public abstract class Weapon {
 		int vRet = calTP();
 		
 		if (pKK >= 0) {
-			if (TPKK[1] != 0) {
-				pKK = (pKK - TPKK[0])/TPKK[1];
+			if (tpkk[1] != 0) {
+				pKK = (pKK - tpkk[0])/tpkk[1];
 				vRet += pKK;
 			}
 		}else new Exception("02; Wea,mD");

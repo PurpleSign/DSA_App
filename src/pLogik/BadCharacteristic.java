@@ -106,7 +106,7 @@ public class BadCharacteristic extends ValuedPro {
 		boolean vSuc = true;
 		
 		if (pDiceRoll >= 1) {
-			if ((Value + pMod) < pDiceRoll) vSuc = false;
+			if ((value + pMod) < pDiceRoll) vSuc = false;
 		} else throw new Exception("02; BaCha,mP");
 		
 		return vSuc;

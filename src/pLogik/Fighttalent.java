@@ -1,4 +1,4 @@
-/**	DSA_App	v0.0	Dh	2.7.2020
+/**	DSA_App	v0.0	Dh	9.7.2020
  * 
  * 	Logik
  * 	  Talent
@@ -39,8 +39,8 @@ import pGUI.MainFrame;
 
 @XmlRootElement(name = "fighttalent")
 public class Fighttalent extends Talent {
-	private int Category;
-	private int[] FightValues, eBE, usableWeaponTypes;
+	private int category;
+	private int[] fightValues, eBE, usableWeaponTypes;
 	
 	/**	Dh	5.6.2020
 	 * 
@@ -49,8 +49,8 @@ public class Fighttalent extends Talent {
 	public Fighttalent() {
 		super();
 		
-		Category = -1;
-		FightValues = new int[] {0, 0};
+		category = -1;
+		fightValues = new int[] {0, 0};
 		eBE = new int[] {0, 0};
 		usableWeaponTypes = new int[] {-1};
 	}
@@ -94,7 +94,7 @@ public class Fighttalent extends Talent {
 		Exception vExc = null;
 		
 		if ((pCategory >= 0) && (pCategory < 3)) {
-			Category = pCategory;
+			category = pCategory;
 			try {
 				if ((pCategory == 0) || (pCategory == 1)) super.setType(0);
 				else super.setType(1);
@@ -102,7 +102,7 @@ public class Fighttalent extends Talent {
 		}
 		else vExc = new Exception("02; FiTal_a");
 		
-		FightValues = new int[] {0, 0};
+		fightValues = new int[] {0, 0};
 		if (pEBE != null) {
 			if (pEBE.length == 2) {
 				if (pEBE[0] >= 0) eBE = pEBE;
@@ -156,7 +156,7 @@ public class Fighttalent extends Talent {
 		Exception vExc = null;
 		
 		if ((pCategory >= 0) && (pCategory < 3)) {
-			Category = pCategory;
+			category = pCategory;
 			try {
 				if ((pCategory == 0) || (pCategory == 1)) super.setType(0);
 				else super.setType(1);
@@ -164,8 +164,8 @@ public class Fighttalent extends Talent {
 		}
 		else vExc = new Exception("02; FiTal_b");
 		
-		if (pCategory != 2) FightValues = new int[] {0, 0};
-		else FightValues = new int[] {TaW, 0};
+		if (pCategory != 2) fightValues = new int[] {0, 0};
+		else fightValues = new int[] {taw, 0};
 		if (pEBE != null) {
 			if (pEBE.length == 2) {
 				if (pEBE[0] >= 0) eBE = pEBE;
@@ -220,7 +220,7 @@ public class Fighttalent extends Talent {
 		Exception vExc = null;
 		
 		if ((pCategory >= 0) && (pCategory < 3)) {
-			Category = pCategory;
+			category = pCategory;
 			try {
 				if ((pCategory == 0) || (pCategory == 1)) super.setType(0);
 				else super.setType(1);
@@ -230,7 +230,7 @@ public class Fighttalent extends Talent {
 		
 		if (pFightValues != null) {
 			if (pFightValues.length == 2) {
-				if ((pFightValues[0] >= 0) && (pFightValues[1] >= 0)) FightValues = pFightValues; 
+				if ((pFightValues[0] >= 0) && (pFightValues[1] >= 0)) fightValues = pFightValues; 
 				else vExc = new Exception("02; FiTal_c");
 			} else vExc = new Exception("01; FiTal_c");
 		} else vExc = new Exception("04; FiTal_c");
@@ -260,7 +260,7 @@ public class Fighttalent extends Talent {
 	 */
 	@XmlElement(name = "Category")
 	public int getCategory() {
-		return Category;
+		return category;
 	}
 	
 	/**	Dh	5.6.2020
@@ -340,8 +340,8 @@ public class Fighttalent extends Talent {
 	 * @throws Exception
 	 */
 	public int getFightValue(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < FightValues.length)) {
-			return FightValues[pInd];
+		if ((pInd >= 0) && (pInd < fightValues.length)) {
+			return fightValues[pInd];
 		} throw new Exception("02; FiTal,gFV");
 	}
 	/**	Dh	5.6.2020
@@ -351,7 +351,7 @@ public class Fighttalent extends Talent {
 	@XmlElementWrapper(name = "Kampfwerte")
 	@XmlElement(name = "Kampfwert")
 	public int[] getFightValues() {
-		return FightValues;
+		return fightValues;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -367,17 +367,17 @@ public class Fighttalent extends Talent {
 	 * @throws Exception
 	 */
 	public void setCategory(int pCategory) throws Exception{
-		if ((pCategory >= 0) && (pCategory < 3)) Category = pCategory;
+		if ((pCategory >= 0) && (pCategory < 3)) category = pCategory;
 		else throw new Exception("02; FiTal,sC");
 	}
 	/**	Dh	9.6.2020
 	 * 
 	 */
-	public void setTaW(int pTaW) throws Exception{
-		if (pTaW < (FightValues[0]+FightValues[1])) FightValues = new int[] {0, 0};
-		super.setTaW(pTaW);
+	public void setTaw(int pTaW) throws Exception{
+		if (pTaW < (fightValues[0]+fightValues[1])) fightValues = new int[] {0, 0};
+		super.setTaw(pTaW);
 		
-		if (Category == 2) FightValues[0] = pTaW;
+		if (category == 2) fightValues[0] = pTaW;
 	}
 	
 	/**	Dh	5.6.2020
@@ -464,10 +464,10 @@ public class Fighttalent extends Talent {
 	 * @throws Exception
 	 */
 	public void setFightValue(int pFightValue, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < FightValues.length))
-			if ((pFightValue >= 0) && (((pInd == 0) && (pFightValue+FightValues[1] <= TaW)) 
-					|| ((pInd == 1) && (pFightValue + FightValues[0] <= TaW)))) {
-				if (Category != 2) FightValues[pInd] = pFightValue;
+		if ((pInd >= 0) && (pInd < fightValues.length))
+			if ((pFightValue >= 0) && (((pInd == 0) && (pFightValue+fightValues[1] <= taw)) 
+					|| ((pInd == 1) && (pFightValue + fightValues[0] <= taw)))) {
+				if (category != 2) fightValues[pInd] = pFightValue;
 			}else throw new Exception("02; FiTal,sFV");
 		else throw new Exception("02; FiTal,sFV");
 	}
@@ -478,10 +478,10 @@ public class Fighttalent extends Talent {
 	 */
 	public void setFightValues(int[] pFightValues) throws Exception{
 		if (pFightValues != null) {
-			if (pFightValues.length == FightValues.length) {
-				if((pFightValues[0] >= 0) && (pFightValues[1] >= 0) && (pFightValues[0]+pFightValues[1] <= TaW)){
-					if (Category != 2) FightValues = pFightValues;
-				}else throw new Exception("2; FiTal,sFVs; "+TaW+", "+pFightValues[0]+pFightValues[1]);
+			if (pFightValues.length == fightValues.length) {
+				if((pFightValues[0] >= 0) && (pFightValues[1] >= 0) && (pFightValues[0]+pFightValues[1] <= taw)){
+					if (category != 2) fightValues = pFightValues;
+				}else throw new Exception("2; FiTal,sFVs; "+taw+", "+pFightValues[0]+pFightValues[1]);
 			} else throw new Exception("01; FiTal,sFVs");
 		} else throw new Exception("04; FiTal,sFVs");
 	}
@@ -522,10 +522,10 @@ public class Fighttalent extends Talent {
 	/**	Dh	9.6.2020
 	 * 
 	 */
-	public void addTaW(int pTaW) throws Exception{
-		super.addTaW(pTaW);
+	public void addTaw(int pTaW) throws Exception{
+		super.addTaw(pTaW);
 		
-		if (Category == 2) FightValues[0] = TaW;
+		if (category == 2) fightValues[0] = taw;
 	}
 	
 	/**	Dh	9.6.2020
@@ -540,8 +540,8 @@ public class Fighttalent extends Talent {
 	 */
 	public void addFightValue(int pFightValue, int pInd) throws Exception{
 		if ((pInd >= 0) && (pInd < 2)){
-			if ( ((pFightValue+FightValues[0]+FightValues[1]) <= TaW) && ((pFightValue + FightValues[pInd]) >= 0) ) {
-				if (Category != 2) FightValues[pInd] = pFightValue;
+			if ( ((pFightValue+fightValues[0]+fightValues[1]) <= taw) && ((pFightValue + fightValues[pInd]) >= 0) ) {
+				if (category != 2) fightValues[pInd] = pFightValue;
 			}else throw new Exception("02; FiTal,aFV");
 		} else throw new Exception("02; FiTal,aFV");
 	}
@@ -557,11 +557,11 @@ public class Fighttalent extends Talent {
 	public void addFightValues(int[] pFightValues) throws Exception{
 		if (pFightValues != null) {
 			if (pFightValues.length == 2) {
-				if (((FightValues[0]+FightValues[1]+pFightValues[0]+pFightValues[1]) <= TaW) && (((FightValues[0]+pFightValues[0])>= 0)
-						|| ((FightValues[1]+pFightValues[1]) >= 0))){
-					if (Category != 2) {
-						FightValues[0] += pFightValues[0];
-						FightValues[1] += pFightValues[1];
+				if (((fightValues[0]+fightValues[1]+pFightValues[0]+pFightValues[1]) <= taw) && (((fightValues[0]+pFightValues[0])>= 0)
+						|| ((fightValues[1]+pFightValues[1]) >= 0))){
+					if (category != 2) {
+						fightValues[0] += pFightValues[0];
+						fightValues[1] += pFightValues[1];
 					}
 				} else throw new Exception("02; FiTal,aFVs");
 			} else throw new Exception("01; FiTal,aFVs");
@@ -684,8 +684,8 @@ public class Fighttalent extends Talent {
 		int vDiff, vTaW;
 		
 		if (pBasisFightValue >= 0) {
-			if (pAttack == true) vTaW = pBasisFightValue + FightValues[0];
-			else if ((pAttack == false) && (Category != 2)) vTaW = pBasisFightValue + FightValues[1];
+			if (pAttack == true) vTaW = pBasisFightValue + fightValues[0];
+			else if ((pAttack == false) && (category != 2)) vTaW = pBasisFightValue + fightValues[1];
 			else throw new Exception("02; FiTal,mFP");
 			
 			vDiff = vTaW - pRoll + pMod;

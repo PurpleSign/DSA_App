@@ -1,7 +1,9 @@
-/**	DSA_App v0.0	Dh	25.6.2020
+/**	DSA_App v0.0	Dh	14.7.2020
  * 
  * 	pGUI
- * 	  StatusFrame
+ * 	  CharModFrame
+ * 		CharValueModFrame
+ * 		  StatusFrame
  * 
  * 	Exceptions:
  * 	  01 Wrong length
@@ -43,15 +45,10 @@ import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 
-public class StatusFrame extends JFrame{
-	private int ID, Height, Width;
-	
-	private CharacterManager rCM;
-	private MainFrame rMF;
-	
+public class StatusFrame extends CharValueModFrame{
 	private JPanel contentPane, pStatFramePanel, pTempStatPanel;
 	
-	private JLabel lStatFrameTitle_0, lStatFrameTitle_1, lStatPanelTitle, lTempStatTitle;
+	private JLabel lStatPanelTitle, lTempStatTitle;
 	private JLabel lStatPanelLabel_0, lStatPanelLabel_1, lStatPanelLabel_2, lStatPanelLabel_3, lStatPanelLabel_4, lStatPanelLabel_5,
 		lStatPanelLabel_6, lStatPanelLabel_7, lStatPanelLabel_8, lStatPanelLabel_9;
 	private JLabel lTempStatPanelLabel_0, lTempStatPanelLabel_1, lTempStatPanelLabel_2, lTempStatPanelLabel_3;
@@ -60,63 +57,63 @@ public class StatusFrame extends JFrame{
 		spStatPanelSpinner_5, spStatPanelSpinner_6, spStatPanelSpinner_7, spStatPanelSpinner_8, spStatPanelSpinner_9;
 	private JSpinner spTempStatPanelSpinner_0, spTempStatPanelSpinner_1, spTempStatPanelSpinner_2, spTempStatPanelSpinner_3;
 
-	private JButton btStatFrameButton_0, btStatFrameButton_1;
 	
 	/**
 	 * Create the frame.
 	 */
 	public StatusFrame(int pID, CharacterManager pCM, MainFrame pMF) {
-		ID = pID;
-		rCM = pCM;
-		rMF = pMF;
-		
-		Width = 320;
-		Height = 460;
-		
-		initFrame();
-		
-		setValues();
+		super(pID, pCM, pMF);
+	}
+	
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	14.7.2020
+	 * 
+	 */
+	protected void initSize() {
+		width = 320;
+		height = 460;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 
-	/**	Dh	24.6.2020
+	/**	Dh	14.7.2020
 	 * 
 	 */
-	private void initFrame() {
+	protected void initFrame() {
 		Point vPos = rMF.getMiddlePosition();
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds((int)(vPos.getX()-(Width/2)), (int)(vPos.getY()-(Height/2)), Width, Height);
+		setBounds((int)(vPos.getX()-(width/2)), (int)(vPos.getY()-(height/2)), width, height);
 		//setBounds(100, 100, 330, 464);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		lStatFrameTitle_0 = new JLabel("Status Auswahl");
-		lStatFrameTitle_0.setHorizontalAlignment(SwingConstants.CENTER);
-		lStatFrameTitle_0.setFont(new Font("Liberation Serif", Font.BOLD, 18));
+		lFrameTitle_0 = new JLabel("Status Auswahl");
+		lFrameTitle_0.setHorizontalAlignment(SwingConstants.CENTER);
+		lFrameTitle_0.setFont(new Font("Liberation Serif", Font.BOLD, 18));
 		
-		lStatFrameTitle_1 = new JLabel("Test");
-		lStatFrameTitle_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lStatFrameTitle_1.setFont(new Font("Liberation Serif", Font.BOLD, 12));
+		lFrameTitle_1 = new JLabel("Test");
+		lFrameTitle_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lFrameTitle_1.setFont(new Font("Liberation Serif", Font.BOLD, 12));
 		
-		initStatPanel();
+		initSubPanel();
 		initTempStatPanel();
 		
-		btStatFrameButton_0 = new JButton("Anwenden");
-		btStatFrameButton_0.setFont(new Font("Liberation Serif", Font.BOLD, 14));
-		btStatFrameButton_0.addActionListener(new ActionListener() {
+		btFrameButton_0 = new JButton("Anwenden");
+		btFrameButton_0.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btFrameButton_0.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				apply();
 			}
 		});
 		
-		btStatFrameButton_1 = new JButton("Abbrechen");
-		btStatFrameButton_1.setFont(new Font("Liberation Serif", Font.BOLD, 14));
-		btStatFrameButton_1.addActionListener(new ActionListener() {
+		btFrameButton_1 = new JButton("Abbrechen");
+		btFrameButton_1.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btFrameButton_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				cancel();
@@ -130,34 +127,34 @@ public class StatusFrame extends JFrame{
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(pStatFramePanel, GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
 						.addComponent(pTempStatPanel, GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
-						.addComponent(lStatFrameTitle_0, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lStatFrameTitle_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btStatFrameButton_0, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btStatFrameButton_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(lFrameTitle_0, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lFrameTitle_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btFrameButton_0, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btFrameButton_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addContainerGap(23, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(lStatFrameTitle_0, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lFrameTitle_0, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lStatFrameTitle_1)
+					.addComponent(lFrameTitle_1)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(pStatFramePanel, GroupLayout.PREFERRED_SIZE, 180, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(pTempStatPanel, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btStatFrameButton_0, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btFrameButton_0, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btStatFrameButton_1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+					.addComponent(btFrameButton_1, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
-	/**	Dh	25.6.2020
+	/**	Dh	14.7.2020
 	 * 
 	 */
-	private void initStatPanel() {
+	protected void initSubPanel() {
 		pStatFramePanel = new JPanel();
 		pStatFramePanel.setBackground(Color.WHITE);
 		
@@ -233,7 +230,7 @@ public class StatusFrame extends JFrame{
 		
 		spStatPanelSpinner_3 = new JSpinner();
 		spStatPanelSpinner_3.setPreferredSize(new Dimension(37, 20));
-		spStatPanelSpinner_0.setModel(new SpinnerNumberModel(-1, -1, 100, 1));
+		spStatPanelSpinner_3.setModel(new SpinnerNumberModel(-1, -1, 100, 1));
 		spStatPanelSpinner_3.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				if (((int)spStatPanelSpinner_3.getValue()) == -1) {
@@ -250,27 +247,27 @@ public class StatusFrame extends JFrame{
 		
 		spStatPanelSpinner_4 = new JSpinner();
 		spStatPanelSpinner_4.setPreferredSize(new Dimension(37, 20));
-		spStatPanelSpinner_0.setModel(new SpinnerNumberModel(4, 0, 50, 1));
+		spStatPanelSpinner_4.setModel(new SpinnerNumberModel(4, 0, 50, 1));
 		
 		spStatPanelSpinner_5 = new JSpinner();
 		spStatPanelSpinner_5.setPreferredSize(new Dimension(37, 20));
-		spStatPanelSpinner_0.setModel(new SpinnerNumberModel(7, 1, 30, 1));
+		spStatPanelSpinner_5.setModel(new SpinnerNumberModel(7, 1, 30, 1));
 		
 		spStatPanelSpinner_6 = new JSpinner();
 		spStatPanelSpinner_6.setPreferredSize(new Dimension(37, 20));
-		spStatPanelSpinner_0.setModel(new SpinnerNumberModel(9, 0, 30, 1));
+		spStatPanelSpinner_6.setModel(new SpinnerNumberModel(9, 0, 30, 1));
 		
 		spStatPanelSpinner_7 = new JSpinner();
 		spStatPanelSpinner_7.setPreferredSize(new Dimension(37, 20));
-		spStatPanelSpinner_0.setModel(new SpinnerNumberModel(7, 0, 30, 1));
+		spStatPanelSpinner_7.setModel(new SpinnerNumberModel(7, 0, 30, 1));
 		
 		spStatPanelSpinner_8 = new JSpinner();
 		spStatPanelSpinner_8.setPreferredSize(new Dimension(37, 20));
-		spStatPanelSpinner_0.setModel(new SpinnerNumberModel(7, 0, 30, 1));
+		spStatPanelSpinner_8.setModel(new SpinnerNumberModel(7, 0, 30, 1));
 		
 		spStatPanelSpinner_9 = new JSpinner();
 		spStatPanelSpinner_9.setPreferredSize(new Dimension(37, 20));
-		spStatPanelSpinner_0.setModel(new SpinnerNumberModel(7, 0, 30, 1));
+		spStatPanelSpinner_9.setModel(new SpinnerNumberModel(7, 0, 30, 1));
 		
 		GroupLayout gl_pStatFramePanel = new GroupLayout(pStatFramePanel);
 		gl_pStatFramePanel.setHorizontalGroup(
@@ -359,7 +356,7 @@ public class StatusFrame extends JFrame{
 		);
 		pStatFramePanel.setLayout(gl_pStatFramePanel);
 	}
-	/**	Dh	24.6.2020
+	/**	Dh	14.7.2020
 	 * 
 	 */
 	private void initTempStatPanel() {
@@ -389,15 +386,19 @@ public class StatusFrame extends JFrame{
 		
 		spTempStatPanelSpinner_0 = new JSpinner();
 		spTempStatPanelSpinner_0.setPreferredSize(new Dimension(37, 20));
+		spTempStatPanelSpinner_0.setModel(new SpinnerNumberModel(25, -100, 500, 1));
 		
 		spTempStatPanelSpinner_1 = new JSpinner();
 		spTempStatPanelSpinner_1.setPreferredSize(new Dimension(37, 20));
+		spTempStatPanelSpinner_1.setModel(new SpinnerNumberModel(25, 0, 500, 1));
 		
 		spTempStatPanelSpinner_2 = new JSpinner();
 		spTempStatPanelSpinner_2.setPreferredSize(new Dimension(37, 20));
+		spTempStatPanelSpinner_2.setModel(new SpinnerNumberModel(25, -1, 500, 1));
 	
 		spTempStatPanelSpinner_3 = new JSpinner();
 		spTempStatPanelSpinner_3.setPreferredSize(new Dimension(37, 20));
+		spTempStatPanelSpinner_3.setModel(new SpinnerNumberModel(25, -1, 500, 1));
 		
 		GroupLayout gl_pTempStatPanel = new GroupLayout(pTempStatPanel);
 		gl_pTempStatPanel.setHorizontalGroup(
@@ -449,96 +450,92 @@ public class StatusFrame extends JFrame{
 	
 //--------------------------------------------------------------------------------------------------------
 
-	/**	Dh	25.6.2020
+	/**	Dh	14.7.2020
 	 * 
 	 */
-	private void setValues() {
-		try {
-			if ((ID >= 0) && (rCM.haveCharacterID(ID) == true)) {
-				lStatFrameTitle_1.setText("für "+rCM.getNameOfCharacter(ID));
-				
-				spStatPanelSpinner_0.setValue(rCM.getMaxStatOfCharacter(ID, 0));
-				spStatPanelSpinner_1.setValue(rCM.getMaxStatOfCharacter(ID, 1));
-				spStatPanelSpinner_2.setValue(rCM.getMaxStatOfCharacter(ID, 2));
-				spStatPanelSpinner_3.setValue(rCM.getMaxStatOfCharacter(ID, 3));
-				
-				spStatPanelSpinner_4.setValue(rCM.getMagicResistanceOfCharacter(ID));
-				spStatPanelSpinner_5.setValue(rCM.getWoundThresholdOfCharacter(ID));
-				
-				spStatPanelSpinner_6.setValue(rCM.getFightValueOfCharacter(ID, 0));
-				spStatPanelSpinner_7.setValue(rCM.getFightValueOfCharacter(ID, 1));
-				spStatPanelSpinner_8.setValue(rCM.getFightValueOfCharacter(ID, 2));
-				spStatPanelSpinner_9.setValue(rCM.getFightValueOfCharacter(ID, 3));
-				
-				spTempStatPanelSpinner_0.setValue(rCM.getStatOfCharacter(ID, 0));
-				spTempStatPanelSpinner_1.setValue(rCM.getStatOfCharacter(ID, 1));
-				spTempStatPanelSpinner_2.setValue(rCM.getStatOfCharacter(ID, 2));
-				spTempStatPanelSpinner_3.setValue(rCM.getStatOfCharacter(ID, 3));
-				
-				if (((int)spStatPanelSpinner_2.getValue()) == -1) {
-					lTempStatPanelLabel_2.setVisible(false);
-					spTempStatPanelSpinner_2.setVisible(false);
-				}
-				if (((int)spStatPanelSpinner_3.getValue()) == -1) {
-					lTempStatPanelLabel_3.setVisible(false);
-					spTempStatPanelSpinner_3.setVisible(false);
-				}
-			} else {
-				rMF.handleException(new Exception("02; StFra,sV"));
-				cancel();				
-			}
-		}catch (Exception ex) {rMF.handleException(ex);}
+	protected void setSpecificValues(int pID) throws Exception{
+		spStatPanelSpinner_0.setValue((int)Math.round(rCM.getMaxStatOfCharacter(pID, 0)));
+		spStatPanelSpinner_1.setValue((int)Math.round(rCM.getMaxStatOfCharacter(pID, 1)));
+		spStatPanelSpinner_2.setValue((int)Math.round(rCM.getMaxStatOfCharacter(pID, 2)));
+		spStatPanelSpinner_3.setValue((int)Math.round(rCM.getMaxStatOfCharacter(pID, 3)));
+		
+		spStatPanelSpinner_4.setValue((int)Math.round(rCM.getMagicResistanceOfCharacter(pID)));
+		spStatPanelSpinner_5.setValue((int)Math.round(rCM.getWoundThresholdOfCharacter(pID)));
+		
+		spStatPanelSpinner_6.setValue((int)Math.round(rCM.getFightValueOfCharacter(pID, 0)));
+		spStatPanelSpinner_7.setValue((int)Math.round(rCM.getFightValueOfCharacter(pID, 1)));
+		spStatPanelSpinner_8.setValue((int)Math.round(rCM.getFightValueOfCharacter(pID, 2)));
+		spStatPanelSpinner_9.setValue((int)Math.round(rCM.getFightValueOfCharacter(pID, 3)));
+		
+		spTempStatPanelSpinner_0.setValue(rCM.getStatOfCharacter(pID, 0));
+		spTempStatPanelSpinner_1.setValue(rCM.getStatOfCharacter(pID, 1));
+		spTempStatPanelSpinner_2.setValue(rCM.getStatOfCharacter(pID, 2));
+		spTempStatPanelSpinner_3.setValue(rCM.getStatOfCharacter(pID, 3));
+		
+		if (((int)spStatPanelSpinner_2.getValue()) == -1) {
+			lTempStatPanelLabel_2.setVisible(false);
+			spTempStatPanelSpinner_2.setVisible(false);
+		}
+		if (((int)spStatPanelSpinner_3.getValue()) == -1) {
+			lTempStatPanelLabel_3.setVisible(false);
+			spTempStatPanelSpinner_3.setVisible(false);
+		}
 	}
-	
+		
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	24.6.2020
+	/**	Dh	14.7.2020
 	 * 
 	 */
-	private void cancel() {
-		rMF.closeCharManModFrame();
+	protected void apply() {
 		
-		setVisible(false);
-		dispose();
-	}
-	/**	Dh	24.6.2020
-	 * 
-	 */
-	private void apply() {
-		
-		try { rCM.setMaxStatusOfCharacter(ID, (int)spStatPanelSpinner_0.getValue(), 0);}
+		try { rCM.setMaxStatusOfCharacter(id, ((double)((int)spStatPanelSpinner_0.getValue())+getDeci(rCM.getMaxStatOfCharacter(id, 0))), 0);}
 		catch (Exception ex) {rMF.handleException(ex);}
-		try { rCM.setMaxStatusOfCharacter(ID, (int)spStatPanelSpinner_1.getValue(), 1);}
+		try { rCM.setMaxStatusOfCharacter(id, ((double)((int)spStatPanelSpinner_1.getValue())+getDeci(rCM.getMaxStatOfCharacter(id, 1))), 1);}
 		catch (Exception ex) {rMF.handleException(ex);}
-		try { rCM.setMaxStatusOfCharacter(ID, (int)spStatPanelSpinner_2.getValue(), 2);}
+		try { rCM.setMaxStatusOfCharacter(id, ((double)((int)spStatPanelSpinner_2.getValue())+getDeci(rCM.getMaxStatOfCharacter(id, 2))), 2);}
 		catch (Exception ex) {rMF.handleException(ex);}
-		try { rCM.setMaxStatusOfCharacter(ID, (int)spStatPanelSpinner_3.getValue(), 3);}
-		catch (Exception ex) {rMF.handleException(ex);}
-
-		try { rCM.setMagicResistanceOfCharacter(ID, (int)spStatPanelSpinner_4.getValue());}
-		catch (Exception ex) {rMF.handleException(ex);}
-		try { rCM.setWoundThresholdOfCharacter(ID, (int)spStatPanelSpinner_5.getValue());}
+		try { rCM.setMaxStatusOfCharacter(id, ((double)((int)spStatPanelSpinner_3.getValue())+getDeci(rCM.getMaxStatOfCharacter(id, 3))), 3);}
 		catch (Exception ex) {rMF.handleException(ex);}
 		
-		try { rCM.setFightValueOfCharacter(ID, (int)spStatPanelSpinner_6.getValue(), 0);}
+		try { rCM.setMagicResistanceOfCharacter(id, ((double)((int)spStatPanelSpinner_4.getValue())+getDeci(rCM.getMagicResistanceOfCharacter(id))));}
 		catch (Exception ex) {rMF.handleException(ex);}
-		try { rCM.setFightValueOfCharacter(ID, (int)spStatPanelSpinner_7.getValue(), 1);}
-		catch (Exception ex) {rMF.handleException(ex);}
-		try { rCM.setFightValueOfCharacter(ID, (int)spStatPanelSpinner_8.getValue(), 2);}
-		catch (Exception ex) {rMF.handleException(ex);}
-		try { rCM.setFightValueOfCharacter(ID, (int)spStatPanelSpinner_9.getValue(), 4);}
+		try { rCM.setWoundThresholdOfCharacter(id, ((double)((int)spStatPanelSpinner_5.getValue())+getDeci(rCM.getWoundThresholdOfCharacter(id))));}
 		catch (Exception ex) {rMF.handleException(ex);}
 		
-		try { rCM.setMaxStatusOfCharacter(ID, (int)spTempStatPanelSpinner_0.getValue(), 0);}
+		try { rCM.setFightValueOfCharacter(id, ((double)((int)spStatPanelSpinner_6.getValue())+getDeci(rCM.getFightValueOfCharacter(id, 0))), 0);}
 		catch (Exception ex) {rMF.handleException(ex);}
-		try { rCM.setMaxStatusOfCharacter(ID, (int)spTempStatPanelSpinner_1.getValue(), 1);}
+		try { rCM.setFightValueOfCharacter(id, ((double)((int)spStatPanelSpinner_7.getValue())+getDeci(rCM.getFightValueOfCharacter(id, 1))), 1);}
 		catch (Exception ex) {rMF.handleException(ex);}
-		try { rCM.setMaxStatusOfCharacter(ID, (int)spTempStatPanelSpinner_2.getValue(), 2);}
+		try { rCM.setFightValueOfCharacter(id, ((double)((int)spStatPanelSpinner_8.getValue())+getDeci(rCM.getFightValueOfCharacter(id, 2))), 2);}
 		catch (Exception ex) {rMF.handleException(ex);}
-		try { rCM.setMaxStatusOfCharacter(ID, (int)spTempStatPanelSpinner_3.getValue(), 3);}
+		try { rCM.setFightValueOfCharacter(id, ((double)((int)spStatPanelSpinner_9.getValue())+getDeci(rCM.getFightValueOfCharacter(id, 3))), 3);}
+		catch (Exception ex) {rMF.handleException(ex);}
+		
+		try { rCM.setStatusOfCharacter(id, (int)spTempStatPanelSpinner_0.getValue(), 0);}
+		catch (Exception ex) {rMF.handleException(ex);}
+		try { rCM.setStatusOfCharacter(id, (int)spTempStatPanelSpinner_1.getValue(), 1);}
+		catch (Exception ex) {rMF.handleException(ex);}
+		try { rCM.setStatusOfCharacter(id, (int)spTempStatPanelSpinner_2.getValue(), 2);}
+		catch (Exception ex) {rMF.handleException(ex);}
+		try { rCM.setStatusOfCharacter(id, (int)spTempStatPanelSpinner_3.getValue(), 3);}
 		catch (Exception ex) {rMF.handleException(ex);}
 		
 		cancel();
 	}
 	
+//--------------------------------------------------------------------------------------------------------
+
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pValue
+	 * @return
+	 */
+	private double getDeci(double pValue) {
+		double vRet = pValue-((int)pValue);
+		
+		if (vRet >= 0.5) pValue = -1*pValue;
+		
+		return vRet;
+	}
 }

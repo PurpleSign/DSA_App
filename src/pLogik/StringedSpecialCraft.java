@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 1.7.2020
+/**	DSA_App v0.0	Dh	 9.7.2020
  * 	
  * 	Logik
  * 	  SpecialCrafts (Stringed)
@@ -40,7 +40,7 @@ import pGUI.MainFrame;
 
 @XmlRootElement(name = "stringedspecialcraft")
 public class StringedSpecialCraft extends SpecialCraft implements Stringed{
-	private String StringedValue;
+	private String stringedValue;
 	
 	/**	Dh 17.6.2020
 	 * 
@@ -48,7 +48,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 	 */
 	public StringedSpecialCraft() {
 		super();
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	2.7.2020
 	 * 	
@@ -58,7 +58,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 	public StringedSpecialCraft(int pID, String pName) {
 		super(pID, pName);
 		
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	2.7.2020
 	 * 
@@ -75,7 +75,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 	public StringedSpecialCraft(int pID, String pName, int pType) {
 		super(pID, pName, pType);
 		
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -94,7 +94,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 		super(pID, pName, pType);
 		Exception vExc = null ;
 		
-		if (!pStringedValue.equals(pStringedValue)) StringedValue = pStringedValue;
+		if (!pStringedValue.equals(pStringedValue)) stringedValue = pStringedValue;
 		else vExc = new Exception("02; StSpCra_c");
 			
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -115,7 +115,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 	public StringedSpecialCraft(int pID, String pName, int pType, int[] pPropertiePremises) {
 		super(pID, pName, pType, pPropertiePremises);
 		
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	17.6.2020
 	 * 
@@ -135,7 +135,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 		super(pID, pName, pType, pPropertiePremises);
 		Exception vExc = null ;
 		
-		if (!pStringedValue.equals(pStringedValue)) StringedValue = pStringedValue;
+		if (!pStringedValue.equals(pStringedValue)) stringedValue = pStringedValue;
 		else vExc = new Exception("02; StSpCra_e");
 			
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -162,7 +162,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 	public StringedSpecialCraft(int pID, String pName, int pType, List pTypedPremiseList) {
 		super(pID, pName, pType, pTypedPremiseList);
 		
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	18.6.2020
 	 * 
@@ -188,7 +188,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 		super(pID, pName, pType, pTypedPremiseList);
 		Exception vExc = null ;
 		
-		if (!pStringedValue.equals(pStringedValue)) StringedValue = pStringedValue;
+		if (!pStringedValue.equals(pStringedValue)) stringedValue = pStringedValue;
 		else vExc = new Exception("02; StSpCra_g");
 			
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -216,7 +216,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 	public StringedSpecialCraft(int pID, String pName, int pType, int[] pPropertiePremises, List pTypedPremiseList) {
 		super(pID, pName, pType, pPropertiePremises, pTypedPremiseList);
 		
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	18.6.2020
 	 * 
@@ -243,7 +243,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 		super(pID, pName, pType, pPropertiePremises, pTypedPremiseList);
 		Exception vExc = null ;
 		
-		if (!pStringedValue.equals(pStringedValue)) StringedValue = pStringedValue;
+		if (!pStringedValue.equals(pStringedValue)) stringedValue = pStringedValue;
 		else vExc = new Exception("02; StSpCra_i");
 			
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -257,7 +257,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 	 */
 	@XmlElement(name = "StringedValue")
 	public String getStringedValue() {
-		return StringedValue;
+		return stringedValue;
 	}
 		
 	//----------------------------------------------------------------------------------------------------
@@ -269,7 +269,7 @@ public class StringedSpecialCraft extends SpecialCraft implements Stringed{
 	 */
 	public void setStringedValue(String pStringedValue) throws Exception{
 		if (pStringedValue != null) {
-			StringedValue = pStringedValue;
+			stringedValue = pStringedValue;
 		} else throw new Exception("04; StSpCra,sSV");
 	}
 		

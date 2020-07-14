@@ -1,16 +1,16 @@
-/**	DSA_App	v0.0	Dh	2.7.2020
+/**	DSA_App	v0.0	Dh	9.7.2020
  * 
  * 	Logik
  * 	  Talent
  * 		BasicTalent
  * 
- * Properties: 
+ * properties: 
  * 	  0 Mut					4 Fingerfertigkeit
  * 	  1 Klugkheit			5 Gewandheit
  * 	  2 Intuition			6 Konstitution
  * 	  3 Charisma			7 Koerperkraft
  * 
- * 	Types:
+ * 	types:
  * 	  00: Nahkampf				05: Wissens
  * 	  01: Fernkampf				06: Sprache
  * 	  02: Koerperliche			07: Handwerks
@@ -42,7 +42,7 @@ import pGUI.MainFrame;
 @XmlRootElement(name = "basictalent")
 @XmlSeeAlso({PhysicalTalent.class, Communicationtalent.class})
 public class Basictalent extends Talent {
-	private int[] PropInds;
+	private int[] propInds;
 	
 	/**	Dh	5.6.2020
 	 * 
@@ -51,7 +51,7 @@ public class Basictalent extends Talent {
 	public Basictalent() {
 		super();
 		
-		PropInds = new int[] {-1, -1, -1};
+		propInds = new int[] {-1, -1, -1};
 	}
 	/**	Dh	2.7.2020
 	 * 
@@ -79,7 +79,7 @@ public class Basictalent extends Talent {
 		if (pPropInds != null) {
 			if (pPropInds.length == 3) {
 				if ((pPropInds[0] >= 0) && (pPropInds[1] >= 0) && (pPropInds[2] >= 0) && (pPropInds[0] < 8)
-						&& (pPropInds[1] < 8) && (pPropInds[2] < 8)) PropInds = pPropInds;
+						&& (pPropInds[1] < 8) && (pPropInds[2] < 8)) propInds = pPropInds;
 				else vExc = new Exception("02; BaTal_a");
 			} else vExc = new Exception("01; BaTal_a");
 		} else vExc = new Exception("04; BaTal_a");
@@ -113,7 +113,7 @@ public class Basictalent extends Talent {
 		if (pPropInds != null) {
 			if (pPropInds.length == 3) {
 				if ((pPropInds[0] >= 0) && (pPropInds[1] >= 0) && (pPropInds[2] >= 0) && (pPropInds[0] < 8)
-						&& (pPropInds[1] < 8) && (pPropInds[2] < 8)) PropInds = pPropInds;
+						&& (pPropInds[1] < 8) && (pPropInds[2] < 8)) propInds = pPropInds;
 				else vExc = new Exception("02; BaTal_b");
 			} else vExc = new Exception("01; BaTal_b");
 		} else vExc = new Exception("04; BaTal_b");
@@ -130,8 +130,8 @@ public class Basictalent extends Talent {
 	 * @throws Exception
 	 */
 	public int getPropInd(int pInd) throws Exception {
-		if ((pInd >= 0) && (pInd < PropInds.length)) {
-			return PropInds[pInd];
+		if ((pInd >= 0) && (pInd < propInds.length)) {
+			return propInds[pInd];
 		} else throw new Exception("02; BaTal,gPI");
 	}
 	/**	Dh	5.6.2020
@@ -141,7 +141,7 @@ public class Basictalent extends Talent {
 	@XmlElementWrapper(name = "PropertieIndiceArray")
 	@XmlElement(name = "PropertieIndice")
 	public int[] getPropInds() {
-		return PropInds;
+		return propInds;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ public class Basictalent extends Talent {
 	 * @throws Exception
 	 */
 	public void setPropInd(int pPropInd, int pInd) throws Exception{
-		if ((pInd >= 0) && (pPropInd >= 0) && (pPropInd < 8) && (pInd < PropInds.length)) PropInds[pInd] = pPropInd;
+		if ((pInd >= 0) && (pPropInd >= 0) && (pPropInd < 8) && (pInd < propInds.length)) propInds[pInd] = pPropInd;
 		else throw new Exception("02; BaTal,sPI");
 	}
 	/**	Dh	5.6.2020
@@ -163,9 +163,9 @@ public class Basictalent extends Talent {
 	 */
 	public void setPropInds(int[] pPropInds) throws Exception{
 		if (pPropInds != null) {
-			if (pPropInds.length == PropInds.length) {
+			if (pPropInds.length == propInds.length) {
 				if ((pPropInds[0] >= 0) && (pPropInds[1] >= 0) && (pPropInds[2] >= 0) && (pPropInds[0] < 8)
-						&& (pPropInds[1] < 8) && (pPropInds[2] < 8)) PropInds = pPropInds;
+						&& (pPropInds[1] < 8) && (pPropInds[2] < 8)) propInds = pPropInds;
 				else throw new Exception("02; BaTal,sPIs");
 			} else throw new Exception("01; BaTal,sPIs");
 		} else throw new Exception("04; BaTal,sPIs");
@@ -215,13 +215,13 @@ public class Basictalent extends Talent {
 		int vTaP = -1;
 		
 		if (pProps != null) {
-			if ((pProps.length == PropInds.length) && (pRolls.length == PropInds.length)) {
-				vTaW = TaW+pMod;
+			if ((pProps.length == propInds.length) && (pRolls.length == propInds.length)) {
+				vTaW = taw+pMod;
 				vTaP = 0;
 				if (vTaW < 0) vTaWMod = vTaW;
 				else vTaWMod = 0;
 				
-				for (int i=0; i < PropInds.length; i++) {
+				for (int i=0; i < propInds.length; i++) {
 					vDiff = pProps[i] - pRolls[i] + vTaWMod;
 					
 					if (vDiff < 0) vTaP += vDiff;

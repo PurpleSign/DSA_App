@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	1.7.2020
+/**	DSA_App v0.0	Dh	14.7.2020
  * 
  * 	Logik
  * 	  CharacterManager
@@ -29,16 +29,16 @@ import pGUI.MainFrame;
 @XmlRootElement(name = "charactermanager")
 @XmlSeeAlso(Charakter.class)
 public class CharacterManager {
-	private int ID;
-	private List CharacterList;
+	private int id;
+	private List characterList;
 	
 	/**	Dh	18.6.2020
 	 * 
 	 * 	Konstruktor nach Bean-Standart
 	 */
 	public CharacterManager() {
-		ID = -1;
-		CharacterList = new List();
+		id = -1;
+		characterList = new List();
 	}
 	/**	Dh	18.6.2020
 	 * 
@@ -47,10 +47,10 @@ public class CharacterManager {
 	public CharacterManager(int pID) {
 		Exception vExc = null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; ChMan_a");
 		
-		CharacterList = new List();
+		characterList = new List();
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
@@ -62,10 +62,10 @@ public class CharacterManager {
 	public CharacterManager(int pID, List pCharacterList) {
 		Exception vExc = null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; ChMan_b");
 		
-		if (pCharacterList != null) CharacterList = pCharacterList;
+		if (pCharacterList != null) characterList = pCharacterList;
 		else vExc = new Exception("04; ChMan_b");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -78,8 +78,8 @@ public class CharacterManager {
 	 * @return
 	 */
 	@XmlAttribute
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 	/**	Dh	18.6.2020
 	 * 
@@ -87,7 +87,7 @@ public class CharacterManager {
 	 */
 	@XmlElement(name = "CharacterList")
 	public List getCharacterList() {
-		return CharacterList;
+		return characterList;
 	}
 	
 	/**	Dh	18.6.2020
@@ -100,16 +100,16 @@ public class CharacterManager {
 		Charakter vRet = null;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vRet = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vRet = (Charakter)characterList.getCurrent();
 					
-					if (vRet.getID() == pID) CharacterList.toLast();
+					if (vRet.getId() == pID) characterList.toLast();
 					else vRet = null;
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gC");
@@ -126,16 +126,16 @@ public class CharacterManager {
 		Charakter vRet = null;
 		
 		if (!pName.equals("")) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vRet = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vRet = (Charakter)characterList.getCurrent();
 					
-					if (vRet.getName().equals(pName)) CharacterList.toLast();
+					if (vRet.getName().equals(pName)) characterList.toLast();
 					else vRet = null;
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gC");
@@ -154,15 +154,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == "")) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == "")) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getName();
+					if (vCur.getId() == pID) vRet = vCur.getName();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gNoC");
@@ -180,18 +180,70 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == "")) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == "")) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getRace();
+					if (vCur.getId() == pID) vRet = vCur.getRace();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gRoC");
+		
+		return vRet;
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public String getCultureOfCharacter(int pID) throws Exception{
+		String vRet = "";
+		Charakter vCur;
+		
+		if (pID >= 0) {
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
+				
+				while(!characterList.isEnd() && (vRet == "")) {
+					vCur = (Charakter)characterList.getCurrent();
+					
+					if (vCur.getId() == pID) vRet = vCur.getCulture();
+					
+					characterList.next();
+				}
+			}
+		} else throw new Exception("02; ChMan,gCoC");
+		
+		return vRet;
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public String getProfessionOfCharacter(int pID) throws Exception{
+		String vRet = "";
+		Charakter vCur;
+		
+		if (pID >= 0) {
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
+				
+				while(!characterList.isEnd() && (vRet == "")) {
+					vCur = (Charakter)characterList.getCurrent();
+					
+					if (vCur.getId() == pID) vRet = vCur.getProfession();
+					
+					characterList.next();
+				}
+			}
+		} else throw new Exception("02; ChMan,gPoC");
 		
 		return vRet;
 	}
@@ -250,6 +302,60 @@ public class CharacterManager {
 		
 		return vRet;
 	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pIDList
+	 * @return
+	 * @throws Exception
+	 */
+	public List getCultureOfCharacters(List pIDList) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(getCultureOfCharacter((int)vCur));
+					else throw new Exception("06; ChMan,gCoCs");
+					
+					pIDList.next();
+				}
+			} else throw new Exception("05; ChMan,gCoCs");
+		} else throw new Exception("04; ChMan,gCoCs");
+		
+		return vRet;
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pIDList
+	 * @return
+	 * @throws Exception
+	 */
+	public List getProfessionOfCharacters(List pIDList) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(getProfessionOfCharacter((int)vCur));
+					else throw new Exception("06; ChMan,gPoCs");
+					
+					pIDList.next();
+				}
+			} else throw new Exception("05; ChMan,gPoCs");
+		} else throw new Exception("04; ChMan,gPoCs");
+		
+		return vRet;
+	}
 	//-----
 	/**	Dh	18.6.2020
 	 * 
@@ -260,15 +366,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getName());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -283,15 +389,60 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getRace());
 				
-				CharacterList.next();
+				characterList.next();
+			}
+		}
+		
+		return vRet;
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @return
+	 */
+	@XmlTransient
+	public List getCultureOfAllCharacters() {
+		Charakter vCur;
+		List vRet = new List();
+		
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
+			
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
+				
+				vRet.append(vCur.getCulture());
+				
+				characterList.next();
+			}
+		}
+		
+		return vRet;
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @return
+	 */
+	public List getProfessionOfAllCharacters() {
+		Charakter vCur;
+		List vRet = new List();
+		
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
+			
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
+				
+				vRet.append(vCur.getProfession());
+				
+				characterList.next();
 			}
 		}
 		
@@ -309,15 +460,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getSO();
+					if (vCur.getId() == pID) vRet = vCur.getSo();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gSSoC");
@@ -335,15 +486,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getGS();
+					if (vCur.getId() == pID) vRet = vCur.getGs();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gVoC");
@@ -361,15 +512,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getMundType();
+					if (vCur.getId() == pID) vRet = vCur.getMundaneType();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gMToC");
@@ -468,15 +619,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
-				vRet.append(vCur.getSO());
+				vRet.append(vCur.getSo());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -491,15 +642,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
-				vRet.append(vCur.getGS());
+				vRet.append(vCur.getGs());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -514,15 +665,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
-				vRet.append(vCur.getMundType());
+				vRet.append(vCur.getMundaneType());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -540,15 +691,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getMR();
+					if (vCur.getId() == pID) vRet = vCur.getMr();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gMRoC");
@@ -566,15 +717,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getWS();
+					if (vCur.getId() == pID) vRet = vCur.getWs();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gWToC");
@@ -592,15 +743,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getBE();
+					if (vCur.getId() == pID) vRet = vCur.getBe();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gHoC");
@@ -699,15 +850,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
-				vRet.append(vCur.getMR());
+				vRet.append(vCur.getMr());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -722,15 +873,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
-				vRet.append(vCur.getWS());
+				vRet.append(vCur.getWs());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -745,15 +896,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
-				vRet.append(vCur.getBE());
+				vRet.append(vCur.getBe());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -772,15 +923,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getPropertie(pInd);
+					if (vCur.getId() == pID) vRet = vCur.getPropertie(pInd);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gPoC");
@@ -794,20 +945,20 @@ public class CharacterManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public int getMaxStatOfCharacter(int pID, int pInd) throws Exception{
-		int vRet = -1;
+	public double getMaxStatOfCharacter(int pID, int pInd) throws Exception{
+		double vRet = -1;
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getMaxStat(pInd);
+					if (vCur.getId() == pID) vRet = vCur.getMaxStat(pInd);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gMSoC");
@@ -826,15 +977,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getStat(pInd);
+					if (vCur.getId() == pID) vRet = vCur.getStat(pInd);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gSoC");
@@ -853,15 +1004,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getWound(pInd);
+					if (vCur.getId() == pID) vRet = vCur.getWound(pInd);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gWNoC");
@@ -992,15 +1143,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getPropertie(pInd));
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1016,15 +1167,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getMaxStat(pInd));
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1040,15 +1191,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getStat(pInd));
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1064,15 +1215,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getWound(pInd));
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1090,15 +1241,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getProperties();
+					if (vCur.getId() == pID) vRet = vCur.getProperties();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gPsoC");
@@ -1111,20 +1262,20 @@ public class CharacterManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public int[] getMaxStatsOfCharacter(int pID) throws Exception{
-		int[] vRet = null;
+	public double[] getMaxStatsOfCharacter(int pID) throws Exception{
+		double[] vRet = null;
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getMaxStats();
+					if (vCur.getId() == pID) vRet = vCur.getMaxStats();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gMSsoC");
@@ -1142,15 +1293,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getStats();
+					if (vCur.getId() == pID) vRet = vCur.getStats();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gSsoC");
@@ -1168,15 +1319,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getWounds();
+					if (vCur.getId() == pID) vRet = vCur.getWounds();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gWNsoC");
@@ -1302,15 +1453,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getProperties());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1325,15 +1476,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getMaxStats());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1348,15 +1499,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getStats());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1371,15 +1522,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getWounds());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1398,15 +1549,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getFightValue(pInd);
+					if (vCur.getId() == pID) vRet = vCur.getFightValue(pInd);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gFVoC");
@@ -1425,15 +1576,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == -1)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == -1)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getRS(pInd);
+					if (vCur.getId() == pID) vRet = vCur.getRs(pInd);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gAVoC");
@@ -1508,15 +1659,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getFightValue(pInd));
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1532,15 +1683,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
-				vRet.append(vCur.getRS(pInd));
+				vRet.append(vCur.getRs(pInd));
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1558,15 +1709,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getFightValues();
+					if (vCur.getId() == pID) vRet = vCur.getFightValues();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gFVsoC");
@@ -1584,15 +1735,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getRS();
+					if (vCur.getId() == pID) vRet = vCur.getRs();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gFVsoC");
@@ -1664,15 +1815,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getFightValues());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1687,15 +1838,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
-				vRet.append(vCur.getRS());
+				vRet.append(vCur.getRs());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1714,15 +1865,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pCharID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pCharID) vRet = vCur.getPro(pProID);
+					if (vCur.getId() == pCharID) vRet = vCur.getPro(pProID);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gPoC");
@@ -1741,15 +1892,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pCharID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pCharID) vRet = vCur.getSpecialCraft(pSpecialCraftID);
+					if (vCur.getId() == pCharID) vRet = vCur.getSpecialCraft(pSpecialCraftID);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gSCoC");
@@ -1768,15 +1919,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pCharID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pCharID) vRet = vCur.getTalent(pTalentID);
+					if (vCur.getId() == pCharID) vRet = vCur.getTalent(pTalentID);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gToC");
@@ -1795,15 +1946,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pCharID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pCharID) vRet = vCur.getWeapon(pWeaponID);
+					if (vCur.getId() == pCharID) vRet = vCur.getWeapon(pWeaponID);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gWoC");
@@ -1934,15 +2085,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getPro(pProID));
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1958,15 +2109,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getSpecialCraft(pSpecialCraftID));
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -1982,15 +2133,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getTalent(pTalentID));
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -2006,15 +2157,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getWeapon(pWeaponID));
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -2032,15 +2183,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getProList();
+					if (vCur.getId() == pID) vRet = vCur.getProList();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gPLoC");
@@ -2058,15 +2209,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getSpecialCraftList();
+					if (vCur.getId() == pID) vRet = vCur.getSpecialCraftList();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gSCLoC");
@@ -2084,15 +2235,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getTalentList();
+					if (vCur.getId() == pID) vRet = vCur.getTalentList();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gTLoC");
@@ -2110,15 +2261,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd() && (vRet == null)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd() && (vRet == null)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) vRet = vCur.getWeaponList();
+					if (vCur.getId() == pID) vRet = vCur.getWeaponList();
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,gWLoC");
@@ -2244,15 +2395,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getProList());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -2267,15 +2418,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getSpecialCraftList());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -2290,15 +2441,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getTalentList());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -2313,15 +2464,15 @@ public class CharacterManager {
 		Charakter vCur;
 		List vRet = new List();
 		
-		if (!CharacterList.isEmpty()) {
-			CharacterList.toFirst();
+		if (!characterList.isEmpty()) {
+			characterList.toFirst();
 			
-			while(!CharacterList.isEnd()) {
-				vCur = (Charakter)CharacterList.getCurrent();
+			while(!characterList.isEnd()) {
+				vCur = (Charakter)characterList.getCurrent();
 				
 				vRet.append(vCur.getWeaponList());
 				
-				CharacterList.next();
+				characterList.next();
 			}
 		}
 		
@@ -2335,8 +2486,8 @@ public class CharacterManager {
 	 * @param pID
 	 * @throws Exception
 	 */
-	public void setID(int pID) throws Exception{
-		if (pID >= 0) ID = pID;
+	public void setId(int pID) throws Exception{
+		if (pID >= 0) id = pID;
 		else throw new Exception("02; ChMan,sID");
 	}
 	/**	Dh	18.6.2020
@@ -2361,7 +2512,7 @@ public class CharacterManager {
 				}
 			}
 			
-			CharacterList = pCharList;
+			characterList = pCharList;
 		} else throw new Exception("04; ChMan,aCL");
 	}
 	
@@ -2375,18 +2526,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.setName(pName);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sNoC");
@@ -2401,21 +2552,73 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.setRace(pRace);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sRoC");
+	}
+	/**	Dh	14.7.2020
+	 * 	
+	 * @param pID
+	 * @param pCulture
+	 * @throws Exception
+	 */
+	public void setCultureOfCharacter(int pID, String pCulture) throws Exception{
+		Charakter vCur;
+		
+		if (pID >= 0) {
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
+				
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
+					
+					if (vCur.getId() == pID) {
+						vCur.setCulture(pCulture);
+						characterList.toLast();
+					}
+					
+					characterList.next();
+				}
+			}
+		} else throw new Exception("02; ChMan,sCoC");
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pID
+	 * @param pProfession
+	 * @throws Exception
+	 */
+	public void setProfessionOfCharacter(int pID, String pProfession) throws Exception{
+		Charakter vCur;
+		
+		if (pID >= 0) {
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
+				
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
+					
+					if (vCur.getId() == pID) {
+						vCur.setProfession(pProfession);
+						characterList.toLast();
+					}
+					
+					characterList.next();
+				}
+			}
+		} else throw new Exception("02; ChMan,sPoC");
 	}
 	//-----
 	/**	Dh	23.6.2020
@@ -2434,13 +2637,61 @@ public class CharacterManager {
 				while(!pIDList.isEnd()) {
 					vCurID = pIDList.getCurrent();
 					
-					if (vCurID instanceof Integer) setNameOfCharacter((int)vCurID, pRace);
+					if (vCurID instanceof Integer) setRaceOfCharacter((int)vCurID, pRace);
 					else throw new Exception("06; ChMan,sRoCs");
 					
 					pIDList.next();
 				}
 			} else throw new Exception("05; ChMan,sRoCs");
 		} else throw new Exception("04; ChMan,sRoCs");
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pIDList
+	 * @param pCulture
+	 * @throws Exception
+	 */
+	public void setCultureOfCharacters(List pIDList, String pCulture) throws Exception{
+		Object vCurID;
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCurID = pIDList.getCurrent();
+					
+					if (vCurID instanceof Integer) setCultureOfCharacter((int)vCurID, pCulture);
+					else throw new Exception("06; ChMan,sCoCs");
+					
+					pIDList.next();
+				}
+			} else throw new Exception("05; ChMan,sCoCs");
+		} else throw new Exception("04; ChMan,sCoCs");
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pIDList
+	 * @param pProfession
+	 * @throws Exception
+	 */
+	public void setProfessionOfCharacters(List pIDList, String pProfession) throws Exception{
+		Object vCurID;
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCurID = pIDList.getCurrent();
+					
+					if (vCurID instanceof Integer) setProfessionOfCharacter((int)vCurID, pProfession);
+					else throw new Exception("06; ChMan,sPoCs");
+					
+					pIDList.next();
+				}
+			} else throw new Exception("05; ChMan,sPoCs");
+		} else throw new Exception("04; ChMan,sPoCs");
 	}
 	//-----
 	/**	Dh	23.6.2020
@@ -2491,7 +2742,7 @@ public class CharacterManager {
 						vCurID = pIDList.getCurrent();
 						vCurRace = pRaceList.getCurrent();
 						
-						if ((vCurID instanceof Integer) && (vCurRace instanceof String)) setNameOfCharacter((int)vCurID, (String)vCurRace);
+						if ((vCurID instanceof Integer) && (vCurRace instanceof String)) setRaceOfCharacter((int)vCurID, (String)vCurRace);
 						else throw new Exception("06; ChMan,sRsoCs");
 						
 						pIDList.next();
@@ -2500,6 +2751,64 @@ public class CharacterManager {
 				} else throw new Exception("01; ChMan,sRsoCs");
 			} else throw new Exception("05; ChMan,sRsoCs");
 		} else throw new Exception("04; ChMan,sRsoCs");
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pIDList
+	 * @param pCultureList
+	 * @throws Exception
+	 */
+	public void setCulturesOfCharacters(List pIDList, List pCultureList) throws Exception{
+		Object vCurID, vCurCulture;
+		
+		if ((pIDList != null) && (pCultureList != null)) {
+			if (!pIDList.isEmpty() && !pCultureList.isEmpty()) {
+				if (pIDList.getContentNumber() == pCultureList.getContentNumber()) {
+					pIDList.toFirst();
+					pCultureList.toFirst();
+					
+					while(!pIDList.isEnd()) {
+						vCurID = pIDList.getCurrent();
+						vCurCulture = pCultureList.getCurrent();
+						
+						if ((vCurID instanceof Integer) && (vCurCulture instanceof String)) setCultureOfCharacter((int)vCurID, (String)vCurCulture);
+						else throw new Exception("06; ChMan,sCsoCs");
+						
+						pIDList.next();
+						pCultureList.next();
+					}
+				} else throw new Exception("01; ChMan,sCsoCs");
+			} else throw new Exception("05; ChMan,sCsoCs");
+		} else throw new Exception("04; ChMan,sCsoCs");
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pIDList
+	 * @param pProfessionList
+	 * @throws Exception
+	 */
+	public void setProfessionsOfCharacters(List pIDList, List pProfessionList) throws Exception{
+		Object vCurID, vCurProfession;
+		
+		if ((pIDList != null) && (pProfessionList != null)) {
+			if (!pIDList.isEmpty() && !pProfessionList.isEmpty()) {
+				if (pIDList.getContentNumber() == pProfessionList.getContentNumber()) {
+					pIDList.toFirst();
+					pProfessionList.toFirst();
+					
+					while(!pIDList.isEnd()) {
+						vCurID = pIDList.getCurrent();
+						vCurProfession = pProfessionList.getCurrent();
+						
+						if ((vCurID instanceof Integer) && (vCurProfession instanceof String)) setProfessionOfCharacter((int)vCurID, (String)vCurProfession);
+						else throw new Exception("06; ChMan,sPsoCs");
+						
+						pIDList.next();
+						pProfessionList.next();
+					}
+				} else throw new Exception("01; ChMan,sPsoCs");
+			} else throw new Exception("05; ChMan,sPsoCs");
+		} else throw new Exception("04; ChMan,sPsoCs");
 	}
 	//-----
 	/**	Dh	23.6.2020
@@ -2512,19 +2821,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pNameList != null) {
-			if (!CharacterList.isEmpty() && !pNameList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pNameList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pNameList.isEmpty()) {
+				if (characterList.getContentNumber() == pNameList.getContentNumber()) {
+					characterList.toFirst();
 					pNameList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurName = pNameList.getCurrent();
 						
 						if (vCurName instanceof String) setNameOfCharacter(vCurID, (String)vCurName);
 						else throw new Exception("06; ChMan,sNsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pNameList.next();
 					}
 				} else throw new Exception("01; ChMan,sNsoaCs");
@@ -2541,24 +2850,82 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pRaceList != null) {
-			if (!CharacterList.isEmpty() && !pRaceList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pRaceList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pRaceList.isEmpty()) {
+				if (characterList.getContentNumber() == pRaceList.getContentNumber()) {
+					characterList.toFirst();
 					pRaceList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurRace = pRaceList.getCurrent();
 						
-						if (vCurRace instanceof String) setNameOfCharacter(vCurID, (String)vCurRace);
+						if (vCurRace instanceof String) setRaceOfCharacter(vCurID, (String)vCurRace);
 						else throw new Exception("06; ChMan,sRsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pRaceList.next();
 					}
 				} else throw new Exception("01; ChMan,sRsoaCs");
 			} else throw new Exception("05; ChMan,sRsoaCs");
 		} else throw new Exception("04; ChMan,sRsoaCs");
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pCultureList
+	 * @throws Exception
+	 */
+	public void setCulturesOfAllCharacters(List pCultureList) throws Exception{
+		Object vCurCulture;
+		int vCurID;
+		
+		if (pCultureList != null) {
+			if (!characterList.isEmpty() && !pCultureList.isEmpty()) {
+				if (characterList.getContentNumber() == pCultureList.getContentNumber()) {
+					characterList.toFirst();
+					pCultureList.toFirst();
+					
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
+						vCurCulture = pCultureList.getCurrent();
+						
+						if (vCurCulture instanceof String) setCultureOfCharacter(vCurID, (String)vCurCulture);
+						else throw new Exception("06; ChMan,sCsoaCs");
+						
+						characterList.next();
+						pCultureList.next();
+					}
+				} else throw new Exception("01; ChMan,sCsoaCs");
+			} else throw new Exception("05; ChMan,sCsoaCs");
+		} else throw new Exception("04; ChMan,sCsoaCs");
+	}
+	/**	Dh	14.7.2020
+	 * 
+	 * @param pProfessionList
+	 * @throws Exception
+	 */
+	public void setProfessionsOfAllCharacters(List pProfessionList) throws Exception{
+		Object vCurProfession;
+		int vCurID;
+		
+		if (pProfessionList != null) {
+			if (!characterList.isEmpty() && !pProfessionList.isEmpty()) {
+				if (characterList.getContentNumber() == pProfessionList.getContentNumber()) {
+					characterList.toFirst();
+					pProfessionList.toFirst();
+					
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
+						vCurProfession = pProfessionList.getCurrent();
+						
+						if (vCurProfession instanceof String) setProfessionOfCharacter(vCurID, (String)vCurProfession);
+						else throw new Exception("06; ChMan,sPsoaCs");
+						
+						characterList.next();
+						pProfessionList.next();
+					}
+				} else throw new Exception("01; ChMan,sPsoaCs");
+			} else throw new Exception("05; ChMan,sPsoaCs");
+		} else throw new Exception("04; ChMan,sPsoaCs");
 	}
 	
 	/**	Dh	18.6.2020
@@ -2571,18 +2938,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.setSO(pSO);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.setSo(pSO);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sSSoC");
@@ -2597,18 +2964,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.setGS(pGS);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.setGs(pGS);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sGoC");
@@ -2623,18 +2990,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.setMundType(pMundanType);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.setMundaneType(pMundanType);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sMToC");
@@ -2811,19 +3178,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pSOList != null) {
-			if (!CharacterList.isEmpty() && !pSOList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pSOList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pSOList.isEmpty()) {
+				if (characterList.getContentNumber() == pSOList.getContentNumber()) {
+					characterList.toFirst();
 					pSOList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurSO = pSOList.getCurrent();
 						
 						if (vCurSO instanceof Integer) setSocialStatusOfCharacter(vCurID, (int)vCurSO);
 						else throw new Exception("06; ChMan,sSSsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pSOList.next();
 					}
 				} else throw new Exception("01; ChMan,sSSsoaCs");
@@ -2840,19 +3207,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pGSList != null) {
-			if (!CharacterList.isEmpty() && !pGSList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pGSList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pGSList.isEmpty()) {
+				if (characterList.getContentNumber() == pGSList.getContentNumber()) {
+					characterList.toFirst();
 					pGSList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurGS = pGSList.getCurrent();
 						
 						if (vCurGS instanceof Integer) setVelocityOfCharacter(vCurID, (int)vCurGS);
 						else throw new Exception("06; ChMan,sVsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pGSList.next();
 					}
 				} else throw new Exception("01; ChMan,sVsoaCs");
@@ -2869,19 +3236,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pMundanTypeList != null) {
-			if (!CharacterList.isEmpty() && !pMundanTypeList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pMundanTypeList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pMundanTypeList.isEmpty()) {
+				if (characterList.getContentNumber() == pMundanTypeList.getContentNumber()) {
+					characterList.toFirst();
 					pMundanTypeList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurMundanType = pMundanTypeList.getCurrent();
 						
 						if (vCurMundanType instanceof Integer) setSocialStatusOfCharacter(vCurID, (int)vCurMundanType);
 						else throw new Exception("06; ChMan,sMTsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pMundanTypeList.next();
 					}
 				} else throw new Exception("01; ChMan,sMTsoaCs");
@@ -2899,18 +3266,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.setMR(pMR);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.setMr(pMR);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sMRoC");
@@ -2925,18 +3292,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.setWS(pWS);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.setWs(pWS);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sWToC");
@@ -2951,18 +3318,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.setBE(pBE);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.setBe(pBE);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sBEoC");
@@ -3139,19 +3506,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pMRList != null) {
-			if (!CharacterList.isEmpty() && !pMRList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pMRList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pMRList.isEmpty()) {
+				if (characterList.getContentNumber() == pMRList.getContentNumber()) {
+					characterList.toFirst();
 					pMRList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurMR = pMRList.getCurrent();
 						
 						if (vCurMR instanceof Double) setMagicResistanceOfCharacter(vCurID, (double)vCurMR);
 						else throw new Exception("06; ChMan,sMRsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pMRList.next();
 					}
 				} else throw new Exception("01; ChMan,sMRsoaCs");
@@ -3168,19 +3535,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pWSList != null) {
-			if (!CharacterList.isEmpty() && !pWSList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pWSList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pWSList.isEmpty()) {
+				if (characterList.getContentNumber() == pWSList.getContentNumber()) {
+					characterList.toFirst();
 					pWSList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurWS = pWSList.getCurrent();
 						
 						if (vCurWS instanceof Double) setWoundThresholdOfCharacter(vCurID, (double)vCurWS);
 						else throw new Exception("06; ChMan,sWTsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pWSList.next();
 					}
 				} else throw new Exception("01; ChMan,sWTsoaCs");
@@ -3197,19 +3564,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pBEList != null) {
-			if (!CharacterList.isEmpty() && !pBEList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pBEList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pBEList.isEmpty()) {
+				if (characterList.getContentNumber() == pBEList.getContentNumber()) {
+					characterList.toFirst();
 					pBEList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurBE = pBEList.getCurrent();
 						
 						if (vCurBE instanceof Double) setHandicapOfCharacter(vCurID, (double)vCurBE);
 						else throw new Exception("06; ChMan,sHsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pBEList.next();
 					}
 				} else throw new Exception("01; ChMan,sHsoaCs");
@@ -3229,18 +3596,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.setPropertie(pProperty, pInd);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,sPoC");
@@ -3253,23 +3620,23 @@ public class CharacterManager {
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void setMaxStatusOfCharacter(int pID, int pMaxStatus, int pInd) throws Exception{
+	public void setMaxStatusOfCharacter(int pID, double pMaxStatus, int pInd) throws Exception{
 		Charakter vCur;
 		
 		if (pID >= 0) {
 			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.setMaxStat(pMaxStatus, pInd);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,sMSoC");
@@ -3287,18 +3654,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.setStat(pStatus, pInd);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,sSoC");
@@ -3316,18 +3683,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.setWound(pWoundNumber, pInd);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,sWNoC");
@@ -3368,7 +3735,7 @@ public class CharacterManager {
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void setMaxStatusOfCharacters(List pIDList, int pMaxStatus, int pInd) throws Exception{
+	public void setMaxStatusOfCharacters(List pIDList, double pMaxStatus, int pInd) throws Exception{
 		Object vCurID;
 		
 		if (pIDList != null) {
@@ -3493,7 +3860,7 @@ public class CharacterManager {
 						vCurID = pIDList.getCurrent();
 						vCurMaxStatus= pMaxStatusList.getCurrent();
 						
-						if ((vCurID instanceof Integer) && (vCurMaxStatus instanceof Integer)) setMaxStatusOfCharacter((int)vCurID, (int)vCurMaxStatus, pInd);
+						if ((vCurID instanceof Integer) && (vCurMaxStatus instanceof Double)) setMaxStatusOfCharacter((int)vCurID, (double)vCurMaxStatus, pInd);
 						else throw new Exception("06; ChMan,sMSioCs");
 						
 						pIDList.next();
@@ -3575,19 +3942,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pPropertyList != null) {
-			if (!CharacterList.isEmpty() && !pPropertyList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pPropertyList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pPropertyList.isEmpty()) {
+				if (characterList.getContentNumber() == pPropertyList.getContentNumber()) {
+					characterList.toFirst();
 					pPropertyList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurProperty = pPropertyList.getCurrent();
 						
 						if (vCurProperty instanceof Integer) setPropertyOfCharacter(vCurID, (int)vCurProperty, pInd);
 						else throw new Exception("06; ChMan,sPsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pPropertyList.next();
 					}
 				} else throw new Exception("01; ChMan,sPsoaCs");
@@ -3605,19 +3972,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pMaxStatusList != null) {
-			if (!CharacterList.isEmpty() && !pMaxStatusList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pMaxStatusList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pMaxStatusList.isEmpty()) {
+				if (characterList.getContentNumber() == pMaxStatusList.getContentNumber()) {
+					characterList.toFirst();
 					pMaxStatusList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurMaxStatus = pMaxStatusList.getCurrent();
 						
-						if (vCurMaxStatus instanceof Integer) setMaxStatusOfCharacter(vCurID, (int)vCurMaxStatus, pInd);
+						if (vCurMaxStatus instanceof Double) setMaxStatusOfCharacter(vCurID, (double)vCurMaxStatus, pInd);
 						else throw new Exception("06; ChMan,sMSioaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pMaxStatusList.next();
 					}
 				} else throw new Exception("01; ChMan,sMSioaCs");
@@ -3635,19 +4002,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pStatusList != null) {
-			if (!CharacterList.isEmpty() && !pStatusList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pStatusList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pStatusList.isEmpty()) {
+				if (characterList.getContentNumber() == pStatusList.getContentNumber()) {
+					characterList.toFirst();
 					pStatusList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurStatus = pStatusList.getCurrent();
 						
 						if (vCurStatus instanceof Integer) setMaxStatusOfCharacter(vCurID, (int)vCurStatus, pInd);
 						else throw new Exception("06; ChMan,sSioaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pStatusList.next();
 					}
 				} else throw new Exception("01; ChMan,sSioaCs");
@@ -3665,19 +4032,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pWoundNumberList != null) {
-			if (!CharacterList.isEmpty() && !pWoundNumberList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pWoundNumberList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pWoundNumberList.isEmpty()) {
+				if (characterList.getContentNumber() == pWoundNumberList.getContentNumber()) {
+					characterList.toFirst();
 					pWoundNumberList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurWoundNumber = pWoundNumberList.getCurrent();
 						
 						if (vCurWoundNumber instanceof Integer) setWoundNumberOfCharacter(vCurID, (int)vCurWoundNumber, pInd);
 						else throw new Exception("06; ChMan,sWNsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pWoundNumberList.next();
 					}
 				} else throw new Exception("01; ChMan,sWNsoaCs");
@@ -3695,18 +4062,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.setProperties(pProperties);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sPsoC");
@@ -3717,22 +4084,22 @@ public class CharacterManager {
 	 * @param pMaxStati
 	 * @throws Exception
 	 */
-	public void setMaxStatiOfCharacter(int pID, int[] pMaxStati) throws Exception{
+	public void setMaxStatiOfCharacter(int pID, double[] pMaxStati) throws Exception{
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.setMaxStats(pMaxStati);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sMSioC");
@@ -3747,18 +4114,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.setStats(pStati);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sSioC");
@@ -3773,18 +4140,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.setWounds(pWoundNumbers);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sWNsoC");
@@ -3820,7 +4187,7 @@ public class CharacterManager {
 	 * @param pMaxStati
 	 * @throws Exception
 	 */
-	public void setMaxStatiOfCharacters(List pIDList, int[] pMaxStati) throws Exception{
+	public void setMaxStatiOfCharacters(List pIDList, double[] pMaxStati) throws Exception{
 		Object vCurID;
 		
 		if (pIDList != null) {
@@ -3935,7 +4302,7 @@ public class CharacterManager {
 						vCurID = pIDList.getCurrent();
 						vCurMaxStati = pMaxStatiList.getCurrent();
 						
-						if ((vCurID instanceof Integer) && (vCurMaxStati instanceof Integer[])) setMaxStatiOfCharacter((int)vCurID, (int[])vCurMaxStati);
+						if ((vCurID instanceof Integer) && (vCurMaxStati instanceof Double[])) setMaxStatiOfCharacter((int)vCurID, (double[])vCurMaxStati);
 						else throw new Exception("06; ChMan,sMSioCs");
 						
 						pIDList.next();
@@ -4014,19 +4381,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pPropertiesList != null) {
-			if (!CharacterList.isEmpty() && !pPropertiesList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pPropertiesList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pPropertiesList.isEmpty()) {
+				if (characterList.getContentNumber() == pPropertiesList.getContentNumber()) {
+					characterList.toFirst();
 					pPropertiesList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurProperties = pPropertiesList.getCurrent();
 						
 						if (vCurProperties instanceof Integer[]) setPropertiesOfCharacter(vCurID, (int[])vCurProperties);
 						else throw new Exception("06; ChMan,sPsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pPropertiesList.next();
 					}
 				} else throw new Exception("01; ChMan,sPsoaCs");
@@ -4043,19 +4410,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pMaxStatiList != null) {
-			if (!CharacterList.isEmpty() && !pMaxStatiList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pMaxStatiList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pMaxStatiList.isEmpty()) {
+				if (characterList.getContentNumber() == pMaxStatiList.getContentNumber()) {
+					characterList.toFirst();
 					pMaxStatiList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurMaxStati = pMaxStatiList.getCurrent();
 						
-						if (vCurMaxStati instanceof Integer[]) setMaxStatiOfCharacter(vCurID, (int[])vCurMaxStati);
+						if (vCurMaxStati instanceof Double[]) setMaxStatiOfCharacter(vCurID, (double[])vCurMaxStati);
 						else throw new Exception("06; ChMan,sMSioaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pMaxStatiList.next();
 					}
 				} else throw new Exception("01; ChMan,sMSioaCs");
@@ -4072,19 +4439,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pStatiList != null) {
-			if (!CharacterList.isEmpty() && !pStatiList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pStatiList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pStatiList.isEmpty()) {
+				if (characterList.getContentNumber() == pStatiList.getContentNumber()) {
+					characterList.toFirst();
 					pStatiList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurStati = pStatiList.getCurrent();
 						
 						if (vCurStati instanceof Integer[]) setStatiOfCharacter(vCurID, (int[])vCurStati);
 						else throw new Exception("06; ChMan,sSioaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pStatiList.next();
 					}
 				} else throw new Exception("01; ChMan,sSioaCs");
@@ -4101,19 +4468,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pWoundNumbersList != null) {
-			if (!CharacterList.isEmpty() && !pWoundNumbersList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pWoundNumbersList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pWoundNumbersList.isEmpty()) {
+				if (characterList.getContentNumber() == pWoundNumbersList.getContentNumber()) {
+					characterList.toFirst();
 					pWoundNumbersList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurWoundNumbers = pWoundNumbersList.getCurrent();
 						
 						if (vCurWoundNumbers instanceof Integer[]) setWoundNumbersOfCharacter(vCurID, (int[])vCurWoundNumbers);
 						else throw new Exception("06; ChMan,sWNsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pWoundNumbersList.next();
 					}
 				} else throw new Exception("01; ChMan,sWNsoaCs");
@@ -4133,18 +4500,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.setFightValue(pFightValue, pInd);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,sFVoC");
@@ -4161,19 +4528,19 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+			if ((pInd >= 0) && (pInd < 9)) {
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
-							vCur.setRS(pArmorValue, pInd);
-							CharacterList.toLast();
+						if (vCur.getId() == pID) {
+							vCur.setRs(pArmorValue, pInd);
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,sAVoC");
@@ -4218,7 +4585,7 @@ public class CharacterManager {
 		Object vCurID;
 		
 		if (pIDList != null) {
-			if ((pInd >= 0) && (pInd < 8)) {
+			if ((pInd >= 0) && (pInd < 9)) {
 				if (!pIDList.isEmpty()) {
 					pIDList.toFirst();
 					
@@ -4307,19 +4674,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pFightValuesList != null) {
-			if (!CharacterList.isEmpty() && !pFightValuesList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pFightValuesList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pFightValuesList.isEmpty()) {
+				if (characterList.getContentNumber() == pFightValuesList.getContentNumber()) {
+					characterList.toFirst();
 					pFightValuesList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurFightValues = pFightValuesList.getCurrent();
 						
 						if (vCurFightValues instanceof Double) setFightValueOfCharacter(vCurID, (double)vCurFightValues, pInd);
 						else throw new Exception("06; ChMan,sFVsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pFightValuesList.next();
 					}
 				} else throw new Exception("01; ChMan,sFVsoaCs");
@@ -4337,19 +4704,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pArmorValuesList != null) {
-			if (!CharacterList.isEmpty() && !pArmorValuesList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pArmorValuesList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pArmorValuesList.isEmpty()) {
+				if (characterList.getContentNumber() == pArmorValuesList.getContentNumber()) {
+					characterList.toFirst();
 					pArmorValuesList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurArmorValues = pArmorValuesList.getCurrent();
 						
 						if (vCurArmorValues instanceof Double) setArmorValueOfCharacter(vCurID, (double)vCurArmorValues, pInd);
 						else throw new Exception("06; ChMan,sAVsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pArmorValuesList.next();
 					}
 				} else throw new Exception("01; ChMan,sAVsoaCs");
@@ -4367,18 +4734,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.setFightValues(pFightValues);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sFVsoC");
@@ -4393,18 +4760,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.setRS(pArmorValues);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.setRs(pArmorValues);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sAVsoC");
@@ -4528,19 +4895,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pFightValuesList != null) {
-			if (!CharacterList.isEmpty() && !pFightValuesList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pFightValuesList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pFightValuesList.isEmpty()) {
+				if (characterList.getContentNumber() == pFightValuesList.getContentNumber()) {
+					characterList.toFirst();
 					pFightValuesList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurFightValues = pFightValuesList.getCurrent();
 						
 						if (vCurFightValues instanceof Integer[]) setFightValuesOfCharacter(vCurID, (double[])vCurFightValues);
 						else throw new Exception("06; ChMan,sFVsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pFightValuesList.next();
 					}
 				} else throw new Exception("01; ChMan,sFVsoaCs");
@@ -4557,19 +4924,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pArmorValuesList != null) {
-			if (!CharacterList.isEmpty() && !pArmorValuesList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pArmorValuesList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pArmorValuesList.isEmpty()) {
+				if (characterList.getContentNumber() == pArmorValuesList.getContentNumber()) {
+					characterList.toFirst();
 					pArmorValuesList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurArmorValues = pArmorValuesList.getCurrent();
 						
 						if (vCurArmorValues instanceof Integer[]) setArmorValuesOfCharacter(vCurID, (double[])vCurArmorValues);
 						else throw new Exception("06; ChMan,sAVsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pArmorValuesList.next();
 					}
 				} else throw new Exception("01; ChMan,sAVsoaCs");
@@ -4587,18 +4954,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.setProList(pProList);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sPLoC");
@@ -4613,18 +4980,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.setSpecialCraftList(pSpecialCraftList);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sSCLoC");
@@ -4639,18 +5006,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.setTalentList(pTalentList);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sTLoC");
@@ -4665,18 +5032,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.setWeaponList(pWeaponList);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,sWLoC");
@@ -4906,19 +5273,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pProLists != null) {
-			if (!CharacterList.isEmpty() && !pProLists.isEmpty()) {
-				if (CharacterList.getContentNumber() == pProLists.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pProLists.isEmpty()) {
+				if (characterList.getContentNumber() == pProLists.getContentNumber()) {
+					characterList.toFirst();
 					pProLists.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurProList = pProLists.getCurrent();
 						
 						if (vCurProList instanceof List) setProListOfCharacter(vCurID, (List)vCurProList);
 						else throw new Exception("06; ChMan,sPLsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pProLists.next();
 					}
 				} else throw new Exception("01; ChMan,sPLsoaCs");
@@ -4935,19 +5302,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pSpecialCraftLists != null) {
-			if (!CharacterList.isEmpty() && !pSpecialCraftLists.isEmpty()) {
-				if (CharacterList.getContentNumber() == pSpecialCraftLists.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pSpecialCraftLists.isEmpty()) {
+				if (characterList.getContentNumber() == pSpecialCraftLists.getContentNumber()) {
+					characterList.toFirst();
 					pSpecialCraftLists.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurSpecialCraftList = pSpecialCraftLists.getCurrent();
 						
 						if (vCurSpecialCraftList instanceof List) setSpecialCraftListOfCharacter(vCurID, (List)vCurSpecialCraftList);
 						else throw new Exception("06; ChMan,sSCLsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pSpecialCraftLists.next();
 					}
 				} else throw new Exception("01; ChMan,sSCLsoaCs");
@@ -4964,19 +5331,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pTalentLists != null) {
-			if (!CharacterList.isEmpty() && !pTalentLists.isEmpty()) {
-				if (CharacterList.getContentNumber() == pTalentLists.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pTalentLists.isEmpty()) {
+				if (characterList.getContentNumber() == pTalentLists.getContentNumber()) {
+					characterList.toFirst();
 					pTalentLists.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurTalentList = pTalentLists.getCurrent();
 						
 						if (vCurTalentList instanceof List) setTalentListOfCharacter(vCurID, (List)vCurTalentList);
 						else throw new Exception("06; ChMan,sTLsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pTalentLists.next();
 					}
 				} else throw new Exception("01; ChMan,sTLsoaCs");
@@ -4993,19 +5360,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pWeaponLists != null) {
-			if (!CharacterList.isEmpty() && !pWeaponLists.isEmpty()) {
-				if (CharacterList.getContentNumber() == pWeaponLists.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pWeaponLists.isEmpty()) {
+				if (characterList.getContentNumber() == pWeaponLists.getContentNumber()) {
+					characterList.toFirst();
 					pWeaponLists.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurWeaponList = pWeaponLists.getCurrent();
 						
 						if (vCurWeaponList instanceof List) setWeaponListOfCharacter(vCurID, (List)vCurWeaponList);
 						else throw new Exception("06; ChMan,sWLsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pWeaponLists.next();
 					}
 				} else throw new Exception("01; ChMan,sWLsoaCs");
@@ -5026,15 +5393,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pChar != null) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
 					if (vCur.equals(pChar)) vRet = true;
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("04; ChMan,hCh");
@@ -5053,15 +5420,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = true;
+					if (pID == vCur.getId()) vRet = true;
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hCh");
@@ -5081,15 +5448,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = vCur.havePro(pPro);
+					if (pID == vCur.getId()) vRet = vCur.havePro(pPro);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hPbC");
@@ -5108,15 +5475,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pCharID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pCharID == vCur.getID()) vRet = vCur.havePro(pProID);
+					if (pCharID == vCur.getId()) vRet = vCur.havePro(pProID);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hPbC");
@@ -5135,15 +5502,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = vCur.havePro(pName);
+					if (pID == vCur.getId()) vRet = vCur.havePro(pName);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hPbC");
@@ -5163,15 +5530,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = vCur.haveSpecialCraft(pSpecialCraft);
+					if (pID == vCur.getId()) vRet = vCur.haveSpecialCraft(pSpecialCraft);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hSCbC");
@@ -5190,15 +5557,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pCharID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pCharID == vCur.getID()) vRet = vCur.haveSpecialCraft(pSpecialCraftID);
+					if (pCharID == vCur.getId()) vRet = vCur.haveSpecialCraft(pSpecialCraftID);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hSCbC");
@@ -5217,15 +5584,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = vCur.haveSpecialCraft(pName);
+					if (pID == vCur.getId()) vRet = vCur.haveSpecialCraft(pName);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hSCbC");
@@ -5245,15 +5612,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = vCur.haveTalent(pTalent);
+					if (pID == vCur.getId()) vRet = vCur.haveTalent(pTalent);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hTbC");
@@ -5272,15 +5639,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pCharID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pCharID == vCur.getID()) vRet = vCur.haveTalent(pTalentID);
+					if (pCharID == vCur.getId()) vRet = vCur.haveTalent(pTalentID);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hTbC");
@@ -5299,15 +5666,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = vCur.haveTalent(pName);
+					if (pID == vCur.getId()) vRet = vCur.haveTalent(pName);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hTbC");
@@ -5327,15 +5694,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = vCur.haveWeapon(pWeapon);
+					if (pID == vCur.getId()) vRet = vCur.haveWeapon(pWeapon);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hWbC");
@@ -5354,15 +5721,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pCharID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pCharID == vCur.getID()) vRet = vCur.haveWeapon(pWeaponID);
+					if (pCharID == vCur.getId()) vRet = vCur.haveWeapon(pWeaponID);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hWbC");
@@ -5381,15 +5748,15 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while (!CharacterList.isEnd() && (vRet == false)) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while (!characterList.isEnd() && (vRet == false)) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (pID == vCur.getID()) vRet = vCur.haveWeapon(pName);
+					if (pID == vCur.getId()) vRet = vCur.haveWeapon(pName);
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,hWbC");
@@ -5459,7 +5826,7 @@ public class CharacterManager {
 						} else if (vPremise[0] == 3) {
 							vCur = getTalentOfCharacter(pCharID, vPremise[1]);
 							
-							if (vCur != null) if (((Talent)vCur).getTaW() < vPremise[2]) vRet = false;
+							if (vCur != null) if (((Talent)vCur).getTaw() < vPremise[2]) vRet = false;
 						} else if (vPremise[0] == 4) {
 							vCurList = getTalentListOfCharacter(pCharID);
 							vRet = false;
@@ -5474,7 +5841,7 @@ public class CharacterManager {
 										
 										if ((vCurInt == vPremise[1]) || (((vCurInt == 0) || (vCurInt == 1)) && (vPremise[1] == 8)) 
 												|| ((vCurInt >= 2) && (vCurInt < 8) && (vPremise[1] == 9))) {
-											if (vCurTal.getTaW() >= vPremise[2]) vRet = true;
+											if (vCurTal.getTaw() >= vPremise[2]) vRet = true;
 										}
 										
 										vCurList.next();
@@ -5510,7 +5877,7 @@ public class CharacterManager {
 	 */
 	public void addCharacter(Charakter pChar) throws Exception{
 		if (pChar != null) {
-			if (haveCharacter(pChar) == false) CharacterList.append(pChar);
+			if (haveCharacter(pChar) == false) characterList.append(pChar);
 			else throw new Exception("02; ChMan,aCh");
 		} else throw new Exception("04; ChMan,aCh");
 	}
@@ -5549,18 +5916,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.addSO(pSO);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.addSo(pSO);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,aSSoC");
@@ -5575,18 +5942,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.addGS(pGS);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.addGs(pGS);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,aGoC");
@@ -5710,19 +6077,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pSOList != null) {
-			if (!CharacterList.isEmpty() && !pSOList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pSOList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pSOList.isEmpty()) {
+				if (characterList.getContentNumber() == pSOList.getContentNumber()) {
+					characterList.toFirst();
 					pSOList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurSO = pSOList.getCurrent();
 						
 						if (vCurSO instanceof Integer) addSocialStatusOfCharacter(vCurID, (int)vCurSO);
 						else throw new Exception("06; ChMan,aSSsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pSOList.next();
 					}
 				} else throw new Exception("01; ChMan,aSSsoaCs");
@@ -5739,19 +6106,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pGSList != null) {
-			if (!CharacterList.isEmpty() && !pGSList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pGSList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pGSList.isEmpty()) {
+				if (characterList.getContentNumber() == pGSList.getContentNumber()) {
+					characterList.toFirst();
 					pGSList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurGS = pGSList.getCurrent();
 						
 						if (vCurGS instanceof Integer) addVelocityOfCharacter(vCurID, (int)vCurGS);
 						else throw new Exception("06; ChMan,aVsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pGSList.next();
 					}
 				} else throw new Exception("01; ChMan,aVsoaCs");
@@ -5769,18 +6136,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.addMR(pMR);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.addMr(pMR);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,aMRoC");
@@ -5795,18 +6162,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.addWS(pWS);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.addWs(pWS);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,aWToC");
@@ -5821,18 +6188,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.addBE(pBE);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.addBe(pBE);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,aBEoC");
@@ -6009,19 +6376,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pMRList != null) {
-			if (!CharacterList.isEmpty() && !pMRList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pMRList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pMRList.isEmpty()) {
+				if (characterList.getContentNumber() == pMRList.getContentNumber()) {
+					characterList.toFirst();
 					pMRList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurMR = pMRList.getCurrent();
 						
 						if (vCurMR instanceof Double) addMagicResistanceOfCharacter(vCurID, (double)vCurMR);
 						else throw new Exception("06; ChMan,aMRsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pMRList.next();
 					}
 				} else throw new Exception("01; ChMan,aMRsoaCs");
@@ -6038,19 +6405,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pWSList != null) {
-			if (!CharacterList.isEmpty() && !pWSList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pWSList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pWSList.isEmpty()) {
+				if (characterList.getContentNumber() == pWSList.getContentNumber()) {
+					characterList.toFirst();
 					pWSList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurWS = pWSList.getCurrent();
 						
 						if (vCurWS instanceof Double) addWoundThresholdOfCharacter(vCurID, (double)vCurWS);
 						else throw new Exception("06; ChMan,aWTsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pWSList.next();
 					}
 				} else throw new Exception("01; ChMan,aWTsoaCs");
@@ -6067,19 +6434,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pBEList != null) {
-			if (!CharacterList.isEmpty() && !pBEList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pBEList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pBEList.isEmpty()) {
+				if (characterList.getContentNumber() == pBEList.getContentNumber()) {
+					characterList.toFirst();
 					pBEList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurBE = pBEList.getCurrent();
 						
 						if (vCurBE instanceof Double) addHandicapOfCharacter(vCurID, (double)vCurBE);
 						else throw new Exception("06; ChMan,aHsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pBEList.next();
 					}
 				} else throw new Exception("01; ChMan,aHsoaCs");
@@ -6099,18 +6466,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addPropertie(pProperty, pInd);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,aPoC");
@@ -6128,18 +6495,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addMaxStat(pMaxStatus, pInd);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,aMSoC");
@@ -6157,18 +6524,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addStat(pStatus, pInd);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,aSoC");
@@ -6186,18 +6553,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addWound(pWoundNumber, pInd);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,aWNoC");
@@ -6445,19 +6812,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pPropertyList != null) {
-			if (!CharacterList.isEmpty() && !pPropertyList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pPropertyList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pPropertyList.isEmpty()) {
+				if (characterList.getContentNumber() == pPropertyList.getContentNumber()) {
+					characterList.toFirst();
 					pPropertyList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurProperty = pPropertyList.getCurrent();
 						
 						if (vCurProperty instanceof Integer) addPropertyOfCharacter(vCurID, (int)vCurProperty, pInd);
 						else throw new Exception("06; ChMan,aPsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pPropertyList.next();
 					}
 				} else throw new Exception("01; ChMan,aPsoaCs");
@@ -6475,19 +6842,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pMaxStatusList != null) {
-			if (!CharacterList.isEmpty() && !pMaxStatusList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pMaxStatusList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pMaxStatusList.isEmpty()) {
+				if (characterList.getContentNumber() == pMaxStatusList.getContentNumber()) {
+					characterList.toFirst();
 					pMaxStatusList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurMaxStatus = pMaxStatusList.getCurrent();
 						
 						if (vCurMaxStatus instanceof Integer) addMaxStatusOfCharacter(vCurID, (int)vCurMaxStatus, pInd);
 						else throw new Exception("06; ChMan,aMSioaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pMaxStatusList.next();
 					}
 				} else throw new Exception("01; ChMan,aMSioaCs");
@@ -6505,19 +6872,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pStatusList != null) {
-			if (!CharacterList.isEmpty() && !pStatusList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pStatusList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pStatusList.isEmpty()) {
+				if (characterList.getContentNumber() == pStatusList.getContentNumber()) {
+					characterList.toFirst();
 					pStatusList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurStatus = pStatusList.getCurrent();
 						
 						if (vCurStatus instanceof Integer) addMaxStatusOfCharacter(vCurID, (int)vCurStatus, pInd);
 						else throw new Exception("06; ChMan,aSioaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pStatusList.next();
 					}
 				} else throw new Exception("01; ChMan,aSioaCs");
@@ -6535,19 +6902,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pWoundNumberList != null) {
-			if (!CharacterList.isEmpty() && !pWoundNumberList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pWoundNumberList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pWoundNumberList.isEmpty()) {
+				if (characterList.getContentNumber() == pWoundNumberList.getContentNumber()) {
+					characterList.toFirst();
 					pWoundNumberList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurWoundNumber = pWoundNumberList.getCurrent();
 						
 						if (vCurWoundNumber instanceof Integer) addWoundNumberOfCharacter(vCurID, (int)vCurWoundNumber, pInd);
 						else throw new Exception("06; ChMan,aWNsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pWoundNumberList.next();
 					}
 				} else throw new Exception("01; ChMan,aWNsoaCs");
@@ -6565,18 +6932,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.addProperties(pProperties);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,aPsoC");
@@ -6587,22 +6954,22 @@ public class CharacterManager {
 	 * @param pMaxStati
 	 * @throws Exception
 	 */
-	public void addMaxStatiOfCharacter(int pID, int[] pMaxStati) throws Exception{
+	public void addMaxStatiOfCharacter(int pID, double[] pMaxStati) throws Exception{
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.addMaxStats(pMaxStati);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,aMSioC");
@@ -6617,18 +6984,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.addStats(pStati);;
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,aSioC");
@@ -6643,18 +7010,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.addWounds(pWoundNumbers);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,aWNsoC");
@@ -6690,7 +7057,7 @@ public class CharacterManager {
 	 * @param pMaxStati
 	 * @throws Exception
 	 */
-	public void addMaxStatiOfCharacters(List pIDList, int[] pMaxStati) throws Exception{
+	public void addMaxStatiOfCharacters(List pIDList, double[] pMaxStati) throws Exception{
 		Object vCurID;
 		
 		if (pIDList != null) {
@@ -6805,7 +7172,7 @@ public class CharacterManager {
 						vCurID = pIDList.getCurrent();
 						vCurMaxStati = pMaxStatiList.getCurrent();
 						
-						if ((vCurID instanceof Integer) && (vCurMaxStati instanceof Integer[])) addMaxStatiOfCharacter((int)vCurID, (int[])vCurMaxStati);
+						if ((vCurID instanceof Integer) && (vCurMaxStati instanceof Double[])) addMaxStatiOfCharacter((int)vCurID, (double[])vCurMaxStati);
 						else throw new Exception("06; ChMan,aMSioCs");
 						
 						pIDList.next();
@@ -6884,19 +7251,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pPropertiesList != null) {
-			if (!CharacterList.isEmpty() && !pPropertiesList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pPropertiesList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pPropertiesList.isEmpty()) {
+				if (characterList.getContentNumber() == pPropertiesList.getContentNumber()) {
+					characterList.toFirst();
 					pPropertiesList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurProperties = pPropertiesList.getCurrent();
 						
 						if (vCurProperties instanceof Integer[]) addPropertiesOfCharacter(vCurID, (int[])vCurProperties);
 						else throw new Exception("06; ChMan,aPsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pPropertiesList.next();
 					}
 				} else throw new Exception("01; ChMan,aPsoaCs");
@@ -6913,19 +7280,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pMaxStatiList != null) {
-			if (!CharacterList.isEmpty() && !pMaxStatiList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pMaxStatiList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pMaxStatiList.isEmpty()) {
+				if (characterList.getContentNumber() == pMaxStatiList.getContentNumber()) {
+					characterList.toFirst();
 					pMaxStatiList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurMaxStati = pMaxStatiList.getCurrent();
 						
-						if (vCurMaxStati instanceof Integer[]) addMaxStatiOfCharacter(vCurID, (int[])vCurMaxStati);
+						if (vCurMaxStati instanceof Double[]) addMaxStatiOfCharacter(vCurID, (double[])vCurMaxStati);
 						else throw new Exception("06; ChMan,aMSioaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pMaxStatiList.next();
 					}
 				} else throw new Exception("01; ChMan,aMSioaCs");
@@ -6942,19 +7309,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pStatiList != null) {
-			if (!CharacterList.isEmpty() && !pStatiList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pStatiList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pStatiList.isEmpty()) {
+				if (characterList.getContentNumber() == pStatiList.getContentNumber()) {
+					characterList.toFirst();
 					pStatiList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurStati = pStatiList.getCurrent();
 						
 						if (vCurStati instanceof Integer[]) addStatiOfCharacter(vCurID, (int[])vCurStati);
 						else throw new Exception("06; ChMan,aSioaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pStatiList.next();
 					}
 				} else throw new Exception("01; ChMan,aSioaCs");
@@ -6971,19 +7338,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pWoundNumbersList != null) {
-			if (!CharacterList.isEmpty() && !pWoundNumbersList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pWoundNumbersList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pWoundNumbersList.isEmpty()) {
+				if (characterList.getContentNumber() == pWoundNumbersList.getContentNumber()) {
+					characterList.toFirst();
 					pWoundNumbersList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurWoundNumbers = pWoundNumbersList.getCurrent();
 						
 						if (vCurWoundNumbers instanceof Integer[]) addWoundNumbersOfCharacter(vCurID, (int[])vCurWoundNumbers);
 						else throw new Exception("06; ChMan,aWNsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pWoundNumbersList.next();
 					}
 				} else throw new Exception("01; ChMan,aWNsoaCs");
@@ -7003,18 +7370,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addFightValue(pFightValue, pInd);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,aFVoC");
@@ -7032,18 +7399,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if ((pInd >= 0) && (pInd < 8)) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
-							vCur.addRS(pArmorValue, pInd);
-							CharacterList.toLast();
+						if (vCur.getId() == pID) {
+							vCur.addRs(pArmorValue, pInd);
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("02; ChMan,aAVoC");
@@ -7177,19 +7544,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pFightValuesList != null) {
-			if (!CharacterList.isEmpty() && !pFightValuesList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pFightValuesList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pFightValuesList.isEmpty()) {
+				if (characterList.getContentNumber() == pFightValuesList.getContentNumber()) {
+					characterList.toFirst();
 					pFightValuesList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurFightValues = pFightValuesList.getCurrent();
 						
 						if (vCurFightValues instanceof Double) addFightValueOfCharacter(vCurID, (double)vCurFightValues, pInd);
 						else throw new Exception("06; ChMan,aFVsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pFightValuesList.next();
 					}
 				} else throw new Exception("01; ChMan,aFVsoaCs");
@@ -7207,19 +7574,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pArmorValuesList != null) {
-			if (!CharacterList.isEmpty() && !pArmorValuesList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pArmorValuesList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pArmorValuesList.isEmpty()) {
+				if (characterList.getContentNumber() == pArmorValuesList.getContentNumber()) {
+					characterList.toFirst();
 					pArmorValuesList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurArmorValues = pArmorValuesList.getCurrent();
 						
 						if (vCurArmorValues instanceof Double) addArmorValueOfCharacter(vCurID, (double)vCurArmorValues, pInd);
 						else throw new Exception("06; ChMan,aAVsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pArmorValuesList.next();
 					}
 				} else throw new Exception("01; ChMan,aAVsoaCs");
@@ -7237,18 +7604,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
+					if (vCur.getId() == pID) {
 						vCur.addFightValues(pFightValues);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,aFVsoC");
@@ -7263,18 +7630,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						vCur.addRS(pArmorValues);
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						vCur.addRs(pArmorValues);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,aAVsoC");
@@ -7398,19 +7765,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pFightValuesList != null) {
-			if (!CharacterList.isEmpty() && !pFightValuesList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pFightValuesList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pFightValuesList.isEmpty()) {
+				if (characterList.getContentNumber() == pFightValuesList.getContentNumber()) {
+					characterList.toFirst();
 					pFightValuesList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurFightValues = pFightValuesList.getCurrent();
 						
 						if (vCurFightValues instanceof Integer[]) addFightValuesOfCharacter(vCurID, (double[])vCurFightValues);
 						else throw new Exception("06; ChMan,aFVsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pFightValuesList.next();
 					}
 				} else throw new Exception("01; ChMan,aFVsoaCs");
@@ -7427,19 +7794,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pArmorValuesList != null) {
-			if (!CharacterList.isEmpty() && !pArmorValuesList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pArmorValuesList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pArmorValuesList.isEmpty()) {
+				if (characterList.getContentNumber() == pArmorValuesList.getContentNumber()) {
+					characterList.toFirst();
 					pArmorValuesList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurArmorValues = pArmorValuesList.getCurrent();
 						
 						if (vCurArmorValues instanceof Integer[]) addArmorValuesOfCharacter(vCurID, (double[])vCurArmorValues);
 						else throw new Exception("06; ChMan,aAVsoaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pArmorValuesList.next();
 					}
 				} else throw new Exception("01; ChMan,aAVsoaCs");
@@ -7458,18 +7825,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pPro != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addPro(pPro);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,aPtC");
@@ -7486,18 +7853,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pSpecialCraft != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addSpecialCraft(pSpecialCraft);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,aPtC");
@@ -7514,18 +7881,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pTalent != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addTalent(pTalent);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,aTtC");
@@ -7542,18 +7909,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pWeapon != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addWeapon(pWeapon);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,aWtC");
@@ -7784,19 +8151,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pProList != null) {
-			if (!CharacterList.isEmpty() && !pProList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pProList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pProList.isEmpty()) {
+				if (characterList.getContentNumber() == pProList.getContentNumber()) {
+					characterList.toFirst();
 					pProList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurPro = pProList.getCurrent();
 						
 						if (vCurPro instanceof Pro) addProToCharacter(vCurID, (Pro)vCurPro);
 						else throw new Exception("06; ChMan,aPstaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pProList.next();
 					}
 				} else throw new Exception("01; ChMan,aPstaCs");
@@ -7813,19 +8180,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pSpecialCraftList != null) {
-			if (!CharacterList.isEmpty() && !pSpecialCraftList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pSpecialCraftList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pSpecialCraftList.isEmpty()) {
+				if (characterList.getContentNumber() == pSpecialCraftList.getContentNumber()) {
+					characterList.toFirst();
 					pSpecialCraftList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurSpecialCraft = pSpecialCraftList.getCurrent();
 						
 						if (vCurSpecialCraft instanceof SpecialCraft) addSpecialCraftToCharacter(vCurID, (SpecialCraft)vCurSpecialCraft);
 						else throw new Exception("06; ChMan,aSCstaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pSpecialCraftList.next();
 					}
 				} else throw new Exception("01; ChMan,aSCstaCs");
@@ -7842,19 +8209,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pTalentList != null) {
-			if (!CharacterList.isEmpty() && !pTalentList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pTalentList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pTalentList.isEmpty()) {
+				if (characterList.getContentNumber() == pTalentList.getContentNumber()) {
+					characterList.toFirst();
 					pTalentList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurTalent = pTalentList.getCurrent();
 						
 						if (vCurTalent instanceof Talent) addTalentToCharacter(vCurID, (Talent)vCurTalent);
 						else throw new Exception("06; ChMan,aTstaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pTalentList.next();
 					}
 				} else throw new Exception("01; ChMan,aTstaCs");
@@ -7871,19 +8238,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pWeaponList != null) {
-			if (!CharacterList.isEmpty() && !pWeaponList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pWeaponList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pWeaponList.isEmpty()) {
+				if (characterList.getContentNumber() == pWeaponList.getContentNumber()) {
+					characterList.toFirst();
 					pWeaponList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurWeapon = pWeaponList.getCurrent();
 						
 						if (vCurWeapon instanceof Weapon) addWeaponToCharacter(vCurID, (Weapon)vCurWeapon);
 						else throw new Exception("06; ChMan,aWstaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pWeaponList.next();
 					}
 				} else throw new Exception("01; ChMan,aWstaCs");
@@ -7902,18 +8269,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pProList != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addPros(pProList);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,aPLtC");
@@ -7930,18 +8297,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pSpecialCraftList != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addSpecialCrafts(pSpecialCraftList);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,aSCLtC");
@@ -7958,18 +8325,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pTalentList != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addSpecialCrafts(pTalentList);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,aTLtC");
@@ -7986,18 +8353,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pWeaponList != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.addWeapons(pWeaponList);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,aWLtC");
@@ -8228,19 +8595,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pProListList != null) {
-			if (!CharacterList.isEmpty() && !pProListList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pProListList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pProListList.isEmpty()) {
+				if (characterList.getContentNumber() == pProListList.getContentNumber()) {
+					characterList.toFirst();
 					pProListList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurProList = pProListList.getCurrent();
 						
 						if (vCurProList instanceof List) addProListToCharacter(vCurID, (List)vCurProList);
 						else throw new Exception("06; ChMan,aPLstaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pProListList.next();
 					}
 				} else throw new Exception("01; ChMan,aPLstaCs");
@@ -8257,19 +8624,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pSpecialCraftListList != null) {
-			if (!CharacterList.isEmpty() && !pSpecialCraftListList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pSpecialCraftListList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pSpecialCraftListList.isEmpty()) {
+				if (characterList.getContentNumber() == pSpecialCraftListList.getContentNumber()) {
+					characterList.toFirst();
 					pSpecialCraftListList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurSpecialCraftList = pSpecialCraftListList.getCurrent();
 						
 						if (vCurSpecialCraftList instanceof List) addSpecialCraftListToCharacter(vCurID, (List)vCurSpecialCraftList);
 						else throw new Exception("06; ChMan,aSCLstaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pSpecialCraftListList.next();
 					}
 				} else throw new Exception("01; ChMan,aSCLstaCs");
@@ -8286,19 +8653,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pTalentListList != null) {
-			if (!CharacterList.isEmpty() && !pTalentListList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pTalentListList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pTalentListList.isEmpty()) {
+				if (characterList.getContentNumber() == pTalentListList.getContentNumber()) {
+					characterList.toFirst();
 					pTalentListList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurTalentList = pTalentListList.getCurrent();
 						
 						if (vCurTalentList instanceof List) addTalentListToCharacter(vCurID, (List)vCurTalentList);
 						else throw new Exception("06; ChMan,aTLstaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pTalentListList.next();
 					}
 				} else throw new Exception("01; ChMan,aTLstaCs");
@@ -8315,19 +8682,19 @@ public class CharacterManager {
 		int vCurID;
 		
 		if (pWeaponListList != null) {
-			if (!CharacterList.isEmpty() && !pWeaponListList.isEmpty()) {
-				if (CharacterList.getContentNumber() == pWeaponListList.getContentNumber()) {
-					CharacterList.toFirst();
+			if (!characterList.isEmpty() && !pWeaponListList.isEmpty()) {
+				if (characterList.getContentNumber() == pWeaponListList.getContentNumber()) {
+					characterList.toFirst();
 					pWeaponListList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurID = (int)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurID = (int)characterList.getCurrent();
 						vCurWeaponList = pWeaponListList.getCurrent();
 						
 						if (vCurWeaponList instanceof List) addWeaponListToCharacter(vCurID, (List)vCurWeaponList);
 						else throw new Exception("06; ChMan,aWLstaCs");
 						
-						CharacterList.next();
+						characterList.next();
 						pWeaponListList.next();
 					}
 				} else throw new Exception("01; ChMan,aWLstaCs");
@@ -8346,18 +8713,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pChar != null) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter) CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter) characterList.getCurrent();
 					
 					if (pChar.equals(vCur)) {
-						CharacterList.remove();
-						CharacterList.toLast();
+						characterList.remove();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("04; ChMan,rC");
@@ -8371,18 +8738,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if (pID >= 0) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter) CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter) characterList.getCurrent();
 					
-					if (vCur.getID() == pID) {
-						CharacterList.remove();
-						CharacterList.toLast();
+					if (vCur.getId() == pID) {
+						characterList.remove();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,rC");
@@ -8399,11 +8766,11 @@ public class CharacterManager {
 		
 		if (pList != null) {
 			if (!pList.isEmpty()) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCurChar = (Charakter) CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCurChar = (Charakter) characterList.getCurrent();
 						pList.toFirst();
 						
 						while(!pList.isEnd()) {
@@ -8411,14 +8778,14 @@ public class CharacterManager {
 							
 							if (vCurObj instanceof Charakter) {
 								if (((Charakter)vCurObj).equals(vCurChar)) {
-									CharacterList.remove();
-									CharacterList.toLast();
+									characterList.remove();
+									characterList.toLast();
 									pList.toLast();
 								}
 							} else if (vCurObj instanceof Integer) {
-								if (vCurChar.getID() == ((int)vCurObj)) {
-									CharacterList.remove();
-									CharacterList.toLast();
+								if (vCurChar.getId() == ((int)vCurObj)) {
+									characterList.remove();
+									characterList.toLast();
 									pList.toLast();
 								}
 							} else throw new Exception("06; ChMan,rC");
@@ -8426,7 +8793,7 @@ public class CharacterManager {
 							pList.next();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			}
@@ -8436,7 +8803,7 @@ public class CharacterManager {
 	 * 
 	 */
 	public void removeAllCharacters() {
-		CharacterList = new List();
+		characterList = new List();
 	}
 	
 	/**	Dh	23.6.2020
@@ -8450,18 +8817,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pPro != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.removePro(pPro);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,rPtC");
@@ -8477,18 +8844,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pCharID >= 0) && (pProID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 						
-					if (vCur.getID() == pCharID) {
+					if (vCur.getId() == pCharID) {
 						vCur.removePro(pProID);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,rPtC");
@@ -8505,18 +8872,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pSpecialCraft != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.removeSpecialCraft(pSpecialCraft);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,rSCtC");
@@ -8532,18 +8899,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pCharID >= 0) && (pSpecialCraftID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 						
-					if (vCur.getID() == pCharID) {
+					if (vCur.getId() == pCharID) {
 						vCur.removeSpecialCraft(pSpecialCraftID);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,rSCtC");
@@ -8560,18 +8927,18 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pTalent != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.removeTalent(pTalent);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,rTtC");
@@ -8587,18 +8954,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pCharID >= 0) && (pTalentID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 						
-					if (vCur.getID() == pCharID) {
+					if (vCur.getId() == pCharID) {
 						vCur.removeTalent(pTalentID);
-						CharacterList.toLast();
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,rTtC");
@@ -8615,24 +8982,24 @@ public class CharacterManager {
 		
 		if (pID >= 0) {
 			if (pWeapon != null) {
-				if (!CharacterList.isEmpty()) {
-					CharacterList.toFirst();
+				if (!characterList.isEmpty()) {
+					characterList.toFirst();
 					
-					while(!CharacterList.isEnd()) {
-						vCur = (Charakter)CharacterList.getCurrent();
+					while(!characterList.isEnd()) {
+						vCur = (Charakter)characterList.getCurrent();
 						
-						if (vCur.getID() == pID) {
+						if (vCur.getId() == pID) {
 							vCur.removeWeapon(pWeapon);
-							CharacterList.toLast();
+							characterList.toLast();
 						}
 						
-						CharacterList.next();
+						characterList.next();
 					}
 				}
 			} else throw new Exception("04; ChMan,rWtC");
 		} else throw new Exception("02; ChMan,rWtC");
 	}
-	/**	Dh	23.6.2020
+	/**	Dh	11.7.2020
 	 * 
 	 * @param pCharID
 	 * @param pWeaponID
@@ -8642,18 +9009,18 @@ public class CharacterManager {
 		Charakter vCur;
 		
 		if ((pCharID >= 0) && (pWeaponID >= 0)) {
-			if (!CharacterList.isEmpty()) {
-				CharacterList.toFirst();
+			if (!characterList.isEmpty()) {
+				characterList.toFirst();
 				
-				while(!CharacterList.isEnd()) {
-					vCur = (Charakter)CharacterList.getCurrent();
+				while(!characterList.isEnd()) {
+					vCur = (Charakter)characterList.getCurrent();
 						
-					if (vCur.getID() == pCharID) {
-						vCur.removeTalent(pWeaponID);
-						CharacterList.toLast();
+					if (vCur.getId() == pCharID) {
+						vCur.removeWeapon(pWeaponID);
+						characterList.toLast();
 					}
 					
-					CharacterList.next();
+					characterList.next();
 				}
 			}
 		} else throw new Exception("02; ChMan,rWtC");

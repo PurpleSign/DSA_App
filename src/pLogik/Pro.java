@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 16.6.2020
+/**	DSA_App v0.0	Dh	 9.7.2020
  * 	
  * 	Logik
  * 	  Pro
@@ -28,19 +28,19 @@ import pGUI.MainFrame;
 @XmlType(propOrder = {"name", "pro", "arkane", "gift"})
 @XmlSeeAlso({ValuedPro.class, ReferredPro.class, StringedPro.class})
 public class Pro {
-	protected boolean Pro, Arkane, Gift;
-	protected int ID;
-	protected String Name;
+	protected boolean isPro, isArkane, isGift;
+	protected int id;
+	protected String name;
 	
 	/**	Dh	16.6.2020
 	 * 
 	 */
 	public Pro() {
-		Pro = true;
-		Arkane = false;
-		Gift = false;
-		ID = -1;
-		Name = "";
+		isPro = true;
+		isArkane = false;
+		isGift = false;
+		id = -1;
+		name = "";
 	}
 	/**	Dh	16.6.2020
 	 * 
@@ -50,14 +50,14 @@ public class Pro {
 	public Pro(int pID, String pName) {
 		Exception vExc = null ;
 		
-		Pro = true;
-		Arkane = false;
-		Gift = false;
+		isPro = true;
+		isArkane = false;
+		isGift = false;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Pro_a");
 		
-		if (!pName.equals("")) Name = pName;
+		if (!pName.equals("")) name = pName;
 		else vExc = new Exception("02; Pro_a");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -71,15 +71,15 @@ public class Pro {
 	public Pro(int pID, String pName, boolean pPro) {
 		Exception vExc = null ;
 		
-		Pro = pPro;
-		Arkane = false;
-		Gift = false;
+		isPro = pPro;
+		isArkane = false;
+		isGift = false;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Pro_b");
 		
-		if (!(pName.equals(""))) Name = pName;
-		else vExc = new Exception("02; Pro_b2:"+pName+","+ID);
+		if (!(pName.equals(""))) name = pName;
+		else vExc = new Exception("02; Pro_b2:"+pName+","+id);
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
@@ -93,14 +93,14 @@ public class Pro {
 	public Pro(int pID, String pName, boolean pPro, boolean pArkane) {
 		Exception vExc = null ;
 		
-		Pro = pPro;
-		Arkane = pArkane;
-		Gift = false;
+		isPro = pPro;
+		isArkane = pArkane;
+		isGift = false;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Pro_c");
 		
-		if (!pName.equals("")) Name = pName;
+		if (!pName.equals("")) name = pName;
 		else vExc = new Exception("02; Pro_c");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -116,14 +116,14 @@ public class Pro {
 	public Pro(int pID, String pName, boolean pPro, boolean pArkane, boolean pGift) {
 		Exception vExc = null ;
 		
-		Pro = pPro;
-		Arkane = pArkane;
-		Gift = pGift;
+		isPro = pPro;
+		isArkane = pArkane;
+		isGift = pGift;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Pro_d");
 		
-		if (!pName.equals("")) Name = pName;
+		if (!pName.equals("")) name = pName;
 		else vExc = new Exception("02; Pro_d");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -137,7 +137,7 @@ public class Pro {
 	 */
 	@XmlElement(name = "Pro")
 	public boolean isPro() {
-		return Pro;
+		return isPro;
 	}
 	/**	Dh	16.6.2020
 	 * 
@@ -145,7 +145,7 @@ public class Pro {
 	 */
 	@XmlElement(name = "Arkane")
 	public boolean isArkane() {
-		return Arkane;
+		return isArkane;
 	}
 	/**	Dh	16.6.2020
 	 * 
@@ -153,7 +153,7 @@ public class Pro {
 	 */
 	@XmlElement(name = "Gift")
 	public boolean isGift() {
-		return Gift;
+		return isGift;
 	}
 	
 	/**	Dh	16.6.2020
@@ -161,8 +161,8 @@ public class Pro {
 	 * @return
 	 */
 	@XmlAttribute
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 	/**	Dh	16.2.2020
 	 * 
@@ -170,7 +170,7 @@ public class Pro {
 	 */
 	@XmlElement(name = "Name")
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	//----------------------------------------------------------------------------------------------------
@@ -180,21 +180,21 @@ public class Pro {
 	 * @param pPro
 	 */
 	public void setPro(boolean pPro) {
-		Pro = pPro;
+		isPro = pPro;
 	}
 	/**	Dh	16.6.2020
 	 * 
 	 * @param pArkane
 	 */
 	public void setArkane(boolean pArkane) {
-		Arkane = pArkane;
+		isArkane = pArkane;
 	}
 	/**	Dh	16.6.2020
 	 * 
 	 * @param pGift
 	 */
 	public void setGift(boolean pGift) {
-		Gift = pGift;
+		isGift = pGift;
 	}
 	
 	/**	Dh	16.6.2020
@@ -202,8 +202,8 @@ public class Pro {
 	 * @param pID
 	 * @throws Exception
 	 */
-	public void setID(int pID) throws Exception{
-		if (pID >= 0) ID = pID;
+	public void setId(int pID) throws Exception{
+		if (pID >= 0) id = pID;
 		else throw new Exception("02; Pro,sID");
 	}
 	/**	Dh	16.6.2020
@@ -212,7 +212,7 @@ public class Pro {
 	 * @throws Exception
 	 */
 	public void setName(String pName) throws Exception{
-		if (!pName.equals("")) Name = pName;
+		if (!pName.equals("")) name = pName;
 		else throw new Exception("02; Pro,sN");
 	}
 	

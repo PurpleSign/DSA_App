@@ -40,17 +40,17 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "neighbourelement")
 @XmlType(propOrder = {"distance", "fightMods"})
 public class NeighbourElement {
-	private boolean Enemy;
-	private int ID, Distance;							// ID der Nachbar*In des kämpfenden.
-	private double[] FightMods;
+	private boolean isEnemy;
+	private int id, distance;							// ID der Nachbar*In des kämpfenden.
+	private double[] fightMods;
 	
 	/**	Dh	30.4.2020
 	 */
 	public NeighbourElement() {
-		ID = -1;
-		Enemy = false;
-		Distance = -1;
-		FightMods = new double[4];
+		id = -1;
+		isEnemy = false;
+		distance = -1;
+		fightMods = new double[4];
 	}
 	/**	Dh	13.2.2020
 	 * 
@@ -60,15 +60,15 @@ public class NeighbourElement {
 	public NeighbourElement(int pID, boolean pEnemy){
 		Exception vExc;
 		
-		Enemy = pEnemy;
-		if (pID >= 0) ID = pID;
+		isEnemy = pEnemy;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; NeEle, NE_a");
 		
-		Distance = 1;
+		distance = 1;
 		
-		FightMods = new double[4];
-		for (int i=0; i<FightMods.length; i++){
-			FightMods[i] = 0;
+		fightMods = new double[4];
+		for (int i=0; i<fightMods.length; i++){
+			fightMods[i] = 0;
 		}
 	}
 	/**	Dh	13.2.2020
@@ -87,16 +87,16 @@ public class NeighbourElement {
 	public NeighbourElement(int pID, boolean pEnemy, int pDistance){
 		Exception vExc;
 		
-		Enemy = pEnemy;
-		if (pID >= 0) ID = pID;
+		isEnemy = pEnemy;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; NeEle, NE_b");
 		
-		if (pDistance >= 0) Distance = pDistance;
+		if (pDistance >= 0) distance = pDistance;
 		else vExc = new Exception("02; NeEle, NE_b");
 		
-		FightMods = new double[4];
-		for (int i=0; i<FightMods.length; i++){
-			FightMods[i] = 0;
+		fightMods = new double[4];
+		for (int i=0; i<fightMods.length; i++){
+			fightMods[i] = 0;
 		}
 	}
 	/**	Dh	5.5.2020
@@ -112,17 +112,17 @@ public class NeighbourElement {
 	public NeighbourElement(int pID, boolean pEnemy, double[] pFightMods){
 		Exception vExc;
 		
-		Enemy = pEnemy;
-		if (pID >= 0) ID = pID;
+		isEnemy = pEnemy;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; NeEle, NE_c");
 		
-		Distance = 1;
+		distance = 1;
 		
 		if (pFightMods.length == 4) {
-			FightMods = pFightMods;
+			fightMods = pFightMods;
 			
-			if (FightMods[0] != 0) {
-				FightMods[0] = 0;
+			if (fightMods[0] != 0) {
+				fightMods[0] = 0;
 				vExc = new Exception("02b; NeEle, NE_c");
 			}
 		}
@@ -149,18 +149,18 @@ public class NeighbourElement {
 	public NeighbourElement(int pID, boolean pEnemy, int pDistance, double[] pFightMods){
 		Exception vExc;
 		
-		Enemy = pEnemy;
-		if (pID >= 0) ID = pID;
+		isEnemy = pEnemy;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; NeEle, NE_d");
 		
-		if (pDistance >= 0) Distance = pDistance;
+		if (pDistance >= 0) distance = pDistance;
 		else vExc = new Exception("02; NeEle, NE_d");
 		
 		if (pFightMods.length == 4) {
-			FightMods = pFightMods;
+			fightMods = pFightMods;
 			
-			if (FightMods[0] != 0) {
-				FightMods[0] = 0;
+			if (fightMods[0] != 0) {
+				fightMods[0] = 0;
 				vExc = new Exception("02b; NeEle, NE_d");
 			}
 		}
@@ -174,8 +174,8 @@ public class NeighbourElement {
 	 * @return
 	 */
 	@XmlAttribute
-	public int getID(){
-		return ID;
+	public int getId(){
+		return id;
 	}
 	/**	Dh	13.2.2020
 	 * 
@@ -190,7 +190,7 @@ public class NeighbourElement {
 	 */
 	@XmlElement(name = "Distance")
 	public int getDistance(){
-		return Distance;
+		return distance;
 	}
 	
 	/**	Dh	13.2.2020
@@ -204,8 +204,8 @@ public class NeighbourElement {
 	 * @throws Exception
 	 */
 	public double getFightMod(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < FightMods.length)){
-			return FightMods[pInd];
+		if ((pInd >= 0) && (pInd < fightMods.length)){
+			return fightMods[pInd];
 		}else throw new Exception("07; NeEle,gFM");
 	}
 	/**	Dh	13.2.2020
@@ -219,7 +219,7 @@ public class NeighbourElement {
 	@XmlElementWrapper(name = "FightModArray")
 	@XmlElement(name = "FightMod")
 	public double[] getFightMods(){
-		return FightMods;
+		return fightMods;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -229,14 +229,14 @@ public class NeighbourElement {
 	 * @param pEnemy
 	 */
 	public void setEnemy(boolean pEnemy){
-		Enemy = pEnemy;
+		isEnemy = pEnemy;
 	}
 	/**	Dh	30.4.2020
 	 * 
 	 * @param pID
 	 */
-	public void setID(int pID) throws Exception{
-		if (pID >= 0) ID = pID;
+	public void setId(int pID) throws Exception{
+		if (pID >= 0) id = pID;
 		else throw new Exception("02; NeEle,sID");
 	}
 	/**	Dh	13.2.2020
@@ -252,7 +252,7 @@ public class NeighbourElement {
 	 * @throws Exception
 	 */
 	public void setDistance(int pDistance) throws Exception{
-		if (pDistance >= 0) Distance = pDistance;
+		if (pDistance >= 0) distance = pDistance;
 		else throw new Exception("02; NeEle,sDi");
 	}
 	
@@ -269,7 +269,7 @@ public class NeighbourElement {
 	 * @throws Exception
 	 */
 	public void setFightMod(double pFightMod, int pInd) throws Exception{
-		if ((pInd > 0) && (pInd < FightMods.length)) FightMods[pInd] = pFightMod;
+		if ((pInd > 0) && (pInd < fightMods.length)) fightMods[pInd] = pFightMod;
 		else throw new Exception("07; NeEle,sFM");
 	}
 	/**	Dh	5.5.2020
@@ -284,10 +284,10 @@ public class NeighbourElement {
 	 * @throws Exception
 	 */
 	public void setFightMods(double[] pFightMods) throws Exception{
-		if (pFightMods.length == FightMods.length) {
-			FightMods = pFightMods;
-			if (FightMods[0] != 0) {
-				FightMods[0] = 0;
+		if (pFightMods.length == fightMods.length) {
+			fightMods = pFightMods;
+			if (fightMods[0] != 0) {
+				fightMods[0] = 0;
 				throw new Exception("02b; NeEle,sFMs");
 			}
 		}
@@ -302,7 +302,7 @@ public class NeighbourElement {
 	 */
 	@XmlAttribute
 	public boolean isEnemy() {
-		return Enemy;
+		return isEnemy;
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -320,7 +320,7 @@ public class NeighbourElement {
 	 * @throws Exception
 	 */
 	public void addFightMod(double pFightMod, int pInd) throws Exception{
-		if ((pInd > 0) && (pInd < FightMods.length)) FightMods[pInd] += pFightMod;
+		if ((pInd > 0) && (pInd < fightMods.length)) fightMods[pInd] += pFightMod;
 		else throw new Exception("07; NeEle,sFM");
 	}
 	/**	Dh	13.2.2020
@@ -335,9 +335,9 @@ public class NeighbourElement {
 	 * @throws Exception
 	 */
 	public void addFightMods(double[] pFightMods) throws Exception{
-		if (pFightMods.length == FightMods.length) {
-			for (int i=1; i<FightMods.length; i++){
-				FightMods[i] += pFightMods[i];
+		if (pFightMods.length == fightMods.length) {
+			for (int i=1; i<fightMods.length; i++){
+				fightMods[i] += pFightMods[i];
 			}
 			
 			if (pFightMods[0] != 0) throw new Exception("02b; NeEle,sFMs");

@@ -32,8 +32,8 @@ import pGUI.MainFrame;
 
 @XmlRootElement(name = "communicationtalent")
 public class Communicationtalent extends Basictalent {
-	private boolean Language;
-	private int Complexity;
+	private boolean isLanguage;
+	private int complexity;
 	
 	/**	Dh	2.7.2020
 	 * 
@@ -41,8 +41,8 @@ public class Communicationtalent extends Basictalent {
 	public Communicationtalent() {
 		super();
 		
-		Language = false;
-		Complexity = -1;
+		isLanguage = false;
+		complexity = -1;
 	}
 	/**	Dh	2.7.2020
 	 * 
@@ -62,11 +62,11 @@ public class Communicationtalent extends Basictalent {
 		super(6, pID, pName, new int[] {1, 2, 3});
 		Exception vExc = null;
 		
-		Language = pLanguage;
+		isLanguage = pLanguage;
 		try { if (pLanguage == false) setPropInds(new int[] {1, 1, 4});}
 		catch (Exception ex) {vExc = ex;}
 		
-		if (pComplexity > 0) Complexity = pComplexity;
+		if (pComplexity > 0) complexity = pComplexity;
 		else vExc = new Exception("02; CoTal_a");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -90,11 +90,11 @@ public class Communicationtalent extends Basictalent {
 		super(6, pID, pName, new int[] {1, 2, 3}, pTaW);
 		Exception vExc = null;
 		
-		Language = pLanguage;
+		isLanguage = pLanguage;
 		try { if (pLanguage == false) setPropInds(new int[] {1, 1, 4});}
 		catch (Exception ex) {vExc = ex;}
 		
-		if (pComplexity > 0) Complexity = pComplexity;
+		if (pComplexity > 0) complexity = pComplexity;
 		else vExc = new Exception("02; CoTal_a");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -108,7 +108,7 @@ public class Communicationtalent extends Basictalent {
 	 */
 	@XmlElement(name = "Language")
 	public boolean isLanguage() {
-		return Language;
+		return isLanguage;
 	}
 	/**	Dh	5.6.2020
 	 * 
@@ -116,7 +116,7 @@ public class Communicationtalent extends Basictalent {
 	 */
 	@XmlElement(name = "Complexity")
 	public int getComplexity() {
-		return Complexity;
+		return complexity;
 	}
 	
 	/**	Dh	5.6.2020
@@ -124,7 +124,7 @@ public class Communicationtalent extends Basictalent {
 	 * @param pLanguage
 	 */
 	public void setLanguage(boolean pLanguage) {
-		Language = pLanguage;
+		isLanguage = pLanguage;
 	}
 	/**	Dh	5.6.2020
 	 * 
@@ -132,7 +132,7 @@ public class Communicationtalent extends Basictalent {
 	 * @throws Exception
 	 */
 	public void setComplexity(int pComplexity) throws Exception{
-		if (pComplexity > 0) Complexity = pComplexity;
+		if (pComplexity > 0) complexity = pComplexity;
 		else throw new Exception("02; CoTal,sC");
 	}
 	

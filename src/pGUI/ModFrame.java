@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	17.5.2020
+/**	DSA_App v0.0	Dh	9.7.2020
  * 
  * 	pGUI
  * 	  ModFrame
@@ -43,7 +43,7 @@ import java.awt.Component;
 import javax.swing.SwingConstants;
 
 public class ModFrame extends JFrame {
-	private int zID, Width, Height;
+	private int id, width, height;
 	private FightManager rFM;
 	private MainFrame rMF;
 	
@@ -69,17 +69,17 @@ public class ModFrame extends JFrame {
 	public ModFrame(String pName, int pID, FightManager pFM, MainFrame pMF) {
 		if (pFM == null) MainFrame.handleException(new Exception("04; MoFra"));
 		
-		zID = pID;
+		id = pID;
 		rFM = pFM;
 		rMF = pMF;
 		Point vPos = rMF.getMiddlePosition();
 		
-		Width = 325;
-		Height = 474;
+		width = 325;
+		height = 474;
 		
 		setTitle("Mod Fenster");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds((int)(vPos.getX()-(Width/2)), (int)(vPos.getY()-(Height/2)), Width, Height);
+		setBounds((int)(vPos.getX()-(width/2)), (int)(vPos.getY()-(height/2)), width, height);
 		//setBounds(100, 100, 325, 474);
 		setResizable(false);
 		contentPane = new JPanel();
@@ -544,9 +544,9 @@ public class ModFrame extends JFrame {
 		
 		for (int i=0; i < vTempPropMods.length; i++) {
 			try{
-				if (zID != -1) {
-					if (vTempPropMods[i] != 0) rFM.addPropModToFighter(zID, vTempPropMods[i], i); 
-					if (vTempStatMods[i] != 0) rFM.addStatModToFighter(zID, vTempStatMods[i], i);
+				if (id != -1) {
+					if (vTempPropMods[i] != 0) rFM.addPropModToFighter(id, vTempPropMods[i], i); 
+					if (vTempStatMods[i] != 0) rFM.addStatModToFighter(id, vTempStatMods[i], i);
 				}else {
 					if (vTempPropMods[i] != 0) rFM.addPropModToFighters(vTempPropMods[i], i); 
 					if (vTempStatMods[i] != 0) rFM.addStatModToFighters(vTempStatMods[i], i);
@@ -554,7 +554,7 @@ public class ModFrame extends JFrame {
 			} catch(Exception ex) {MainFrame.handleException(ex);}
 		}
 		
-		if (zID == -1) {
+		if (id == -1) {
 			try {
 				rMF.addGenPropMods(vTempPropMods);
 				rMF.addGenStatMods(vTempStatMods);

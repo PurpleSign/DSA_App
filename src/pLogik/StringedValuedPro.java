@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 1.7.2020
+/**	DSA_App v0.0	Dh	 9.7.2020
  * 	
  * 	Logik
  * 	  Pro
@@ -36,7 +36,7 @@ import pGUI.MainFrame;
 
 @XmlRootElement(name = "stringedvaluepro")
 public class StringedValuedPro extends ValuedPro implements Stringed {
-	private String StringedValue;
+	private String stringedValue;
 	
 	/**	Dh	17.6.2020
 	 * 
@@ -45,7 +45,7 @@ public class StringedValuedPro extends ValuedPro implements Stringed {
 	public StringedValuedPro() {
 		super();
 		
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	1.7.2020
 	 * 
@@ -55,7 +55,7 @@ public class StringedValuedPro extends ValuedPro implements Stringed {
 	public StringedValuedPro(int pID, String pName, int pValueLimit) {
 		super(pID, pName, pValueLimit);
 		
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	1.7.2020
 	 * 
@@ -66,7 +66,7 @@ public class StringedValuedPro extends ValuedPro implements Stringed {
 	public StringedValuedPro(int pID, String pName, int pValueLimit, boolean pPro) {
 		super(pID, pName, pValueLimit, pPro);
 		
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	1.7.2020
 	 * 
@@ -78,7 +78,7 @@ public class StringedValuedPro extends ValuedPro implements Stringed {
 	public StringedValuedPro(int pID, String pName, int pValueLimit, boolean pPro, boolean pArkane) {
 		super(pID, pName, pValueLimit, pPro, pArkane);
 		
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	1.7.2020
 	 * 
@@ -91,7 +91,7 @@ public class StringedValuedPro extends ValuedPro implements Stringed {
 	public StringedValuedPro(int pID, String pName, int pValueLimit, boolean pPro, boolean pArkane, boolean pGift) {
 		super(pID, pName, pValueLimit, pPro, pArkane, pGift);
 		
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	1.7.2020
 	 * 
@@ -105,7 +105,7 @@ public class StringedValuedPro extends ValuedPro implements Stringed {
 	public StringedValuedPro(int pID, String pName, int pValueLimit, boolean pPro, boolean pArkane, boolean pGift, int pValue) {
 		super(pID, pName, pValueLimit, pPro, pArkane, pGift, pValue);
 		
-		StringedValue = "";
+		stringedValue = "";
 	}
 	/**	Dh	1.7.2020
 	 * 	
@@ -120,7 +120,7 @@ public class StringedValuedPro extends ValuedPro implements Stringed {
 		super(pID, pName, pValueLimit, pPro, pArkane, pGift);
 		Exception vExc = null ;
 		
-		if (!pStringedValue.equals("")) StringedValue = pStringedValue;
+		if (!pStringedValue.equals("")) stringedValue = pStringedValue;
 		else vExc = new Exception("02; StVaPro_f");
 			
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -139,7 +139,7 @@ public class StringedValuedPro extends ValuedPro implements Stringed {
 		super(pID, pName, pValueLimit, pPro, pArkane, pGift, pValue);
 		Exception vExc = null ;
 		
-		if (!pStringedValue.equals("")) StringedValue = pStringedValue;
+		if (!pStringedValue.equals("")) stringedValue = pStringedValue;
 		else vExc = new Exception("02; StVaPro_g");
 			
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -153,7 +153,7 @@ public class StringedValuedPro extends ValuedPro implements Stringed {
 	 */
 	@XmlElement(name = "StringedValue")
 	public String getStringedValue() {
-		return StringedValue;
+		return stringedValue;
 	}
 		
 	//----------------------------------------------------------------------------------------------------
@@ -165,7 +165,7 @@ public class StringedValuedPro extends ValuedPro implements Stringed {
 	 */
 	public void setStringedValue(String pStringedValue) throws Exception{
 		if (pStringedValue != null) {
-			StringedValue = pStringedValue;
+			stringedValue = pStringedValue;
 		} else throw new Exception("04; StVaPro,sSV");
 	}
 		

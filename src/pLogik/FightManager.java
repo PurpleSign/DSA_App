@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	11.6.2020
+/**	DSA_App v0.0	Dh	9.7.2020
  * 
  * 	Logik
  * 	  FightManager
@@ -37,20 +37,20 @@ import pDatenbank.Loader;
 @XmlSeeAlso({FightElement.class, IniElement.class, int[].class})
 @XmlType(propOrder = {"roundCounter", "fightList", "iniList", "iniOrder"})
 public class FightManager {
-	private int ID, RoundCounter;
-	private List FightList, IniList, IniOrder;
+	private int id, roundCounter;
+	private List fightList, iniList, iniOrder;
 	
 	/**	Dh	11.6.2020
 	 * 
 	 */
 	public FightManager() {
-		ID = -1;
+		id = -1;
 		
-		RoundCounter = 0;
+		roundCounter = 0;
 			
-		FightList = new List();
-		IniList = new List();
-		IniOrder = new List();
+		fightList = new List();
+		iniList = new List();
+		iniOrder = new List();
 	}
 	/**	Dh	6.5.2020
 	 * 
@@ -59,23 +59,24 @@ public class FightManager {
 	public FightManager(int pID){
 		Exception vExc = null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; FiMan_a");
 		
-		RoundCounter = 0;
+		roundCounter = 0;
 			
-		FightList = new List();
-		IniList = new List();
-		IniOrder = new List();
+		fightList = new List();
+		iniList = new List();
+		iniOrder = new List();
 		
 		try { 
 			addFighter(Loader.loadNewCharacter(0));
 			addFighter(Loader.loadNewCharacter(1));
 			addFighter(Loader.loadNewCharacter(2));
-			addFighter(Loader.loadNewRandomCharakter());
-			addFighter(Loader.loadNewRandomCharakter());
-			addFighter(Loader.loadNewRandomCharakter());
-			addFighter(Loader.loadNewRandomCharakter());
+			
+			addFighter(Loader.loadNewRandomCharakter(3));
+			addFighter(Loader.loadNewRandomCharakter(4));
+			addFighter(Loader.loadNewRandomCharakter(5));
+			addFighter(Loader.loadNewRandomCharakter(6));
 			
 			makeIniOrder();
 		} catch(Exception ex) {vExc = ex;}
@@ -90,16 +91,16 @@ public class FightManager {
 	public FightManager(int pID, List pFightList){
 		Exception vExc = null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; FiMan_b");
 		
-		RoundCounter = 0;
+		roundCounter = 0;
 		
-		if (pFightList != null) FightList = pFightList;
+		if (pFightList != null) fightList = pFightList;
 		else vExc = new Exception("04; FiMan_b");
 			
-		IniList = new List();
-		IniOrder = new List();
+		iniList = new List();
+		iniOrder = new List();
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
@@ -112,17 +113,17 @@ public class FightManager {
 	public FightManager(int pID, List pFightList , List pIniList){
 		Exception vExc = null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; FiMan_b");
 		
-		RoundCounter = 0;
+		roundCounter = 0;
 		
-		if (pFightList != null) FightList = pFightList;
+		if (pFightList != null) fightList = pFightList;
 		else vExc = new Exception("04; FiMan_b");
-		if (pIniList != null) IniList = pIniList;
+		if (pIniList != null) iniList = pIniList;
 		else vExc = new Exception("04; FiMan_b");
 		
-		IniOrder = new List();
+		iniOrder = new List();
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
@@ -136,16 +137,16 @@ public class FightManager {
 	public FightManager(int pID, List pFightList , List pIniList, List pIniOrder){
 		Exception vExc = null;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; FiMan_c");
 		
-		RoundCounter = 0;
+		roundCounter = 0;
 		
-		if (pFightList != null) FightList = pFightList;
+		if (pFightList != null) fightList = pFightList;
 		else vExc = new Exception("04; FiMan_c");
-		if (pIniList != null) IniList = pIniList;
+		if (pIniList != null) iniList = pIniList;
 		else vExc = new Exception("04; FiMan_c");
-		if (pIniOrder != null) IniOrder = pIniOrder;
+		if (pIniOrder != null) iniOrder = pIniOrder;
 		else vExc = new Exception("04; FiMan_c");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -158,26 +159,26 @@ public class FightManager {
 	public void destroyFightManager() throws Exception{
 		Exception vExc = null;
 		
-		if (FightList != null){
-			while(!FightList.isEmpty()){
-				FightList.toFirst();
-				FightList.remove();
+		if (fightList != null){
+			while(!fightList.isEmpty()){
+				fightList.toFirst();
+				fightList.remove();
 			}
-			FightList = null;
+			fightList = null;
 		} else vExc = new Exception("04; FiMan,dFM");
-		if (IniList != null) {
-			while(!IniList.isEmpty()){
-				IniList.toFirst();
-				IniList.remove();
+		if (iniList != null) {
+			while(!iniList.isEmpty()){
+				iniList.toFirst();
+				iniList.remove();
 			}
-			IniList = null;
+			iniList = null;
 		} else vExc = new Exception("04; FiMan,dFM");
-		if (IniOrder != null) {
-			while(!IniOrder.isEmpty()){
-				IniOrder.toFirst();
-				IniOrder.remove();
+		if (iniOrder != null) {
+			while(!iniOrder.isEmpty()){
+				iniOrder.toFirst();
+				iniOrder.remove();
 			}
-			IniOrder = null;
+			iniOrder = null;
 		} else vExc = new Exception("04; FiMan,dFM");
 		
 		if (vExc != null) throw vExc;
@@ -190,8 +191,8 @@ public class FightManager {
 	 * @return
 	 */
 	@XmlAttribute
-	public int getID(){
-		return ID;
+	public int getId(){
+		return id;
 	}
 	/**	Dh	6.5.2020
 	 * 
@@ -199,7 +200,7 @@ public class FightManager {
 	 */
 	@XmlElement(name = "RoundCounter")
 	public int getRoundCounter() {
-		return RoundCounter;
+		return roundCounter;
 	}
 	
 	/**	Dh	22.2.2020
@@ -208,7 +209,7 @@ public class FightManager {
 	 */
 	@XmlElement(name = "FightList")
 	public List getFightList(){
-		return FightList;
+		return fightList;
 	}
 	/**	Dh	22.2.2020
 	 * 
@@ -216,7 +217,7 @@ public class FightManager {
 	 */
 	@XmlElement(name = "IniList")
 	public List getIniList(){
-		return IniList;
+		return iniList;
 	}
 	/**	Dh	3.5.2020
 	 * 
@@ -224,7 +225,7 @@ public class FightManager {
 	 */
 	@XmlElement(name = "IniOrder")
 	public List getIniOrder(){
-		return IniOrder;
+		return iniOrder;
 	}
 	//-----
 	/**	Dh	23.2.2020
@@ -239,16 +240,16 @@ public class FightManager {
 		int vID = -1;
 		
 		if (pID >= 0){
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
-				while(!FightList.isEnd() && (vRet == null)){
-					vTemp = FightList.getCurrent();
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
+				while(!fightList.isEnd() && (vRet == null)){
+					vTemp = fightList.getCurrent();
 					
 					if (vTemp instanceof FightElement){
-						if (((FightElement)vTemp).getID() == pID) vRet = (FightElement)vTemp;
+						if (((FightElement)vTemp).getId() == pID) vRet = (FightElement)vTemp;
 					} else throw new Exception("06; FiMan,gFE");
 					
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,gFE");
 		} else throw new Exception("02; FiMan,gFE");
@@ -262,21 +263,21 @@ public class FightManager {
 	 * @throws Exception
 	 */
 	@XmlTransient
-	public List getIDOfFighters() throws Exception{
+	public List getIdOfFighters() throws Exception{
 		Object vFiEle;
 		List vRet;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
-				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getID());
+				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getId());
 				else throw new Exception("06; FiMan,gIDoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gIDoFs");
 		
@@ -303,17 +304,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getCharacter());
 				else throw new Exception("06; FiMan,gCoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gCoFs");
 		
@@ -451,17 +452,17 @@ public class FightManager {
 		List vRet;
 		
 		if ((pInd >= 0) && (pInd < 10)){
-			if (!FightList.isEmpty()){
+			if (!fightList.isEmpty()){
 				vRet = new List();
 				
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getPropMod(pInd));
 					else throw new Exception("06; FiMan,gPMFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,gPMFs");
 		} else throw new Exception("07; FiMan,gPMFs");
@@ -488,17 +489,17 @@ public class FightManager {
 		List vRet;
 		
 		if ((pInd >= 0) && (pInd < 10)){
-			if (!FightList.isEmpty()){
+			if (!fightList.isEmpty()){
 				vRet = new List();
 				
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getStatMod(pInd));
 					else throw new Exception("06; FiMan,gSMFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,gSMFs");
 		} else throw new Exception("07; FiMan,gSMFs");
@@ -518,15 +519,15 @@ public class FightManager {
 		if (pInd >= 0) {
 			vRet = new List();
 			
-			if (!FightList.isEmpty()) {
-				FightList.toFirst();
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
 				
-				while(!FightList.isLast()) {
-					vCur = ((FightElement)FightList.getCurrent()).getActiveWeapon(pInd);
+				while(!fightList.isLast()) {
+					vCur = ((FightElement)fightList.getCurrent()).getActiveWeapon(pInd);
 					
 					vRet.append(vCur);
 					
-					FightList.next();
+					fightList.next();
 				}
 			}else throw new Exception("05; FiMan,gAWoFs");
 		}else throw new Exception("02; FiMan,gAWoFs");
@@ -555,17 +556,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 				
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 				
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getPropMods());
 				else throw new Exception("06; FiMan,gPMsFs");
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gPMsFs");
 		
@@ -592,17 +593,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 				
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 				
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getStatMods());
 				else throw new Exception("06; FiMan,gSMsFs");
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gSMsFs");
 		
@@ -617,14 +618,14 @@ public class FightManager {
 	public List getActiveWeaponsOfFighters() throws Exception{
 		List vRet;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 				
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vRet.append(((FightElement)FightList.getCurrent()).getActiveWeapons());
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vRet.append(((FightElement)fightList.getCurrent()).getActiveWeapons());
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gAWsoFs");
 		
@@ -732,17 +733,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 				
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 				
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getActiveWeaponAttackValue(pInd));
 				else throw new Exception("06; FiMan,gAWAVoFs");
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gAWAVoFs");
 		
@@ -758,17 +759,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 				
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 				
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getActiveWeaponDefenceValue(pInd));
 				else throw new Exception("06; FiMan,gAWDVoFs");
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gAWDVoFs");
 		
@@ -784,17 +785,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 				
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 				
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getActiveWeaponFightValues(pInd));
 				else throw new Exception("06; FiMan,gAWFVsoFs");
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gAWFVsoFs");
 		
@@ -850,17 +851,17 @@ public class FightManager {
 		List vRet = null;
 		
 		if ((pNeiID >= 0)){
-			if (!FightList.isEmpty()){
+			if (!fightList.isEmpty()){
 				vRet = new List();
 				
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourElement(pNeiID));
 					else throw new Exception("06; FiMan,gNEoFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,gNEoFs");
 		} else throw new Exception("07; FiMan,gNEoFs");
@@ -877,17 +878,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getLastNeighbourElement());
 				else throw new Exception("06; FiMan,gLNEoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gLNEoFs");
 		
@@ -903,17 +904,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourList());
 				else throw new Exception("06; FiMan,gNLoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gNLoFs");
 		
@@ -926,7 +927,7 @@ public class FightManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public List getIDOfNeighboursOfFighter(int pFigID) throws Exception{
+	public List getIdOfNeighboursOfFighter(int pFigID) throws Exception{
 		Object vNeiEle;
 		List vRet, vNeiList = null;
 		
@@ -940,7 +941,7 @@ public class FightManager {
 				while(!vNeiList.isEnd()){
 					vNeiEle = vNeiList.getCurrent();
 				
-					if (vNeiEle instanceof NeighbourElement) vRet.append(((NeighbourElement) vNeiEle).getID());
+					if (vNeiEle instanceof NeighbourElement) vRet.append(((NeighbourElement) vNeiEle).getId());
 					else throw new Exception("06; FiMan,gIDoNsoF");
 				
 					vNeiList.next();
@@ -956,21 +957,21 @@ public class FightManager {
 	 * @throws Exception
 	 */
 	@XmlTransient
-	public List getIDOfNeighboursOfFighters() throws Exception{
+	public List getIdOfNeighboursOfFighters() throws Exception{
 		Object vFiEle, vNeiEle;
 		List vRet = null;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
-				if (vFiEle instanceof FightElement) vRet.append(getIDOfNeighboursOfFighter(((FightElement) vFiEle).getID()));
+				if (vFiEle instanceof FightElement) vRet.append(getIdOfNeighboursOfFighter(((FightElement) vFiEle).getId()));
 				else throw new Exception("06; FiMan,gIDoNsoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gIDoNsoFs");
 				
@@ -1164,17 +1165,17 @@ public class FightManager {
 		List vRet = null;
 		
 		if ((pNeiID >= 0)){
-			if (!FightList.isEmpty()){
+			if (!fightList.isEmpty()){
 				vRet = new List();
 				
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourElement(pNeiID).isEnemy());
 					else throw new Exception("06; FiMan,gEToNoFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,gEToNoFs");
 		} else throw new Exception("07; FiMan,gEToNoFs");
@@ -1192,17 +1193,17 @@ public class FightManager {
 		List vRet = null;
 		
 		if ((pNeiID >= 0)){
-			if (!FightList.isEmpty()){
+			if (!fightList.isEmpty()){
 				vRet = new List();
 				
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourElement(pNeiID).getDistance());
 					else throw new Exception("06; FiMan,gDoNoFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,gDoNoFs");
 		} else throw new Exception("07; FiMan,gDoNoFs");
@@ -1221,17 +1222,17 @@ public class FightManager {
 		List vRet = null;
 		
 		if ((pNeiID >= 0)){
-			if (!FightList.isEmpty()){
+			if (!fightList.isEmpty()){
 				vRet = new List();
 				
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourElement(pNeiID).getFightMod(pInd));
 					else throw new Exception("06; FiMan,gFMoNoFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,gFMoNoFs");
 		} else throw new Exception("07; FiMan,gFMoNoFs");
@@ -1249,17 +1250,17 @@ public class FightManager {
 		List vRet = null;
 		
 		if ((pNeiID >= 0)){
-			if (!FightList.isEmpty()){
+			if (!fightList.isEmpty()){
 				vRet = new List();
 				
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourElement(pNeiID).getFightMods());
 					else throw new Exception("06; FiMan,gFMsoNoFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,gFMsoNoFs");
 		} else throw new Exception("07; FiMan,gFMsoNoFs");
@@ -1277,17 +1278,17 @@ public class FightManager {
 		Object vFiEle, vNeiEle;
 		List vRet = null;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
-				if (vFiEle instanceof FightElement) vRet.append(getEnemyTypeOfNeighboursOfFighter(((FightElement) vFiEle).getID()));
+				if (vFiEle instanceof FightElement) vRet.append(getEnemyTypeOfNeighboursOfFighter(((FightElement) vFiEle).getId()));
 				else throw new Exception("06; FiMan,gEToNsoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gEToNsoFs");
 				
@@ -1303,17 +1304,17 @@ public class FightManager {
 		Object vFiEle, vNeiEle;
 		List vRet = null;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
-				if (vFiEle instanceof FightElement) vRet.append(getDistanceOfNeighboursOfFighter(((FightElement) vFiEle).getID()));
+				if (vFiEle instanceof FightElement) vRet.append(getDistanceOfNeighboursOfFighter(((FightElement) vFiEle).getId()));
 				else throw new Exception("06; FiMan,gDoNsoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gDoNsoFs");
 				
@@ -1329,17 +1330,17 @@ public class FightManager {
 		Object vFiEle, vNeiEle;
 		List vRet = null;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
-				if (vFiEle instanceof FightElement) vRet.append(getFightModOfNeighboursOfFighter(((FightElement) vFiEle).getID(), pInd));
+				if (vFiEle instanceof FightElement) vRet.append(getFightModOfNeighboursOfFighter(((FightElement) vFiEle).getId(), pInd));
 				else throw new Exception("06; FiMan,gFMoNsoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gFMoNsoFs");
 				
@@ -1355,17 +1356,17 @@ public class FightManager {
 		Object vFiEle, vNeiEle;
 		List vRet = null;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
-				if (vFiEle instanceof FightElement) vRet.append(getFightModsOfNeighboursOfFighter(((FightElement) vFiEle).getID()));
+				if (vFiEle instanceof FightElement) vRet.append(getFightModsOfNeighboursOfFighter(((FightElement) vFiEle).getId()));
 				else throw new Exception("06; FiMan,gFMsoNsoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gFMsoNsoFs");
 				
@@ -1480,17 +1481,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet = null;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourCount());
 				else throw new Exception("06; FiMan,gNCoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gNCoFs");
 		
@@ -1508,17 +1509,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet = null;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourCountByType(pEnemy));
 				else throw new Exception("06; FiMan,gNCbEoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gNCbEoFs");
 		
@@ -1538,17 +1539,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet = null;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourMajorityNumber());
 				else throw new Exception("06; FiMan,gNMaNoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gNMaNoFs");
 		
@@ -1568,17 +1569,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet = null;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourMinorityNumber());
 				else throw new Exception("06; FiMan,gNMiNoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gNMiNoFs");
 		
@@ -1598,17 +1599,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet = null;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourMajorityNumberByType(pEnemy));
 				else throw new Exception("06; FiMan,gNMaNbToFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gNMaNbToFs");
 		
@@ -1628,17 +1629,17 @@ public class FightManager {
 		Object vFiEle;
 		List vRet = null;
 		
-		if (!FightList.isEmpty()){
+		if (!fightList.isEmpty()){
 			vRet = new List();
 			
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
 				if (vFiEle instanceof FightElement) vRet.append(((FightElement) vFiEle).getNeighbourMinorityNumberByType(pEnemy));
 				else throw new Exception("06; FiMan,gNMiNbToFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gNMiNbToFs");
 		
@@ -1657,16 +1658,16 @@ public class FightManager {
 		int vID = -1;
 		
 		if (pID >= 0){
-			if (!IniList.isEmpty()){
-				IniList.toFirst();
-				while(!IniList.isEnd() && (vRet == null)){
-					vTemp = IniList.getCurrent();
+			if (!iniList.isEmpty()){
+				iniList.toFirst();
+				while(!iniList.isEnd() && (vRet == null)){
+					vTemp = iniList.getCurrent();
 					
 					if (vTemp instanceof IniElement){
-						if (((IniElement)vTemp).getID() == pID) vRet = (IniElement)vTemp;
+						if (((IniElement)vTemp).getId() == pID) vRet = (IniElement)vTemp;
 					} else throw new Exception("06; FiMan,gIE");
 					
-					IniList.next();
+					iniList.next();
 				}
 			} else throw new Exception("05; FiMan,gIE");
 		} else throw new Exception("02; FiMan,gIE");
@@ -1680,21 +1681,21 @@ public class FightManager {
 	 * @throws Exception
 	 */
 	@XmlTransient
-	public List getIDOfIniElements() throws Exception {
+	public List getIdOfIniElements() throws Exception {
 		Object vIniEle;
 		List vRet;
 		
-		if (!IniList.isEmpty()){
+		if (!iniList.isEmpty()){
 			vRet = new List();
 			
-			IniList.toFirst();
-			while(!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			iniList.toFirst();
+			while(!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 			
-				if (vIniEle instanceof IniElement) vRet.append(((IniElement) vIniEle).getID());
+				if (vIniEle instanceof IniElement) vRet.append(((IniElement) vIniEle).getId());
 				else throw new Exception("06; FiMan,gIDoIEs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gIDoIEs");
 		
@@ -1762,17 +1763,17 @@ public class FightManager {
 		Object vIniEle;
 		List vRet;
 		
-		if (!IniList.isEmpty()){
+		if (!iniList.isEmpty()){
 			vRet = new List();
 			
-			IniList.toFirst();
-			while(!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			iniList.toFirst();
+			while(!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 			
 				if (vIniEle instanceof IniElement) vRet.append(((IniElement) vIniEle).getIni());
 				else throw new Exception("06; FiMan,gIoIEs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gIoIEs");
 		
@@ -1788,17 +1789,17 @@ public class FightManager {
 		Object vIniEle;
 		List vRet;
 		
-		if (!IniList.isEmpty()){
+		if (!iniList.isEmpty()){
 			vRet = new List();
 			
-			IniList.toFirst();
-			while(!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			iniList.toFirst();
+			while(!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 			
 				if (vIniEle instanceof IniElement) vRet.append(((IniElement) vIniEle).getTempIni());
 				else throw new Exception("06; FiMan,gTIoIEs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gTIoIEs");
 		
@@ -1814,17 +1815,17 @@ public class FightManager {
 		Object vIniEle;
 		List vRet;
 		
-		if (!IniList.isEmpty()){
+		if (!iniList.isEmpty()){
 			vRet = new List();
 			
-			IniList.toFirst();
-			while(!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			iniList.toFirst();
+			while(!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 			
 				if (vIniEle instanceof IniElement) vRet.append(((IniElement) vIniEle).getAction());
 				else throw new Exception("06; FiMan,gAoIEs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gAoIEs");
 		
@@ -1840,17 +1841,17 @@ public class FightManager {
 		Object vIniEle;
 		List vRet;
 		
-		if (!IniList.isEmpty()){
+		if (!iniList.isEmpty()){
 			vRet = new List();
 			
-			IniList.toFirst();
-			while(!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			iniList.toFirst();
+			while(!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 			
 				if (vIniEle instanceof IniElement) vRet.append(((IniElement) vIniEle).getTempAction());
 				else throw new Exception("06; FiMan,gTAoIEs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gTAoIEs");
 		
@@ -1866,17 +1867,17 @@ public class FightManager {
 		Object vIniEle;
 		List vRet;
 		
-		if (!IniList.isEmpty()){
+		if (!iniList.isEmpty()){
 			vRet = new List();
 			
-			IniList.toFirst();
-			while(!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			iniList.toFirst();
+			while(!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 			
 				if (vIniEle instanceof IniElement) vRet.append(((IniElement) vIniEle).getIniDek());
 				else throw new Exception("06; FiMan,gIDoIEs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gIDoIEs");
 		
@@ -1896,17 +1897,17 @@ public class FightManager {
 		int[] vIniOrderEle;
 		
 		if (pID >= 0) {
-			if (!IniOrder.isEmpty()) {
+			if (!iniOrder.isEmpty()) {
 				
-				IniOrder.toFirst();
-				while(!IniOrder.isEnd()) {
-					vIniOrderEle = (int[])IniOrder.getCurrent();
+				iniOrder.toFirst();
+				while(!iniOrder.isEnd()) {
+					vIniOrderEle = (int[])iniOrder.getCurrent();
 					
 					if (vIniOrderEle[0] == pID) {
 						vRet.append(vIniOrderEle[1]);
 					}
 					
-					IniOrder.next();
+					iniOrder.next();
 				}
 			}
 		}else throw new Exception("02; FiMan,gIsoIOE");
@@ -1926,7 +1927,7 @@ public class FightManager {
 		List vRet = new List();
 		
 		if (pIDList != null) {
-			if ((!pIDList.isEmpty()) && (!IniOrder.isEmpty())){
+			if ((!pIDList.isEmpty()) && (!iniOrder.isEmpty())){
 				pIDList.toFirst();
 				
 				while (!pIDList.isEnd()) {
@@ -1953,8 +1954,8 @@ public class FightManager {
 	 * @param pID
 	 * @throws Exception
 	 */
-	public void setID(int pID) throws Exception{
-		if (pID >= 0) ID = pID;
+	public void setId(int pID) throws Exception{
+		if (pID >= 0) id = pID;
 		else throw new Exception("02; FiMan,sID");
 	}
 	/**	Dh	6.5.2020
@@ -1963,7 +1964,7 @@ public class FightManager {
 	 * @throws Exception
 	 */
 	public void setRoundCounter(int pRoundCounter) throws Exception{
-		if (pRoundCounter >= 0) RoundCounter = pRoundCounter;
+		if (pRoundCounter >= 0) roundCounter = pRoundCounter;
 		else throw new Exception("02; FiMan,sRC");
 	}
 	
@@ -1973,7 +1974,7 @@ public class FightManager {
 	 * @throws Exception
 	 */
 	public void setFightList(List pFightList) throws Exception{
-		if (pFightList != null) FightList = pFightList;
+		if (pFightList != null) fightList = pFightList;
 		else throw new Exception("04; FiMan_sFL");
 	}
 	/**	Dh	1.5.2020
@@ -1983,7 +1984,7 @@ public class FightManager {
 	 */
 	public void setIniList(List pIniList) throws Exception{
 		if (pIniList != null) {
-			IniList = pIniList;
+			iniList = pIniList;
 
 			updateIniList();
 		}
@@ -1995,7 +1996,7 @@ public class FightManager {
 	 * @throws Exception
 	 */
 	public void setIniOrder(List pIniOrder) throws Exception{
-		if (pIniOrder != null) IniOrder = pIniOrder;
+		if (pIniOrder != null) iniOrder = pIniOrder;
 		else throw new Exception("04; FiMan_sIO");
 	}
 	//-----
@@ -2145,15 +2146,15 @@ public class FightManager {
 		Object vFiEle;
 		
 		if ((pInd >= 0) && (pInd < 10)){
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
-				while (!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
+				while (!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) ((FightElement) vFiEle).setPropMod(pPropMod, pInd);
 					else throw new Exception("06; FiMan,sPMFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,sPMFs");
 		} else throw new Exception("07; FiMan,sPMFs");
@@ -2177,18 +2178,18 @@ public class FightManager {
 		Object vFiEle, vPrEle;
 		
 		if ((pInd >= 0) && (pInd < 10)){
-			if (!FightList.isEmpty() && !pPropsModList.isEmpty()){
-				if (FightList.getContentNumber() == pPropsModList.getContentNumber()) {
-					FightList.toFirst();
+			if (!fightList.isEmpty() && !pPropsModList.isEmpty()){
+				if (fightList.getContentNumber() == pPropsModList.getContentNumber()) {
+					fightList.toFirst();
 					pPropsModList.toFirst();
-					while (!FightList.isEnd()){
-						vFiEle = FightList.getCurrent();
+					while (!fightList.isEnd()){
+						vFiEle = fightList.getCurrent();
 						vPrEle = pPropsModList.getCurrent();
 						
 						if ((vFiEle instanceof FightElement)&& (vPrEle instanceof Integer)) ((FightElement) vFiEle).setPropMod((int)vPrEle, pInd);
 						else throw new Exception("06; FiMan,sPsMFs");
 				
-						FightList.next();
+						fightList.next();
 						pPropsModList.next();
 					}
 				} else throw new Exception("01; FiMan,sPsMFs");
@@ -2216,18 +2217,18 @@ public class FightManager {
 		Object vFiEle;
 		
 		if ((pInd >= 0) && (pInd < 10)){
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) {
-						if (pInd == 6) setIniOfIniElement(((FightElement) vFiEle).getID(), (int)Math.round(pStatMod));
+						if (pInd == 6) setIniOfIniElement(((FightElement) vFiEle).getId(), (int)Math.round(pStatMod));
 						((FightElement) vFiEle).setStatMod(pStatMod, pInd);
 					}
 					else throw new Exception("06; FiMan,sSMFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,sSMFs");
 		} else throw new Exception("07; FiMan,sSMFs");
@@ -2253,21 +2254,21 @@ public class FightManager {
 		Object vFiEle, vPrEle;
 		
 		if ((pInd >= 0) && (pInd < 10)){
-			if (!FightList.isEmpty() && !pStatsModList.isEmpty()){
-				if (FightList.getContentNumber() == pStatsModList.getContentNumber()) {
-					FightList.toFirst();
+			if (!fightList.isEmpty() && !pStatsModList.isEmpty()){
+				if (fightList.getContentNumber() == pStatsModList.getContentNumber()) {
+					fightList.toFirst();
 					pStatsModList.toFirst();
-					while (!FightList.isEnd()){
-						vFiEle = FightList.getCurrent();
+					while (!fightList.isEnd()){
+						vFiEle = fightList.getCurrent();
 						vPrEle = pStatsModList.getCurrent();
 						
 						if ((vFiEle instanceof FightElement)&& (vPrEle instanceof Integer)) {
-							if (pInd == 6) setIniOfIniElement(((FightElement) vFiEle).getID(), (int)Math.round((int)vPrEle));
+							if (pInd == 6) setIniOfIniElement(((FightElement) vFiEle).getId(), (int)Math.round((int)vPrEle));
 							((FightElement) vFiEle).setStatMod((int)vPrEle, pInd);
 						}
 						else throw new Exception("06; FiMan,sSsMFs");
 				
-						FightList.next();
+						fightList.next();
 						pStatsModList.next();
 					}
 				} else throw new Exception("01; FiMan,sSsMFs");
@@ -2282,14 +2283,14 @@ public class FightManager {
 	 */
 	public void setActiveWeaponOfFighters(Weapon pActiveWeapon, int pInd) throws Exception{
 		if (pInd >= 0) {
-			if (!FightList.isEmpty()) {
-				FightList.toFirst();
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
 				
-				while(!FightList.isLast()) {			
-					try {((FightElement)FightList.getCurrent()).setActiveWeapon(pActiveWeapon, pInd);}
+				while(!fightList.isLast()) {			
+					try {((FightElement)fightList.getCurrent()).setActiveWeapon(pActiveWeapon, pInd);}
 					catch (Exception ex) {throw ex;}
 					
-					FightList.next();
+					fightList.next();
 				}
 			}else throw new Exception("05; FiMan,sAWoFs");
 		}else throw new Exception("02; FiMan,sAWoFs");
@@ -2305,21 +2306,21 @@ public class FightManager {
 		
 		if (pInd >= 0) {
 			if (pActiveWeaponList != null) {
-				if (pActiveWeaponList.getContentNumber() == FightList.getContentNumber()) {
-					if (!FightList.isEmpty()) {
-						FightList.toFirst();
+				if (pActiveWeaponList.getContentNumber() == fightList.getContentNumber()) {
+					if (!fightList.isEmpty()) {
+						fightList.toFirst();
 						pActiveWeaponList.toFirst();
 						
-						while(!FightList.isLast()) {		
+						while(!fightList.isLast()) {		
 							vTempWeapon = pActiveWeaponList.getCurrent();
 							
 							if (vTempWeapon instanceof Weapon) {
-								try {((FightElement)FightList.getCurrent()).setActiveWeapon((Weapon)vTempWeapon, pInd);}
+								try {((FightElement)fightList.getCurrent()).setActiveWeapon((Weapon)vTempWeapon, pInd);}
 								catch (Exception ex) {throw ex;}
 							} else throw new Exception("02; FiMan,sAWoFs");
 							
 							pActiveWeaponList.toFirst();
-							FightList.next();
+							fightList.next();
 						}
 					}else throw new Exception("05; FiMan,sAWoFs");
 				} else throw new Exception("01; FiMan,sAWoFs");
@@ -2346,16 +2347,16 @@ public class FightManager {
 		
 		if (pPropMods != null){
 			if (pPropMods.length == 10){
-				if (!FightList.isEmpty()){
-					FightList.toFirst();
+				if (!fightList.isEmpty()){
+					fightList.toFirst();
 				
-					while(!FightList.isEnd()){
-						vFiEle = FightList.getCurrent();
+					while(!fightList.isEnd()){
+						vFiEle = fightList.getCurrent();
 					
 						if (vFiEle instanceof FightElement) ((FightElement) vFiEle).setPropMods(pPropMods);
 						else throw new Exception("06; FiMan,sPMsFs");
 					
-						FightList.next();
+						fightList.next();
 					}
 				} else throw new Exception("05; FiMan,sPMsFs");
 			} else throw new Exception("01; FiMan,sPMsFs");
@@ -2378,18 +2379,18 @@ public class FightManager {
 	public void setPropsModsToFighters(List pPropsModsList) throws Exception{
 		Object vFiEle, vPrEle;
 		
-		if (!FightList.isEmpty() && !pPropsModsList.isEmpty()){
-			if (FightList.getContentNumber() == pPropsModsList.getContentNumber()) {
-				FightList.toFirst();
+		if (!fightList.isEmpty() && !pPropsModsList.isEmpty()){
+			if (fightList.getContentNumber() == pPropsModsList.getContentNumber()) {
+				fightList.toFirst();
 				pPropsModsList.toFirst();
-				while (!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while (!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vPrEle = pPropsModsList.getCurrent();
 						
 					if ((vFiEle instanceof FightElement)&& (vPrEle instanceof Integer)) ((FightElement) vFiEle).setPropMods((int[])vPrEle);
 					else throw new Exception("06; FiMan,sPsMFs");
 			
-					FightList.next();
+					fightList.next();
 					pPropsModsList.next();
 				}
 			} else throw new Exception("01; FiMan,sPsMFs");
@@ -2416,19 +2417,19 @@ public class FightManager {
 		
 		if (pStatMods != null){
 			if (pStatMods.length == 10){
-				if (!FightList.isEmpty()){
-					FightList.toFirst();
+				if (!fightList.isEmpty()){
+					fightList.toFirst();
 				
-					while(!FightList.isEnd()){
-						vFiEle = FightList.getCurrent();
+					while(!fightList.isEnd()){
+						vFiEle = fightList.getCurrent();
 					
 						if (vFiEle instanceof FightElement) {
-							if(pStatMods[6] != 0) setIniOfIniElement(((FightElement) vFiEle).getID(), (int)Math.round(pStatMods[6]));
+							if(pStatMods[6] != 0) setIniOfIniElement(((FightElement) vFiEle).getId(), (int)Math.round(pStatMods[6]));
 							((FightElement) vFiEle).setStatMods(pStatMods);
 						}
 						else throw new Exception("06; FiMan,sSMsFs");
 					
-						FightList.next();
+						fightList.next();
 					}
 				} else throw new Exception("05; FiMan,sSMsFs");
 			} else throw new Exception("01; FiMan,sSMsFs");
@@ -2453,21 +2454,21 @@ public class FightManager {
 	public void setStatModsToFighters(List pStatsModsList) throws Exception{
 		Object vFiEle, vPrEle;
 		
-		if (!FightList.isEmpty() && !pStatsModsList.isEmpty()){
-			if (FightList.getContentNumber() == pStatsModsList.getContentNumber()) {
-				FightList.toFirst();
+		if (!fightList.isEmpty() && !pStatsModsList.isEmpty()){
+			if (fightList.getContentNumber() == pStatsModsList.getContentNumber()) {
+				fightList.toFirst();
 				pStatsModsList.toFirst();
-				while (!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while (!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vPrEle = pStatsModsList.getCurrent();
 						
 					if ((vFiEle instanceof FightElement) && (vPrEle instanceof Integer[])) {
-						if (((double[])vPrEle)[6] != 0) setIniOfIniElement(((FightElement) vFiEle).getID(), (int)Math.round(((int[])vPrEle)[6]));
+						if (((double[])vPrEle)[6] != 0) setIniOfIniElement(((FightElement) vFiEle).getId(), (int)Math.round(((int[])vPrEle)[6]));
 						((FightElement) vFiEle).setStatMods((int[])vPrEle);
 					}
 					else throw new Exception("06; FiMan,sSsMFs");
 			
-					FightList.next();
+					fightList.next();
 					pStatsModsList.next();
 				}
 			} else throw new Exception("01; FiMan,sSsMFs");
@@ -2479,12 +2480,12 @@ public class FightManager {
 	 * @throws Exception
 	 */
 	public void setActiveWeaponsOfFighters(Weapon[] pActiveWeapon) throws Exception{
-		if (!FightList.isEmpty()){
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				((FightElement)FightList.getCurrent()).setActiveWeapons(pActiveWeapon);
+		if (!fightList.isEmpty()){
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				((FightElement)fightList.getCurrent()).setActiveWeapons(pActiveWeapon);
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,sAWsoFs");
 	}
@@ -2497,21 +2498,21 @@ public class FightManager {
 		Object vCur;
 		
 		if (pActiveWeaponList != null) {
-			if (pActiveWeaponList.getContentNumber() == FightList.getContentNumber()) {
-				if (!FightList.isEmpty()){
-					FightList.toFirst();
+			if (pActiveWeaponList.getContentNumber() == fightList.getContentNumber()) {
+				if (!fightList.isEmpty()){
+					fightList.toFirst();
 					pActiveWeaponList.toFirst();
 					
-					while(!FightList.isEnd()){
+					while(!fightList.isEnd()){
 						vCur = pActiveWeaponList.getCurrent();
 						
 						if (vCur instanceof Weapon[]) {
-							try{ ((FightElement)FightList.getCurrent()).setActiveWeapons((Weapon[])vCur);}
+							try{ ((FightElement)fightList.getCurrent()).setActiveWeapons((Weapon[])vCur);}
 							catch(Exception ex) {throw ex;}
 						}
 						
 						pActiveWeaponList.next();
-						FightList.next();
+						fightList.next();
 					}
 				} else throw new Exception("05; FiMan,sAWsoFs");
 			}else throw new Exception("01; FiMan,sAWsoFs");
@@ -2538,15 +2539,15 @@ public class FightManager {
 	public void setNeighbourListOfFighters(List pNeiList) throws Exception {
 		Object vFiEle;
 		
-		if (!FightList.isEmpty()){
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				vFiEle = FightList.getCurrent();
+		if (!fightList.isEmpty()){
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				vFiEle = fightList.getCurrent();
 			
 				if (vFiEle instanceof FightElement) ((FightElement) vFiEle).setNeighbourList(pNeiList);
 				else throw new Exception("06; FiMan,sNLoFs");
 			
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gNLoFs");
 	}
@@ -2558,18 +2559,18 @@ public class FightManager {
 	public void setNeighbourListsOfFighters(List pNeiList) throws Exception{
 		Object vFiEle, vNeiList;
 		
-		if (FightList.getContentNumber() == pNeiList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pNeiList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pNeiList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vNeiList = pNeiList.getCurrent();
 					
 					if ((vFiEle instanceof FightElement) && (vNeiList instanceof List)) ((FightElement) vFiEle).setNeighbourList((List)vNeiList);
 					else throw new Exception("06; FiMan,sNLsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pNeiList.next();
 				}
 			}
@@ -2865,15 +2866,15 @@ public class FightManager {
 		Object vFiEle;
 		
 		if ((pNeiID >= 0)){
-			if (!FightList.isEmpty()){				
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+			if (!fightList.isEmpty()){				
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) ((FightElement) vFiEle).getNeighbourElement(pNeiID).setEnemy(pEnemyType);
 					else throw new Exception("06; FiMan,sEToNoFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,sEToNoFs");
 		} else throw new Exception("07; FiMan,sEToNoFs");
@@ -2888,15 +2889,15 @@ public class FightManager {
 		Object vFiEle;
 		
 		if ((pNeiID >= 0)){
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) ((FightElement) vFiEle).getNeighbourElement(pNeiID).setDistance(pDistance);
 					else throw new Exception("06; FiMan,sDoNoFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,sDoNoFs");
 		} else throw new Exception("07; FiMan,sDoNoFs");
@@ -2912,15 +2913,15 @@ public class FightManager {
 		Object vFiEle;
 		
 		if ((pNeiID >= 0)){
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) ((FightElement) vFiEle).getNeighbourElement(pNeiID).setFightMod(pFightMod, pInd);
 					else throw new Exception("06; FiMan,sFMoNoFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,sFMoNoFs");
 		} else throw new Exception("07; FiMan,sFMoNoFs");
@@ -2935,15 +2936,15 @@ public class FightManager {
 		Object vFiEle;
 		
 		if ((pNeiID >= 0)){
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) ((FightElement) vFiEle).getNeighbourElement(pNeiID).setFightMods(pFightMods);
 					else throw new Exception("06; FiMan,sFMsoNoFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,sFMsoNoFs");
 		} else throw new Exception("07; FiMan,sFMsoNoFs");
@@ -2957,18 +2958,18 @@ public class FightManager {
 	public void setEnemyTypeOfNeighboursOfFighters(List pEnemyTypeList) throws Exception{
 		Object vFiEle, vEnemyType;
 		
-		if (FightList.getContentNumber() == pEnemyTypeList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pEnemyTypeList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pEnemyTypeList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vEnemyType = pEnemyTypeList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vEnemyType instanceof Boolean)) setEnemyTypeOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (boolean)vEnemyType);
+					if ((vFiEle instanceof FightElement) && (vEnemyType instanceof Boolean)) setEnemyTypeOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (boolean)vEnemyType);
 					else throw new Exception("06; FiMan,sEToNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pEnemyTypeList.next();
 				}
 			}
@@ -2982,18 +2983,18 @@ public class FightManager {
 	public void setDistanceOfNeighboursOfFighters(List pDistanceList) throws Exception{
 		Object vFiEle, vDistance;
 		
-		if (FightList.getContentNumber() == pDistanceList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pDistanceList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pDistanceList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vDistance = pDistanceList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vDistance instanceof Integer)) setDistanceOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (int)vDistance);
+					if ((vFiEle instanceof FightElement) && (vDistance instanceof Integer)) setDistanceOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (int)vDistance);
 					else throw new Exception("06; FiMan,sDoNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pDistanceList.next();
 				}
 			}
@@ -3008,18 +3009,18 @@ public class FightManager {
 	public void setFightModOfNeighboursOfFighters(List pFightModList, int pInd) throws Exception{
 		Object vFiEle, vFightMod;
 		
-		if (FightList.getContentNumber() == pFightModList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pFightModList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pFightModList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vFightMod = pFightModList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vFightMod instanceof Double)) setFightModOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (double)vFightMod, pInd);
+					if ((vFiEle instanceof FightElement) && (vFightMod instanceof Double)) setFightModOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (double)vFightMod, pInd);
 					else throw new Exception("06; FiMan,sFMoNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pFightModList.next();
 				}
 			}
@@ -3033,18 +3034,18 @@ public class FightManager {
 	public void setFightModsOfNeighboursOfFighters(List pFightModsList) throws Exception{
 		Object vFiEle, vFightMods;
 		
-		if (FightList.getContentNumber() == pFightModsList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pFightModsList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pFightModsList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vFightMods = pFightModsList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vFightMods instanceof Double[])) setFightModsOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (double[])vFightMods);
+					if ((vFiEle instanceof FightElement) && (vFightMods instanceof Double[])) setFightModsOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (double[])vFightMods);
 					else throw new Exception("06; FiMan,sFMsoNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pFightModsList.next();
 				}
 			}
@@ -3059,18 +3060,18 @@ public class FightManager {
 	public void setEnemyTypesOfNeighboursOfFighters(List pEnemyTypeList) throws Exception{
 		Object vFiEle, vEnemyTypeList;
 		
-		if (FightList.getContentNumber() == pEnemyTypeList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pEnemyTypeList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pEnemyTypeList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vEnemyTypeList = pEnemyTypeList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vEnemyTypeList instanceof List)) setEnemyTypesOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (List)vEnemyTypeList);
+					if ((vFiEle instanceof FightElement) && (vEnemyTypeList instanceof List)) setEnemyTypesOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (List)vEnemyTypeList);
 					else throw new Exception("06; FiMan,sETsoNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pEnemyTypeList.next();
 				}
 			}
@@ -3084,18 +3085,18 @@ public class FightManager {
 	public void setDistancesOfNeighboursOfFighters(List pDistanceList) throws Exception{
 		Object vFiEle, vDistanceList;
 		
-		if (FightList.getContentNumber() == pDistanceList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pDistanceList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pDistanceList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vDistanceList = pDistanceList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vDistanceList instanceof List)) setDistancesOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (List)vDistanceList);
+					if ((vFiEle instanceof FightElement) && (vDistanceList instanceof List)) setDistancesOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (List)vDistanceList);
 					else throw new Exception("06; FiMan,sDsoNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pDistanceList.next();
 				}
 			}
@@ -3110,18 +3111,18 @@ public class FightManager {
 	public void setFightModsOfNeighboursOfFighters(List pFightModList, int pInd) throws Exception{
 		Object vFiEle, vFightModList;
 		
-		if (FightList.getContentNumber() == pFightModList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pFightModList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pFightModList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vFightModList = pFightModList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vFightModList instanceof List)) setFightModsOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (List)vFightModList, pInd);
+					if ((vFiEle instanceof FightElement) && (vFightModList instanceof List)) setFightModsOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (List)vFightModList, pInd);
 					else throw new Exception("06; FiMan,sFMsoNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pFightModList.next();
 				}
 			}
@@ -3135,18 +3136,18 @@ public class FightManager {
 	public void setFightModssOfNeighboursOfFighters(List pFightModsList) throws Exception{
 		Object vFiEle, vFightModsList;
 		
-		if (FightList.getContentNumber() == pFightModsList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pFightModsList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pFightModsList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vFightModsList = pFightModsList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vFightModsList instanceof List)) setFightModssOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (List)vFightModsList);
+					if ((vFiEle instanceof FightElement) && (vFightModsList instanceof List)) setFightModssOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (List)vFightModsList);
 					else throw new Exception("06; FiMan,sFMssoNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pFightModsList.next();
 				}
 			}
@@ -3214,20 +3215,20 @@ public class FightManager {
 		Object vIniEle, vIni;
 		List vIDList = new List();
 		
-		if (IniList.getContentNumber() == pIniList.getContentNumber()){
-			IniList.toFirst();
+		if (iniList.getContentNumber() == pIniList.getContentNumber()){
+			iniList.toFirst();
 			pIniList.toFirst();
-			while (!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			while (!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 				vIni = pIniList.getCurrent();
 			
 				if ((vIniEle instanceof IniElement) && (vIni instanceof Integer)) {
 					((IniElement) vIniEle).setIni((int)vIni);
-					vIDList.append(((IniElement)vIniEle).getID());
+					vIDList.append(((IniElement)vIniEle).getId());
 				}
 				else throw new Exception("06; FiMan,sIoIEs");
 			
-				FightList.next();
+				fightList.next();
 				pIniList.next();
 			}
 			updateIniList();
@@ -3242,17 +3243,17 @@ public class FightManager {
 	private void setTempIniOfIniElements(List pTempIniList) throws Exception{
 		Object vIniEle, vTempIni;
 		
-		if (IniList.getContentNumber() == pTempIniList.getContentNumber()){
-			IniList.toFirst();
+		if (iniList.getContentNumber() == pTempIniList.getContentNumber()){
+			iniList.toFirst();
 			pTempIniList.toFirst();
-			while (!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			while (!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 				vTempIni = pTempIniList.getCurrent();
 			
 				if ((vIniEle instanceof IniElement) && (vTempIni instanceof Integer)) ((IniElement) vIniEle).setTempIni((int)vTempIni);
 				else throw new Exception("06; FiMan,sTIoIEs");
 			
-				FightList.next();
+				fightList.next();
 				pTempIniList.next();
 			}
 		} else throw new Exception("01; FiMan,sTIoIEs");
@@ -3265,17 +3266,17 @@ public class FightManager {
 	private void setActionOfIniElements(List pActionList) throws Exception{
 		Object vIniEle, vAction;
 		
-		if (IniList.getContentNumber() == pActionList.getContentNumber()){
-			IniList.toFirst();
+		if (iniList.getContentNumber() == pActionList.getContentNumber()){
+			iniList.toFirst();
 			pActionList.toFirst();
-			while (!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			while (!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 				vAction = pActionList.getCurrent();
 			
 				if ((vIniEle instanceof IniElement) && (vAction instanceof Integer)) ((IniElement) vIniEle).setAction((int)vAction);
 				else throw new Exception("06; FiMan,sAoIEs");
 			
-				FightList.next();
+				fightList.next();
 				pActionList.next();
 			}
 		} else throw new Exception("01; FiMan,sAoIEs");
@@ -3288,17 +3289,17 @@ public class FightManager {
 	private void setTempActionOfIniElements(List pTempActionList) throws Exception{
 		Object vIniEle, vTempAction;
 		
-		if (IniList.getContentNumber() == pTempActionList.getContentNumber()){
-			IniList.toFirst();
+		if (iniList.getContentNumber() == pTempActionList.getContentNumber()){
+			iniList.toFirst();
 			pTempActionList.toFirst();
-			while (!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			while (!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 				vTempAction = pTempActionList.getCurrent();
 			
 				if ((vIniEle instanceof IniElement) && (vTempAction instanceof Integer)) ((IniElement) vIniEle).setTempAction((int)vTempAction);
 				else throw new Exception("06; FiMan,sTAoIEs");
 			
-				FightList.next();
+				fightList.next();
 				pTempActionList.next();
 			}
 		} else throw new Exception("01; FiMan,sTAoIEs");
@@ -3316,11 +3317,11 @@ public class FightManager {
 		int[] vIniOrderEle;
 		
 		if (pID >= 0) {
-			if (!IniOrder.isEmpty()) {
+			if (!iniOrder.isEmpty()) {
 				
-				IniOrder.toFirst();
-				while(!IniOrder.isEnd()) {
-					vIniOrderEle = (int[])IniOrder.getCurrent();
+				iniOrder.toFirst();
+				while(!iniOrder.isEnd()) {
+					vIniOrderEle = (int[])iniOrder.getCurrent();
 					
 					if (vIniOrderEle[0] == pID) {
 						if (pIni >= 0) vIniOrderEle[1] = pIni;
@@ -3330,7 +3331,7 @@ public class FightManager {
 						}
 					}
 					
-					IniOrder.next();
+					iniOrder.next();
 				}
 				
 				updateIniOrder();
@@ -3349,7 +3350,7 @@ public class FightManager {
 		Object vID;
 		
 		if (pIDList != null) {
-			if ((!pIDList.isEmpty()) && (!IniOrder.isEmpty())){
+			if ((!pIDList.isEmpty()) && (!iniOrder.isEmpty())){
 				pIDList.toFirst();
 				
 				while (!pIDList.isEnd()) {
@@ -3378,7 +3379,7 @@ public class FightManager {
 		Object vID, vIni;
 		
 		if ((pIDList != null) && (pIniList != null)) {
-			if ((!pIniList.isEmpty()) &&(!pIDList.isEmpty()) && (!IniOrder.isEmpty())){
+			if ((!pIniList.isEmpty()) &&(!pIDList.isEmpty()) && (!iniOrder.isEmpty())){
 				if (pIniList.getContentNumber() != pIDList.getContentNumber()) {
 					pIDList.toFirst();
 					pIniList.toFirst();
@@ -3415,16 +3416,16 @@ public class FightManager {
 		int vID = -1;
 		
 		if (pID >= 0){
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
-				while(!FightList.isEnd() && (vRet == false)){
-					vTemp = FightList.getCurrent();
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
+				while(!fightList.isEnd() && (vRet == false)){
+					vTemp = fightList.getCurrent();
 					
 					if (vTemp instanceof FightElement){
-						if (((FightElement)vTemp).getID() == pID) vRet = true;
+						if (((FightElement)vTemp).getId() == pID) vRet = true;
 					} else throw new Exception("06; FiMan,hFIDL");
 					
-					FightList.next();
+					fightList.next();
 				}
 			}
 		} else throw new Exception("02; FiMan,hFIDL");
@@ -3443,16 +3444,16 @@ public class FightManager {
 		int vID = -1;
 		
 		if (pID >= 0){
-			if (!IniList.isEmpty()){
-				IniList.toFirst();
-				while(!IniList.isEnd() && (vRet == false)){
-					vTemp = IniList.getCurrent();
+			if (!iniList.isEmpty()){
+				iniList.toFirst();
+				while(!iniList.isEnd() && (vRet == false)){
+					vTemp = iniList.getCurrent();
 					
 					if (vTemp instanceof IniElement){
-						if (((IniElement)vTemp).getID() == pID) vRet = true;
+						if (((IniElement)vTemp).getId() == pID) vRet = true;
 					} else throw new Exception("06; FiMan,hIDiIL");
 					
-					IniList.next();
+					iniList.next();
 				}
 			}
 		} else throw new Exception("02; FiMan,hIDiIL");
@@ -3465,7 +3466,7 @@ public class FightManager {
 	 * @return
 	 */
 	public boolean isFightListEmpty() {
-		return FightList.isEmpty();
+		return fightList.isEmpty();
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -3481,13 +3482,13 @@ public class FightManager {
 		int vID, vIni;
 		Weapon[] vActiveWeapon;
 		
-		if (FightList != null) vID = FightList.getContentNumber();
+		if (fightList != null) vID = fightList.getContentNumber();
 		else throw new Exception("04; FiMan,aFi_a");
 		
 		if (pChar != null) {
 			
 			vActiveWeapon = new Weapon[] {pChar.getWeapon(0), pChar.getWeapon(1), pChar.getWeapon(2)};
-			FightList.append(new FightElement(vID, pChar, vActiveWeapon));
+			fightList.append(new FightElement(vID, pChar, vActiveWeapon));
 		}
 		else throw new Exception("04; FiMan,aFi_a");
 		
@@ -3513,11 +3514,11 @@ public class FightManager {
 	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods) throws Exception{
 		int vID, vIni;
 		
-		if (FightList != null) vID = FightList.getContentNumber();
+		if (fightList != null) vID = fightList.getContentNumber();
 		else throw new Exception("04; FiMan,aFi_b");
 		
 		if ((pChar != null) && (pPropMods != null)){
-			if (pPropMods.length == 10) FightList.append(new FightElement(vID, pChar, pActiveWeapons, pPropMods));
+			if (pPropMods.length == 10) fightList.append(new FightElement(vID, pChar, pActiveWeapons, pPropMods));
 			else throw new Exception("01; FiMan,aFi_b");
 		} else throw new Exception("04; FiMan,aFi_b");
 		
@@ -3536,10 +3537,10 @@ public class FightManager {
 	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, List pNeighbours) throws Exception{
 		int vID, vIni;
 		
-		if (FightList != null) vID = FightList.getContentNumber();
+		if (fightList != null) vID = fightList.getContentNumber();
 		else throw new Exception("04; FiMan,aFi_c");
 		
-		if ((pChar != null) && (pNeighbours != null))FightList.append(new FightElement(vID, pChar, pActiveWeapons, pNeighbours));
+		if ((pChar != null) && (pNeighbours != null))fightList.append(new FightElement(vID, pChar, pActiveWeapons, pNeighbours));
 		else throw new Exception("04; FiMan,aFi_c");
 		
 		vIni = calcIni(pChar);
@@ -3572,11 +3573,11 @@ public class FightManager {
 	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, int[] pStatMods) throws Exception{
 		int vID, vIni;
 		
-		if (FightList != null) vID = FightList.getContentNumber();
+		if (fightList != null) vID = fightList.getContentNumber();
 		else throw new Exception("04; FiMan,aFi_d");
 		
 		if ((pChar != null) && (pPropMods != null) && (pStatMods != null)){
-			if ((pPropMods.length == 10) && (pStatMods.length == 10)) FightList.append(new FightElement(vID, pChar, pActiveWeapons, pPropMods, pStatMods));
+			if ((pPropMods.length == 10) && (pStatMods.length == 10)) fightList.append(new FightElement(vID, pChar, pActiveWeapons, pPropMods, pStatMods));
 			else throw new Exception("01; FiMan,aFi_d");
 		} else throw new Exception("04; FiMan,aFi_d");
 		
@@ -3603,11 +3604,11 @@ public class FightManager {
 	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, List pNeighbours) throws Exception{
 		int vID, vIni;
 		
-		if (FightList != null) vID = FightList.getContentNumber();
+		if (fightList != null) vID = fightList.getContentNumber();
 		else throw new Exception("04; FiMan,aFi_e");
 		
 		if ((pChar != null) && (pPropMods != null) && (pNeighbours != null)){
-			if (pPropMods.length == 10) FightList.append(new FightElement(vID, pChar, pActiveWeapons, pPropMods, pNeighbours));
+			if (pPropMods.length == 10) fightList.append(new FightElement(vID, pChar, pActiveWeapons, pPropMods, pNeighbours));
 			else throw new Exception("01; FiMan,aFi_e");
 		} else throw new Exception("04; FiMan,aFi_e");
 		
@@ -3642,11 +3643,11 @@ public class FightManager {
 	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, int[] pStatMods, List pNeighbours) throws Exception{
 		int vID, vIni;
 		
-		if (FightList != null) vID = FightList.getContentNumber();
+		if (fightList != null) vID = fightList.getContentNumber();
 		else throw new Exception("04; FiMan,aFi_f");
 		
 		if ((pChar != null) && (pPropMods != null) && (pStatMods != null) && (pNeighbours != null)){
-			if ((pPropMods.length == 10) && (pStatMods.length == 10)) FightList.append(new FightElement(vID, pChar, pActiveWeapons, pPropMods, pStatMods, pNeighbours));
+			if ((pPropMods.length == 10) && (pStatMods.length == 10)) fightList.append(new FightElement(vID, pChar, pActiveWeapons, pPropMods, pStatMods, pNeighbours));
 			else throw new Exception("01; FiMan,aFi_f");
 		} else throw new Exception("04; FiMan,aFi_f");
 		
@@ -3797,15 +3798,15 @@ public class FightManager {
 		Object vFiEle;
 		
 		if ((pInd >= 0) && (pInd < 10)){
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
-				while (!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
+				while (!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) ((FightElement) vFiEle).addPropMod(pPropMod, pInd);
 					else throw new Exception("06; FiMan,aPMFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,aPMFs");
 		} else throw new Exception("07; FiMan,aPMFs");
@@ -3829,18 +3830,18 @@ public class FightManager {
 		Object vFiEle, vPrEle;
 	
 		if ((pInd >= 0) && (pInd < 10)){
-			if (!FightList.isEmpty() && !pPropsModList.isEmpty()){
-				if (FightList.getContentNumber() == pPropsModList.getContentNumber()) {
-					FightList.toFirst();
+			if (!fightList.isEmpty() && !pPropsModList.isEmpty()){
+				if (fightList.getContentNumber() == pPropsModList.getContentNumber()) {
+					fightList.toFirst();
 					pPropsModList.toFirst();
-					while (!FightList.isEnd()){
-						vFiEle = FightList.getCurrent();
+					while (!fightList.isEnd()){
+						vFiEle = fightList.getCurrent();
 						vPrEle = pPropsModList.getCurrent();
 					
 						if ((vFiEle instanceof FightElement)&& (vPrEle instanceof Integer)) ((FightElement) vFiEle).addPropMod((int)vPrEle, pInd);
 						else throw new Exception("06; FiMan,aPsMFs");
 			
-						FightList.next();
+						fightList.next();
 						pPropsModList.next();
 					}
 				} else throw new Exception("01; FiMan,aPsMFs");
@@ -3869,18 +3870,18 @@ public class FightManager {
 		Object vFiEle;
 		
 		if ((pInd >= 0) && (pInd < 10)){
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) {
 						((FightElement) vFiEle).addStatMod(pStatMod, pInd);
-						if (pInd == 6) addIniOfIniElement(((FightElement) vFiEle).getID(), (int)Math.round(pStatMod));
+						if (pInd == 6) addIniOfIniElement(((FightElement) vFiEle).getId(), (int)Math.round(pStatMod));
 					}
 					else throw new Exception("06; FiMan,aSMFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,aSMFs");
 		} else throw new Exception("07; FiMan,aSMFs");
@@ -3906,21 +3907,21 @@ public class FightManager {
 		Object vFiEle, vPrEle;
 		
 		if ((pInd >= 0) && (pInd < 10)){
-			if (!FightList.isEmpty() && !pStatsModList.isEmpty()){
-				if (FightList.getContentNumber() == pStatsModList.getContentNumber()) {
-					FightList.toFirst();
+			if (!fightList.isEmpty() && !pStatsModList.isEmpty()){
+				if (fightList.getContentNumber() == pStatsModList.getContentNumber()) {
+					fightList.toFirst();
 					pStatsModList.toFirst();
-					while (!FightList.isEnd()){
-						vFiEle = FightList.getCurrent();
+					while (!fightList.isEnd()){
+						vFiEle = fightList.getCurrent();
 						vPrEle = pStatsModList.getCurrent();
 						
 						if ((vFiEle instanceof FightElement) && (vPrEle instanceof Double)) {
 							((FightElement) vFiEle).addStatMod((double)vPrEle, pInd);
-							if (pInd == 6) addIniOfIniElement(((FightElement) vFiEle).getID(), (int)Math.round((double)vPrEle));
+							if (pInd == 6) addIniOfIniElement(((FightElement) vFiEle).getId(), (int)Math.round((double)vPrEle));
 						}
 						else throw new Exception("06; FiMan,aSsMFs");
 				
-						FightList.next();
+						fightList.next();
 						pStatsModList.next();
 					}
 				} else throw new Exception("01; FiMan,aSsMFs");
@@ -3935,14 +3936,14 @@ public class FightManager {
 	public void addActiveWeaponOfFighters(Weapon pActiveWeapon) throws Exception{
 		FightElement vCur;
 		
-		if (!FightList.isEmpty()) {
-			FightList.toFirst();
+		if (!fightList.isEmpty()) {
+			fightList.toFirst();
 			
-			while(!FightList.isLast()) {			
-				try {((FightElement)FightList.getCurrent()).addActiveWeapon(pActiveWeapon);}
+			while(!fightList.isLast()) {			
+				try {((FightElement)fightList.getCurrent()).addActiveWeapon(pActiveWeapon);}
 				catch (Exception ex) {throw ex;}
 				
-				FightList.next();
+				fightList.next();
 			}
 		}else throw new Exception("05; FiMan,aAWoFs");
 	}
@@ -3955,21 +3956,21 @@ public class FightManager {
 		Object vTempWeapon;
 		
 		if (pActiveWeaponList != null) {
-			if (pActiveWeaponList.getContentNumber() == FightList.getContentNumber()) {
-				if (!FightList.isEmpty()) {
-					FightList.toFirst();
+			if (pActiveWeaponList.getContentNumber() == fightList.getContentNumber()) {
+				if (!fightList.isEmpty()) {
+					fightList.toFirst();
 					pActiveWeaponList.toFirst();
 					
-					while(!FightList.isLast()) {		
+					while(!fightList.isLast()) {		
 						vTempWeapon = pActiveWeaponList.getCurrent();
 						
 						if (vTempWeapon instanceof Weapon) {
-							try {((FightElement)FightList.getCurrent()).addActiveWeapon((Weapon)vTempWeapon);}
+							try {((FightElement)fightList.getCurrent()).addActiveWeapon((Weapon)vTempWeapon);}
 							catch (Exception ex) {throw ex;}
 						} else throw new Exception("02; FiMan,aAWoFs");
 						
 						pActiveWeaponList.toFirst();
-						FightList.next();
+						fightList.next();
 					}
 				}else throw new Exception("05; FiMan,aAWoFs");
 			} else throw new Exception("01; FiMan,aAWoFs");
@@ -3995,16 +3996,16 @@ public class FightManager {
 		
 		if (pPropMods != null){
 			if (pPropMods.length == 10){
-				if (!FightList.isEmpty()){
-					FightList.toFirst();
+				if (!fightList.isEmpty()){
+					fightList.toFirst();
 				
-					while(!FightList.isEnd()){
-						vFiEle = FightList.getCurrent();
+					while(!fightList.isEnd()){
+						vFiEle = fightList.getCurrent();
 					
 						if (vFiEle instanceof FightElement) ((FightElement) vFiEle).addPropMods(pPropMods);
 						else throw new Exception("06; FiMan,aPMsFs");
 					
-						FightList.next();
+						fightList.next();
 					}
 				} else throw new Exception("05; FiMan,aPMsFs");
 			} else throw new Exception("01; FiMan,aPMsFs");
@@ -4027,18 +4028,18 @@ public class FightManager {
 	public void addPropsModsToFighters(List pPropsModsList) throws Exception{
 		Object vFiEle, vPrEle;
 		
-		if (!FightList.isEmpty() && !pPropsModsList.isEmpty()){
-			if (FightList.getContentNumber() == pPropsModsList.getContentNumber()) {
-				FightList.toFirst();
+		if (!fightList.isEmpty() && !pPropsModsList.isEmpty()){
+			if (fightList.getContentNumber() == pPropsModsList.getContentNumber()) {
+				fightList.toFirst();
 				pPropsModsList.toFirst();
-				while (!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while (!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vPrEle = pPropsModsList.getCurrent();
 						
 					if ((vFiEle instanceof FightElement)&& (vPrEle instanceof Integer)) ((FightElement) vFiEle).addPropMods((int[])vPrEle);
 					else throw new Exception("06; FiMan,aPsMFs");
 			
-					FightList.next();
+					fightList.next();
 					pPropsModsList.next();
 				}
 			} else throw new Exception("01; FiMan,aPsMFs");
@@ -4065,19 +4066,19 @@ public class FightManager {
 		
 		if (pStatMods != null){
 			if (pStatMods.length == 10){
-				if (!FightList.isEmpty()){
-					FightList.toFirst();
+				if (!fightList.isEmpty()){
+					fightList.toFirst();
 				
-					while(!FightList.isEnd()){
-						vFiEle = FightList.getCurrent();
+					while(!fightList.isEnd()){
+						vFiEle = fightList.getCurrent();
 					
 						if (vFiEle instanceof FightElement) {
 							((FightElement) vFiEle).addStatMods(pStatMods);
-							if (pStatMods[6] != 0) addIniOfIniElement(((FightElement) vFiEle).getID(), (int) Math.round(pStatMods[6]));
+							if (pStatMods[6] != 0) addIniOfIniElement(((FightElement) vFiEle).getId(), (int) Math.round(pStatMods[6]));
 						}
 						else throw new Exception("06; FiMan,aSMsFs");
 					
-						FightList.next();
+						fightList.next();
 					}
 				} else throw new Exception("05; FiMan,aSMsFs");
 			} else throw new Exception("01; FiMan,aSMsFs");
@@ -4102,21 +4103,21 @@ public class FightManager {
 	public void addStatsModsToFighters(List pStatsModsList) throws Exception{
 		Object vFiEle, vPrEle;
 		
-		if (!FightList.isEmpty() && !pStatsModsList.isEmpty()){
-			if (FightList.getContentNumber() == pStatsModsList.getContentNumber()) {
-				FightList.toFirst();
+		if (!fightList.isEmpty() && !pStatsModsList.isEmpty()){
+			if (fightList.getContentNumber() == pStatsModsList.getContentNumber()) {
+				fightList.toFirst();
 				pStatsModsList.toFirst();
-				while (!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while (!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vPrEle = pStatsModsList.getCurrent();
 						
 					if ((vFiEle instanceof FightElement)&& (vPrEle instanceof Integer[])) {
 						((FightElement) vFiEle).addStatMods((int[])vPrEle);
-						if (((double[])vPrEle)[6] != 0) addIniOfIniElement(((FightElement) vFiEle).getID(), (int) Math.round(((int[])vPrEle)[6]));
+						if (((double[])vPrEle)[6] != 0) addIniOfIniElement(((FightElement) vFiEle).getId(), (int) Math.round(((int[])vPrEle)[6]));
 					}
 					else throw new Exception("06; FiMan,aSsMFs");
 			
-					FightList.next();
+					fightList.next();
 					pStatsModsList.next();
 				}
 			} else throw new Exception("01; FiMan,aSsMFs");
@@ -4128,12 +4129,12 @@ public class FightManager {
 	 * @throws Exception
 	 */
 	public void addActiveWeaponsOfFighters(Weapon[] pActiveWeapon) throws Exception{
-		if (!FightList.isEmpty()){
-			FightList.toFirst();
-			while(!FightList.isEnd()){
-				((FightElement)FightList.getCurrent()).addActiveWeapons(pActiveWeapon);
+		if (!fightList.isEmpty()){
+			fightList.toFirst();
+			while(!fightList.isEnd()){
+				((FightElement)fightList.getCurrent()).addActiveWeapons(pActiveWeapon);
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,aAWsoFs");
 	}
@@ -4146,21 +4147,21 @@ public class FightManager {
 		Object vCur;
 		
 		if (pActiveWeaponsList != null) {
-			if (pActiveWeaponsList.getContentNumber() == FightList.getContentNumber()) {
-				if (!FightList.isEmpty()){
-					FightList.toFirst();
+			if (pActiveWeaponsList.getContentNumber() == fightList.getContentNumber()) {
+				if (!fightList.isEmpty()){
+					fightList.toFirst();
 					pActiveWeaponsList.toFirst();
 					
-					while(!FightList.isEnd()){
+					while(!fightList.isEnd()){
 						vCur = pActiveWeaponsList.getCurrent();
 						
 						if (vCur instanceof Weapon[]) {
-							try{ ((FightElement)FightList.getCurrent()).addActiveWeapons((Weapon[])vCur);}
+							try{ ((FightElement)fightList.getCurrent()).addActiveWeapons((Weapon[])vCur);}
 							catch(Exception ex) {throw ex;}
 						}
 						
 						pActiveWeaponsList.next();
-						FightList.next();
+						fightList.next();
 					}
 				} else throw new Exception("05; FiMan,aAWssoFs");
 			}else throw new Exception("01; FiMan,aAWssoFs");
@@ -4179,7 +4180,7 @@ public class FightManager {
 	public void addNeighbourToFighter(int pFighterID, int pNeighbourID, boolean pEnemy) throws Exception{
 		NeighbourElement vNeigh;
 		
-		if ((pNeighbourID >= 0) && (pNeighbourID < FightList.getContentNumber()) && (pFighterID != pNeighbourID)){
+		if ((pNeighbourID >= 0) && (pNeighbourID < fightList.getContentNumber()) && (pFighterID != pNeighbourID)){
 			vNeigh = new NeighbourElement(pNeighbourID, pEnemy);
 			
 			try{ getFightElement(pFighterID).addNeighbourElement(vNeigh); }
@@ -4206,7 +4207,7 @@ public class FightManager {
 	public void addNeighbourToFighter(int pFighterID, int pNeighbourID, boolean pEnemy, int pDistance) throws Exception{
 		NeighbourElement vNeigh;
 		
-		if ((pNeighbourID >= 0) && (pNeighbourID < FightList.getContentNumber()) && (pFighterID != pNeighbourID) && (pDistance >= 0)){
+		if ((pNeighbourID >= 0) && (pNeighbourID < fightList.getContentNumber()) && (pFighterID != pNeighbourID) && (pDistance >= 0)){
 			vNeigh = new NeighbourElement(pNeighbourID, pEnemy, pDistance);
 				
 			try{ getFightElement(pFighterID).addNeighbourElement(vNeigh); }
@@ -4230,7 +4231,7 @@ public class FightManager {
 	public void addNeighbourToFighter(int pFighterID, int pNeighbourID, boolean pEnemy, double[] pFightMods) throws Exception{
 		NeighbourElement vNeigh;
 		
-		if ((pNeighbourID >= 0) && (pNeighbourID < FightList.getContentNumber()) && (pFighterID != pNeighbourID)){
+		if ((pNeighbourID >= 0) && (pNeighbourID < fightList.getContentNumber()) && (pFighterID != pNeighbourID)){
 			if (pFightMods.length == 4){
 				vNeigh = new NeighbourElement(pNeighbourID, pEnemy, pFightMods);
 						
@@ -4265,7 +4266,7 @@ public class FightManager {
 	public void addNeighbourToFighter(int pFighterID, int pNeighbourID, boolean pEnemy, int pDistance, double[] pFightMods) throws Exception{
 		NeighbourElement vNeigh;
 
-		if ((pNeighbourID >= 0) && (pNeighbourID < FightList.getContentNumber()) && (pFighterID != pNeighbourID) && (pDistance >= 0)){
+		if ((pNeighbourID >= 0) && (pNeighbourID < fightList.getContentNumber()) && (pFighterID != pNeighbourID) && (pDistance >= 0)){
 			if (pFightMods.length == 4){
 				vNeigh = new NeighbourElement(pNeighbourID, pEnemy, pDistance, pFightMods);
 			
@@ -4288,19 +4289,19 @@ public class FightManager {
 		FightElement vFiEle;
 		NeighbourElement vNeigh;
 		
-		if (!FightList.isEmpty()) {
-			FightList.toFirst();
-			while(!FightList.isEmpty()) {
-				vFiEle = (FightElement) FightList.getCurrent();
+		if (!fightList.isEmpty()) {
+			fightList.toFirst();
+			while(!fightList.isEmpty()) {
+				vFiEle = (FightElement) fightList.getCurrent();
 				
-				if (vFiEle.getID() != pNeighbourID) {
+				if (vFiEle.getId() != pNeighbourID) {
 					vNeigh = new NeighbourElement(pNeighbourID, pEnemy);
 					
 					try{ vFiEle.addNeighbourElement(vNeigh); }
 					catch (Exception vExc) {throw vExc;}
 				}
 	
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,aNtFs_a");
 	}
@@ -4318,19 +4319,19 @@ public class FightManager {
 		FightElement vFiEle;
 		NeighbourElement vNeigh;
 		
-		if (!FightList.isEmpty()) {
-			FightList.toFirst();
-			while(!FightList.isEmpty()) {
-				vFiEle = (FightElement) FightList.getCurrent();
+		if (!fightList.isEmpty()) {
+			fightList.toFirst();
+			while(!fightList.isEmpty()) {
+				vFiEle = (FightElement) fightList.getCurrent();
 				
-				if (vFiEle.getID() != pNeighbourID) {
+				if (vFiEle.getId() != pNeighbourID) {
 					vNeigh = new NeighbourElement(pNeighbourID, pEnemy, pDistance);
 					
 					try{ vFiEle.addNeighbourElement(vNeigh); }
 					catch (Exception vExc) {throw vExc;}
 				}
 	
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,aNtFs_b");
 	}
@@ -4348,19 +4349,19 @@ public class FightManager {
 		FightElement vFiEle;
 		NeighbourElement vNeigh;
 		
-		if (!FightList.isEmpty()) {
-			FightList.toFirst();
-			while(!FightList.isEmpty()) {
-				vFiEle = (FightElement) FightList.getCurrent();
+		if (!fightList.isEmpty()) {
+			fightList.toFirst();
+			while(!fightList.isEmpty()) {
+				vFiEle = (FightElement) fightList.getCurrent();
 				
-				if (vFiEle.getID() != pNeighbourID) {
+				if (vFiEle.getId() != pNeighbourID) {
 					vNeigh = new NeighbourElement(pNeighbourID, pEnemy, pFightMods);
 					
 					try{ vFiEle.addNeighbourElement(vNeigh); }
 					catch (Exception vExc) {throw vExc;}
 				}
 	
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,aNtFs_c");
 	}
@@ -4379,19 +4380,19 @@ public class FightManager {
 		FightElement vFiEle;
 		NeighbourElement vNeigh;
 		
-		if (!FightList.isEmpty()) {
-			FightList.toFirst();
-			while(!FightList.isEmpty()) {
-				vFiEle = (FightElement) FightList.getCurrent();
+		if (!fightList.isEmpty()) {
+			fightList.toFirst();
+			while(!fightList.isEmpty()) {
+				vFiEle = (FightElement) fightList.getCurrent();
 				
-				if (vFiEle.getID() != pNeighbourID) {
+				if (vFiEle.getId() != pNeighbourID) {
 					vNeigh = new NeighbourElement(pNeighbourID, pEnemy, pDistance, pFightMods);
 					
 					try{ vFiEle.addNeighbourElement(vNeigh); }
 					catch (Exception vExc) {throw vExc;}
 				}
 	
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,aNtFs_d");
 	}
@@ -4421,15 +4422,15 @@ public class FightManager {
 		FightElement vFiEle;
 		
 		if (pNeighbourList != null){
-			if (!FightList.isEmpty()) {
-				FightList.toFirst();
-				while(!FightList.isEmpty()) {
-					vFiEle = (FightElement) FightList.getCurrent();
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				while(!fightList.isEmpty()) {
+					vFiEle = (FightElement) fightList.getCurrent();
 					
 					try{ vFiEle.addNeighbourList(pNeighbourList);}
 					catch (Exception vExc) {throw vExc;}
 		
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,aNLtFs");
 		} else throw new Exception("04; FiMan,aNLtFs");
@@ -4445,13 +4446,13 @@ public class FightManager {
 		FightElement vFiEle;
 		Object vNeighbourList;
 		
-		if (pNeighbourListList.getContentNumber() == FightList.getContentNumber()) {
-			if (!FightList.isEmpty()) {
-				FightList.toFirst();
+		if (pNeighbourListList.getContentNumber() == fightList.getContentNumber()) {
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
 				pNeighbourListList.toFirst();
 				
-				while(!FightList.isEmpty()) {
-					vFiEle = (FightElement) FightList.getCurrent();
+				while(!fightList.isEmpty()) {
+					vFiEle = (FightElement) fightList.getCurrent();
 					vNeighbourList = pNeighbourListList.getCurrent();
 					
 					if (vNeighbourList instanceof List) {
@@ -4460,7 +4461,7 @@ public class FightManager {
 					} else throw new Exception("06; FiMan,aNLstFs");
 					
 		
-					FightList.next();
+					fightList.next();
 					pNeighbourListList.next();
 				}
 			}
@@ -4620,15 +4621,15 @@ public class FightManager {
 		Object vFiEle;
 		
 		if ((pNeiID >= 0)){
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) ((FightElement) vFiEle).getNeighbourElement(pNeiID).addFightMod(pFightMod, pInd);
 					else throw new Exception("06; FiMan,aFMoNoFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,aFMoNoFs");
 		} else throw new Exception("07; FiMan,aFMoNoFs");
@@ -4643,15 +4644,15 @@ public class FightManager {
 		Object vFiEle;
 		
 		if ((pNeiID >= 0)){
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 				
 					if (vFiEle instanceof FightElement) ((FightElement) vFiEle).getNeighbourElement(pNeiID).addFightMods(pFightMods);
 					else throw new Exception("06; FiMan,aFMsoNoFs");
 				
-					FightList.next();
+					fightList.next();
 				}
 			} else throw new Exception("05; FiMan,aFMsoNoFs");
 		} else throw new Exception("07; FiMan,aFMsoNoFs");
@@ -4666,18 +4667,18 @@ public class FightManager {
 	public void addFightModOfNeighboursOfFighters(List pFightModList, int pInd) throws Exception{
 		Object vFiEle, vFightMod;
 		
-		if (FightList.getContentNumber() == pFightModList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pFightModList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pFightModList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vFightMod = pFightModList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vFightMod instanceof Double)) addFightModOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (double)vFightMod, pInd);
+					if ((vFiEle instanceof FightElement) && (vFightMod instanceof Double)) addFightModOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (double)vFightMod, pInd);
 					else throw new Exception("06; FiMan,aFMoNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pFightModList.next();
 				}
 			}
@@ -4691,18 +4692,18 @@ public class FightManager {
 	public void addFightModsOfNeighboursOfFighters(List pFightModsList) throws Exception{
 		Object vFiEle, vFightMods;
 		
-		if (FightList.getContentNumber() == pFightModsList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pFightModsList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pFightModsList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vFightMods = pFightModsList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vFightMods instanceof Double[])) addFightModsOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (double[])vFightMods);
+					if ((vFiEle instanceof FightElement) && (vFightMods instanceof Double[])) addFightModsOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (double[])vFightMods);
 					else throw new Exception("06; FiMan,aFMsoNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pFightModsList.next();
 				}
 			}
@@ -4718,18 +4719,18 @@ public class FightManager {
 	public void addFightModsOfNeighboursOfFighters(List pFightModList, int pInd) throws Exception{
 		Object vFiEle, vFightModList;
 		
-		if (FightList.getContentNumber() == pFightModList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pFightModList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pFightModList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vFightModList = pFightModList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vFightModList instanceof List)) addFightModsOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (List)vFightModList, pInd);
+					if ((vFiEle instanceof FightElement) && (vFightModList instanceof List)) addFightModsOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (List)vFightModList, pInd);
 					else throw new Exception("06; FiMan,aFMsoNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pFightModList.next();
 				}
 			}
@@ -4743,18 +4744,18 @@ public class FightManager {
 	public void addFightModssOfNeighboursOfFighters(List pFightModsList) throws Exception{
 		Object vFiEle, vFightModsList;
 		
-		if (FightList.getContentNumber() == pFightModsList.getContentNumber()) {
-			if (!FightList.isEmpty()){
-				FightList.toFirst();
+		if (fightList.getContentNumber() == pFightModsList.getContentNumber()) {
+			if (!fightList.isEmpty()){
+				fightList.toFirst();
 				pFightModsList.toFirst();
-				while(!FightList.isEnd()){
-					vFiEle = FightList.getCurrent();
+				while(!fightList.isEnd()){
+					vFiEle = fightList.getCurrent();
 					vFightModsList = pFightModsList.getCurrent();
 					
-					if ((vFiEle instanceof FightElement) && (vFightModsList instanceof List)) addFightModssOfNeighboursOfFighter(((FightElement) vFiEle).getID(), (List)vFightModsList);
+					if ((vFiEle instanceof FightElement) && (vFightModsList instanceof List)) addFightModssOfNeighboursOfFighter(((FightElement) vFiEle).getId(), (List)vFightModsList);
 					else throw new Exception("06; FiMan,aFMssoNsoFs");
 			
-					FightList.next();
+					fightList.next();
 					pFightModsList.next();
 				}
 			}
@@ -4774,42 +4775,42 @@ public class FightManager {
 		FightElement vFigEle, vFigEle2;
 		vIni = pIniElement.getIni();
 		
-		if (!IniList.haveObject(pIniElement)) {
-			if (!IniList.isEmpty()) {
-				IniList.toFirst();
+		if (!iniList.haveObject(pIniElement)) {
+			if (!iniList.isEmpty()) {
+				iniList.toFirst();
 					
-				while(!IniList.isEnd()) {
-					vTempIni = ((IniElement)IniList.getCurrent()).getIni();
+				while(!iniList.isEnd()) {
+					vTempIni = ((IniElement)iniList.getCurrent()).getIni();
 						
 					if (vTempIni < vIni) {
-						IniList.insert(pIniElement);
-						IniList.toLast();
+						iniList.insert(pIniElement);
+						iniList.toLast();
 					} else if (vTempIni == vIni) {
-							vFigEle = getFightElement(pIniElement.getID());
-							vFigEle2 = getFightElement(((IniElement)IniList.getCurrent()).getID());
+							vFigEle = getFightElement(pIniElement.getId());
+							vFigEle2 = getFightElement(((IniElement)iniList.getCurrent()).getId());
 							
 							if ((vFigEle != null) && (vFigEle2 != null)) {
 								vIniBasis = vFigEle.getCharacter().getFightValue(0);
 								vIniBasis2 = vFigEle2.getCharacter().getFightValue(0);
 								
 								if(vIniBasis >= vIniBasis2) {
-									IniList.insert(pIniElement);
-									IniList.toLast();
-								} else if (IniList.isLast()) {
-									IniList.append(pIniElement);
-									IniList.next();
+									iniList.insert(pIniElement);
+									iniList.toLast();
+								} else if (iniList.isLast()) {
+									iniList.append(pIniElement);
+									iniList.next();
 								}
 							} else throw new Exception("04; FiMan,aIE_a");
-					} else if (IniList.isLast()) {
-						IniList.append(pIniElement);
-						IniList.next();
+					} else if (iniList.isLast()) {
+						iniList.append(pIniElement);
+						iniList.next();
 					}
 						
-					IniList.next();
+					iniList.next();
 				}
-			} else IniList.append(pIniElement);
+			} else iniList.append(pIniElement);
 			
-			addIniOrderElement(pIniElement.getID(), vIni);
+			addIniOrderElement(pIniElement.getId(), vIni);
 		} else throw new Exception("08; FiMan,aIE_a");
 	}
 	/**	Dh	11.5.2020
@@ -4909,20 +4910,20 @@ public class FightManager {
 		Object vIniEle, vIni;
 		List vIDList = new List();
 		
-		if (IniList.getContentNumber() == pIniList.getContentNumber()){
-			IniList.toFirst();
+		if (iniList.getContentNumber() == pIniList.getContentNumber()){
+			iniList.toFirst();
 			pIniList.toFirst();
-			while (!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			while (!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 				vIni = pIniList.getCurrent();
 			
 				if ((vIniEle instanceof IniElement) && (vIni instanceof Integer)) {
 					((IniElement) vIniEle).addIni((int)vIni);
-					vIDList.append(((IniElement)vIniEle).getID());
+					vIDList.append(((IniElement)vIniEle).getId());
 				}
 				else throw new Exception("06; FiMan,aIoIEs");
 			
-				FightList.next();
+				fightList.next();
 				pIniList.next();
 			}
 			try { 
@@ -4939,17 +4940,17 @@ public class FightManager {
 	private void addTempIniOfIniElements(List pTempIniList) throws Exception{
 		Object vIniEle, vTempIni;
 		
-		if (IniList.getContentNumber() == pTempIniList.getContentNumber()){
-			IniList.toFirst();
+		if (iniList.getContentNumber() == pTempIniList.getContentNumber()){
+			iniList.toFirst();
 			pTempIniList.toFirst();
-			while (!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			while (!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 				vTempIni = pTempIniList.getCurrent();
 			
 				if ((vIniEle instanceof IniElement) && (vTempIni instanceof Integer)) ((IniElement) vIniEle).addTempIni((int)vTempIni);
 				else throw new Exception("06; FiMan,aTIoIEs");
 			
-				FightList.next();
+				fightList.next();
 				pTempIniList.next();
 			}
 		} else throw new Exception("01; FiMan,aTIoIEs");
@@ -4962,17 +4963,17 @@ public class FightManager {
 	private void addActionOfIniElements(List pActionList) throws Exception{
 		Object vIniEle, vAction;
 		
-		if (IniList.getContentNumber() == pActionList.getContentNumber()){
-			IniList.toFirst();
+		if (iniList.getContentNumber() == pActionList.getContentNumber()){
+			iniList.toFirst();
 			pActionList.toFirst();
-			while (!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			while (!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 				vAction = pActionList.getCurrent();
 			
 				if ((vIniEle instanceof IniElement) && (vAction instanceof Integer)) ((IniElement) vIniEle).addAction((int)vAction);
 				else throw new Exception("06; FiMan,sAoIEs");
 			
-				FightList.next();
+				fightList.next();
 				pActionList.next();
 			}
 		} else throw new Exception("01; FiMan,sAoIEs");
@@ -4985,17 +4986,17 @@ public class FightManager {
 	private void addTempActionOfIniElements(List pTempActionList) throws Exception{
 		Object vIniEle, vTempAction;
 		
-		if (IniList.getContentNumber() == pTempActionList.getContentNumber()){
-			IniList.toFirst();
+		if (iniList.getContentNumber() == pTempActionList.getContentNumber()){
+			iniList.toFirst();
 			pTempActionList.toFirst();
-			while (!IniList.isEnd()){
-				vIniEle = IniList.getCurrent();
+			while (!iniList.isEnd()){
+				vIniEle = iniList.getCurrent();
 				vTempAction = pTempActionList.getCurrent();
 			
 				if ((vIniEle instanceof IniElement) && (vTempAction instanceof Integer)) ((IniElement) vIniEle).addTempAction((int)vTempAction);
 				else throw new Exception("06; FiMan,sTAoIEs");
 			
-				FightList.next();
+				fightList.next();
 				pTempActionList.next();
 			}
 		} else throw new Exception("01; FiMan,sTAoIEs");
@@ -5015,14 +5016,14 @@ public class FightManager {
 		FightElement vFiEle, vFiEle2;
 		
 		if (pIniOrderElement != null) {
-			if (!IniOrder.isEmpty()) {
-				IniOrder.toFirst();
+			if (!iniOrder.isEmpty()) {
+				iniOrder.toFirst();
 			
-				while(!IniOrder.isEnd() && (pIniOrderElement != null)) {
-					vCur = (int[])IniOrder.getCurrent();
+				while(!iniOrder.isEnd() && (pIniOrderElement != null)) {
+					vCur = (int[])iniOrder.getCurrent();
 				
 					if (vCur[1] < pIniOrderElement[1]) {
-						IniOrder.insert(pIniOrderElement.clone());
+						iniOrder.insert(pIniOrderElement.clone());
 						pIniOrderElement = null;
 					}
 					else if(vCur[1] == pIniOrderElement[1]) {
@@ -5033,18 +5034,18 @@ public class FightManager {
 							vIniBasis2 = vFiEle2.getCharacter().getFightValue(0);
 						
 							if (vIniBasis2 <= vIniBasis) {
-								IniOrder.insert(pIniOrderElement.clone());
+								iniOrder.insert(pIniOrderElement.clone());
 								pIniOrderElement = null;
 							}
 						}
 						else throw new Exception("05; FiMan,aIOE_a");
 					}
 					
-					IniOrder.next();
+					iniOrder.next();
 				}
 			
-				if (pIniOrderElement != null) IniOrder.append(pIniOrderElement);
-			} else IniOrder.append(pIniOrderElement);
+				if (pIniOrderElement != null) iniOrder.append(pIniOrderElement);
+			} else iniOrder.append(pIniOrderElement);
 		} else throw new Exception("05; FiMan,aIOE_a");
 	}
 	/**	Dh	11.5.2020
@@ -5064,14 +5065,14 @@ public class FightManager {
 		vIniOrderElement = new int[] {pID, pIni};
 		
 		
-		if (!IniOrder.isEmpty()) {
-			IniOrder.toFirst();
+		if (!iniOrder.isEmpty()) {
+			iniOrder.toFirst();
 			
-			while(!IniOrder.isEnd() && (vIniOrderElement != null)) {
-				vCur = (int[])IniOrder.getCurrent();
+			while(!iniOrder.isEnd() && (vIniOrderElement != null)) {
+				vCur = (int[])iniOrder.getCurrent();
 				
 				if (vCur[1] < pIni) {
-					IniOrder.insert(vIniOrderElement.clone());
+					iniOrder.insert(vIniOrderElement.clone());
 					vIniOrderElement = null;
 				}
 				else if(vCur[1] == pIni) {
@@ -5082,18 +5083,18 @@ public class FightManager {
 						vIniBasis2 = vFiEle2.getCharacter().getFightValue(0);
 						
 						if (vIniBasis2 <= vIniBasis) {
-							IniOrder.insert(vIniOrderElement.clone());
+							iniOrder.insert(vIniOrderElement.clone());
 							vIniOrderElement = null;
 						}
 					}
 					else throw new Exception("05; FiMan,aIOE");
 				}
 				
-				IniOrder.next();
+				iniOrder.next();
 			}
 			
-			if (vIniOrderElement != null) IniOrder.append(vIniOrderElement);
-		} else IniOrder.append(vIniOrderElement);
+			if (vIniOrderElement != null) iniOrder.append(vIniOrderElement);
+		} else iniOrder.append(vIniOrderElement);
 	}
 	
 	/**	Dh	20.5.2020
@@ -5108,11 +5109,11 @@ public class FightManager {
 		int[] vIniOrderEle;
 		
 		if (pID >= 0) {
-			if (!IniOrder.isEmpty()) {
+			if (!iniOrder.isEmpty()) {
 				
-				IniOrder.toFirst();
-				while(!IniOrder.isEnd()) {
-					vIniOrderEle = (int[])IniOrder.getCurrent();
+				iniOrder.toFirst();
+				while(!iniOrder.isEnd()) {
+					vIniOrderEle = (int[])iniOrder.getCurrent();
 					
 					if (vIniOrderEle[0] == pID) {
 						if ((pIni >= 0) || (vIniOrderEle[1] >= -pIni)) vIniOrderEle[1] += pIni;
@@ -5122,7 +5123,7 @@ public class FightManager {
 						}
 					}
 					
-					IniOrder.next();
+					iniOrder.next();
 				}
 				updateIniOrder();
 			}
@@ -5140,7 +5141,7 @@ public class FightManager {
 		Object vID;
 		
 		if (pIDList != null) {
-			if ((!pIDList.isEmpty()) && (!IniOrder.isEmpty())){
+			if ((!pIDList.isEmpty()) && (!iniOrder.isEmpty())){
 				pIDList.toFirst();
 				
 				while (!pIDList.isEnd()) {
@@ -5169,7 +5170,7 @@ public class FightManager {
 		Object vID, vIni;
 		
 		if ((pIDList != null) && (pIniList != null)) {
-			if ((!pIniList.isEmpty()) &&(!pIDList.isEmpty()) && (!IniOrder.isEmpty())){
+			if ((!pIniList.isEmpty()) &&(!pIDList.isEmpty()) && (!iniOrder.isEmpty())){
 				if (pIniList.getContentNumber() != pIDList.getContentNumber()) {
 					pIDList.toFirst();
 					pIniList.toFirst();
@@ -5205,18 +5206,18 @@ public class FightManager {
 		FightElement vFiEle;
 		
 		if(pID >= 0) {
-			if(!FightList.isEmpty()) {
-				FightList.toFirst();
+			if(!fightList.isEmpty()) {
+				fightList.toFirst();
 				
-				while(!FightList.isEnd()) {
-					vFiEle = (FightElement) FightList.getCurrent();
-					if (vFiEle.getID() == pID) {
-						FightList.remove();
-						FightList.toLast();
+				while(!fightList.isEnd()) {
+					vFiEle = (FightElement) fightList.getCurrent();
+					if (vFiEle.getId() == pID) {
+						fightList.remove();
+						fightList.toLast();
 						removeIniElement(pID);
 					}
 					
-					FightList.next();
+					fightList.next();
 				}
 			}else throw new Exception("05; FiMan,rF");
 		} else throw new Exception("02; FiMan,rF");
@@ -5251,10 +5252,10 @@ public class FightManager {
 	 * 	Entfernt alle Elemente aus der FightListe und updatet die IniListe.
 	 */
 	public void removeAllFighters() {
-		if (!FightList.isEmpty()) {
-			FightList.toFirst();
-			while(!FightList.isEmpty()) {
-				FightList.remove();
+		if (!fightList.isEmpty()) {
+			fightList.toFirst();
+			while(!fightList.isEmpty()) {
+				fightList.remove();
 			}
 		}
 		removeAllIniElements();
@@ -5311,13 +5312,13 @@ public class FightManager {
 	 * @throws Exception
 	 */
 	public void removeActiveWeaponOfFighters(int pInd) throws Exception{
-		if (!FightList.isEmpty()) {
-			FightList.toFirst();
+		if (!fightList.isEmpty()) {
+			fightList.toFirst();
 			
-			while (!FightList.isEnd()) {
-				((FightElement)FightList.getCurrent()).removeActiveWeapon(pInd);
+			while (!fightList.isEnd()) {
+				((FightElement)fightList.getCurrent()).removeActiveWeapon(pInd);
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,rAWoFs");
 	}
@@ -5327,13 +5328,13 @@ public class FightManager {
 	 * @throws Exception
 	 */
 	public void removeActiveWeaponOfFighters(Weapon pActiveWeapon) throws Exception{
-		if (!FightList.isEmpty()) {
-			FightList.toFirst();
+		if (!fightList.isEmpty()) {
+			fightList.toFirst();
 			
-			while (!FightList.isEnd()) {
-				((FightElement)FightList.getCurrent()).removeActiveWeapon(pActiveWeapon);
+			while (!fightList.isEnd()) {
+				((FightElement)fightList.getCurrent()).removeActiveWeapon(pActiveWeapon);
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,rAWoFs");
 	}
@@ -5343,13 +5344,13 @@ public class FightManager {
 	 * @throws Exception
 	 */
 	public void removeActiveWeaponsOfFighters(List pActiveWeaponList) throws Exception{
-		if (!FightList.isEmpty()) {
-			FightList.toFirst();
+		if (!fightList.isEmpty()) {
+			fightList.toFirst();
 			
-			while (!FightList.isEnd()) {
-				((FightElement)FightList.getCurrent()).removeActiveWeapons(pActiveWeaponList);
+			while (!fightList.isEnd()) {
+				((FightElement)fightList.getCurrent()).removeActiveWeapons(pActiveWeaponList);
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,rAWoFs");
 	}
@@ -5402,16 +5403,16 @@ public class FightManager {
 	public void removeNeighbourOfFighters(int pNeiID) throws Exception {
 		FightElement vCur;
 		
-		if (!FightList.isEmpty()) {
-			FightList.toFirst();
+		if (!fightList.isEmpty()) {
+			fightList.toFirst();
 			
-			while (!FightList.isEnd()) {
-				vCur = (FightElement)FightList.getCurrent();
+			while (!fightList.isEnd()) {
+				vCur = (FightElement)fightList.getCurrent();
 				
 				try {vCur.removeNeighbourElement(pNeiID);}
 				catch(Exception ex) {throw ex;}
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,rNoFs");
 	}
@@ -5425,16 +5426,16 @@ public class FightManager {
 	public void removeNeighbourOfFighters(NeighbourElement pNeiEle) throws Exception {
 		FightElement vCur;
 		
-		if (!FightList.isEmpty()) {
-			FightList.toFirst();
+		if (!fightList.isEmpty()) {
+			fightList.toFirst();
 			
-			while (!FightList.isEnd()) {
-				vCur = (FightElement)FightList.getCurrent();
+			while (!fightList.isEnd()) {
+				vCur = (FightElement)fightList.getCurrent();
 				
 				try {vCur.removeNeighbourElement(pNeiEle);}
 				catch(Exception ex) {throw ex;}
 				
-				FightList.next();
+				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,rNoFs");
 	}
@@ -5450,17 +5451,17 @@ public class FightManager {
 		IniElement vIniEle;
 		
 		if(pID >= 0) {
-			if(!IniList.isEmpty()) {
-				IniList.toFirst();
+			if(!iniList.isEmpty()) {
+				iniList.toFirst();
 				
-				while(!IniList.isEnd()) {
-					vIniEle = (IniElement) IniList.getCurrent();
-					if (vIniEle.getID() == pID) {
-						IniList.remove();
-						IniList.toLast();
+				while(!iniList.isEnd()) {
+					vIniEle = (IniElement) iniList.getCurrent();
+					if (vIniEle.getId() == pID) {
+						iniList.remove();
+						iniList.toLast();
 					}
 					
-					IniList.next();
+					iniList.next();
 				}
 			}else throw new Exception("05; FiMan,rF");
 		} else throw new Exception("02; FiMan,rF");
@@ -5495,10 +5496,10 @@ public class FightManager {
 	 * 	Entfernt alle Elemente aus der IniListe und updatet die IniOrder.
 	 */
 	private void removeAllIniElements() {
-		if (!IniList.isEmpty()) {
-			IniList.toFirst();
-			while(!IniList.isEmpty()) {
-				IniList.remove();
+		if (!iniList.isEmpty()) {
+			iniList.toFirst();
+			while(!iniList.isEmpty()) {
+				iniList.remove();
 			}
 		}
 		removeAllIniOrderElements();
@@ -5515,17 +5516,17 @@ public class FightManager {
 		int[] vIniEle;
 		
 		if(pID >= 0) {
-			if(!IniOrder.isEmpty()) {
-				IniOrder.toFirst();
+			if(!iniOrder.isEmpty()) {
+				iniOrder.toFirst();
 				
-				while(!IniOrder.isEnd()) {
-					vIniEle = (int[]) IniOrder.getCurrent();
-					if (vIniEle[0] == pID) IniOrder.remove();
+				while(!iniOrder.isEnd()) {
+					vIniEle = (int[]) iniOrder.getCurrent();
+					if (vIniEle[0] == pID) iniOrder.remove();
 					
-					IniOrder.next();
+					iniOrder.next();
 				}
 				
-				if (IniOrder.isEmpty()) makeIniOrder();
+				if (iniOrder.isEmpty()) makeIniOrder();
 			}else throw new Exception("05; FiMan,rF");
 		} else throw new Exception("02; FiMan,rF");
 	}
@@ -5556,7 +5557,7 @@ public class FightManager {
 	 * 	Entfernt alle Elemente aus der IniOrder.
 	 */
 	private void removeAllIniOrderElements() {
-		IniOrder = new List();
+		iniOrder = new List();
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -5566,11 +5567,11 @@ public class FightManager {
 	 * 	Geht zum nächsten Zug.
 	 */
 	public void nextTurn() throws Exception{
-		if (!IniOrder.isEmpty()) {
-			IniOrder.toFirst();
-			IniOrder.remove();
+		if (!iniOrder.isEmpty()) {
+			iniOrder.toFirst();
+			iniOrder.remove();
 			
-			if (IniOrder.isEmpty()) {
+			if (iniOrder.isEmpty()) {
 				nextRound();
 			}
 		} else throw new Exception("05; FiMan,nT");
@@ -5583,7 +5584,7 @@ public class FightManager {
 	 */
 	public void nextRound(){
 		makeIniOrder();
-		RoundCounter += 1;
+		roundCounter += 1;
 	}
 	
 	/**	Dh	11.6.2020
@@ -5701,21 +5702,21 @@ public class FightManager {
 	 */
 	private void makeIniOrder() {
 		int[] vTemp = new int[2];
-		IniOrder = new List();
+		iniOrder = new List();
 		
-		if (!IniList.isEmpty()) {
-			IniList.toFirst();
+		if (!iniList.isEmpty()) {
+			iniList.toFirst();
 			
-			while(!IniList.isEnd()) {
-				vTemp[0] = ((IniElement)IniList.getCurrent()).getID();
-				vTemp[1] = ((IniElement)IniList.getCurrent()).getIni();
+			while(!iniList.isEnd()) {
+				vTemp[0] = ((IniElement)iniList.getCurrent()).getId();
+				vTemp[1] = ((IniElement)iniList.getCurrent()).getIni();
 				
-				IniOrder.append(vTemp.clone());
+				iniOrder.append(vTemp.clone());
 				
-				IniList.next();
+				iniList.next();
 			}
 			
-			IniOrder.toFirst();
+			iniOrder.toFirst();
 		}
 	}
 	
@@ -5736,71 +5737,71 @@ public class FightManager {
 		IniElement vTemp = null;
 		
 		if (pID >= 0) {
-			if (!IniList.isEmpty()) {
-				IniList.toFirst();
+			if (!iniList.isEmpty()) {
+				iniList.toFirst();
 				
-				while(!IniList.isEnd() && vTemp == null) {
-					vTemp = (IniElement)IniList.getCurrent();
+				while(!iniList.isEnd() && vTemp == null) {
+					vTemp = (IniElement)iniList.getCurrent();
 					
-					if (pID != vTemp.getID()) {
+					if (pID != vTemp.getId()) {
 						vTemp = null;
-						IniList.next();
+						iniList.next();
 					}
 				}
 				
 				if (vTemp != null) {
 					vIni = vTemp.getIni();
-					vFigEle = getFightElement(vTemp.getID());
+					vFigEle = getFightElement(vTemp.getId());
 					if (vFigEle != null) {
 						vIniBasis = vFigEle.getCharacter().getFightValue(0);
-						IniList.remove();
+						iniList.remove();
 						
 						if (pChangeValue > 0) {							
-							while(!IniList.isFirst() && vTemp != null) {
-								vTempIni = ((IniElement)IniList.getCurrent()).getIni();
+							while(!iniList.isFirst() && vTemp != null) {
+								vTempIni = ((IniElement)iniList.getCurrent()).getIni();
 								if (vIni < vTempIni ) {
-									IniList.next();
-									IniList.insert(vTemp);
+									iniList.next();
+									iniList.insert(vTemp);
 									vTemp = null;
 								}
 								else if (vIni == vTempIni) {
-									vFigEle2 = getFightElement(((IniElement)IniList.getCurrent()).getID());
+									vFigEle2 = getFightElement(((IniElement)iniList.getCurrent()).getId());
 									if (vFigEle2 != null) {
 										vIniBasis2 = vFigEle2.getCharacter().getFightValue(0);
 										
 										if (vIniBasis < vIniBasis2) {
-											IniList.next();
-											IniList.insert(vTemp);
+											iniList.next();
+											iniList.insert(vTemp);
 											vTemp = null;
 										}
 									} else throw new Exception("04; FiMan,uIEiIL");
 								}
 								
-								IniList.prior();
+								iniList.prior();
 							}
 							
-							if (vTemp != null) IniList.insert(vTemp);
+							if (vTemp != null) iniList.insert(vTemp);
 						}else {
-							while(!IniList.isEnd()) {
-								vTempIni = ((IniElement)IniList.getCurrent()).getIni();
-								if (vIni > vTempIni ) IniList.insert(vTemp);
+							while(!iniList.isEnd()) {
+								vTempIni = ((IniElement)iniList.getCurrent()).getIni();
+								if (vIni > vTempIni ) iniList.insert(vTemp);
 								else if (vIni == vTempIni) {
-									vFigEle2 = getFightElement(((IniElement)IniList.getCurrent()).getID());
+									vFigEle2 = getFightElement(((IniElement)iniList.getCurrent()).getId());
 									if (vFigEle2 != null) {
 										vIniBasis2 = vFigEle2.getCharacter().getFightValue(0);
 										
-										if (vIniBasis >= vIniBasis2) IniList.insert(vTemp);
+										if (vIniBasis >= vIniBasis2) iniList.insert(vTemp);
 										else {
-											IniList.insert(vTemp);
-											IniList.next();
+											iniList.insert(vTemp);
+											iniList.next();
 										}
 									} else throw new Exception("04; FiMan,uIEiIL");
-								} else if (IniList.isLast()) {
-									IniList.insert(vTemp);
-									IniList.next();
+								} else if (iniList.isLast()) {
+									iniList.insert(vTemp);
+									iniList.next();
 								}
 								
-								IniList.next();
+								iniList.next();
 							}
 						}
 					} else throw new Exception("04; FiMan,uIEiIL");
@@ -5820,30 +5821,30 @@ public class FightManager {
 		double vIniBasis;
 		FightElement vFigEle;
 		
-		vIni = ((IniElement)IniList.getCurrent()).getIni();
+		vIni = ((IniElement)iniList.getCurrent()).getIni();
 			
 		if (pIni < vIni) {
-			IniList.next();
-			IniList.insert(pIniElement);
+			iniList.next();
+			iniList.insert(pIniElement);
 		} else if (pIni == vIni) {
-			vFigEle = getFightElement(((IniElement)IniList.getCurrent()).getID());
+			vFigEle = getFightElement(((IniElement)iniList.getCurrent()).getId());
 			if (vFigEle != null) {
 				vIniBasis = vFigEle.getCharacter().getFightValue(0);
 				
 				if(pIniBasis < vIniBasis) {
-					IniList.next();
-					IniList.insert(pIniElement);
-				} else if (!IniList.isFirst()) {
-					IniList.prior();
+					iniList.next();
+					iniList.insert(pIniElement);
+				} else if (!iniList.isFirst()) {
+					iniList.prior();
 					recElementUpdateIniList(pIniElement, pIni, pIniBasis);
-					if (!IniList.isLast()) IniList.next();
-				} else IniList.insert(pIniElement);
+					if (!iniList.isLast()) iniList.next();
+				} else iniList.insert(pIniElement);
 			} else throw new Exception("04; FiMan,rEuIL");
-		} else if (!IniList.isFirst()) {
-			IniList.prior();
+		} else if (!iniList.isFirst()) {
+			iniList.prior();
 			recElementUpdateIniList(pIniElement, pIni, pIniBasis);
-			if (!IniList.isLast())IniList.next();
-		} else IniList.insert(pIniElement);
+			if (!iniList.isLast())iniList.next();
+		} else iniList.insert(pIniElement);
 	}
 	/**	Dh	24.6.2020
 	 * 
@@ -5857,36 +5858,36 @@ public class FightManager {
 		FightElement vFigEle, vFigEle2;
 		IniElement vTempIniEle;
 		
-		if (!IniList.isEmpty()) {
-			IniList.toFirst();
-			vIni = ((IniElement)IniList.getCurrent()).getIni();
-			vFigEle = getFightElement(((IniElement)IniList.getCurrent()).getID());
+		if (!iniList.isEmpty()) {
+			iniList.toFirst();
+			vIni = ((IniElement)iniList.getCurrent()).getIni();
+			vFigEle = getFightElement(((IniElement)iniList.getCurrent()).getId());
 			
 			if (vFigEle != null) vIniBasis = vFigEle.getCharacter().getFightValue(0);
 			else throw new Exception("04; FiMan,uIL");
-			IniList.next();
+			iniList.next();
 			
-			while(!IniList.isEnd()) {
-				vTempIniEle = ((IniElement)IniList.getCurrent());
+			while(!iniList.isEnd()) {
+				vTempIniEle = ((IniElement)iniList.getCurrent());
 				vTempIni = vTempIniEle.getIni();
-				vFigEle2 = getFightElement(vTempIniEle.getID());
+				vFigEle2 = getFightElement(vTempIniEle.getId());
 				if (vFigEle2 != null) {
 					vTempIniBasis = vFigEle2.getCharacter().getFightValue(0);
 					
 					if (vTempIni > vIni) {
-						IniList.remove();
-						if (!IniList.isLast()) IniList.prior();
+						iniList.remove();
+						if (!iniList.isLast()) iniList.prior();
 						try { recElementUpdateIniList(vTempIniEle, vTempIni, vTempIniBasis); }
 						catch(Exception ex) {throw ex;}
-						IniList.prior();
+						iniList.prior();
 						vTempIni = vIni;
 						vTempIniBasis = vIniBasis;
 					} else if ((vTempIni == vIni) && (vTempIniBasis > vIniBasis)) {
-						IniList.remove();
-						if (!IniList.isLast()) IniList.prior();
+						iniList.remove();
+						if (!iniList.isLast()) iniList.prior();
 						try { recElementUpdateIniList(vTempIniEle, vTempIni, vTempIniBasis); }
 						catch(Exception ex) {throw ex;}
-						IniList.prior();
+						iniList.prior();
 						vTempIni = vIni;
 						vTempIniBasis = vIniBasis;
 					}
@@ -5895,7 +5896,7 @@ public class FightManager {
 				vIni = vTempIni;
 				vIniBasis = vTempIniBasis;
 				
-				IniList.next();
+				iniList.next();
 			}
 		}
 	}
@@ -5913,73 +5914,73 @@ public class FightManager {
 		FightElement vFigEle, vFigEle2;
 		
 		if (pOldIni != pNewIni) {
-			if (!IniOrder.isEmpty()) {
-				IniOrder.toFirst();
+			if (!iniOrder.isEmpty()) {
+				iniOrder.toFirst();
 			
-				while(!IniOrder.isEnd()) {
-					vCur = (int[])IniOrder.getCurrent();
+				while(!iniOrder.isEnd()) {
+					vCur = (int[])iniOrder.getCurrent();
 					
 					if ((vCur[0] == pID) && (vCur[1] == pOldIni)) {
-						IniOrder.remove();
+						iniOrder.remove();
 						vCur[1] = pNewIni;
 						vFigEle = getFightElement(pID);
 						if (vFigEle != null) {
 							vIniBasis = vFigEle.getCharacter().getFightValue(0);
 							if (pOldIni > pNewIni) {
-								while(!IniOrder.isEnd() && (vCur != null)) {
-									vCur2 = (int[])IniOrder.getCurrent();
+								while(!iniOrder.isEnd() && (vCur != null)) {
+									vCur2 = (int[])iniOrder.getCurrent();
 									
 									if (pNewIni > vCur2[1]) {
-										IniOrder.insert(vCur);
+										iniOrder.insert(vCur);
 										vCur = null;
 									} else if (pNewIni == vCur2[1]) {
 										vFigEle2 = getFightElement(vCur2[0]);
 										if (vFigEle2 != null) {
 											vIniBasis2 = vFigEle2.getCharacter().getFightValue(0);
 											if (vIniBasis >= vIniBasis2) {
-												IniOrder.insert(vCur);
+												iniOrder.insert(vCur);
 												vCur = null;
 											}
 										} else throw new Exception("04; FiMan,uEoIO");
 									}
 									
-									IniOrder.next();
+									iniOrder.next();
 								}
 								
-								if (vCur != null) IniOrder.append(vCur);
+								if (vCur != null) iniOrder.append(vCur);
 							} else {
-								while(!IniOrder.isFirst() && (vCur != null)) {
-									vCur2 = (int[])IniOrder.getCurrent();
+								while(!iniOrder.isFirst() && (vCur != null)) {
+									vCur2 = (int[])iniOrder.getCurrent();
 									
 									if (pNewIni < vCur2[1]) {
-										IniOrder.next();
-										IniOrder.insert(vCur);
+										iniOrder.next();
+										iniOrder.insert(vCur);
 										vCur = null;
 									} else if (pNewIni == vCur2[1]) {
 										vFigEle2 = getFightElement(vCur2[0]);
 										if (vFigEle2 != null) {
 											vIniBasis2 = vFigEle2.getCharacter().getFightValue(0);
 											if (vIniBasis >= vIniBasis2) {
-												IniOrder.next();
-												IniOrder.insert(vCur);
+												iniOrder.next();
+												iniOrder.insert(vCur);
 												vCur = null;
 											}
 										} else throw new Exception("04; FiMan,uEoIO");
 									}
 									
-									IniOrder.prior();
+									iniOrder.prior();
 								}
 								
-								if (vCur != null) IniOrder.insert(vCur);
+								if (vCur != null) iniOrder.insert(vCur);
 							}
 						} else throw new Exception("04; FiMan,uEoIO");
-						IniOrder.toLast();
+						iniOrder.toLast();
 					}
 				
-					IniOrder.next();
+					iniOrder.next();
 				}
 				
-				IniOrder.toFirst();
+				iniOrder.toFirst();
 			}else throw new Exception("05; FiMan,uEoIO");
 		}
 	}
@@ -5995,30 +5996,30 @@ public class FightManager {
 		double vIniBasis;
 		FightElement vFigEle;
 		
-		vIni = ((int[])IniOrder.getCurrent())[1];
+		vIni = ((int[])iniOrder.getCurrent())[1];
 			
 		if (pIni < vIni) {
-			IniOrder.next();
-			IniOrder.insert(pIniOrderElement);
+			iniOrder.next();
+			iniOrder.insert(pIniOrderElement);
 		} else if (pIni == vIni) {
-			vFigEle = getFightElement(((int[])IniOrder.getCurrent())[0]);
+			vFigEle = getFightElement(((int[])iniOrder.getCurrent())[0]);
 			if (vFigEle != null) {
 				vIniBasis = vFigEle.getCharacter().getFightValue(0);
 				
 				if(pIniBasis < vIniBasis) {
-					IniOrder.next();
-					IniOrder.insert(pIniOrderElement);
-				} else if (!IniOrder.isFirst()) {
-					IniOrder.prior();
+					iniOrder.next();
+					iniOrder.insert(pIniOrderElement);
+				} else if (!iniOrder.isFirst()) {
+					iniOrder.prior();
 					recElementUpdateIniOrder(pIniOrderElement, pIni, pIniBasis);
-					if (!IniOrder.isLast()) IniOrder.next();
-				} else IniOrder.insert(pIniOrderElement);
+					if (!iniOrder.isLast()) iniOrder.next();
+				} else iniOrder.insert(pIniOrderElement);
 			} else throw new Exception("04; FiMan,rEuIO");
-		} else if (!IniOrder.isFirst()) {
-			IniOrder.prior();
+		} else if (!iniOrder.isFirst()) {
+			iniOrder.prior();
 			recElementUpdateIniOrder(pIniOrderElement, pIni, pIniBasis);
-			if (!IniOrder.isLast()) IniOrder.next();
-		} else IniOrder.insert(pIniOrderElement);
+			if (!iniOrder.isLast()) iniOrder.next();
+		} else iniOrder.insert(pIniOrderElement);
 	}
 	/**	Dh	20.5.2020
 	 * 
@@ -6030,36 +6031,36 @@ public class FightManager {
 		double vIniBasis, vIniBasis2;
 		FightElement vFigEle, vFigEle2;
 		
-		if (!IniOrder.isEmpty()) {
-			IniOrder.toFirst();
+		if (!iniOrder.isEmpty()) {
+			iniOrder.toFirst();
 			
-			vIni = ((int[])IniOrder.getCurrent())[1];
-			vFigEle = getFightElement(((int[])IniOrder.getCurrent())[0]);
+			vIni = ((int[])iniOrder.getCurrent())[1];
+			vFigEle = getFightElement(((int[])iniOrder.getCurrent())[0]);
 			if (vFigEle != null) {
 				vIniBasis = vFigEle.getCharacter().getFightValue(0);
-				IniOrder.next();
+				iniOrder.next();
 				
-				while(!IniOrder.isEnd()) {
-					vIni2 = ((int[])IniOrder.getCurrent())[1];
-					vFigEle2 = getFightElement(((int[])IniOrder.getCurrent())[0]);
+				while(!iniOrder.isEnd()) {
+					vIni2 = ((int[])iniOrder.getCurrent())[1];
+					vFigEle2 = getFightElement(((int[])iniOrder.getCurrent())[0]);
 					if (vFigEle2 != null) {
 						vIniBasis2 = vFigEle2.getCharacter().getFightValue(0);
 						if(vIni2 > vIni) {
-							vCur = (int[])IniOrder.getCurrent();
-							IniOrder.remove();
-							if (!IniOrder.isLast()) IniOrder.prior();
+							vCur = (int[])iniOrder.getCurrent();
+							iniOrder.remove();
+							if (!iniOrder.isLast()) iniOrder.prior();
 							try { recElementUpdateIniOrder(vCur, vIni2, vIniBasis2); }
 							catch(Exception ex) {throw ex;}
-							IniOrder.prior();
+							iniOrder.prior();
 							vIni2 = vIni;
 							vIniBasis2 = vIniBasis;
 						} else if ((vIni2 == vIni) && (vIniBasis2 > vIniBasis)) {
-							vCur = (int[])IniOrder.getCurrent();
-							IniOrder.remove();
-							if (!IniOrder.isLast())IniOrder.prior();
+							vCur = (int[])iniOrder.getCurrent();
+							iniOrder.remove();
+							if (!iniOrder.isLast())iniOrder.prior();
 							try { recElementUpdateIniOrder(vCur, vIni2, vIniBasis2); }
 							catch(Exception ex) {throw ex;}
-							IniOrder.prior();
+							iniOrder.prior();
 							vIni2 = vIni;
 							vIniBasis2 = vIniBasis;
 						}
@@ -6067,7 +6068,7 @@ public class FightManager {
 						vIni = vIni2;
 						vIniBasis = vIniBasis2;
 						
-						IniOrder.next();
+						iniOrder.next();
 					} else throw new Exception("04; FiMan,uIO");
 				}
 			} else throw new Exception("04; FiMan,uIO");

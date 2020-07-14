@@ -1,4 +1,4 @@
-/**	DSA_App	v0.0	Dh	11.6.2020
+/**	DSA_App	v0.0	Dh	9.7.2020
  * 
  * 	Logik
  * 	  FightElement
@@ -50,21 +50,21 @@ import pDataStructures.List;
 @XmlSeeAlso({NeighbourElement.class})
 @XmlType(propOrder = {"character", "propMods", "statMods", "neighbourList", "activeWeapons"})
 public class FightElement {
-	private int ID;
-	private int[] PropMods, StatMods;
-	private List NeighbourList;
-	private Weapon[] ActiveWeapons; 
-	private Charakter Character;
+	private int id;
+	private int[] propMods, statMods;
+	private List neighbourList;
+	private Weapon[] activeWeapons; 
+	private Charakter character;
 	
 	/**	Dh	28.5.2020
 	 */
 	public FightElement() {
-		ID = -1;
-		PropMods = new int[10];
-		StatMods = new int[10];
-		ActiveWeapons = null;
-		Character = null;
-		NeighbourList = new List();
+		id = -1;
+		propMods = new int[10];
+		statMods = new int[10];
+		activeWeapons = null;
+		character = null;
+		neighbourList = new List();
 	}
 	/**	Dh	28.5.2020
 	 * 
@@ -75,17 +75,17 @@ public class FightElement {
 	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons){
 		Exception vExc;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; FiEle_a");
 		
-		if (pChar != null) Character = pChar;
+		if (pChar != null) character = pChar;
 		else vExc = new Exception("04; FiEle_a");
 		
-		ActiveWeapons = pActiveWeapons;
-		PropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		StatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		activeWeapons = pActiveWeapons;
+		propMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		statMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
-		NeighbourList = new List();
+		neighbourList = new List();
 	}
 	/**	Dh	28.5.2020
 	 * 
@@ -104,23 +104,23 @@ public class FightElement {
 	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods){
 		Exception vExc;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; FiEle_b");
 		
-		if (pChar != null) Character = pChar;
+		if (pChar != null) character = pChar;
 		else vExc = new Exception("04; FiEle_b");
 		
-		ActiveWeapons = pActiveWeapons;
+		activeWeapons = pActiveWeapons;
 		try{
 			if (pPropMods.length == 10){
 				pChar.addProperties(pPropMods);
-				PropMods = pPropMods;
+				propMods = pPropMods;
 			}
 			else vExc = new Exception("01; FiEle_b");
 		} catch(Exception exc) {vExc = exc;}
-		StatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		statMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
-		NeighbourList = new List();
+		neighbourList = new List();
 	}
 	/**	Dh	28.5.2020
 	 * 
@@ -132,17 +132,17 @@ public class FightElement {
 	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons, List pNeighbours){
 		Exception vExc;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; FiEle_c");
 		
-		if (pChar != null) Character = pChar;
+		if (pChar != null) character = pChar;
 		else vExc = new Exception("04; FiEle_c");
 		
-		ActiveWeapons = pActiveWeapons;
-		PropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		StatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		activeWeapons = pActiveWeapons;
+		propMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		statMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
-		if (pNeighbours != null)	NeighbourList = pNeighbours;
+		if (pNeighbours != null)	neighbourList = pNeighbours;
 		else vExc = new Exception("04; FiEle_c");
 	}
 	/**	Dh	28.5.2020
@@ -170,25 +170,25 @@ public class FightElement {
 	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, int[] pStatMod){
 		Exception vExc;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; FiEle_d");
 		
-		if (pChar != null) Character = pChar;
+		if (pChar != null) character = pChar;
 		else vExc = new Exception("04; FiEle_d");
 		
-		ActiveWeapons = pActiveWeapons;
+		activeWeapons = pActiveWeapons;
 		try{
 			if ((pPropMods.length == 10) && (pStatMod.length == 10)){
 				pChar.addProperties(pPropMods);
 				pChar.addStats(pStatMod);
-				PropMods = pPropMods;
-				StatMods = pStatMod;
+				propMods = pPropMods;
+				statMods = pStatMod;
 			}
 			else vExc = new Exception("01; FiEle_d");
 		} catch(Exception exc) {vExc = exc;}
 		
 		
-		NeighbourList = new List();
+		neighbourList = new List();
 	}
 	/**	Dh	28.5.2020
 	 * 
@@ -208,23 +208,23 @@ public class FightElement {
 	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, List pNeighbours){
 		Exception vExc;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; FiEle_e");
 		
-		if (pChar != null) Character = pChar;
+		if (pChar != null) character = pChar;
 		else vExc = new Exception("04; FiEle_e");
 		
-		ActiveWeapons = pActiveWeapons;
+		activeWeapons = pActiveWeapons;
 		try{
 			if (pPropMods.length == 10){
 				pChar.addProperties(pPropMods);
-				PropMods = pPropMods;
+				propMods = pPropMods;
 			}
 			else vExc = new Exception("01; FiEle_e");
 		} catch(Exception exc) {vExc = exc;}
-		StatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		statMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
-		if (pNeighbours != null)	NeighbourList = pNeighbours;
+		if (pNeighbours != null)	neighbourList = pNeighbours;
 		else vExc = new Exception("04; FiEle_e");
 	}
 	/**	Dh	28.5.2020
@@ -253,24 +253,24 @@ public class FightElement {
 	public FightElement(int pID, Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, int[] pStatMod, List pNeighbours){
 		Exception vExc;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; FiEle_f");
 		
-		if (pChar != null) Character = pChar;
+		if (pChar != null) character = pChar;
 		else vExc = new Exception("04; FiEle_f");
 		
-		ActiveWeapons = pActiveWeapons;
+		activeWeapons = pActiveWeapons;
 		try{
 			if ((pPropMods.length == 10) && (pStatMod.length == 10)){
 				pChar.addProperties(pPropMods);
 				pChar.addStats(pStatMod);
-				PropMods = pPropMods;
-				StatMods = pStatMod;
+				propMods = pPropMods;
+				statMods = pStatMod;
 			}
 			else vExc = new Exception("01; FiEle_f");
 		} catch(Exception exc) {vExc = exc;}
 		
-		if (pNeighbours != null)	NeighbourList = pNeighbours;
+		if (pNeighbours != null)	neighbourList = pNeighbours;
 		else vExc = new Exception("04; FiEle_f");
 	}
 	
@@ -279,14 +279,14 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void destroyFightElement() throws Exception{
-		Character = null;
+		character = null;
 		
-		if (NeighbourList != null){
-			while (!NeighbourList.isEmpty()){
-				NeighbourList.toFirst();
-				NeighbourList.remove();
+		if (neighbourList != null){
+			while (!neighbourList.isEmpty()){
+				neighbourList.toFirst();
+				neighbourList.remove();
 			}
-			NeighbourList = null;
+			neighbourList = null;
 		} else throw new Exception("04; FilEle,dFE");
 	}
 	
@@ -297,8 +297,8 @@ public class FightElement {
 	 * @return
 	 */
 	@XmlAttribute
-	public int getID(){
-		return ID;
+	public int getId(){
+		return id;
 	}
 	/**	Dh	30.4.2020
 	 * 
@@ -306,7 +306,7 @@ public class FightElement {
 	 */
 	@XmlElement(name = "Character")
 	public Charakter getCharacter(){
-		return Character;
+		return character;
 	}
 	
 	/**	Dh	12.2.2020
@@ -322,8 +322,8 @@ public class FightElement {
 	 * @return
 	 */
 	public int getPropMod(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < PropMods.length)){
-			return PropMods[pInd];
+		if ((pInd >= 0) && (pInd < propMods.length)){
+			return propMods[pInd];
 		}else throw new Exception("07; FiEle,gPM");
 	}
 	/**	Dh	12.2.2020
@@ -340,8 +340,8 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public double getStatMod(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < StatMods.length)){
-			return StatMods[pInd];
+		if ((pInd >= 0) && (pInd < statMods.length)){
+			return statMods[pInd];
 		}else throw new Exception("07; FiEle,gSM");
 	}
 	/**	Dh	28.5.2020
@@ -351,9 +351,9 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public Weapon getActiveWeapon(int pInd) throws Exception{
-		if (ActiveWeapons != null) {
-			if ((pInd >= 0) && (pInd < ActiveWeapons.length)){
-				return ActiveWeapons[pInd];
+		if (activeWeapons != null) {
+			if ((pInd >= 0) && (pInd < activeWeapons.length)){
+				return activeWeapons[pInd];
 			}else throw new Exception("07; FiEle,gAW");
 		} else return null;
 	}
@@ -372,7 +372,7 @@ public class FightElement {
 	@XmlElementWrapper(name = "PropertieModArray")
 	@XmlElement(name = "PropertieMod")
 	public int[] getPropMods(){
-		return PropMods;
+		return propMods;
 	}
 	/**	Dh	12.2.2020
 	 * 
@@ -388,7 +388,7 @@ public class FightElement {
 	@XmlElementWrapper(name = "StatusModArray")
 	@XmlElement(name = "StatusMod")
 	public int[] getStatMods(){
-		return StatMods;
+		return statMods;
 	}
 	/**	Dh	28.5.2020
 	 * 
@@ -397,7 +397,7 @@ public class FightElement {
 	@XmlElementWrapper(name = "ActiveWaeponArray")
 	@XmlElement(name = "ActiveWeapon")
 	public Weapon[] getActiveWeapons() {
-		return ActiveWeapons;
+		return activeWeapons;
 	}
 	
 	/**	Dh	11.6.2020
@@ -411,20 +411,20 @@ public class FightElement {
 		Weapon vCurWeapon;
 		Fighttalent vCurTalent;
 		
-		if ((pInd >= 0) && (pInd < ActiveWeapons.length)) {
+		if ((pInd >= 0) && (pInd < activeWeapons.length)) {
 			vRet = 0;
 			
-			vCurWeapon = ActiveWeapons[pInd];
+			vCurWeapon = activeWeapons[pInd];
 			
 			if (vCurWeapon != null) {
-				vCurTalent = getUsableFightTalent(Character.getTalentList(), vCurWeapon.getWeaponType());
+				vCurTalent = getUsableFightTalent(character.getTalentList(), vCurWeapon.getWeaponType());
 				
 				if (vCurWeapon instanceof CloseWeapon) {
-					vRet = (int)Character.getFightValue(1)+((CloseWeapon)vCurWeapon).getWM(0);
+					vRet = (int)character.getFightValue(1)+((CloseWeapon)vCurWeapon).getWm(0);
 					
 					if (vCurTalent != null) vRet += vCurTalent.getFightValue(0);
 				}else{
-					vRet = (int)Character.getFightValue(3);
+					vRet = (int)character.getFightValue(3);
 					if (vCurTalent != null) vRet += vCurTalent.getFightValue(0);
 				}
 			} else throw new Exception("04; FiEle,gAWAV");
@@ -443,18 +443,18 @@ public class FightElement {
 		Weapon vCurWeapon;
 		Fighttalent vCurTalent;
 		
-		if ((pInd >= 0) && (pInd < ActiveWeapons.length)) {
+		if ((pInd >= 0) && (pInd < activeWeapons.length)) {
 			vRet = 0;
-			vCurWeapon = ActiveWeapons[pInd];
+			vCurWeapon = activeWeapons[pInd];
 			
 			if (vCurWeapon != null) {
-				vCurTalent = getUsableFightTalent(Character.getTalentList(), vCurWeapon.getWeaponType());
+				vCurTalent = getUsableFightTalent(character.getTalentList(), vCurWeapon.getWeaponType());
 				
 				if (vCurWeapon instanceof CloseWeapon) {
-					vRet = (int)Character.getFightValue(2)+((CloseWeapon)vCurWeapon).getWM(1);
+					vRet = (int)character.getFightValue(2)+((CloseWeapon)vCurWeapon).getWm(1);
 					if (vCurTalent != null) vRet += vCurTalent.getFightValue(0);
 				}else{
-					vRet = (int)Character.getFightValue(2);
+					vRet = (int)character.getFightValue(2);
 				}
 			} else throw new Exception("04; FiEle,gAWDV");
 		}else throw new Exception("02; FiEle,gAWDV");
@@ -472,23 +472,23 @@ public class FightElement {
 		Weapon vCurWeapon;
 		Fighttalent vCurTalent;
 		
-		if ((pInd >= 0) && (pInd < ActiveWeapons.length)) {
+		if ((pInd >= 0) && (pInd < activeWeapons.length)) {
 			vRet = new int[] {0, 0};
-			vCurWeapon = ActiveWeapons[pInd];
+			vCurWeapon = activeWeapons[pInd];
 			
 			if (vCurWeapon != null) {
-				vCurTalent = getUsableFightTalent(Character.getTalentList(), vCurWeapon.getWeaponType());
+				vCurTalent = getUsableFightTalent(character.getTalentList(), vCurWeapon.getWeaponType());
 				
 				if (vCurWeapon instanceof CloseWeapon) {
-					vRet[0] = (int)Character.getFightValue(1)+((CloseWeapon)vCurWeapon).getWM(0);
-					vRet[1] = (int)Character.getFightValue(2)+((CloseWeapon)vCurWeapon).getWM(1);
+					vRet[0] = (int)character.getFightValue(1)+((CloseWeapon)vCurWeapon).getWm(0);
+					vRet[1] = (int)character.getFightValue(2)+((CloseWeapon)vCurWeapon).getWm(1);
 					if (vCurTalent != null) {
 						vRet[0] += vCurTalent.getFightValue(0);
 						vRet[1] += vCurTalent.getFightValue(1);
 					}
 				}else{
-					vRet[0] = (int)Character.getFightValue(3);
-					vRet[1] = (int)Character.getFightValue(2);
+					vRet[0] = (int)character.getFightValue(3);
+					vRet[1] = (int)character.getFightValue(2);
 					if (vCurTalent != null) vRet[0] += vCurTalent.getFightValue(0);
 				}
 			}else throw new Exception("04; FiEle,gAWFV");
@@ -507,13 +507,13 @@ public class FightElement {
 		NeighbourElement vRet = null;
 		
 		if (pID >= 0){
-			if (!NeighbourList.isEmpty()){
-				NeighbourList.toFirst();
-				while((!NeighbourList.isEnd()) && (vRet == null)){
-					NeighbourElement vTemp = (NeighbourElement) NeighbourList.getCurrent();
-					if (vTemp.getID() == pID) vRet = vTemp;
+			if (!neighbourList.isEmpty()){
+				neighbourList.toFirst();
+				while((!neighbourList.isEnd()) && (vRet == null)){
+					NeighbourElement vTemp = (NeighbourElement) neighbourList.getCurrent();
+					if (vTemp.getId() == pID) vRet = vTemp;
 					
-					NeighbourList.next();
+					neighbourList.next();
 				}
 			}
 		}
@@ -527,9 +527,9 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public NeighbourElement getLastNeighbourElement() throws Exception {
-		if (!NeighbourList.isEmpty()){
-			NeighbourList.toLast();
-			return (NeighbourElement) NeighbourList.getCurrent();
+		if (!neighbourList.isEmpty()){
+			neighbourList.toLast();
+			return (NeighbourElement) neighbourList.getCurrent();
 		}
 		else throw new Exception("05; FiEle,gLNE");
 	}
@@ -539,7 +539,7 @@ public class FightElement {
 	 */
 	@XmlElement(name = "NeighbourList")
 	public List getNeighbourList(){
-		return NeighbourList;
+		return neighbourList;
 	}
 	
 	/**	Dh	13.2.2020
@@ -551,7 +551,7 @@ public class FightElement {
 	public int getNeighbourCount(){
 		int vRet;
 		
-		if (!NeighbourList.isEmpty()) vRet =  NeighbourList.getContentNumber();
+		if (!neighbourList.isEmpty()) vRet =  neighbourList.getContentNumber();
 		else vRet = 0;
 		
 		return vRet;
@@ -566,13 +566,13 @@ public class FightElement {
 	public int getNeighbourCountByType(boolean pEnemy){
 		int vRet = 0;
 		
-		if (!NeighbourList.isEmpty()){
+		if (!neighbourList.isEmpty()){
 			
-			NeighbourList.toFirst();
-			while(!NeighbourList.isEnd()){
-				if (((NeighbourElement)NeighbourList.getCurrent()).isEnemy() == pEnemy) vRet ++;
+			neighbourList.toFirst();
+			while(!neighbourList.isEnd()){
+				if (((NeighbourElement)neighbourList.getCurrent()).isEnemy() == pEnemy) vRet ++;
 				
-				NeighbourList.next();
+				neighbourList.next();
 			}
 		}
 		
@@ -590,14 +590,14 @@ public class FightElement {
 	public int getNeighbourMajorityNumber() throws Exception{
 		int vRet = 1;
 		
-		if (!NeighbourList.isEmpty()){
+		if (!neighbourList.isEmpty()){
 			
-			NeighbourList.toFirst();
-			while(!NeighbourList.isEnd()){
-				if (((NeighbourElement)NeighbourList.getCurrent()).isEnemy() == false) vRet ++;
+			neighbourList.toFirst();
+			while(!neighbourList.isEnd()){
+				if (((NeighbourElement)neighbourList.getCurrent()).isEnemy() == false) vRet ++;
 				else vRet --;
 				
-				NeighbourList.next();
+				neighbourList.next();
 			}
 		}
 		else throw new Exception("05; FiEle,gNMaN");
@@ -615,14 +615,14 @@ public class FightElement {
 	public int getNeighbourMinorityNumber() throws Exception{
 		int vRet = -1;
 		
-		if (!NeighbourList.isEmpty()){
+		if (!neighbourList.isEmpty()){
 			
-			NeighbourList.toFirst();
-			while(!NeighbourList.isEnd()){
-				if (((NeighbourElement)NeighbourList.getCurrent()).isEnemy() == true) vRet ++;
+			neighbourList.toFirst();
+			while(!neighbourList.isEnd()){
+				if (((NeighbourElement)neighbourList.getCurrent()).isEnemy() == true) vRet ++;
 				else vRet --;
 				
-				NeighbourList.next();
+				neighbourList.next();
 			}
 		}
 		else throw new Exception("05; FiEle,gNMiN");
@@ -644,14 +644,14 @@ public class FightElement {
 		if (pEnemy == true) vRet = -1;
 		else vRet = 1;
 		
-		if (!NeighbourList.isEmpty()){
+		if (!neighbourList.isEmpty()){
 			
-			NeighbourList.toFirst();
-			while(!NeighbourList.isEnd()){
-				if (((NeighbourElement)NeighbourList.getCurrent()).isEnemy() == pEnemy) vRet ++;
+			neighbourList.toFirst();
+			while(!neighbourList.isEnd()){
+				if (((NeighbourElement)neighbourList.getCurrent()).isEnemy() == pEnemy) vRet ++;
 				else vRet --;
 				
-				NeighbourList.next();
+				neighbourList.next();
 			}
 		}
 		else throw new Exception("05; FiEle,gNMaNBT");
@@ -674,14 +674,14 @@ public class FightElement {
 		if (pEnemy == true) vRet = 1;
 		else vRet = -1;
 		
-		if (!NeighbourList.isEmpty()){
+		if (!neighbourList.isEmpty()){
 			
-			NeighbourList.toFirst();
-			while(!NeighbourList.isEnd()){
-				if (((NeighbourElement)NeighbourList.getCurrent()).isEnemy() == !pEnemy) vRet ++;
+			neighbourList.toFirst();
+			while(!neighbourList.isEnd()){
+				if (((NeighbourElement)neighbourList.getCurrent()).isEnemy() == !pEnemy) vRet ++;
 				else vRet --;
 				
-				NeighbourList.next();
+				neighbourList.next();
 			}
 		}
 		else throw new Exception("05; FiEle,gNMiNBT");
@@ -696,8 +696,8 @@ public class FightElement {
 	 * @param pID
 	 * @throws Exception
 	 */
-	public void setID(int pID) throws Exception{
-		if (pID >= 0) ID = pID;
+	public void setId(int pID) throws Exception{
+		if (pID >= 0) id = pID;
 		else throw new Exception("02; FiEle,sID");
 	}
 	/**	Dh	1.5.2020
@@ -706,7 +706,7 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void setCharacter(Charakter pChar) throws Exception{
-		if (pChar != null) Character = pChar;
+		if (pChar != null) character = pChar;
 		else throw new Exception("04; FiEle,sCh");
 	}
 	
@@ -724,13 +724,13 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void setPropMod(int pPropMod, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < PropMods.length)){
-			int vTemp = pPropMod - PropMods[pInd];
-			PropMods[pInd] = pPropMod;
+		if ((pInd >= 0) && (pInd < propMods.length)){
+			int vTemp = pPropMod - propMods[pInd];
+			propMods[pInd] = pPropMod;
 			try{ 
-				if (pInd < 8) Character.addPropertie(vTemp, pInd);
-				else if (pInd == 8) Character.addGS(vTemp);
-				else Character.addSO(vTemp);
+				if (pInd < 8) character.addPropertie(vTemp, pInd);
+				else if (pInd == 8) character.addGs(vTemp);
+				else character.addSo(vTemp);
 			}
 			catch(Exception exc) {throw exc;}
 		}else throw new Exception("07; FiEle,sPM");
@@ -749,14 +749,14 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void setStatMod(int pStatMod, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < StatMods.length)){
-			double vTemp = pStatMod - StatMods[pInd];
-			StatMods[pInd] = pStatMod;
+		if ((pInd >= 0) && (pInd < statMods.length)){
+			double vTemp = pStatMod - statMods[pInd];
+			statMods[pInd] = pStatMod;
 			try{ 
-				if (pInd < 4) Character.addStat((int)vTemp, pInd);
-				else if (pInd == 4) Character.addMR(vTemp);
-				else if (pInd == 5) Character.addWS(vTemp);
-				else Character.addFightValue(vTemp, pInd-6);
+				if (pInd < 4) character.addStat((int)vTemp, pInd);
+				else if (pInd == 4) character.addMr(vTemp);
+				else if (pInd == 5) character.addWs(vTemp);
+				else character.addFightValue(vTemp, pInd-6);
 			}
 			catch(Exception exc) {throw exc;}
 		}else throw new Exception("07; FiEle,sSM");
@@ -768,12 +768,12 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void setActiveWeapon(Weapon pActiveWeapon, int pInd) throws Exception{
-		if (ActiveWeapons != null) {
-			if ((pInd >= 0) && (pInd < ActiveWeapons.length)){
-				if (pActiveWeapon != null) ActiveWeapons[pInd] = pActiveWeapon;
+		if (activeWeapons != null) {
+			if ((pInd >= 0) && (pInd < activeWeapons.length)){
+				if (pActiveWeapon != null) activeWeapons[pInd] = pActiveWeapon;
 				else throw new Exception("04; FiEle,sAW");
 			}else throw new Exception("07; FiEle,sAW");
-		}else if (pInd == 0)ActiveWeapons = new Weapon[] {pActiveWeapon};
+		}else if (pInd == 0)activeWeapons = new Weapon[] {pActiveWeapon};
 	}
 	
 	/**	Dh	12.2.2020
@@ -789,14 +789,14 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void setPropMods(int[] pPropMods) throws Exception{
-		if (pPropMods.length == PropMods.length){
-			int[] vTemp = new int[PropMods.length];
+		if (pPropMods.length == propMods.length){
+			int[] vTemp = new int[propMods.length];
 			for (int i=0; i<vTemp.length; i++){
-				vTemp[i] = pPropMods[i] - PropMods[i];
+				vTemp[i] = pPropMods[i] - propMods[i];
 			}
-			try{ Character.addProperties(vTemp);}
+			try{ character.addProperties(vTemp);}
 			catch(Exception exc) {throw exc;}
-			PropMods = pPropMods;
+			propMods = pPropMods;
 		}else throw new Exception("01; FiEle,sPMs");
 	}
 	/**	Dh	12.2.2020
@@ -812,14 +812,14 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void setStatMods(int[] pStatMods) throws Exception{
-		if (pStatMods.length == StatMods.length){
-			int[] vTemp = new int[StatMods.length];
+		if (pStatMods.length == statMods.length){
+			int[] vTemp = new int[statMods.length];
 			for (int i=0; i<vTemp.length; i++){
-				vTemp[i] = pStatMods[i] - StatMods[i];
+				vTemp[i] = pStatMods[i] - statMods[i];
 			}
-			try{ Character.addStats(vTemp);}
+			try{ character.addStats(vTemp);}
 			catch(Exception exc) {throw exc;}
-			StatMods = pStatMods;
+			statMods = pStatMods;
 		}else throw new Exception("01; FiEle,sSMs");
 	}
 	/**	Dh	28.5.2020
@@ -828,7 +828,7 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void setActiveWeapons(Weapon[] pActiveWeapons) throws Exception{
-		if (pActiveWeapons != null) ActiveWeapons = pActiveWeapons;
+		if (pActiveWeapons != null) activeWeapons = pActiveWeapons;
 		else throw new Exception("04; FiEle,sAWs");
 	}
 	
@@ -841,10 +841,10 @@ public class FightElement {
 		Object vTemp;
 		
 		if (pNeiList != null){
-			if (!NeighbourList.isEmpty()){
-				while(!NeighbourList.isEmpty()){
-					NeighbourList.toFirst();
-					NeighbourList.remove();
+			if (!neighbourList.isEmpty()){
+				while(!neighbourList.isEmpty()){
+					neighbourList.toFirst();
+					neighbourList.remove();
 				}
 			}
 			
@@ -859,7 +859,7 @@ public class FightElement {
 			//	pNeiList.next();
 			//}
 			
-			NeighbourList = pNeiList;
+			neighbourList = pNeiList;
 		}
 		else throw new Exception("04; FiEle,sNL");
 	}
@@ -880,12 +880,12 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void addPropMod(int pPropMod, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < PropMods.length)){
-			PropMods[pInd] += pPropMod;
+		if ((pInd >= 0) && (pInd < propMods.length)){
+			propMods[pInd] += pPropMod;
 			try{ 
-				if (pInd < 8) Character.addPropertie(pPropMod, pInd);
-				else if (pInd == 8) Character.addGS(pPropMod);
-				else Character.addSO(pPropMod);
+				if (pInd < 8) character.addPropertie(pPropMod, pInd);
+				else if (pInd == 8) character.addGs(pPropMod);
+				else character.addSo(pPropMod);
 			}
 			catch(Exception exc) {throw exc;}
 		}else throw new Exception("07; FiEle,aPM");
@@ -904,13 +904,13 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void addStatMod(double pStatMod, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < StatMods.length)){
-			StatMods[pInd] += pStatMod;
+		if ((pInd >= 0) && (pInd < statMods.length)){
+			statMods[pInd] += pStatMod;
 			try{ 
-				if (pInd < 4) Character.addStat((int)pStatMod, pInd);
-				else if (pInd == 4) Character.addMR(pStatMod);
-				else if (pInd == 5) Character.addWS(pStatMod);
-				else Character.addFightValue(pStatMod, pInd-6);
+				if (pInd < 4) character.addStat((int)pStatMod, pInd);
+				else if (pInd == 4) character.addMr(pStatMod);
+				else if (pInd == 5) character.addWs(pStatMod);
+				else character.addFightValue(pStatMod, pInd-6);
 			}
 			catch(Exception exc) {throw exc;}
 		}else throw new Exception("07; FiEle,aSM");
@@ -925,18 +925,18 @@ public class FightElement {
 		Weapon[] vNewActiveWeapons;
 		
 		if (pActiveWeapon != null) {
-			if (ActiveWeapons != null) {
-				vOldLength = ActiveWeapons.length;
+			if (activeWeapons != null) {
+				vOldLength = activeWeapons.length;
 				vNewActiveWeapons = new Weapon[vOldLength+1];
 				
 				for (int i=0; i < vOldLength; i++) {
-					vNewActiveWeapons[i] = ActiveWeapons[i];
+					vNewActiveWeapons[i] = activeWeapons[i];
 				}
 				vNewActiveWeapons[vOldLength] = pActiveWeapon;
 				
-				ActiveWeapons = vNewActiveWeapons;
+				activeWeapons = vNewActiveWeapons;
 			} else {
-				ActiveWeapons = new Weapon[] {pActiveWeapon};
+				activeWeapons = new Weapon[] {pActiveWeapon};
 			}
 		}else throw new Exception("04; FiEle,aAW");
 	}
@@ -954,11 +954,11 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void addPropMods(int[] pPropMods) throws Exception{
-		if (pPropMods.length == PropMods.length){
-			for (int i=0; i<PropMods.length; i++){
-				PropMods[i] += pPropMods[i];
+		if (pPropMods.length == propMods.length){
+			for (int i=0; i<propMods.length; i++){
+				propMods[i] += pPropMods[i];
 			}
-			try{ Character.addProperties(pPropMods);}
+			try{ character.addProperties(pPropMods);}
 			catch(Exception exc) {throw exc;}
 		}else throw new Exception("01; FiEle,aPM");
 	}
@@ -975,11 +975,11 @@ public class FightElement {
 	 * @throws Exception
 	 */
 	public void addStatMods(int[] pStatMods) throws Exception{
-		if (pStatMods.length == StatMods.length){
-			for (int i=0; i<StatMods.length; i++){
-				StatMods[i] += pStatMods[i];
+		if (pStatMods.length == statMods.length){
+			for (int i=0; i<statMods.length; i++){
+				statMods[i] += pStatMods[i];
 			}
-			try{ Character.addStats(pStatMods);}
+			try{ character.addStats(pStatMods);}
 			catch(Exception exc) {throw exc;}
 		}else throw new Exception("01; FiEle,sSM");
 	}
@@ -993,19 +993,19 @@ public class FightElement {
 		Weapon[] vNewActiveWeapons;
 		
 		if (pActiveWeapons != null) {
-			if (ActiveWeapons != null) {
-				vOldLength = ActiveWeapons.length;
+			if (activeWeapons != null) {
+				vOldLength = activeWeapons.length;
 				vNewLength = vOldLength + pActiveWeapons.length;
 				vNewActiveWeapons = new Weapon[vNewLength];
 				
 				for (int i=0; i < vNewLength; i++) {
-					if (i < vOldLength) vNewActiveWeapons[i] = ActiveWeapons[i];
+					if (i < vOldLength) vNewActiveWeapons[i] = activeWeapons[i];
 					else vNewActiveWeapons[i] = pActiveWeapons[i-vOldLength];
 				}
 				
-				ActiveWeapons = vNewActiveWeapons;
+				activeWeapons = vNewActiveWeapons;
 			} else {
-				ActiveWeapons = pActiveWeapons;
+				activeWeapons = pActiveWeapons;
 			}
 		}else throw new Exception("04; FiEle,aAWs");
 	}
@@ -1040,7 +1040,7 @@ public class FightElement {
 	 */
 	public void addNeighbourElement(NeighbourElement pNeiElement) throws Exception{
 		if (pNeiElement != null) {
-			if (pNeiElement.getID() != ID) NeighbourList.append(pNeiElement);
+			if (pNeiElement.getId() != id) neighbourList.append(pNeiElement);
 			else throw new Exception("02; FiEle,aNE");
 		} else throw new Exception("04; FiEle,aNE");
 	}
@@ -1056,7 +1056,7 @@ public class FightElement {
 		while (!pNeiList.isEnd()){
 			vTemp = pNeiList.getCurrent();
 			if (vTemp instanceof NeighbourElement){
-				if (((NeighbourElement)vTemp).getID() != ID) NeighbourList.append(vTemp);
+				if (((NeighbourElement)vTemp).getId() != id) neighbourList.append(vTemp);
 				else throw new Exception("02; FiEle,aNL");
 			} else throw new Exception("06; FiEle,aNL");
 			pNeiList.next();
@@ -1072,17 +1072,17 @@ public class FightElement {
 	public void removeActiveWeapon(int pInd) throws Exception{
 		Weapon[] vNewWeapons;
 		
-		if ((pInd >= 0) && (pInd < ActiveWeapons.length)) {
-			if (ActiveWeapons.length != 1) {
-				vNewWeapons = new Weapon[ActiveWeapons.length-1];
+		if ((pInd >= 0) && (pInd < activeWeapons.length)) {
+			if (activeWeapons.length != 1) {
+				vNewWeapons = new Weapon[activeWeapons.length-1];
 				
 				for (int i=0; i<vNewWeapons.length; i++) {
-					if (i < pInd) vNewWeapons[i] = ActiveWeapons[i];
-					else vNewWeapons[i] = ActiveWeapons[i-1];
+					if (i < pInd) vNewWeapons[i] = activeWeapons[i];
+					else vNewWeapons[i] = activeWeapons[i-1];
 				}
 				
-				ActiveWeapons = vNewWeapons;
-			} else ActiveWeapons = null;
+				activeWeapons = vNewWeapons;
+			} else activeWeapons = null;
 		} throw new Exception("02; FiEle, rAW");
 	}
 	/**	Dh	28.5.2020
@@ -1094,18 +1094,18 @@ public class FightElement {
 		Weapon[] vNewWeapons;
 		
 		if (pActivWeapon != null) {
-			if (ActiveWeapons.length != 1) {
-				vNewWeapons = new Weapon[ActiveWeapons.length-1];
+			if (activeWeapons.length != 1) {
+				vNewWeapons = new Weapon[activeWeapons.length-1];
 				
 				for (int i=0; i<vNewWeapons.length; i++) {
-					if (ActiveWeapons[i] == pActivWeapon) pActivWeapon = null;
-					if (pActivWeapon != null) vNewWeapons[i] = ActiveWeapons[i];
-					else vNewWeapons[i] = ActiveWeapons[i+1];
+					if (activeWeapons[i] == pActivWeapon) pActivWeapon = null;
+					if (pActivWeapon != null) vNewWeapons[i] = activeWeapons[i];
+					else vNewWeapons[i] = activeWeapons[i+1];
 				}
 				
-				if (pActivWeapon != null) ActiveWeapons = vNewWeapons;
+				if (pActivWeapon != null) activeWeapons = vNewWeapons;
 				else throw new Exception("02; FiEle,rAW");
-			} else if (ActiveWeapons[0] == pActivWeapon) ActiveWeapons = null;
+			} else if (activeWeapons[0] == pActivWeapon) activeWeapons = null;
 			else throw new Exception("02; FiEle,rAW");
 		} throw new Exception("04; FiEle,rAW");
 	}
@@ -1157,18 +1157,18 @@ public class FightElement {
 		NeighbourElement vCur;
 		
 		if (pID >= 0) {
-			if (!NeighbourList.isEmpty()) {
-				NeighbourList.toFirst();
+			if (!neighbourList.isEmpty()) {
+				neighbourList.toFirst();
 				
-				while(!NeighbourList.isEnd()) {
-					vCur = (NeighbourElement)NeighbourList.getCurrent();
+				while(!neighbourList.isEnd()) {
+					vCur = (NeighbourElement)neighbourList.getCurrent();
 					
-					if (pID == vCur.getID()) {
-						NeighbourList.remove();
-						NeighbourList.toLast();
+					if (pID == vCur.getId()) {
+						neighbourList.remove();
+						neighbourList.toLast();
 					}
 					
-					NeighbourList.next();
+					neighbourList.next();
 				}
 			}else throw new Exception("05; FiEle,rNE");
 		} else throw new Exception("02; FiEle,rNE");
@@ -1182,8 +1182,8 @@ public class FightElement {
 	 */
 	public void removeNeighbourElement(NeighbourElement pNeiEle) throws Exception {
 		if (pNeiEle != null) {
-			if (!NeighbourList.isEmpty()) {
-				NeighbourList.deleteElement(pNeiEle);
+			if (!neighbourList.isEmpty()) {
+				neighbourList.deleteElement(pNeiEle);
 			}else throw new Exception("05; FiEle,rNE");
 		} else throw new Exception("04; FiEle,rNE");
 	}
@@ -1221,13 +1221,13 @@ public class FightElement {
 		boolean vRet = false;
 		
 		if (pID >= 0){
-			if (!NeighbourList.isEmpty()){
-				NeighbourList.toFirst();
-				while(!NeighbourList.isEmpty()){
-					NeighbourElement vTemp = (NeighbourElement) NeighbourList.getCurrent();
-					if (vTemp.getID() == pID) vRet = true;
+			if (!neighbourList.isEmpty()){
+				neighbourList.toFirst();
+				while(!neighbourList.isEmpty()){
+					NeighbourElement vTemp = (NeighbourElement) neighbourList.getCurrent();
+					if (vTemp.getId() == pID) vRet = true;
 					
-					NeighbourList.next();
+					neighbourList.next();
 				}
 			}
 		}
@@ -1250,15 +1250,15 @@ public class FightElement {
 		Weapon vCurWeapon;
 		Fighttalent vCurTalent;
 		
-		if ((pInd >= 0) && (pInd < ActiveWeapons.length)) {
-			vCurWeapon = ActiveWeapons[pInd];
-			vCurTalent = getUsableFightTalent(Character.getTalentList(), vCurWeapon.getWeaponType());
+		if ((pInd >= 0) && (pInd < activeWeapons.length)) {
+			vCurWeapon = activeWeapons[pInd];
+			vCurTalent = getUsableFightTalent(character.getTalentList(), vCurWeapon.getWeaponType());
 			
 			if (vCurTalent != null) {
 				if (vCurWeapon instanceof CloseWeapon) {
-					pMod = ((CloseWeapon)vCurWeapon).getWM(0);
-					vRet = vCurTalent.makeAttackProbe((int)Math.round(Character.getFightValue(1)), pMod);
-				} else if (vCurWeapon instanceof RangeWeapon) vRet = vCurTalent.makeAttackProbe((int)Math.round(Character.getFightValue(3)), pMod);
+					pMod = ((CloseWeapon)vCurWeapon).getWm(0);
+					vRet = vCurTalent.makeAttackProbe((int)Math.round(character.getFightValue(1)), pMod);
+				} else if (vCurWeapon instanceof RangeWeapon) vRet = vCurTalent.makeAttackProbe((int)Math.round(character.getFightValue(3)), pMod);
 			}
 		} else throw new Exception("02; FiEle,mAwAW");
 			
@@ -1276,15 +1276,15 @@ public class FightElement {
 		Weapon vCurWeapon;
 		Fighttalent vCurTalent;
 		
-		if ((pInd >= 0) && (pInd < ActiveWeapons.length)) {
-			vCurWeapon = ActiveWeapons[pInd];
-			vCurTalent = getUsableFightTalent(Character.getTalentList(), vCurWeapon.getWeaponType());
+		if ((pInd >= 0) && (pInd < activeWeapons.length)) {
+			vCurWeapon = activeWeapons[pInd];
+			vCurTalent = getUsableFightTalent(character.getTalentList(), vCurWeapon.getWeaponType());
 			
 			if (vCurTalent != null) {
 				if (vCurWeapon instanceof CloseWeapon) {
-					pMod = ((CloseWeapon)vCurWeapon).getWM(1);
-					vRet = vCurTalent.makeAttackProbe((int)Math.round(Character.getFightValue(2)), pMod);
-				} else if (vCurWeapon instanceof RangeWeapon) vRet = vCurTalent.makeAttackProbe((int)Math.round(Character.getFightValue(2)), pMod);
+					pMod = ((CloseWeapon)vCurWeapon).getWm(1);
+					vRet = vCurTalent.makeAttackProbe((int)Math.round(character.getFightValue(2)), pMod);
+				} else if (vCurWeapon instanceof RangeWeapon) vRet = vCurTalent.makeAttackProbe((int)Math.round(character.getFightValue(2)), pMod);
 			}
 		} else throw new Exception("02; FiEle,mAwAW");
 			

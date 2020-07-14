@@ -1,4 +1,4 @@
-/**	DSA_App	v0.0	Dh	4.6.2020
+/**	DSA_App	v0.0	Dh	10.7.2020
  * 
  * 	Logik
  * 	  Weapon
@@ -22,19 +22,15 @@
  *   07: Nonlehtal+Unholy	15: All
  *   
  * pWeaponType:
- * 	 00: Raufen				08: Staebe
- * 	 01: Ringen				09: Zweihandpflegel
- * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
- * 	 03: Dolche				11: Zweihandschwerter
- * 	 04: Fechtwaffen		12: Improvisiert
- * 	 05: Hiebwaffen			13: Armbrust
- * 	 06: Infanteriewaffen	14: Blasrohr
- * 	 07: Kettenstaebe		15: Bogen
- * 	 08: Kettenwwaffen		16: Diskus
- * 	 09: Peitsche			17: Schleuder
- * 	 10: Saebel				18: Wurfbeil
- * 	 11: Schwerter			19: Wurfmesser
- * 	 12: Speere				20: Wurfspeer
+ * 	 00: Raufen				09: Peitsche
+ * 	 01: Ringen				10: Saebel
+ * 	 02: Anderhalbhaender	11: Schwerter
+ * 	 03: Dolche				12: Speere
+ * 	 04: Fechtwaffen		13: Staebe
+ * 	 05: Hiebwaffen			14: Zweihandpflegel
+ * 	 06: Infanteriewaffen	15: Zweihand-Hiebwaffen
+ * 	 07: Kettenstaebe		16: Zweihandschwerter
+ * 	 08: Kettenwaffen		
  * 
  * 	Exceptions:
  * 	  01 Wrong length
@@ -45,22 +41,26 @@
  * 	  06 Wrong Type Error
  * 	  07 Index Error
  * 	  08 Equal Object Error
+ * 	  09 Wrong Selection
 **/
 package pLogik;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import pGUI.MainFrame;
 
 @XmlRootElement(name="closeweapon")
-@XmlType(propOrder = { "BF", "iniMod", "WM", "brwalRange", "closeRange", "spearRange", "pikeRange" })
+@XmlSeeAlso(DefenceWeapon.class)
+@XmlType(propOrder = { "bf", "iniMod", "wm", "brawlRange", "closeRange", "spearRange", "pikeRange" })
 public class CloseWeapon extends Weapon {
-	private boolean BrawlRange, CloseRange, SpearRange, PikeRange;
-	private int BF, IniMod;
-	private int[] WM;
+	private boolean isBrawlRange, isCloseRange, isSpearRange, isPikeRange;
+	private int bf, iniMod;
+	private int[] wm;
 	
 	/**	Dh	27.5.2020
 	 * 
@@ -69,15 +69,15 @@ public class CloseWeapon extends Weapon {
 	public CloseWeapon() {
 		super();
 		
-		BF = 12;
-		IniMod = 0;
+		bf = 12;
+		iniMod = 0;
 		
-		WM = new int[] {0, 0};
+		wm = new int[] {0, 0};
 		
-		BrawlRange = false;
-		CloseRange = false;
-		SpearRange = false;
-		PikeRange = false;
+		isBrawlRange = false;
+		isCloseRange = false;
+		isSpearRange = false;
+		isPikeRange = false;
 	}
 	/**	Dh	5.6.2020
 	 * 
@@ -89,20 +89,16 @@ public class CloseWeapon extends Weapon {
 	 * 	  4: Brawl+CloseRange	9: All
 	 * 
 	 * 	pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
-	 * 
+	 * 	 00: Raufen				09: Peitsche
+	 * 	 01: Ringen				10: Saebel
+	 * 	 02: Anderhalbhaender	11: Schwerter
+	 * 	 03: Dolche				12: Speere
+	 * 	 04: Fechtwaffen		13: Staebe
+	 * 	 05: Hiebwaffen			14: Zweihandpflegel
+	 * 	 06: Infanteriewaffen	15: Zweihand-Hiebwaffen
+	 * 	 07: Kettenstaebe		16: Zweihandschwerter
+	 * 	 08: Kettenwaffen		
+
 	 * @param pID
 	 * @param pName
 	 * @param pTP
@@ -116,23 +112,23 @@ public class CloseWeapon extends Weapon {
 		super(pID, pName, pWeaponType, pTP, pTPKK);
 		Exception vExc = null;
 		
-		BF = pBF;
-		IniMod = pIniMod;
+		bf = pBF;
+		iniMod = pIniMod;
 		
 		if (pWM.length == 2) {
-			WM = pWM;
+			wm = pWM;
 		}
 		else vExc = new Exception("01; ClWea_a");
 		
 		if ((pRange < 0) || (pRange >= 10)) vExc = new Exception("02; ClWea_a");
-		if ((pRange == 0) || (pRange == 4) || (pRange == 7) || (pRange == 9)) BrawlRange = true;
-		else BrawlRange = false;
-		if ((pRange == 1) || (pRange == 4) || (pRange == 5) || (pRange == 7) || (pRange == 8) || (pRange == 9)) CloseRange = true;
-		else CloseRange = false;
-		if ((pRange == 2) || (pRange == 5) || (pRange == 6) || (pRange == 7) || (pRange == 8) || (pRange == 9)) SpearRange = true;
-		else SpearRange = false;
-		if ((pRange == 3) || (pRange == 6) || (pRange == 8) || (pRange == 9)) PikeRange = true;
-		else PikeRange = false;
+		if ((pRange == 0) || (pRange == 4) || (pRange == 7) || (pRange == 9)) isBrawlRange = true;
+		else isBrawlRange = false;
+		if ((pRange == 1) || (pRange == 4) || (pRange == 5) || (pRange == 7) || (pRange == 8) || (pRange == 9)) isCloseRange = true;
+		else isCloseRange = false;
+		if ((pRange == 2) || (pRange == 5) || (pRange == 6) || (pRange == 7) || (pRange == 8) || (pRange == 9)) isSpearRange = true;
+		else isSpearRange = false;
+		if ((pRange == 3) || (pRange == 6) || (pRange == 8) || (pRange == 9)) isPikeRange = true;
+		else isPikeRange = false;
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
@@ -156,19 +152,15 @@ public class CloseWeapon extends Weapon {
 	 *   07: Nonlehtal+Unholy	15: All
 	 *   
 	 * pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
+	 * 	 00: Raufen				09: Peitsche
+	 * 	 01: Ringen				10: Saebel
+	 * 	 02: Anderhalbhaender	11: Schwerter
+	 * 	 03: Dolche				12: Speere
+	 * 	 04: Fechtwaffen		13: Staebe
+	 * 	 05: Hiebwaffen			14: Zweihandpflegel
+	 * 	 06: Infanteriewaffen	15: Zweihand-Hiebwaffen
+	 * 	 07: Kettenstaebe		16: Zweihandschwerter
+	 * 	 08: Kettenwaffen		
 	 * 
 	 * @param pID
 	 * @param pName
@@ -184,23 +176,23 @@ public class CloseWeapon extends Weapon {
 		super(pID, pName, pWeaponType, pTP, pTPKK, pMund);
 		Exception vExc = null;
 		
-		BF = pBF;
-		IniMod = pIniMod;
+		bf = pBF;
+		iniMod = pIniMod;
 		
 		if (pWM.length == 2) {
-			WM = pWM;
+			wm = pWM;
 		}
 		else vExc = new Exception("01; ClWea_b");
 		
 		if ((pRange < 0) || (pRange >= 10)) vExc = new Exception("02; ClWea_b");
-		if ((pRange == 0) || (pRange == 4) || (pRange == 7) || (pRange == 9)) BrawlRange = true;
-		else BrawlRange = false;
-		if ((pRange == 1) || (pRange == 4) || (pRange == 5) || (pRange == 7) || (pRange == 8) || (pRange == 9)) CloseRange = true;
-		else CloseRange = false;
-		if ((pRange == 2) || (pRange == 5) || (pRange == 6) || (pRange == 7) || (pRange == 8) || (pRange == 9)) SpearRange = true;
-		else SpearRange = false;
-		if ((pRange == 3) || (pRange == 6) || (pRange == 8) || (pRange == 9)) PikeRange = true;
-		else PikeRange = false;
+		if ((pRange == 0) || (pRange == 4) || (pRange == 7) || (pRange == 9)) isBrawlRange = true;
+		else isBrawlRange = false;
+		if ((pRange == 1) || (pRange == 4) || (pRange == 5) || (pRange == 7) || (pRange == 8) || (pRange == 9)) isCloseRange = true;
+		else isCloseRange = false;
+		if ((pRange == 2) || (pRange == 5) || (pRange == 6) || (pRange == 7) || (pRange == 8) || (pRange == 9)) isSpearRange = true;
+		else isSpearRange = false;
+		if ((pRange == 3) || (pRange == 6) || (pRange == 8) || (pRange == 9)) isPikeRange = true;
+		else isPikeRange = false;
 		
 		if (vExc != null) MainFrame.handleException(vExc);
 	}
@@ -212,8 +204,8 @@ public class CloseWeapon extends Weapon {
 	 * @return
 	 */
 	@XmlElement(name = "BF")
-	public int getBF() {
-		return BF;
+	public int getBf() {
+		return bf;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -221,7 +213,7 @@ public class CloseWeapon extends Weapon {
 	 */
 	@XmlElement(name = "IniMod")
 	public int getIniMod() {
-		return IniMod;
+		return iniMod;
 	}
 	
 	/**	Dh	27.5.2020
@@ -230,8 +222,8 @@ public class CloseWeapon extends Weapon {
 	 * @return
 	 * @throws Exception
 	 */
-	public int getWM(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < 2)) return WM[pInd];
+	public int getWm(int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < 2)) return wm[pInd];
 		else throw new Exception("07; ClWea,gWM");
 	}
 	/**	Dh	27.5.2020
@@ -239,8 +231,9 @@ public class CloseWeapon extends Weapon {
 	 * @return
 	 */
 	@XmlElementWrapper(name = "WMArray")
-	public int[] getWM() {
-		return WM;
+	@XmlElement(name = "WM")
+	public int[] getWm() {
+		return wm;
 	}
 	
 	/**	Dh	27.5.2020
@@ -248,8 +241,8 @@ public class CloseWeapon extends Weapon {
 	 * @return
 	 */
 	@XmlElement(name = "BrawlRange")
-	public boolean isBrwalRange() {
-		return BrawlRange;
+	public boolean isBrawlRange() {
+		return isBrawlRange;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -257,7 +250,7 @@ public class CloseWeapon extends Weapon {
 	 */
 	@XmlElement(name = "CloseRange")
 	public boolean isCloseRange() {
-		return CloseRange;
+		return isCloseRange;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -265,7 +258,7 @@ public class CloseWeapon extends Weapon {
 	 */
 	@XmlElement(name = "SpearRange")
 	public boolean isSpearRange() {
-		return SpearRange;
+		return isSpearRange;
 	}
 	/**	Dh	27.5.2020
 	 * 	
@@ -273,7 +266,43 @@ public class CloseWeapon extends Weapon {
 	 */
 	@XmlElement(name = "PikeRange")
 	public boolean isPikeRange() {
-		return PikeRange;
+		return isPikeRange;
+	}
+	
+	/**	Dh	10.7.2020
+	 * 
+	 * 	pRange:
+	 * 	  0: BrawlRange			5: Close+SpearRange
+	 * 	  1: CloseRange			6: Spear+PikeRange
+	 * 	  2: SpearRange			7: Brawl+Close+Spear
+	 * 	  3: PikeRange			8: Close+Spear+Pike
+	 * 	  4: Brawl+CloseRange	9: All
+	 * 
+	 * @return
+	 */
+	@XmlTransient
+	public int getDk() throws Exception{
+		int vRet = -1;
+		
+		if (isBrawlRange == true) {
+			if (isCloseRange == true) {
+				if (isSpearRange == true) {
+					if (isPikeRange == true) vRet = 9;
+					else vRet = 7;
+				} else vRet = 4;
+			} else vRet = 0;
+		} else if (isCloseRange == true) {
+			if (isSpearRange == true) {
+				if (isPikeRange == true) vRet = 8;
+				else vRet = 5;
+			} else vRet = 1;
+		}else if (isSpearRange == true) {
+			if (isPikeRange == true) vRet = 6;
+			else vRet = 2;
+		} else if (isPikeRange == true) vRet = 3;
+		else throw new Exception("09; ClWea,gDK");
+		
+		return vRet;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -282,15 +311,15 @@ public class CloseWeapon extends Weapon {
 	 * 
 	 * @param pBF
 	 */
-	public void setBF(int pBF) {
-		BF = pBF;
+	public void setBf(int pBF) {
+		bf = pBF;
 	}
 	/**	Dh	27.5.2020
 	 * 
 	 * @param pIniMod
 	 */
 	public void setIniMod(int pIniMod) {
-		IniMod = pIniMod;
+		iniMod = pIniMod;
 	}
 	
 	/**	Dh	27.5.2020
@@ -299,9 +328,9 @@ public class CloseWeapon extends Weapon {
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void setWM(int pWMValue, int pInd) throws Exception{
+	public void setWm(int pWMValue, int pInd) throws Exception{
 		if ((pInd >= 0) && (pInd < 2)) {
-			WM[pInd] = pWMValue;
+			wm[pInd] = pWMValue;
 		} else throw new Exception("07; ClWea,sWM");
 	}
 	/**	Dh	27.5.2020
@@ -309,9 +338,9 @@ public class CloseWeapon extends Weapon {
 	 * @param pWM
 	 * @throws Exception
 	 */
-	public void setWM(int[] pWM) throws Exception {
+	public void setWm(int[] pWM) throws Exception {
 		if (pWM.length == 2) {
-			WM = pWM;
+			wm = pWM;
 		} else throw new Exception("01; ClWea,sWM");
 	}
 	
@@ -320,28 +349,45 @@ public class CloseWeapon extends Weapon {
 	 * @param pBrawlRange
 	 */
 	public void setBrawlRange(boolean pBrawlRange) {
-		BrawlRange = pBrawlRange;
+		isBrawlRange = pBrawlRange;
 	}
 	/**	Dh	27.5.2020
 	 * 
 	 * @param pCloseRange
 	 */
 	public void setCloseRange(boolean pCloseRange) {
-		CloseRange = pCloseRange;
+		isCloseRange = pCloseRange;
 	}
 	/**	Dh	27.5.2020
 	 * 
 	 * @param pSpearRange
 	 */
 	public void setSpearRange(boolean pSpearRange) {
-		SpearRange = pSpearRange;
+		isSpearRange = pSpearRange;
 	}
 	/**	Dh	27.5.2020
 	 * 
 	 * @param pPikeRange
 	 */
 	public void setPikeRange(boolean pPikeRange) {
-		PikeRange = pPikeRange;
+		isPikeRange = pPikeRange;
+	}
+	
+	/**	Dh	10.7.2020
+	 * 
+	 * @param pDk
+	 * @throws Exception
+	 */
+	public void setDk(int pDk) throws Exception{
+		if ((pDk < 0) || (pDk >= 10)) throw new Exception("02; ClWea,sDK");
+		if ((pDk == 0) || (pDk == 4) || (pDk == 7) || (pDk == 9)) isBrawlRange = true;
+		else isBrawlRange = false;
+		if ((pDk == 1) || (pDk == 4) || (pDk == 5) || (pDk == 7) || (pDk == 8) || (pDk == 9)) isCloseRange = true;
+		else isCloseRange = false;
+		if ((pDk == 2) || (pDk == 5) || (pDk == 6) || (pDk == 7) || (pDk == 8) || (pDk == 9)) isSpearRange = true;
+		else isSpearRange = false;
+		if ((pDk == 3) || (pDk == 6) || (pDk == 8) || (pDk == 9)) isPikeRange = true;
+		else isPikeRange = false;
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -350,8 +396,8 @@ public class CloseWeapon extends Weapon {
 	 * 
 	 * @param pBF
 	 */
-	public void addBF(int pBF) {
-		BF += pBF;
+	public void addBf(int pBF) {
+		bf += pBF;
 	}
 	
 	//----------------------------------------------------------------------------------------------------

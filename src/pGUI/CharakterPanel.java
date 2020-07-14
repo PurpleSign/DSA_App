@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	4.6.2020
+/**	DSA_App v0.0	Dh	9.7.2020
  * 
  * 	pGUI
  * 	  CharakterPanel
@@ -42,8 +42,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import pLogik.FightManager;
 
 public class CharakterPanel {
-	private int ID, FighterID, Type;
-	private int Height, Width; 
+	private int id, fighterID, type;
+	private int height, width; 
 	private FightManager rFM;
 	private MainFrame rMF;
 	
@@ -54,18 +54,18 @@ public class CharakterPanel {
 	private JButton btFMCharButton;
 	
 	public CharakterPanel(String pName, int pID, int pFighterID, int pType, FightManager pFM, MainFrame pMF) {
-		ID = pID;
-		FighterID = pFighterID;
-		Type = pType;
+		id = pID;
+		fighterID = pFighterID;
+		type = pType;
 		rFM = pFM;
 		rMF = pMF;
 		
-		Width = 125;
-		Height = 140;
+		width = 125;
+		height = 140;
 		
 		pFMCharPanel = new JPanel();
 		pFMCharPanel.setBackground(Color.WHITE);
-		pFMCharPanel.setBounds(480,170, Width, Height);
+		pFMCharPanel.setBounds(480,170, width, height);
 		//pFMPanel_0.add(pFMCharPanel);
 		
 		lFMCharName = new JLabel(pName);
@@ -173,7 +173,7 @@ public class CharakterPanel {
 		pFMCharPanel.setLayout(gl_pFMCharPanel);
 		
 		btFMCharButton = new JButton("Angreifen");
-		btFMCharButton.setBounds(12, Height-30, 100, 25);
+		btFMCharButton.setBounds(12, height-30, 100, 25);
 		btFMCharButton.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
 		btFMCharButton.addActionListener(new ActionListener() {
 			@Override
@@ -214,15 +214,15 @@ public class CharakterPanel {
 	 * 
 	 * @return
 	 */
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 	/**	Dh	´3.6.2020
 	 * 
 	 * @return
 	 */
 	public int getFighterID() {
-		return FighterID;
+		return fighterID;
 	}
 	/**	Dh	26.5.2020
 	 * 
@@ -236,7 +236,7 @@ public class CharakterPanel {
 	 * @return
 	 */
 	public int getType() {
-		return Type;
+		return type;
 	}
 	/**	Dh	26.5.2020
 	 * 
@@ -259,14 +259,14 @@ public class CharakterPanel {
 	 * @return
 	 */
 	public int getWidth() {
-		return Width;
+		return width;
 	}
 	/**	Dh	26.5.2020
 	 * 	
 	 * @return
 	 */
 	public int getHeight() {
-		return Height;
+		return height;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -292,12 +292,12 @@ public class CharakterPanel {
 		int vAt;
 		
 		try{
-			if (FighterID != ID) vAt = (int)(rFM.getActiveWeaponAttackValueOfFighter(FighterID, pInd) + rFM.getFightModOfNeighbourOfFighter(FighterID, ID, 1));
+			if (fighterID != id) vAt = (int)(rFM.getActiveWeaponAttackValueOfFighter(fighterID, pInd) + rFM.getFightModOfNeighbourOfFighter(fighterID, id, 1));
 			else vAt = -1;
 			
-			if (Type != 1) {
+			if (type != 1) {
 				btFMCharButton.setVisible(true);
-				if (Type == 0) btFMCharButton.setText("Skip");
+				if (type == 0) btFMCharButton.setText("Skip");
 				else btFMCharButton.setText("Angreifen ("+vAt+")");
 			}
 			else btFMCharButton.setVisible(false);
@@ -310,12 +310,12 @@ public class CharakterPanel {
 		int vAt;
 		
 		try{
-			if (FighterID != ID) vAt = (int)(rFM.getActiveWeaponAttackValueOfFighter(FighterID) + rFM.getFightModOfNeighbourOfFighter(FighterID, ID, 1));
+			if (fighterID != id) vAt = (int)(rFM.getActiveWeaponAttackValueOfFighter(fighterID) + rFM.getFightModOfNeighbourOfFighter(fighterID, id, 1));
 			else vAt = -1;
 			
-			if (Type != 1) {
+			if (type != 1) {
 				btFMCharButton.setVisible(true);
-				if (Type == 0) btFMCharButton.setText("Skip");
+				if (type == 0) btFMCharButton.setText("Skip");
 				else btFMCharButton.setText("Angreifen ("+vAt+")");
 			}
 			else btFMCharButton.setVisible(false);
@@ -327,18 +327,17 @@ public class CharakterPanel {
 	 * @param pInd
 	 */
 	protected void updateCharStati(int pInd) {
-		double[] vStat;
-		int[]vMaxStat;
+		double[] vStat, vMaxStat;
 		
 		try {
-			vStat = rFM.getCharacterOfFighter(ID).getStats(0);
-			vMaxStat = rFM.getCharacterOfFighter(ID).getMaxStats();
+			vStat = rFM.getCharacterOfFighter(id).getStats(0);
+			vMaxStat = rFM.getCharacterOfFighter(id).getMaxStats();
 			
-			pbFMCharBar_0.setMaximum(vMaxStat[0]);
+			pbFMCharBar_0.setMaximum((int)vMaxStat[0]);
 			pbFMCharBar_0.setValue((int)vStat[0]);
 			pbFMCharBar_0.setString(""+((int)vStat[0])+"/"+vMaxStat[0]);
 			
-			pbFMCharBar_1.setMaximum(vMaxStat[1]);
+			pbFMCharBar_1.setMaximum((int)vMaxStat[1]);
 			pbFMCharBar_1.setValue((int)vStat[1]);
 			pbFMCharBar_1.setString(""+((int)vStat[1])+"/"+vMaxStat[1]);
 			
@@ -346,13 +345,13 @@ public class CharakterPanel {
 			pbFMCharBar_3.setVisible(false);
 			
 			if (vMaxStat[2] != -1) {
-				pbFMCharBar_2.setMaximum(vMaxStat[2]);
+				pbFMCharBar_2.setMaximum((int)vMaxStat[2]);
 				pbFMCharBar_2.setValue((int)vStat[2]);
 				pbFMCharBar_2.setForeground(new Color(0, 0, 205));
 				pbFMCharBar_2.setString(""+((int)vStat[2])+"/"+vMaxStat[2]);
 				
 				if (vMaxStat[3] != -1) {
-					pbFMCharBar_3.setMaximum(vMaxStat[3]);
+					pbFMCharBar_3.setMaximum((int)vMaxStat[3]);
 					pbFMCharBar_3.setValue((int)vStat[3]);
 					pbFMCharBar_3.setString(""+((int)vStat[3])+"/"+vMaxStat[3]);
 					
@@ -362,7 +361,7 @@ public class CharakterPanel {
 			} else if (vMaxStat[3] != -1) {
 				lFMCharLable_2.setText("KaP:");
 				
-				pbFMCharBar_2.setMaximum(vMaxStat[3]);
+				pbFMCharBar_2.setMaximum((int)vMaxStat[3]);
 				pbFMCharBar_2.setValue((int)vStat[3]);
 				pbFMCharBar_2.setForeground(new Color(0, 0, 205));
 				pbFMCharBar_2.setString(""+((int)vStat[3])+"/"+vMaxStat[3]);
@@ -379,18 +378,17 @@ public class CharakterPanel {
 	 * 	Updatet die Charakter Stati.
 	 */
 	protected void updateCharStati() {
-		double[] vStat;
-		int[]vMaxStat;
+		double[] vStat, vMaxStat;
 		
 		try {
-			vStat = rFM.getCharacterOfFighter(ID).getStats(0);
-			vMaxStat = rFM.getCharacterOfFighter(ID).getMaxStats();
+			vStat = rFM.getCharacterOfFighter(id).getStats(0);
+			vMaxStat = rFM.getCharacterOfFighter(id).getMaxStats();
 			
-			pbFMCharBar_0.setMaximum(vMaxStat[0]);
+			pbFMCharBar_0.setMaximum((int)vMaxStat[0]);
 			pbFMCharBar_0.setValue((int)vStat[0]);
 			pbFMCharBar_0.setString(""+((int)vStat[0])+"/"+vMaxStat[0]);
 			
-			pbFMCharBar_1.setMaximum(vMaxStat[1]);
+			pbFMCharBar_1.setMaximum((int)vMaxStat[1]);
 			pbFMCharBar_1.setValue((int)vStat[1]);
 			pbFMCharBar_1.setString(""+((int)vStat[1])+"/"+vMaxStat[1]);
 			
@@ -398,13 +396,13 @@ public class CharakterPanel {
 			pbFMCharBar_3.setVisible(false);
 			
 			if (vMaxStat[2] != -1) {
-				pbFMCharBar_2.setMaximum(vMaxStat[2]);
+				pbFMCharBar_2.setMaximum((int)vMaxStat[2]);
 				pbFMCharBar_2.setValue((int)vStat[2]);
 				pbFMCharBar_2.setForeground(new Color(0, 0, 205));
 				pbFMCharBar_2.setString(""+((int)vStat[2])+"/"+vMaxStat[2]);
 				
 				if (vMaxStat[3] != -1) {
-					pbFMCharBar_3.setMaximum(vMaxStat[3]);
+					pbFMCharBar_3.setMaximum((int)vMaxStat[3]);
 					pbFMCharBar_3.setValue((int)vStat[3]);
 					pbFMCharBar_3.setString(""+((int)vStat[3])+"/"+vMaxStat[3]);
 					
@@ -414,7 +412,7 @@ public class CharakterPanel {
 			} else if (vMaxStat[3] != -1) {
 				lFMCharLable_2.setText("KaP:");
 				
-				pbFMCharBar_2.setMaximum(vMaxStat[3]);
+				pbFMCharBar_2.setMaximum((int)vMaxStat[3]);
 				pbFMCharBar_2.setValue((int)vStat[3]);
 				pbFMCharBar_2.setForeground(new Color(0, 0, 205));
 				pbFMCharBar_2.setString(""+((int)vStat[3])+"/"+vMaxStat[3]);
@@ -446,7 +444,7 @@ public class CharakterPanel {
 	 * 
 	 */
 	private void actionButton() {
-		if (Type == 2)	rMF.openAttackFrame(FighterID, ID);
-		if (Type == 0) rMF.nextTurn();
+		if (type == 2)	rMF.openAttackFrame(fighterID, id);
+		if (type == 0) rMF.nextTurn();
 	}
 }

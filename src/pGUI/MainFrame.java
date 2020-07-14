@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	3.7.2020
+/**	DSA_App v0.0	Dh	11.7.2020
  * 
  * 	pGUI
  * 	  MainFrame
@@ -85,9 +85,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class MainFrame {
-	private boolean HexFMCharFieldGrid;
-	private int zHeight, zWidth, zFightTabPanleWidth;
-	private int[] zGenPropMods, zGenStatMods;
+	private boolean isHexFMCharFieldGrid;
+	private int height, width, fightTabPanleWidth;
+	private int[] genPropMods, genStatMods;
 	
 	private JFrame frmDsaAppV;
 	private JPanel pFMCharInfoPanel, pFMCharInfoPanel_0, pFMCharInfoPanel_1, pFMCharInfoPanel_2, lFMNeiInfoPanel;
@@ -208,10 +208,10 @@ public class MainFrame {
 	public MainFrame(FightManager pFM, CharacterManager pCM) {
 		rFM = pFM;
 		rCM = pCM;
-		HexFMCharFieldGrid = false;
+		isHexFMCharFieldGrid = false;
 		
-		zGenPropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		zGenStatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		genPropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		genStatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
 		aCharPanelArray = new CharakterPanel[9];
 		
@@ -224,7 +224,7 @@ public class MainFrame {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		zFightTabPanleWidth = 150;
+		fightTabPanleWidth = 150;
 		
 		rListModel1 = new JListModel();
 		rListModel2 = new JListModel();
@@ -238,8 +238,8 @@ public class MainFrame {
 		frmDsaAppV.setBounds(350, 150, 1200, 800);
 		frmDsaAppV.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		zHeight = frmDsaAppV.getHeight();
-		zWidth = frmDsaAppV.getWidth();
+		height = frmDsaAppV.getHeight();
+		width = frmDsaAppV.getWidth();
 		
 		tpTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frmDsaAppV.getContentPane().add(tpTabbedPane, BorderLayout.CENTER);
@@ -285,7 +285,7 @@ public class MainFrame {
 		spFMSplitPane.setEnabled(false);
 		spFMSplitPane.setDividerSize(10);
 		spFMSplitPane.setDividerLocation(300);
-		spFMSplitPane.setDividerLocation(zHeight*5 / 8);
+		spFMSplitPane.setDividerLocation(height*5 / 8);
 		spFMSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		tpTabbedPane.addTab("Kampf Manager", null, spFMSplitPane, null);
 		
@@ -2148,7 +2148,7 @@ public class MainFrame {
 		);
 		pCMGenPanel.setLayout(gl_pCMGenPanel);
 	}
-	/**	Dh	24.6.2020
+	/**	Dh	14.7.2020
 	 * 
 	 */
 	private void initCharManPropPanel() {
@@ -2204,60 +2204,70 @@ public class MainFrame {
 		tfCMPropField_0 = new JTextField("0");
 		tfCMPropField_0.setPreferredSize(new Dimension(6, 15));
 		tfCMPropField_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_0.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMPropField_0.setEditable(false);
 		tfCMPropField_0.setColumns(2);
 		
 		tfCMPropField_1 = new JTextField("0");
 		tfCMPropField_1.setPreferredSize(new Dimension(6, 15));
 		tfCMPropField_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMPropField_1.setEditable(false);
 		tfCMPropField_1.setColumns(2);
 		
 		tfCMPropField_2 = new JTextField("0");
 		tfCMPropField_2.setPreferredSize(new Dimension(6, 15));
 		tfCMPropField_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_2.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMPropField_2.setEditable(false);
 		tfCMPropField_2.setColumns(2);
 		
 		tfCMPropField_3 = new JTextField("0");
 		tfCMPropField_3.setPreferredSize(new Dimension(6, 15));
 		tfCMPropField_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_3.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMPropField_3.setEditable(false);
 		tfCMPropField_3.setColumns(2);
 		
 		tfCMPropField_4 = new JTextField("0");
 		tfCMPropField_4.setPreferredSize(new Dimension(6, 15));
 		tfCMPropField_4.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_4.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMPropField_4.setEditable(false);
 		tfCMPropField_4.setColumns(2);
 		
 		tfCMPropField_5 = new JTextField("0");
 		tfCMPropField_5.setPreferredSize(new Dimension(6, 15));
 		tfCMPropField_5.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_5.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMPropField_5.setEditable(false);
 		tfCMPropField_5.setColumns(2);
 		
 		tfCMPropField_6 = new JTextField("0");
 		tfCMPropField_6.setPreferredSize(new Dimension(6, 15));
 		tfCMPropField_6.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_6.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMPropField_6.setEditable(false);
 		tfCMPropField_6.setColumns(2);
 		
 		tfCMPropField_7 = new JTextField("0");
 		tfCMPropField_7.setPreferredSize(new Dimension(6, 15));
 		tfCMPropField_7.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_7.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMPropField_7.setEditable(false);
 		tfCMPropField_7.setColumns(2);
 		
 		tfCMPropField_8 = new JTextField("0");
 		tfCMPropField_8.setPreferredSize(new Dimension(6, 15));
 		tfCMPropField_8.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_8.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMPropField_8.setEditable(false);
 		tfCMPropField_8.setColumns(2);
 		
 		tfCMPropField_9 = new JTextField("0");
 		tfCMPropField_9.setPreferredSize(new Dimension(6, 15));
 		tfCMPropField_9.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMPropField_9.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMPropField_9.setEditable(false);
 		tfCMPropField_9.setColumns(2);
 		
@@ -2369,7 +2379,7 @@ public class MainFrame {
 		);
 		pCMPropPanel.setLayout(gl_pCMPropPanel);
 	}
-	/**	Dh	24.6.2020
+	/**	Dh	14.7.2020
 	 * 
 	 */
 	private void initCharManStatPanel() {
@@ -2426,60 +2436,70 @@ public class MainFrame {
 		tfCMStatField_0 = new JTextField("0");
 		tfCMStatField_0.setPreferredSize(new Dimension(6, 15));
 		tfCMStatField_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_0.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMStatField_0.setEditable(false);
 		tfCMStatField_0.setColumns(4);
 		
 		tfCMStatField_1 = new JTextField("0");
 		tfCMStatField_1.setPreferredSize(new Dimension(6, 15));
 		tfCMStatField_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMStatField_1.setEditable(false);
 		tfCMStatField_1.setColumns(4);
 		
 		tfCMStatField_2 = new JTextField("0");
 		tfCMStatField_2.setPreferredSize(new Dimension(6, 15));
 		tfCMStatField_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_2.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMStatField_2.setEditable(false);
 		tfCMStatField_2.setColumns(4);
 		
 		tfCMStatField_3 = new JTextField("0");
 		tfCMStatField_3.setPreferredSize(new Dimension(6, 15));
 		tfCMStatField_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_3.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMStatField_3.setEditable(false);
 		tfCMStatField_3.setColumns(4);
 		
 		tfCMStatField_4 = new JTextField("0");
 		tfCMStatField_4.setPreferredSize(new Dimension(6, 15));
 		tfCMStatField_4.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_4.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMStatField_4.setEditable(false);
 		tfCMStatField_4.setColumns(2);
 		
 		tfCMStatField_5 = new JTextField("0");
 		tfCMStatField_5.setPreferredSize(new Dimension(6, 15));
 		tfCMStatField_5.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_5.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMStatField_5.setEditable(false);
 		tfCMStatField_5.setColumns(2);
 		
 		tfCMStatField_6 = new JTextField("0");
 		tfCMStatField_6.setPreferredSize(new Dimension(6, 15));
 		tfCMStatField_6.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_6.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMStatField_6.setEditable(false);
 		tfCMStatField_6.setColumns(2);
 		
 		tfCMStatField_7 = new JTextField("0");
 		tfCMStatField_7.setPreferredSize(new Dimension(6, 15));
 		tfCMStatField_7.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_7.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMStatField_7.setEditable(false);
 		tfCMStatField_7.setColumns(2);
 		
 		tfCMStatField_8 = new JTextField("0");
 		tfCMStatField_8.setPreferredSize(new Dimension(6, 15));
 		tfCMStatField_8.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_8.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMStatField_8.setEditable(false);
 		tfCMStatField_8.setColumns(2);
 		
 		tfCMStatField_9 = new JTextField("0");
 		tfCMStatField_9.setPreferredSize(new Dimension(6, 15));
 		tfCMStatField_9.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMStatField_9.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMStatField_9.setEditable(false);
 		tfCMStatField_9.setColumns(2);
 		
@@ -2700,7 +2720,7 @@ public class MainFrame {
 		);
 		pCMSpecialPanel.setLayout(gl_pCMSpecialPanel);
 	}
-	/**	Dh	3.7.2020
+	/**	Dh	14.7.2020
 	 * 
 	 */
 	private void initCharManArmorPanel() {
@@ -2756,60 +2776,70 @@ public class MainFrame {
 		tfCMArmorField_0 = new JTextField("0");
 		tfCMArmorField_0.setPreferredSize(new Dimension(6, 15));
 		tfCMArmorField_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_0.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMArmorField_0.setEditable(false);
 		tfCMArmorField_0.setColumns(2);
 		
 		tfCMArmorField_1 = new JTextField("0");
 		tfCMArmorField_1.setPreferredSize(new Dimension(6, 15));
 		tfCMArmorField_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMArmorField_1.setEditable(false);
 		tfCMArmorField_1.setColumns(2);
 		
 		tfCMArmorField_2 = new JTextField("0");
 		tfCMArmorField_2.setPreferredSize(new Dimension(6, 15));
 		tfCMArmorField_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_2.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMArmorField_2.setEditable(false);
 		tfCMArmorField_2.setColumns(2);
 		
 		tfCMArmorField_3 = new JTextField("0");
 		tfCMArmorField_3.setPreferredSize(new Dimension(6, 15));
 		tfCMArmorField_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_3.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMArmorField_3.setEditable(false);
 		tfCMArmorField_3.setColumns(2);
 		
 		tfCMArmorField_4 = new JTextField("0");
 		tfCMArmorField_4.setPreferredSize(new Dimension(6, 15));
 		tfCMArmorField_4.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_4.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMArmorField_4.setEditable(false);
 		tfCMArmorField_4.setColumns(2);
 		
 		tfCMArmorField_5 = new JTextField("0");
 		tfCMArmorField_5.setPreferredSize(new Dimension(6, 15));
 		tfCMArmorField_5.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_5.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMArmorField_5.setEditable(false);
 		tfCMArmorField_5.setColumns(2);
 		
 		tfCMArmorField_6 = new JTextField("0");
 		tfCMArmorField_6.setPreferredSize(new Dimension(6, 15));
 		tfCMArmorField_6.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_6.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMArmorField_6.setEditable(false);
 		tfCMArmorField_6.setColumns(2);
 		
 		tfCMArmorField_7 = new JTextField("0");
 		tfCMArmorField_7.setPreferredSize(new Dimension(6, 15));
 		tfCMArmorField_7.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_7.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMArmorField_7.setEditable(false);
 		tfCMArmorField_7.setColumns(2);
 		
 		tfCMArmorField_8 = new JTextField("0");
 		tfCMArmorField_8.setPreferredSize(new Dimension(6, 15));
 		tfCMArmorField_8.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_8.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMArmorField_8.setEditable(false);
 		tfCMArmorField_8.setColumns(2);
 		
 		tfCMArmorField_9 = new JTextField("0");
 		tfCMArmorField_9.setPreferredSize(new Dimension(6, 15));
 		tfCMArmorField_9.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfCMArmorField_9.setHorizontalAlignment(SwingConstants.CENTER);
 		tfCMArmorField_9.setEditable(false);
 		tfCMArmorField_9.setColumns(2);
 		
@@ -3038,7 +3068,7 @@ public class MainFrame {
 		if(pGenPropMods != null) {
 			if (pGenPropMods.length == 10) {
 				for (int i=0; i<pGenPropMods.length; i++) {
-					zGenPropMods[i] = zGenPropMods[i] + pGenPropMods[i];
+					genPropMods[i] = genPropMods[i] + pGenPropMods[i];
 				}
 			} else throw new Exception("01; MaFra,aGPM");
 		}else throw new Exception("04; MaFra,aGPM");
@@ -3054,7 +3084,7 @@ public class MainFrame {
 		if(pGenStatMods != null) {
 			if (pGenStatMods.length == 10) {
 				for (int i=0; i<pGenStatMods.length; i++) {
-					zGenStatMods[i] = zGenStatMods[i] + pGenStatMods[i];
+					genStatMods[i] = genStatMods[i] + pGenStatMods[i];
 				}
 			} else throw new Exception("01; MaFra,aGSM");
 		}else throw new Exception("04; MaFra,aGSM");
@@ -3067,7 +3097,7 @@ public class MainFrame {
 	 */
 	protected Point getMiddlePosition() {
 		Point vPos = frmDsaAppV.getLocation();
-		vPos.setLocation(vPos.getX()+(zWidth/2), vPos.getY()+(zHeight/2));
+		vPos.setLocation(vPos.getX()+(width/2), vPos.getY()+(height/2));
 		return vPos;
 	}
 	
@@ -3094,7 +3124,7 @@ public class MainFrame {
 				while(!pList.isEnd()) {
 					vListEle = pList.getCurrent();
 					
-					if (vListEle instanceof FightElement) pJLM.addElement(((FightElement)vListEle).getCharacter().getName(), ((FightElement)vListEle).getID());
+					if (vListEle instanceof FightElement) pJLM.addElement(((FightElement)vListEle).getCharacter().getName(), ((FightElement)vListEle).getId());
 					else if (vListEle instanceof int[]) {
 						vFiEle = rFM.getFightElement(((int[])vListEle)[0]);
 						if (vFiEle != null) {
@@ -3104,15 +3134,15 @@ public class MainFrame {
 						}
 						else throw new Exception("04; MaFra, aLtM");
 					} else if (vListEle instanceof IniElement) {
-						vFiEle = rFM.getFightElement(((IniElement)vListEle).getID());
-						if (vFiEle != null) pJLM.addElement(vFiEle.getCharacter().getName(), ((IniElement)vListEle).getID());
+						vFiEle = rFM.getFightElement(((IniElement)vListEle).getId());
+						if (vFiEle != null) pJLM.addElement(vFiEle.getCharacter().getName(), ((IniElement)vListEle).getId());
 						else throw new Exception("04; MaFra, aLtM");
 					} else if (vListEle instanceof NeighbourElement) {
-						vFiEle = rFM.getFightElement(((NeighbourElement)vListEle).getID());
-						if (vFiEle != null) pJLM.addElement(vFiEle.getCharacter().getName(), ((NeighbourElement)vListEle).getID());
+						vFiEle = rFM.getFightElement(((NeighbourElement)vListEle).getId());
+						if (vFiEle != null) pJLM.addElement(vFiEle.getCharacter().getName(), ((NeighbourElement)vListEle).getId());
 						else throw new Exception("04; MaFra, aLtM");
 					} else if (vListEle instanceof Charakter) {
-						pJLM.addElement(((Charakter)vListEle).getName(), ((Charakter)vListEle).getID());
+						pJLM.addElement(((Charakter)vListEle).getName(), ((Charakter)vListEle).getId());
 					} else throw new Exception("06; MaFra, aLtM");
 					
 					pList.next();
@@ -3120,7 +3150,7 @@ public class MainFrame {
 			}else throw new Exception("04; MaFra, aLtM");
 		}//else throw new Exception("05; MaFra, aLtM");
 	}
-	/**	Dh	3.7.2020
+	/**	Dh	11.7.2020
 	 * 
 	 * @param pTA
 	 * @param pList
@@ -3130,8 +3160,8 @@ public class MainFrame {
 		Object vListEle;
 		String vText = "";
 		
-		if (!pList.isEmpty()) {
-			if (pTA != null) {
+		if (pTA != null) {
+			if (!pList.isEmpty()) {
 				pTA.setText("");
 				pList.toFirst();
 				
@@ -3154,8 +3184,8 @@ public class MainFrame {
 					
 					pList.next();
 				}
-			}else throw new Exception("04; MaFra, aLtTA");
-		}//else throw new Exception("05; MaFra, aLtTA");
+			}else pTA.setText(vText);
+		} else throw new Exception("04; MaFra, aLtTA");
 	}
 	/**	Dh	3.7.2020
 	 * 
@@ -3193,9 +3223,9 @@ public class MainFrame {
 						vListEle = pList.getCurrent();
 						
 						if (vListEle instanceof Talent) {
-							vIDs[i] = ((Talent)vListEle).getID();
+							vIDs[i] = ((Talent)vListEle).getId();
 							vData[i][0] = ((Talent)vListEle).getName();
-							vData[i][1] = ((Talent)vListEle).getTaW();
+							vData[i][1] = ((Talent)vListEle).getTaw();
 						}
 						else throw new Exception("06; MaFra, aLtT");
 						
@@ -3213,9 +3243,11 @@ public class MainFrame {
 							return this;
 						}
 					});
-					//pJT.getColumnModel().getColumn(1).setWidth(15);
-					pJT.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-					pJT.getColumnModel().getColumn(0).setPreferredWidth(250);
+					pJT.getColumnModel().getColumn(0).setPreferredWidth(200);
+					pJT.getColumnModel().getColumn(1).setMinWidth(10);
+					pJT.getColumnModel().getColumn(1).setPreferredWidth(10);
+					//pJT.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+					
 					
 					
 				} else throw new Exception("02; MaFra, aLtT");
@@ -3313,14 +3345,14 @@ public class MainFrame {
 		
 		if ((vIndSel != -1) || (pEnable == false)) {
 			btCharListButton_1.setEnabled(pEnable);
-			//btCMGenButton.setEnabled(pEnable);
+			btCMGenButton.setEnabled(pEnable);
 			btCMPropButton.setEnabled(pEnable);
 			btCMStatButton.setEnabled(pEnable);
 			btCMProButton.setEnabled(pEnable);
 			btCMSpecialButton.setEnabled(pEnable);
 			btCMArmorButton.setEnabled(pEnable);
 			btCMEquipmentButton.setEnabled(pEnable);
-			//btCMTalentButton.setEnabled(pEnable);
+			btCMTalentButton.setEnabled(pEnable);
 		}
 	}
 	
@@ -3491,7 +3523,9 @@ public class MainFrame {
 	 * 
 	 */
 	private void updateSelectedFighter() {
-		int vTempValue, vMaxValue, vInd;
+		int vTempValue, vInd;
+		double vMaxValue;
+		
 		vInd = liFMFightList.getSelectedIndex();
 		if (vInd != -1) {
 			JListModelElement vCurEle = (JListModelElement)rListModel1.get(vInd);
@@ -3579,26 +3613,26 @@ public class MainFrame {
 	 * 	Updatet die allgemeinen Mod GUI-Elemente.
 	 */
 	private void updateGenModFields() {
-		tfFMGenPropModField_0.setText(""+zGenPropMods[0]);
-		tfFMGenPropModField_1.setText(""+zGenPropMods[1]);
-		tfFMGenPropModField_2.setText(""+zGenPropMods[2]);
-		tfFMGenPropModField_3.setText(""+zGenPropMods[3]);
-		tfFMGenPropModField_4.setText(""+zGenPropMods[4]);
-		tfFMGenPropModField_5.setText(""+zGenPropMods[5]);
-		tfFMGenPropModField_6.setText(""+zGenPropMods[6]);
-		tfFMGenPropModField_7.setText(""+zGenPropMods[7]);
-		tfFMGenPropModField_8.setText(""+zGenPropMods[8]);
+		tfFMGenPropModField_0.setText(""+genPropMods[0]);
+		tfFMGenPropModField_1.setText(""+genPropMods[1]);
+		tfFMGenPropModField_2.setText(""+genPropMods[2]);
+		tfFMGenPropModField_3.setText(""+genPropMods[3]);
+		tfFMGenPropModField_4.setText(""+genPropMods[4]);
+		tfFMGenPropModField_5.setText(""+genPropMods[5]);
+		tfFMGenPropModField_6.setText(""+genPropMods[6]);
+		tfFMGenPropModField_7.setText(""+genPropMods[7]);
+		tfFMGenPropModField_8.setText(""+genPropMods[8]);
 		
-		tfFMGenStatModField_0.setText(""+(int)zGenStatMods[0]);
-		tfFMGenStatModField_1.setText(""+(int)zGenStatMods[1]);
-		tfFMGenStatModField_2.setText(""+(int)zGenStatMods[2]);
-		tfFMGenStatModField_3.setText(""+(int)zGenStatMods[3]);
-		tfFMGenStatModField_4.setText(""+(int)zGenStatMods[4]);
-		tfFMGenStatModField_5.setText(""+(int)zGenStatMods[5]);
-		tfFMGenStatModField_6.setText(""+(int)zGenStatMods[6]);
-		tfFMGenStatModField_7.setText(""+(int)zGenStatMods[7]);
-		tfFMGenStatModField_8.setText(""+(int)zGenStatMods[8]);
-		tfFMGenStatModField_9.setText(""+(int)zGenStatMods[9]);
+		tfFMGenStatModField_0.setText(""+(int)genStatMods[0]);
+		tfFMGenStatModField_1.setText(""+(int)genStatMods[1]);
+		tfFMGenStatModField_2.setText(""+(int)genStatMods[2]);
+		tfFMGenStatModField_3.setText(""+(int)genStatMods[3]);
+		tfFMGenStatModField_4.setText(""+(int)genStatMods[4]);
+		tfFMGenStatModField_5.setText(""+(int)genStatMods[5]);
+		tfFMGenStatModField_6.setText(""+(int)genStatMods[6]);
+		tfFMGenStatModField_7.setText(""+(int)genStatMods[7]);
+		tfFMGenStatModField_8.setText(""+(int)genStatMods[8]);
+		tfFMGenStatModField_9.setText(""+(int)genStatMods[9]);
 	}
 	
 	/**	Dh	24.5.2020
@@ -3629,7 +3663,7 @@ public class MainFrame {
 				pFMPanel_0.add(aCharPanelArray[0].getPanel());
 				aCharPanelArray[0].getPanel().setVisible(true);
 				
-				vNeiList = rFM.getIDOfNeighboursOfFighter(vID);
+				vNeiList = rFM.getIdOfNeighboursOfFighter(vID);
 				if ((vNeiList != null) && (!vNeiList.isEmpty())) {
 					vNeiList.toFirst();
 					i=1;
@@ -3690,7 +3724,7 @@ public class MainFrame {
 				for (int i=1; i<aCharPanelArray.length; i++) {
 					if (aCharPanelArray[i] != null) {
 						vType = aCharPanelArray[i].getType();
-						if (HexFMCharFieldGrid == false) {
+						if (isHexFMCharFieldGrid == false) {
 							if (vType == 2) {
 								if (vEneTotCount == 1) aCharPanelArray[i].setLocation(vXCenter, vTop);
 								else if ((vEneTotCount == 2) && (vFriTotCount < 6) ) aCharPanelArray[i].setLocation(vLeft+(vEneCount*2*vXMove), vTop);
@@ -3721,7 +3755,7 @@ public class MainFrame {
 		}
 	}
 	//-----
-	/**	Dh	3.7.2020
+	/**	Dh	14.7.2020
 	 * 
 	 */
 	private void updateSelectedCharacter() {
@@ -3735,8 +3769,8 @@ public class MainFrame {
 				
 				tfCMGenField_0.setText(""+rCM.getNameOfCharacter(vID));
 				tfCMGenField_1.setText(""+rCM.getRaceOfCharacter(vID));
-				tfCMGenField_2.setText("");
-				tfCMGenField_3.setText("");
+				tfCMGenField_2.setText(""+rCM.getCultureOfCharacter(vID));
+				tfCMGenField_3.setText(""+rCM.getProfessionOfCharacter(vID));
 				
 				tfCMPropField_0.setText(""+rCM.getPropertyOfCharacter(vID, 0));
 				tfCMPropField_1.setText(""+rCM.getPropertyOfCharacter(vID, 1));
@@ -3753,12 +3787,12 @@ public class MainFrame {
 				tfCMStatField_1.setText(""+rCM.getStatOfCharacter(vID, 1)+"/"+rCM.getMaxStatOfCharacter(vID, 1));
 				tfCMStatField_2.setText(""+rCM.getStatOfCharacter(vID, 2)+"/"+rCM.getMaxStatOfCharacter(vID, 2));
 				tfCMStatField_3.setText(""+rCM.getStatOfCharacter(vID, 3)+"/"+rCM.getMaxStatOfCharacter(vID, 3));
-				tfCMStatField_4.setText(""+(int)rCM.getMagicResistanceOfCharacter(vID));
-				tfCMStatField_5.setText(""+(int)rCM.getWoundThresholdOfCharacter(vID));
-				tfCMStatField_6.setText(""+(int)rCM.getFightValueOfCharacter(vID, 0));
-				tfCMStatField_7.setText(""+(int)rCM.getFightValueOfCharacter(vID, 1));
-				tfCMStatField_8.setText(""+(int)rCM.getFightValueOfCharacter(vID, 2));
-				tfCMStatField_9.setText(""+(int)rCM.getFightValueOfCharacter(vID, 3));
+				tfCMStatField_4.setText(""+rCM.getMagicResistanceOfCharacter(vID));
+				tfCMStatField_5.setText(""+rCM.getWoundThresholdOfCharacter(vID));
+				tfCMStatField_6.setText(""+rCM.getFightValueOfCharacter(vID, 0));
+				tfCMStatField_7.setText(""+rCM.getFightValueOfCharacter(vID, 1));
+				tfCMStatField_8.setText(""+rCM.getFightValueOfCharacter(vID, 2));
+				tfCMStatField_9.setText(""+rCM.getFightValueOfCharacter(vID, 3));
 				
 				addListToTextArea(taCMProTextArea, rCM.getProListOfCharacter(vID));
 				addListToTextArea(taCMSpecialTextArea, rCM.getSpecialCraftListOfCharacter(vID));
@@ -3841,12 +3875,12 @@ public class MainFrame {
 		catch(Exception ex) {handleException(ex);}
 		updateIniList();
 	}
-	/**	Dh	24.6.2020
+	/**	Dh	14.7.2020
 	 * 
 	 * 	Fuegt einen kämpfenden dem FightManager hinzu.
 	 */
 	private void addFighter() {
-		try {rFM.addFighter(Loader.loadNewRandomCharakter());}
+		try {rFM.addFighter(Loader.loadNewRandomCharakter(rFM.getCharacterOfFighters().getContentNumber()));}
 		catch(Exception ex) {handleException(ex);}
 		updateFightManagerLists();
 	}
@@ -3859,11 +3893,11 @@ public class MainFrame {
 		updateSelectedFighter();
 	}
 	//-----
-	/**	Dh	24.6.2020
+	/**	Dh	14.7.2020
 	 * 
 	 */
 	private void addCharacter() {
-		try {rCM.addCharacter(Loader.loadNewRandomCharakter());}
+		try {rCM.addCharacter(Loader.loadNewRandomCharakter(rFM.getCharacterOfFighters().getContentNumber()));}
 		catch(Exception ex) {handleException(ex);}
 		updateCharacterManagerLists();
 	}
@@ -3900,12 +3934,12 @@ public class MainFrame {
 	 */
 	private void resetGeneralMods() {
 		try {
-			zGenPropMods = negArrayValues(zGenPropMods);
-			zGenStatMods = negArrayValues(zGenStatMods);
-			rFM.addPropModsToFighters(zGenPropMods);
-			rFM.addStatModsToFighters(zGenStatMods);
-			zGenPropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-			zGenStatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			genPropMods = negArrayValues(genPropMods);
+			genStatMods = negArrayValues(genStatMods);
+			rFM.addPropModsToFighters(genPropMods);
+			rFM.addStatModsToFighters(genStatMods);
+			genPropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+			genStatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		}catch(Exception ex) {if (!ex.getMessage().contains("03")) handleException(ex);}
 		/**
 		spFMGenPropModSpinner_0.setValue(zGenPropMods[0]);
@@ -3937,15 +3971,15 @@ public class MainFrame {
 	 */
 	private void removeAllGeneralMods() {
 		try {
-			zGenPropMods = negArrayValues(zGenPropMods);
-			zGenStatMods = negArrayValues(zGenStatMods);
+			genPropMods = negArrayValues(genPropMods);
+			genStatMods = negArrayValues(genStatMods);
 			
-			rFM.addPropModsToFighters(zGenPropMods);
-			rFM.addStatModsToFighters(zGenStatMods);
+			rFM.addPropModsToFighters(genPropMods);
+			rFM.addStatModsToFighters(genStatMods);
 		}catch(Exception ex) {handleException(ex);}
 		
-		zGenPropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		zGenStatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		genPropMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		genStatMods = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		
 		updateLists();
 		updateGenModFields();
@@ -3968,8 +4002,8 @@ public class MainFrame {
 				vSpezStatMod = rFM.getStatModsOfFighter(vID).clone();
 				
 				for (int i=0; i<10; i++) {
-					vSpezPropMod[i] = vSpezPropMod[i] - zGenPropMods[i];
-					vSpezStatMod[i] = vSpezStatMod[i] - zGenStatMods[i];
+					vSpezPropMod[i] = vSpezPropMod[i] - genPropMods[i];
+					vSpezStatMod[i] = vSpezStatMod[i] - genStatMods[i];
 					
 					if (vSpezPropMod[i] != 0) rFM.addPropModToFighter(vID, -vSpezPropMod[i], i);
 					if (vSpezStatMod[i] != 0) rFM.addStatModToFighter(vID, -vSpezStatMod[i], i);
@@ -4155,15 +4189,17 @@ public class MainFrame {
 		if (pCloseSpez != 0) nextTurn();
 	}
 	//-----
-	
+	/**	Dh	14.7.2020
+	 * 
+	 */
 	private void openGeneralFrame() {
 		int vSelInd = liCMCharList.getSelectedIndex();
 		
 		if (vSelInd != -1) {
-			//PropertyFrame vPropFrame = new PropertyFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
-			//vPropFrame.setVisible(true);
+			GeneralCharFrame vGenFrame = new GeneralCharFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
+			vGenFrame.setVisible(true);
 			
-			//setCharManSelectedObjectes(false);
+			setCharManSelectedObjectes(false);
 		} else handleException(new Exception("09; MaFra,oGF"));
 	}
 	/**	Dh	24.6.2020
@@ -4244,15 +4280,17 @@ public class MainFrame {
 			setCharManSelectedObjectes(false);
 		} else handleException(new Exception("09; MaFra,oEF"));
 	}
-	
+	/**	Dh	11.7.2020
+	 * 
+	 */
 	private void openTalentFrame() {
 		int vSelInd = liCMCharList.getSelectedIndex();
 		
 		if (vSelInd != -1) {
-			//SpecialCraftFrame vSpecialFrame = new SpecialCraftFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
-			//vSpecialFrame.setVisible(true);
+			TalentFrame vTalentFrame = new TalentFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
+			vTalentFrame.setVisible(true);
 			
-			//setCharManSelectedObjectes(false);
+			setCharManSelectedObjectes(false);
 		} else handleException(new Exception("09; MaFra,oTF"));
 	}
 	/**	Dh	24.6.2020

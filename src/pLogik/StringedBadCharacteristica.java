@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 1.7.2020
+/**	DSA_App v0.0	Dh	 9.7.2020
  * 	
  * 	Logik
  * 	  Pro
@@ -37,7 +37,7 @@ import pGUI.MainFrame;
 
 @XmlRootElement(name = "stringedbadcharacteristica")
 public class StringedBadCharacteristica extends BadCharacteristic implements Stringed{
-	private String StringedValue;
+	private String stringedValue;
 	
 	/**	Dh	17.6.2020
 	 * 
@@ -75,7 +75,7 @@ public class StringedBadCharacteristica extends BadCharacteristic implements Str
 		super(pID, pName, pArkane, pValue);
 		Exception vExc = null ;
 		
-		if (!pStringedValue.equals(pStringedValue)) StringedValue = pStringedValue;
+		if (!pStringedValue.equals(pStringedValue)) stringedValue = pStringedValue;
 		else vExc = new Exception("02; StVaPro_c");
 			
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -89,7 +89,7 @@ public class StringedBadCharacteristica extends BadCharacteristic implements Str
 	 */
 	@XmlElement(name = "StringedValue")
 	public String getStringedValue() {
-		return StringedValue;
+		return stringedValue;
 	}
 			
 	//----------------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ public class StringedBadCharacteristica extends BadCharacteristic implements Str
 	 */
 	public void setStringedValue(String pStringedValue) throws Exception{
 		if (pStringedValue != null) {
-			StringedValue = pStringedValue;
+			stringedValue = pStringedValue;
 		} else throw new Exception("04; StVaPro,sSV");
 	}
 			

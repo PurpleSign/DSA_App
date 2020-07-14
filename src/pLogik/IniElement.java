@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	11.6.2020
+/**	DSA_App v0.0	Dh	9.7.2020
  * 
  * 	Logik
  * 	  IniElement
@@ -27,17 +27,17 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "inielement")
 public class IniElement {
-	private int ID, Ini, TempIni, Action, TempAction;			// ID des kaempfenden.
+	private int id, ini, tempIni, action, tempAction;			// ID des kaempfenden.
 	
 	/**	Dh	30.4.2020
 	 */
 	public IniElement() {
 		super();
-		ID = -1;
-		Ini = -1;
-		TempIni = -1;
-		Action = -1;
-		TempAction = -1;
+		id = -1;
+		ini = -1;
+		tempIni = -1;
+		action = -1;
+		tempAction = -1;
 	}
 	/**	Dh	22.2.2020
 	 * 
@@ -47,14 +47,14 @@ public class IniElement {
 	public IniElement(int pID, int pIni){
 		Exception vExc;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; InEle_a");
-		if (pIni >= 0) Ini = pIni;
+		if (pIni >= 0) ini = pIni;
 		else vExc = new Exception("02; InEle_a");
 		
-		TempIni = Ini;
-		Action = 1;
-		TempAction = Action;
+		tempIni = ini;
+		action = 1;
+		tempAction = action;
 	}
 	/**	Dh	22.2.2020
 	 * 
@@ -65,14 +65,14 @@ public class IniElement {
 	public IniElement(int pID, int pIni, int pAction){
 		Exception vExc;
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; InEle_b");
-		if (pIni >= 0) Ini = pIni;
+		if (pIni >= 0) ini = pIni;
 		else vExc = new Exception("02; InEle_b");
-		TempIni = Ini;
-		if (pAction >= 0) Action = pAction;
+		tempIni = ini;
+		if (pAction >= 0) action = pAction;
 		else vExc = new Exception("02; InEle_b");
-		TempAction = Action;
+		tempAction = action;
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -82,8 +82,8 @@ public class IniElement {
 	 * @return
 	 */
 	@XmlAttribute
-	public int getID(){
-		return ID;
+	public int getId(){
+		return id;
 	}
 	/**	Dh	22.2.2020
 	 * 
@@ -91,7 +91,7 @@ public class IniElement {
 	 */
 	@XmlElement(name = "Ini")
 	public int getIni(){
-		return Ini;
+		return ini;
 	}
 	/**	Dh	3.5.2020
 	 * 
@@ -99,7 +99,7 @@ public class IniElement {
 	 */
 	@XmlTransient
 	public int getTempIni() {
-		return TempIni;
+		return tempIni;
 	}
 	/**	Dh	22.2.2020
 	 * 
@@ -109,7 +109,7 @@ public class IniElement {
 	 */
 	@XmlElement(name = "Action")
 	public int getAction(){
-		return Action;
+		return action;
 	}
 	/**	Dh	3.5.2020
 	 * 
@@ -117,7 +117,7 @@ public class IniElement {
 	 */
 	@XmlTransient
 	public int getTempAction(){
-		return TempAction;
+		return tempAction;
 	}
 	
 	/**	Dh	22.2.2020
@@ -127,13 +127,13 @@ public class IniElement {
 	 * @return
 	 */
 	public int getIniDek(){
-		return (int) (Ini/10);
+		return (int) (ini/10);
 	}
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	public void setID(int pID) throws Exception {
-		if (pID >= 0) ID = pID;
+	public void setId(int pID) throws Exception {
+		if (pID >= 0) id = pID;
 		else throw new Exception("02; InEle,sID");
 	}
 	/**	Dh	22.2.2020
@@ -142,7 +142,7 @@ public class IniElement {
 	 * @throws Exception
 	 */
 	public void setIni(int pIni) throws Exception{
-		if (pIni >= 0) Ini = pIni;
+		if (pIni >= 0) ini = pIni;
 		else throw new Exception("02; InEle,sIn");
 	}
 	/**	Dh	3.5.2020
@@ -151,7 +151,7 @@ public class IniElement {
 	 * @throws Exception
 	 */
 	public void setTempIni(int pTempIni) throws Exception {
-		if ((pTempIni >= 0) && (pTempIni <= Ini)) TempIni = pTempIni;
+		if ((pTempIni >= 0) && (pTempIni <= ini)) tempIni = pTempIni;
 		else throw new Exception("02; InEle,sTIn");
 	}
 	/**	Dh	22.2.2020
@@ -162,7 +162,7 @@ public class IniElement {
 	 * @throws Exception
 	 */
 	public void setAction(int pAction) throws Exception{
-		if (pAction >= 0) Action = pAction;
+		if (pAction >= 0) action = pAction;
 		else throw new Exception("02; InEle,sAk");
 	}
 	/**	Dh	3.5.2020
@@ -171,7 +171,7 @@ public class IniElement {
 	 * @throws Exception
 	 */
 	public void setTempAction(int pTempAction) throws Exception{
-		if ((pTempAction >= 0) && (pTempAction <= Action)) TempAction = pTempAction;
+		if ((pTempAction >= 0) && (pTempAction <= action)) tempAction = pTempAction;
 		else throw new Exception("02; InEle,sTAk");
 	}
 	
@@ -183,7 +183,7 @@ public class IniElement {
 	 * @throws Exception
 	 */
 	public void addIni(int pIni) throws Exception{
-		if ((pIni + Ini) >= 0) Ini += pIni;
+		if ((pIni + ini) >= 0) ini += pIni;
 		else throw new Exception("03; InEle,aIn");
 	}
 	/**	Dh	3.5.2020
@@ -192,7 +192,7 @@ public class IniElement {
 	 * @throws Exception
 	 */
 	public void addTempIni(int pTempIni) throws Exception{
-		if (((pTempIni + TempIni) >= 0) && ((pTempIni + TempIni) <= Ini)) TempIni += pTempIni;
+		if (((pTempIni + tempIni) >= 0) && ((pTempIni + tempIni) <= ini)) tempIni += pTempIni;
 		else throw new Exception("03; InEle,aTIn");
 	}
 	/**	Dh	22.2.2020
@@ -201,7 +201,7 @@ public class IniElement {
 	 * @throws Exception
 	 */
 	public void addAction(int pAction) throws Exception{
-		if ((pAction + Action) >= 0) Action += pAction;
+		if ((pAction + action) >= 0) action += pAction;
 		else throw new Exception("03; InEle,aAk");
 	}
 	/**	Dh	3.5.2020
@@ -210,7 +210,7 @@ public class IniElement {
 	 * @throws Exception
 	 */
 	public void addTempAction(int pTempAction) throws Exception{
-		if (((pTempAction + TempAction) >= 0) && ((TempAction + pTempAction) <= Action)) TempAction += pTempAction;
+		if (((pTempAction + tempAction) >= 0) && ((tempAction + pTempAction) <= action)) tempAction += pTempAction;
 		else throw new Exception("03; InEle,aTAk");
 	}
 }

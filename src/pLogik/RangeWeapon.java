@@ -1,4 +1,4 @@
-/**	DSA_App	v0.0	Dh	4.6.2020
+/**	DSA_App	v0.0	Dh	9.7.2020
  * 
  * 	Logik
  * 	  Weapon
@@ -21,20 +21,12 @@
  * 	 06: Nonlethal+Holy		14: Ark+Ho+Unho
  *   07: Nonlehtal+Unholy	15: All
  *   
- * WeaponType:
- * 	 00: Raufen				08: Staebe
- * 	 01: Ringen				09: Zweihandpflegel
- * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
- * 	 03: Dolche				11: Zweihandschwerter
- * 	 04: Fechtwaffen		12: Improvisiert
- * 	 05: Hiebwaffen			13: Armbrust
- * 	 06: Infanteriewaffen	14: Blasrohr
- * 	 07: Kettenstaebe		15: Bogen
- * 	 08: Kettenwwaffen		16: Diskus
- * 	 09: Peitsche			17: Schleuder
- * 	 10: Saebel				18: Wurfbeil
- * 	 11: Schwerter			19: Wurfmesser
- * 	 12: Speere				20: Wurfspeer
+ * pWeaponType:
+ * 	 12: Improvisiert		17: Schleuder
+ * 	 13: Armbrust			18: Wurfbeil
+ * 	 14: Blasrohr			19: Wurfmesser
+ * 	 15: Bogen				20: Wurfspeer
+ * 	 16: Diskus
  * 
  * 	Exceptions:
  * 	  01 Wrong length
@@ -56,10 +48,10 @@ import javax.xml.bind.annotation.XmlType;
 import pGUI.MainFrame;
 
 @XmlRootElement(name = "rangeweapon")
-@XmlType(propOrder = { "loadTime", "ranges", "TPRangeMods" })
+@XmlType(propOrder = { "loadTime", "ranges", "tpRangeMods" })
 public class RangeWeapon extends Weapon {
-	private int LoadTime;
-	private int[] Ranges, TPRangeMods;
+	private int loadTime;
+	private int[] ranges, tpRangeMods;
 	
 	/**	Dh	27.5.2020
 	 * 
@@ -68,9 +60,9 @@ public class RangeWeapon extends Weapon {
 	public RangeWeapon() {
 		super();
 		
-		LoadTime = -1;
-		Ranges = new int[]{0, 0, 0, 0, 0};
-		TPRangeMods = new int[] {0, 0, 0, 0, 0};
+		loadTime = -1;
+		ranges = new int[]{0, 0, 0, 0, 0};
+		tpRangeMods = new int[] {0, 0, 0, 0, 0};
 	}
 	/**	Dh	5.6.2020
 	 * 	
@@ -82,19 +74,11 @@ public class RangeWeapon extends Weapon {
 	 *   4: Max.
 	 *   
 	 * pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
+	 * 	 12: Improvisiert		17: Schleuder
+	 * 	 13: Armbrust			18: Wurfbeil
+	 * 	 14: Blasrohr			19: Wurfmesser
+	 * 	 15: Bogen				20: Wurfspeer
+	 * 	 16: Diskus				
 	 * 
 	 * @param pID
 	 * @param pName
@@ -105,13 +89,13 @@ public class RangeWeapon extends Weapon {
 		super(pID, pName, pWeaponType, pTP);
 		Exception vExc = null;
 		
-		LoadTime = 0;
+		loadTime = 0;
 		if (pRanges.length == 5) {
-			if ((pRanges[0] >= 0) && (pRanges[1] >= 0) && (pRanges[2] >= 0) && (pRanges[3] >= 0) && (pRanges[4] >= 0)) Ranges = pRanges;
+			if ((pRanges[0] >= 0) && (pRanges[1] >= 0) && (pRanges[2] >= 0) && (pRanges[3] >= 0) && (pRanges[4] >= 0)) ranges = pRanges;
 			else vExc = new Exception("02; RaWea_a");
 		}else vExc = new Exception("01; RaWea_a");
 		if (pTPRangeMods.length == 5) {
-			TPRangeMods = pTPRangeMods; 
+			tpRangeMods = pTPRangeMods; 
 		}else vExc = new Exception("01; RaWea_a");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -126,19 +110,11 @@ public class RangeWeapon extends Weapon {
 	 *   4: Max.
 	 *   
 	 * pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
+	 * 	 12: Improvisiert		17: Schleuder
+	 * 	 13: Armbrust			18: Wurfbeil
+	 * 	 14: Blasrohr			19: Wurfmesser
+	 * 	 15: Bogen				20: Wurfspeer
+	 * 	 16: Diskus
 	 * 
 	 * @param pID
 	 * @param pName
@@ -150,14 +126,14 @@ public class RangeWeapon extends Weapon {
 		super(pID, pName, pWeaponType, pTP);
 		Exception vExc = null;
 		
-		if (pLoadTime >= 0) LoadTime = pLoadTime;
+		if (pLoadTime >= 0) loadTime = pLoadTime;
 		else vExc = new Exception("02; RaWea_b");
 		if (pRanges.length == 5) {
-			if ((pRanges[0] >= 0) && (pRanges[1] >= 0) && (pRanges[2] >= 0) && (pRanges[3] >= 0) && (pRanges[4] >= 0)) Ranges = pRanges;
+			if ((pRanges[0] >= 0) && (pRanges[1] >= 0) && (pRanges[2] >= 0) && (pRanges[3] >= 0) && (pRanges[4] >= 0)) ranges = pRanges;
 			else vExc = new Exception("02; RaWea_b");
 		}else vExc = new Exception("01; RaWea_b");
 		if (pTPRangeMods.length == 5) {
-			TPRangeMods = pTPRangeMods; 
+			tpRangeMods = pTPRangeMods; 
 		}else vExc = new Exception("01; RaWea_b");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -172,19 +148,11 @@ public class RangeWeapon extends Weapon {
 	 *   4: Max.
 	 *   
 	 * pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
+	 * 	 12: Improvisiert		17: Schleuder
+	 * 	 13: Armbrust			18: Wurfbeil
+	 * 	 14: Blasrohr			19: Wurfmesser
+	 * 	 15: Bogen				20: Wurfspeer
+	 * 	 16: Diskus
 	 * 
 	 * @param pID
 	 * @param pName
@@ -197,14 +165,14 @@ public class RangeWeapon extends Weapon {
 		super(pID, pName, pWeaponType, pTP, pMund);
 		Exception vExc = null;
 		
-		if (pLoadTime >= 0) LoadTime = pLoadTime;
+		if (pLoadTime >= 0) loadTime = pLoadTime;
 		else vExc = new Exception("02; RaWea_c");
 		if (pRanges.length == 5) {
-			if ((pRanges[0] >= 0) && (pRanges[1] >= 0) && (pRanges[2] >= 0) && (pRanges[3] >= 0) && (pRanges[4] >= 0)) Ranges = pRanges;
+			if ((pRanges[0] >= 0) && (pRanges[1] >= 0) && (pRanges[2] >= 0) && (pRanges[3] >= 0) && (pRanges[4] >= 0)) ranges = pRanges;
 			else vExc = new Exception("02; RaWea_c");
 		}else vExc = new Exception("01; RaWea_c");
 		if (pTPRangeMods.length == 5) {
-			TPRangeMods = pTPRangeMods; 
+			tpRangeMods = pTPRangeMods; 
 		}else vExc = new Exception("01; RaWea_c");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -219,19 +187,11 @@ public class RangeWeapon extends Weapon {
 	 *   4: Max.	
 	 *   
 	 * pWeaponType:
-	 * 	 00: Raufen				08: Staebe
-	 * 	 01: Ringen				09: Zweihandpflegel
-	 * 	 02: Anderhalbhaender	10: Zweihand-Hiebwaffen
-	 * 	 03: Dolche				11: Zweihandschwerter
-	 * 	 04: Fechtwaffen		12: Improvisiert
-	 * 	 05: Hiebwaffen			13: Armbrust
-	 * 	 06: Infanteriewaffen	14: Blasrohr
-	 * 	 07: Kettenstaebe		15: Bogen
-	 * 	 08: Kettenwwaffen		16: Diskus
-	 * 	 09: Peitsche			17: Schleuder
-	 * 	 10: Saebel				18: Wurfbeil
-	 * 	 11: Schwerter			19: Wurfmesser
-	 * 	 12: Speere				20: Wurfspeer
+	 * 	 12: Improvisiert		17: Schleuder
+	 * 	 13: Armbrust			18: Wurfbeil
+	 * 	 14: Blasrohr			19: Wurfmesser
+	 * 	 15: Bogen				20: Wurfspeer
+	 * 	 16: Diskus
 	 * 
 	 * @param pID
 	 * @param pName
@@ -246,14 +206,14 @@ public class RangeWeapon extends Weapon {
 		super(pID, pName, pWeaponType, pTP, pTPKK, pMund);
 		Exception vExc = null;
 		
-		if (pLoadTime >= 0) LoadTime = pLoadTime;
+		if (pLoadTime >= 0) loadTime = pLoadTime;
 		else vExc = new Exception("02; RaWea_d");
 		if (pRanges.length == 5) {
-			if ((pRanges[0] >= 0) && (pRanges[1] >= 0) && (pRanges[2] >= 0) && (pRanges[3] >= 0) && (pRanges[4] >= 0)) Ranges = pRanges;
+			if ((pRanges[0] >= 0) && (pRanges[1] >= 0) && (pRanges[2] >= 0) && (pRanges[3] >= 0) && (pRanges[4] >= 0)) ranges = pRanges;
 			else vExc = new Exception("02; RaWea_d");
 		}else vExc = new Exception("01; RaWea_d");
 		if (pTPRangeMods.length == 5) {
-			TPRangeMods = pTPRangeMods; 
+			tpRangeMods = pTPRangeMods; 
 		}else vExc = new Exception("01; RaWea_d");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -267,7 +227,7 @@ public class RangeWeapon extends Weapon {
 	 */
 	@XmlElement(name = "LoadTime")
 	public int getLoadTime() {
-		return LoadTime;
+		return loadTime;
 	}
 	
 	/**	Dh	27.5.2020
@@ -284,7 +244,7 @@ public class RangeWeapon extends Weapon {
 	 * @throws Exception
 	 */
 	public int getRange(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < Ranges.length)) return Ranges[pInd];
+		if ((pInd >= 0) && (pInd < ranges.length)) return ranges[pInd];
 		else throw new Exception("01; RaWea,gR");
 	}
 	/**	Dh	27.5.2020
@@ -293,8 +253,8 @@ public class RangeWeapon extends Weapon {
 	 * @return
 	 * @throws Exception
 	 */
-	public int getTPRangMod(int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < TPRangeMods.length)) return TPRangeMods[pInd];
+	public int getTpRangMod(int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < tpRangeMods.length)) return tpRangeMods[pInd];
 		else throw new Exception("01; RaWea,gTPRM");
 	}
 	/**	Dh	27.5.2020
@@ -311,7 +271,7 @@ public class RangeWeapon extends Weapon {
 	@XmlElementWrapper(name = "RangesArray")
 	@XmlElement(name = "Range")
 	public int[] getRanges() {
-		return Ranges;
+		return ranges;
 	}
 	/**	Dh	27.5.2020
 	 * 
@@ -319,8 +279,8 @@ public class RangeWeapon extends Weapon {
 	 */
 	@XmlElementWrapper(name = "TPRangeModsArray")
 	@XmlElement(name = "TPRangeMod")
-	public int[] getTPRangeMods() {
-		return TPRangeMods;
+	public int[] getTpRangeMods() {
+		return tpRangeMods;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -331,7 +291,7 @@ public class RangeWeapon extends Weapon {
 	 * @throws Exception
 	 */
 	public void setLoadTime(int pLoadTime) throws Exception{
-		if (pLoadTime >= 0) LoadTime = pLoadTime;
+		if (pLoadTime >= 0) loadTime = pLoadTime;
 		else throw new Exception("02; RaWea, sLT");
 	}
 	
@@ -349,8 +309,8 @@ public class RangeWeapon extends Weapon {
 	 * @throws Exception
 	 */
 	public void setRange(int pRangeValue, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < Ranges.length)) {
-			if (pRangeValue >= 0) Ranges[pInd] = pRangeValue;
+		if ((pInd >= 0) && (pInd < ranges.length)) {
+			if (pRangeValue >= 0) ranges[pInd] = pRangeValue;
 			else throw new Exception("02; RaWea,sR");
 		} else throw new Exception("07; RaWea,sR");
 	}
@@ -360,9 +320,9 @@ public class RangeWeapon extends Weapon {
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void setTPRangeMod(int pTPRangeMod, int pInd) throws Exception{
-		if ((pInd >= 0) && (pInd < TPRangeMods.length)) {
-			TPRangeMods[pInd] = pTPRangeMod;
+	public void setTpRangeMod(int pTPRangeMod, int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < tpRangeMods.length)) {
+			tpRangeMods[pInd] = pTPRangeMod;
 		} else throw new Exception("07; RaWea,sTPRM");
 	}
 	/**	Dh	27.5.2020
@@ -378,9 +338,9 @@ public class RangeWeapon extends Weapon {
 	 * @throws Exception
 	 */
 	public void setRanges(int[] pRanges) throws Exception {
-		if (pRanges.length == Ranges.length) {
+		if (pRanges.length == ranges.length) {
 			if ((pRanges[0] >= 0) && (pRanges[1] >= 0) && (pRanges[2] >= 0) && (pRanges[3] >= 0) &&
-					(pRanges[4] >= 0)) Ranges = pRanges;
+					(pRanges[4] >= 0)) ranges = pRanges;
 			else throw new Exception("02; RaWea,sRs");
 		}else throw new Exception("01; RaWea,sRs");
 	}
@@ -389,9 +349,9 @@ public class RangeWeapon extends Weapon {
 	 * @param pTPRangeMods
 	 * @throws Exception
 	 */
-	public void setTPRangeMods(int[] pTPRangeMods) throws Exception {
-		if (pTPRangeMods.length == TPRangeMods.length) {
-			TPRangeMods = pTPRangeMods;
+	public void setTpRangeMods(int[] pTPRangeMods) throws Exception {
+		if (pTPRangeMods.length == tpRangeMods.length) {
+			tpRangeMods = pTPRangeMods;
 		}else throw new Exception("01; RaWea,sTPRM");
 	}
 	
@@ -408,7 +368,7 @@ public class RangeWeapon extends Weapon {
 		try{
 			vDisInd = getRangeTypeOfDistance(pDistance);
 			if (vDisInd != -1) {
-				vRet += TPRangeMods[vDisInd];
+				vRet += tpRangeMods[vDisInd];
 			}else throw new Exception("02; RaWea,cD"); 
 		} catch (Exception ex) {throw ex;}		
 		
@@ -430,7 +390,7 @@ public class RangeWeapon extends Weapon {
 		try{
 			vDisInd = getRangeTypeOfDistance(pDistance);
 			if (vDisInd != -1) {
-				vRet += TPRangeMods[vDisInd];
+				vRet += tpRangeMods[vDisInd];
 			}else throw new Exception("02; RaWea,cD"); 
 		} catch (Exception ex) {throw ex;}		
 		
@@ -471,7 +431,7 @@ public class RangeWeapon extends Weapon {
 	 */
 	public boolean isWithinCloseRange(int pDistance)  throws Exception{
 		if (pDistance >= 0) {
-			if (pDistance <= Ranges[0]) return true;
+			if (pDistance <= ranges[0]) return true;
 			else return false;
 		} else throw new Exception("02; RaWea,iwCR");
 	}
@@ -485,7 +445,7 @@ public class RangeWeapon extends Weapon {
 	 */
 	public boolean isWithinNearRange(int pDistance) throws Exception{
 		if (pDistance >= 0) {
-			if (pDistance <= Ranges[1]) return true;
+			if (pDistance <= ranges[1]) return true;
 			else return false;
 		} else throw new Exception("02; RaWea,iwNR");
 	}
@@ -499,7 +459,7 @@ public class RangeWeapon extends Weapon {
 	 */
 	public boolean isWithinMiddleRange(int pDistance) throws Exception{
 		if (pDistance >= 0) {
-			if (pDistance <= Ranges[2]) return true;
+			if (pDistance <= ranges[2]) return true;
 			else return false;
 		} else throw new Exception("02; RaWea,iwMiR");
 	}
@@ -513,7 +473,7 @@ public class RangeWeapon extends Weapon {
 	 */
 	public boolean isWithinFarRange(int pDistance) throws Exception{
 		if (pDistance >= 0) {
-			if (pDistance <= Ranges[3]) return true;
+			if (pDistance <= ranges[3]) return true;
 			else return false;
 		} else throw new Exception("02; RaWea,iwFR");
 	}
@@ -527,7 +487,7 @@ public class RangeWeapon extends Weapon {
 	 */
 	public boolean isWithinMaxRange(int pDistance) throws Exception{
 		if (pDistance >= 0) {
-			if (pDistance <= Ranges[4]) return true;
+			if (pDistance <= ranges[4]) return true;
 			else return false;
 		} else throw new Exception("02; RaWea,iwMaR");
 	}
@@ -542,7 +502,7 @@ public class RangeWeapon extends Weapon {
 	 */
 	public boolean isInCloseRange(int pDistance) throws Exception{
 		if (pDistance >= 0) {
-			if (pDistance <= Ranges[0]) return true;
+			if (pDistance <= ranges[0]) return true;
 			else return false;
 		} else throw new Exception("02; RaWea,iiCR");
 	}
@@ -556,7 +516,7 @@ public class RangeWeapon extends Weapon {
 	 */
 	public boolean isInNearRange(int pDistance) throws Exception{
 		if (pDistance >= 0) {
-			if ((pDistance > Ranges[0]) && (pDistance <= Ranges[1])) return true;
+			if ((pDistance > ranges[0]) && (pDistance <= ranges[1])) return true;
 			else return false;
 		} else throw new Exception("02; RaWea,iiNR");
 	}
@@ -570,7 +530,7 @@ public class RangeWeapon extends Weapon {
 	 */
 	public boolean isInMiddleRange(int pDistance) throws Exception{
 		if (pDistance >= 0) {
-			if ((pDistance > Ranges[1]) && (pDistance <= Ranges[2])) return true;
+			if ((pDistance > ranges[1]) && (pDistance <= ranges[2])) return true;
 			else return false;
 		} else throw new Exception("02; RaWea,iiMiR");
 	}
@@ -584,7 +544,7 @@ public class RangeWeapon extends Weapon {
 	 */
 	public boolean isInFarRange(int pDistance) throws Exception{
 		if (pDistance >= 0) {
-			if ((pDistance > Ranges[2]) && (pDistance <= Ranges[3])) return true;
+			if ((pDistance > ranges[2]) && (pDistance <= ranges[3])) return true;
 			else return false;
 		} else throw new Exception("02; RaWea,iiFR");
 	}
@@ -598,7 +558,7 @@ public class RangeWeapon extends Weapon {
 	 */
 	public boolean isInMaxRange(int pDistance) throws Exception{
 		if (pDistance >= 0) {
-			if ((pDistance > Ranges[3]) && (pDistance <= Ranges[4])) return true;
+			if ((pDistance > ranges[3]) && (pDistance <= ranges[4])) return true;
 			else return false;
 		} else throw new Exception("02; RaWea,iiMaR");
 	}

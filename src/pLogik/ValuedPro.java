@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 1.7.2020
+/**	DSA_App v0.0	Dh	 9.7.2020
  * 	
  * 	Logik
  * 	  Pro
@@ -39,7 +39,7 @@ import pGUI.MainFrame;
 @XmlSeeAlso({BadCharacteristic.class, StringedValuedPro.class})
 @XmlType(propOrder = {"value", "valueLimit"})
 public class ValuedPro extends Pro implements Valued {
-	protected int Value, ValueLimit;
+	protected int value, valueLimit;
 	
 	/**	Dh	1.7.2020
 	 * 
@@ -48,8 +48,8 @@ public class ValuedPro extends Pro implements Valued {
 	public ValuedPro() {
 		super();
 		
-		Value = 0;
-		ValueLimit = -1;
+		value = 0;
+		valueLimit = -1;
 	}
 	/**	Dh	1.7.2020
 	 * 
@@ -60,8 +60,8 @@ public class ValuedPro extends Pro implements Valued {
 		super(pID, pName);
 		Exception vExc = null;
 		
-		Value = 0;
-		if (pValueLimit >= -1) ValueLimit = pValueLimit;
+		value = 0;
+		if (pValueLimit >= -1) valueLimit = pValueLimit;
 		else vExc = new Exception("02; VaPro_a");
 		
 		if (vExc != null) System.out.println(vExc.getMessage());
@@ -76,8 +76,8 @@ public class ValuedPro extends Pro implements Valued {
 		super(pID, pName, pPro);
 		Exception vExc = null;
 		
-		Value = 0;
-		if (pValueLimit >= -1) ValueLimit = pValueLimit;
+		value = 0;
+		if (pValueLimit >= -1) valueLimit = pValueLimit;
 		else vExc = new Exception("02; VaPro_b");
 		
 		if (vExc != null) System.out.println(vExc.getMessage());
@@ -93,8 +93,8 @@ public class ValuedPro extends Pro implements Valued {
 		super(pID, pName, pPro, pArkane);
 		Exception vExc = null;
 		
-		Value = 0;
-		if (pValueLimit >= -1) ValueLimit = pValueLimit;
+		value = 0;
+		if (pValueLimit >= -1) valueLimit = pValueLimit;
 		else vExc = new Exception("02; VaPro_c");
 		
 		if (vExc != null) System.out.println(vExc.getMessage());
@@ -111,8 +111,8 @@ public class ValuedPro extends Pro implements Valued {
 		super(pID, pName, pPro, pArkane, pGift);
 		Exception vExc = null;
 		
-		Value = 0;
-		if (pValueLimit >= -1) ValueLimit = pValueLimit;
+		value = 0;
+		if (pValueLimit >= -1) valueLimit = pValueLimit;
 		else vExc = new Exception("02; VaPro_d");
 		
 		if (vExc != null) System.out.println(vExc.getMessage());
@@ -130,9 +130,9 @@ public class ValuedPro extends Pro implements Valued {
 		super(pID, pName, pPro, pArkane, pGift);
 		Exception vExc = null ;
 		
-		if (pValue >= 0) Value = pValue;
+		if (pValue >= 0) value = pValue;
 		else vExc = new Exception("02; VaPro_e");
-		if (pValueLimit >= -1) ValueLimit = pValueLimit;
+		if (pValueLimit >= -1) valueLimit = pValueLimit;
 		else vExc = new Exception("02; VaPro_e");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -146,7 +146,7 @@ public class ValuedPro extends Pro implements Valued {
 	 */
 	@XmlElement(name = "Value")
 	public int getValue() {
-		return Value;
+		return value;
 	}
 	
 	/**	Dh	1.7.2020
@@ -154,7 +154,7 @@ public class ValuedPro extends Pro implements Valued {
 	 */
 	@XmlElement(name = "ValueLimit")
 	public int getValueLimit() {
-		return ValueLimit;
+		return valueLimit;
 	}
 		
 	//----------------------------------------------------------------------------------------------------
@@ -165,7 +165,7 @@ public class ValuedPro extends Pro implements Valued {
 	 * @throws Exception
 	 */
 	public void setValue(int pValue) throws Exception{
-		if ((pValue >= 0) && ((pValue <= ValueLimit) || (ValueLimit == -1))) Value = pValue;
+		if ((pValue >= 0) && ((pValue <= valueLimit) || (valueLimit == -1))) value = pValue;
 		else throw new Exception("02; VaPro,sV");
 	}
 	
@@ -173,7 +173,7 @@ public class ValuedPro extends Pro implements Valued {
 	 * 
 	 */
 	public void setValueLimit(int pValueLimit) throws Exception{
-		if (pValueLimit >= -1) ValueLimit = pValueLimit;
+		if (pValueLimit >= -1) valueLimit = pValueLimit;
 		else throw new Exception("02; VaPro,sVL");
 	}
 		
@@ -185,9 +185,9 @@ public class ValuedPro extends Pro implements Valued {
 	 * @throws Exception
 	 */
 	public void addValue(int pValue) throws Exception{
-		if (((pValue + Value) >= 0) && ((pValue+ Value) <= ValueLimit ) || (ValueLimit == -1)) Value += pValue;
+		if (((pValue + value) >= 0) && ((pValue+ value) <= valueLimit ) || (valueLimit == -1)) value += pValue;
 		else {
-			Value = 0;
+			value = 0;
 			throw new Exception("02 VaPro,aV");
 		}
 	}

@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	 1.7.2020
+/**	DSA_App v0.0	Dh	 9.7.2020
  * 	
  * 	pDatenbank
  * 	  ProDatabase
@@ -32,21 +32,21 @@ import pLogik.ValuedPro;
 @XmlRootElement(name = "prodatabase")
 @XmlSeeAlso(Pro.class)
 public class ProDatabase {
-	private List ProList;
+	private List proList;
 	
 	/**	Dh	16.6.2020
 	 * 
 	 * 	Konstruktor nach Bean-Vorschrift.
 	 */
 	public ProDatabase() {
-		ProList = new List();
+		proList = new List();
 	}
 	/**	Dh	16.6.2020
 	 * 
 	 * @param pProList
 	 */
 	public ProDatabase(List pProList) {
-		ProList = new List();
+		proList = new List();
 		try {setProList(pProList);}
 		catch(Exception ex) {System.out.println(ex);}
 	}
@@ -62,16 +62,16 @@ public class ProDatabase {
 	protected Pro getPro(int pID) throws Exception {
 		Pro vRet = null;
 		
-		if ((pID >= 0) && (pID < ProList.getContentNumber())) {
-			ProList.toFirst();
+		if ((pID >= 0) && (pID < proList.getContentNumber())) {
+			proList.toFirst();
 			
-			while (!ProList.isEnd()) {
-				vRet = (Pro) ProList.getCurrent();
+			while (!proList.isEnd()) {
+				vRet = (Pro) proList.getCurrent();
 				
-				if (vRet.getID() == pID) ProList.toLast();
+				if (vRet.getId() == pID) proList.toLast();
 				else vRet = null;
 				
-				ProList.next();
+				proList.next();
 			}
 			
 			if (vRet == null) throw new Exception("02; ProDat,gP");
@@ -90,16 +90,16 @@ public class ProDatabase {
 		Pro vRet = null;
 		
 		if (pName != "") {
-			if (!ProList.isEmpty()) {
-				ProList.toFirst();
+			if (!proList.isEmpty()) {
+				proList.toFirst();
 				
-				while (!ProList.isEnd()) {
-					vRet = (Pro) ProList.getCurrent();
+				while (!proList.isEnd()) {
+					vRet = (Pro) proList.getCurrent();
 					
-					if (vRet.getName().equals(pName)) ProList.toLast();
+					if (vRet.getName().equals(pName)) proList.toLast();
 					else vRet = null;
 					
-					ProList.next();
+					proList.next();
 				}
 			}
 			if (vRet == null) throw new Exception("02; ProDat,gP; "+pName);
@@ -115,7 +115,7 @@ public class ProDatabase {
 	 */
 	@XmlElement(name = "ProList")
 	public List getProList() {
-		return ProList.copyList();
+		return proList.copyList();
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -141,9 +141,9 @@ public class ProDatabase {
 					pProList.next();
 				}
 				
-				if (containsOnlyPros == true) ProList = pProList;
+				if (containsOnlyPros == true) proList = pProList;
 				else throw new Exception("06; ProDat,sPL");
-			} ProList = pProList;
+			} proList = pProList;
 		} else throw new Exception("04; ProDat,sPL");
 	}
 	
@@ -156,8 +156,8 @@ public class ProDatabase {
 	 */
 	protected void addPro(Pro pPro) throws Exception{
 		if (pPro != null) {
-			pPro.setID(ProList.getContentNumber());
-			ProList.append(pPro);
+			pPro.setId(proList.getContentNumber());
+			proList.append(pPro);
 		}else throw new Exception("04; ProDat,aP");
 	}
 	/**	Dh	16.6.2020
@@ -190,16 +190,16 @@ public class ProDatabase {
 	 * @throws Exception
 	 */
 	protected void removePro(int pID) throws Exception{
-		if ((pID >= 0) && (pID < ProList.getContentNumber())) {
-			ProList.toFirst();
+		if ((pID >= 0) && (pID < proList.getContentNumber())) {
+			proList.toFirst();
 			
-			while(!ProList.isEnd()) {
-				if (((Pro)ProList.getCurrent()).getID() == pID) {
-					ProList.remove();
-					ProList.toLast();
+			while(!proList.isEnd()) {
+				if (((Pro)proList.getCurrent()).getId() == pID) {
+					proList.remove();
+					proList.toLast();
 				}
 				
-				ProList.next();
+				proList.next();
 			}
 		}else throw new Exception("02; ProDat,rP");
 	}
@@ -237,7 +237,7 @@ public class ProDatabase {
 		boolean vRet = false;
 		
 		if (pID >= 0) {
-			if (pID < ProList.getContentNumber()) vRet = true;
+			if (pID < proList.getContentNumber()) vRet = true;
 		}else throw new Exception("02; ProDat,hP");
 		
 		return vRet;
@@ -253,15 +253,15 @@ public class ProDatabase {
 		Pro vCur;
 		
 		if (pPro != null) {
-			if (!ProList.isEmpty()) {
-				ProList.toFirst();
+			if (!proList.isEmpty()) {
+				proList.toFirst();
 				
-				while((!ProList.isEnd()) && (vRet == false)) {
-					vCur = (Pro)ProList.getCurrent();
+				while((!proList.isEnd()) && (vRet == false)) {
+					vCur = (Pro)proList.getCurrent();
 					
-					if (vCur.getID() == pPro.getID()) vRet = true;
+					if (vCur.getId() == pPro.getId()) vRet = true;
 					
-					ProList.next();
+					proList.next();
 				}
 			}
 		} else throw new Exception("04; ProDat,hP");
@@ -288,7 +288,7 @@ public class ProDatabase {
 			else if (pPro instanceof StringedPro) vRet = new StringedPro();
 			else vRet = new Pro();
 			
-			vRet.setID(pPro.getID());
+			vRet.setId(pPro.getId());
 			vRet.setName(pPro.getName());
 			
 			vRet.setPro(pPro.isPro());

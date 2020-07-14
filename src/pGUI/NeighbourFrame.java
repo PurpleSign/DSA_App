@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	23.5.2020
+/**	DSA_App v0.0	Dh	9.7.2020
  * 
  * 	pGUI
  * 	  NeighbourFrame
@@ -50,8 +50,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 
 public class NeighbourFrame extends JFrame {
-	private String zName;
-	private int zID, zNeiID, Width, Height;
+	private String name;
+	private int id, neiID, width, height;
 	private FightManager rFM;
 	private MainFrame rMF;
 	
@@ -75,19 +75,19 @@ public class NeighbourFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public NeighbourFrame(String pName, int pID, int pNeiID, FightManager pFM, MainFrame pMF) {
-		zName = pName;
-		zID = pID;
-		zNeiID = pNeiID;
+		name = pName;
+		id = pID;
+		neiID = pNeiID;
 		rFM = pFM;
 		rMF = pMF;
 		
 		Point vPos = rMF.getMiddlePosition();
-		Width = 352;
-		Height = 341;
+		width = 352;
+		height = 341;
 		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds((int)(vPos.getX()-(Width/2)), (int)(vPos.getY()-(Height/2)), Width, Height);
+		setBounds((int)(vPos.getX()-(width/2)), (int)(vPos.getY()-(height/2)), width, height);
 		setBounds(100, 100, 352, 341);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -108,7 +108,7 @@ public class NeighbourFrame extends JFrame {
 		btNeiButton_1 = new JButton("Anwenden");
 		btNeiButton_1.setPreferredSize(new Dimension(90, 30));
 		btNeiButton_1.setFont(new Font("Liberation Serif", Font.BOLD, 16));
-		if (zNeiID == -1) btNeiButton_1.setEnabled(false);
+		if (neiID == -1) btNeiButton_1.setEnabled(false);
 		btNeiButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				applyNeighbours();
@@ -181,15 +181,15 @@ public class NeighbourFrame extends JFrame {
 	 * 	Erstellt die Kampfnachbar ComboBox in Abhaengigkeit, ob's nen hinzufuegen, oder ne Erstellung ist.
 	 */
 	private void initNeiList() {
-		if (zNeiID != -1) lFrameTitle_0 = new JLabel("Kampfnachberschaft modifizieren");
+		if (neiID != -1) lFrameTitle_0 = new JLabel("Kampfnachberschaft modifizieren");
 		else lFrameTitle_0 = new JLabel("Kampfnachberschaft hinzufügen");
 		//lFrameTitle_0 = new JLabel("Kampfnachberschaft hinzufügen");
 		lFrameTitle_0.setFont(new Font("Liberation Serif", Font.BOLD, 18));
 		
-		lFrameTitle_1 = new JLabel("f\u00FCr "+zName);
+		lFrameTitle_1 = new JLabel("f\u00FCr "+name);
 		lFrameTitle_1.setFont(new Font("Liberation Serif", Font.BOLD, 14));
 		
-		if (zNeiID != -1) lComboTitle = new JLabel("Kampfnachbar*In:");
+		if (neiID != -1) lComboTitle = new JLabel("Kampfnachbar*In:");
 		else lComboTitle = new JLabel("Kämpfer*Innne Auswahl:");
 		//lComboTitle = new JLabel("Kämpfer*Innne Auswahl:");
 		lComboTitle.setFont(new Font("Liberation Serif", Font.BOLD, 14));
@@ -271,7 +271,7 @@ public class NeighbourFrame extends JFrame {
 		spInfoSpinner_4.setPreferredSize(new Dimension(37, 20));
 		spInfoSpinner_4.setModel(new SpinnerNumberModel(0, -20, 20, 1));
 		
-		if (zNeiID == -1) {
+		if (neiID == -1) {
 			cbInfoCheck_1 = new JCheckBox("");
 			cbInfoCheck_1.setSelected(true);
 			cbInfoCheck_1.setPreferredSize(new Dimension(18, 15));
@@ -358,7 +358,7 @@ public class NeighbourFrame extends JFrame {
 		);
 		lInfoPanel.setLayout(gl_lInfoPanel);**/
 		
-		if (zNeiID == -1) {
+		if (neiID == -1) {
 			GroupLayout gl_lInfoPanel = new GroupLayout(lInfoPanel);
 			gl_lInfoPanel.setHorizontalGroup(
 				gl_lInfoPanel.createParallelGroup(Alignment.LEADING)
@@ -514,22 +514,22 @@ public class NeighbourFrame extends JFrame {
 		int vID;
 		List vList, vNeiList;
 		
-		if (zNeiID != -1) {
+		if (neiID != -1) {
 			try {
-				rNeiComboModel.addElement(rFM.getCharacterOfFighter(zNeiID).getName(), zNeiID);
+				rNeiComboModel.addElement(rFM.getCharacterOfFighter(neiID).getName(), neiID);
 				cbNeighbourCombo.setSelectedIndex(0);
 				cbNeighbourCombo.setEnabled(false);
 			} catch(Exception ex) {rMF.handleException(ex);}
-		}else if (zID != -1) {
+		}else if (id != -1) {
 			try {
-				vList = rFM.getNeighbourListOfFighter(zID);
+				vList = rFM.getNeighbourListOfFighter(id);
 				vNeiList = new List();
 				
 				if(!vList.isEmpty()) {
 					vList.toFirst();
 					
 					while (!vList.isEnd()) {
-						vNeiList.append(((NeighbourElement)vList.getCurrent()).getID());
+						vNeiList.append(((NeighbourElement)vList.getCurrent()).getId());
 						
 						vList.next();
 					}
@@ -541,9 +541,9 @@ public class NeighbourFrame extends JFrame {
 					
 					while(!vList.isEnd()) {
 						vInsert = true;
-						vID = ((FightElement)vList.getCurrent()).getID();
+						vID = ((FightElement)vList.getCurrent()).getId();
 						
-						if (vID == zID) vInsert = false;
+						if (vID == id) vInsert = false;
 						if (!vNeiList.isEmpty()) {
 							vNeiList.toFirst();
 							
@@ -570,14 +570,14 @@ public class NeighbourFrame extends JFrame {
 	 * 	Holt die vorhanden Werte der Nachbarschaft.
 	 */
 	private void makePreSet() {
-		if (zID != -1) {
-			if (zNeiID != -1) {
+		if (id != -1) {
+			if (neiID != -1) {
 				try {
-					cbInfoCheck_0.setSelected(!rFM.getEnemyTypeOfNeighbourOfFighter(zID, zNeiID));
-					spInfoSpinner_1.setValue(rFM.getDistanceOfNeighbourOfFighter(zID, zNeiID));
-					spInfoSpinner_2.setValue((int)rFM.getFightModOfNeighbourOfFighter(zID, zNeiID, 1));
-					spInfoSpinner_3.setValue((int)rFM.getFightModOfNeighbourOfFighter(zID, zNeiID, 2));
-					spInfoSpinner_4.setValue((int)rFM.getFightModOfNeighbourOfFighter(zID, zNeiID, 3));
+					cbInfoCheck_0.setSelected(!rFM.getEnemyTypeOfNeighbourOfFighter(id, neiID));
+					spInfoSpinner_1.setValue(rFM.getDistanceOfNeighbourOfFighter(id, neiID));
+					spInfoSpinner_2.setValue((int)rFM.getFightModOfNeighbourOfFighter(id, neiID, 1));
+					spInfoSpinner_3.setValue((int)rFM.getFightModOfNeighbourOfFighter(id, neiID, 2));
+					spInfoSpinner_4.setValue((int)rFM.getFightModOfNeighbourOfFighter(id, neiID, 3));
 					cbInfoCheck_2.setSelected(true);
 				} catch(Exception ex) {rMF.handleException(ex);}
 			}
@@ -614,9 +614,9 @@ public class NeighbourFrame extends JFrame {
 		int vDinstance;
 		double[] vFightMods = new double[4];
 		
-		if (zNeiID == -1) {
+		if (neiID == -1) {
 			if ((int)rNeiComboModel.getSelectedObject() != -1) {
-				zNeiID = (int) rNeiComboModel.getSelectedObject();
+				neiID = (int) rNeiComboModel.getSelectedObject();
 				vEnemy = !cbInfoCheck_0.isSelected();
 				vDinstance = (int)spInfoSpinner_1.getValue();
 				vFightMods[0] = 0;
@@ -625,10 +625,10 @@ public class NeighbourFrame extends JFrame {
 				vFightMods[3] = (Double.valueOf((int)spInfoSpinner_4.getValue()));
 				
 				try {
-					rFM.addNeighbourToFighter(zID, zNeiID, vEnemy, vDinstance, vFightMods);
+					rFM.addNeighbourToFighter(id, neiID, vEnemy, vDinstance, vFightMods);
 					if (cbInfoCheck_1.isSelected()) {
-						if (!cbInfoCheck_2.isSelected()) rFM.addNeighbourToFighter(zNeiID, zID, vEnemy, vDinstance);
-						else rFM.addNeighbourToFighter(zNeiID, zID, vEnemy, vDinstance, vFightMods);
+						if (!cbInfoCheck_2.isSelected()) rFM.addNeighbourToFighter(neiID, id, vEnemy, vDinstance);
+						else rFM.addNeighbourToFighter(neiID, id, vEnemy, vDinstance, vFightMods);
 					}
 				}catch (Exception ex) {rMF.handleException(ex);}
 				
@@ -643,19 +643,19 @@ public class NeighbourFrame extends JFrame {
 			vFightMods[3] = (Double.valueOf((int)spInfoSpinner_4.getValue()));
 			
 			try {
-				rFM.setEnemyTypeOfNeighbourOfFighter(zID, zNeiID, vEnemy);
-				rFM.setDistanceOfNeighbourOfFighter(zID, zNeiID, vDinstance);
+				rFM.setEnemyTypeOfNeighbourOfFighter(id, neiID, vEnemy);
+				rFM.setDistanceOfNeighbourOfFighter(id, neiID, vDinstance);
 				
-				rFM.setFightModOfNeighbourOfFighter(zID, zNeiID, vFightMods[1], 1);
-				rFM.setFightModOfNeighbourOfFighter(zID, zNeiID, vFightMods[2], 2);
-				rFM.setFightModOfNeighbourOfFighter(zID, zNeiID, vFightMods[3], 3);
+				rFM.setFightModOfNeighbourOfFighter(id, neiID, vFightMods[1], 1);
+				rFM.setFightModOfNeighbourOfFighter(id, neiID, vFightMods[2], 2);
+				rFM.setFightModOfNeighbourOfFighter(id, neiID, vFightMods[3], 3);
 				
-				rFM.setEnemyTypeOfNeighbourOfFighter(zNeiID, zID, vEnemy);
-				rFM.setDistanceOfNeighbourOfFighter(zNeiID, zID, vDinstance);
+				rFM.setEnemyTypeOfNeighbourOfFighter(neiID, id, vEnemy);
+				rFM.setDistanceOfNeighbourOfFighter(neiID, id, vDinstance);
 				if (cbInfoCheck_2.isSelected()) {
-					rFM.setFightModOfNeighbourOfFighter(zNeiID, zID, vFightMods[1], 1);
-					rFM.setFightModOfNeighbourOfFighter(zNeiID, zID, vFightMods[2], 2);
-					rFM.setFightModOfNeighbourOfFighter(zNeiID, zID, vFightMods[3], 3);
+					rFM.setFightModOfNeighbourOfFighter(neiID, id, vFightMods[1], 1);
+					rFM.setFightModOfNeighbourOfFighter(neiID, id, vFightMods[2], 2);
+					rFM.setFightModOfNeighbourOfFighter(neiID, id, vFightMods[3], 3);
 				}
 			} catch(Exception ex) {rMF.handleException(ex);}
 			

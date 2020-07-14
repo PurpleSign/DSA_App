@@ -1,7 +1,14 @@
-/**	DSA_App v0.0	Dh 2.7.2020
+/**	DSA_App v0.0	Dh 12.7.2020
  * 
  * 	Datenbank
  * 	  TalentDatabase
+ * 
+ * 	Types:
+ * 	  00: Nahkampf				05: Wissens
+ * 	  01: Fernkampf				06: Sprache
+ * 	  02: Koerperliche			07: Handwerks
+ * 	  03: Gesellschaftliche		08: Alle Kampf
+ * 	  04: Natur					09: Alle mundan nicht Kampf
  * 
  * 	Exceptions:
  * 	  01 Wrong length
@@ -32,37 +39,41 @@ import pLogik.PhysicalTalent;
 import pLogik.Talent;
 
 @XmlRootElement(name = "talents")
-@XmlType(propOrder = { "talentList", "basicTalents"})
+@XmlType(propOrder = { "talentList", "basicTalents", "talentTypes"})
 @XmlSeeAlso({Talent.class})
 public class TalentDatabase {
-	private List TalentList;
-	private int[] BasicTalents;
+	private List talentList;
+	private int[] basicTalents;
+	private String[] talentTypes;
 	
-	/**	Dh	9.6.2020
+	/**	Dh	12.7.2020
 	 * 
 	 * 	Konstruktor nach Bean-Standart.
 	 */
  	public TalentDatabase() {
-		TalentList = new List();
-		BasicTalents = null;
+		talentList = new List();
+		basicTalents = null;
+		talentTypes = null;
 	}
-	/**	Dh	9.6.2020
+	/**	Dh	12.7.2020
 	 * 
 	 * @param pTalentList
 	 */
-	public TalentDatabase(List pTalentList) {
-		TalentList = new List();
+	public TalentDatabase(List pTalentList, String[] pTalentTypes) {
+		talentList = new List();
+		talentTypes = pTalentTypes;
 		try{setTalentList(pTalentList);}
 		catch(Exception ex) {System.out.println(ex);}
-		BasicTalents = null;
+		basicTalents = null;
 	}
-	/**	Dh	10.6.2020
+	/**	Dh	12.7.2020
 	 * 
 	 * @param pTalentList
 	 * @param pBasisTalentIDs
 	 */
-	public TalentDatabase(List pTalentList, int[] pBasicTalentIDs) {
-		TalentList = new List();
+	public TalentDatabase(List pTalentList, String[] pTalentTypes, int[] pBasicTalentIDs) {
+		talentList = new List();
+		talentTypes = pTalentTypes;
 		try{
 			setTalentList(pTalentList);
 			setBasicTalents(pBasicTalentIDs);
@@ -80,16 +91,16 @@ public class TalentDatabase {
 	protected Talent getTalent(int pID) throws Exception{
 		Talent vRet = null;
 		
-		if ((pID >= 0) && (pID < TalentList.getContentNumber())) {
-			TalentList.toFirst();
+		if ((pID >= 0) && (pID < talentList.getContentNumber())) {
+			talentList.toFirst();
 			
-			while (!TalentList.isEnd()) {
-				vRet = (Talent) TalentList.getCurrent();
+			while (!talentList.isEnd()) {
+				vRet = (Talent) talentList.getCurrent();
 				
-				if (vRet.getID() == pID) TalentList.toLast();
+				if (vRet.getId() == pID) talentList.toLast();
 				else vRet = null;
 				
-				TalentList.next();
+				talentList.next();
 			}
 			
 			if (vRet == null) throw new Exception("02; TaDat,gT");
@@ -108,16 +119,16 @@ public class TalentDatabase {
 		Talent vRet = null;
 		
 		if (pName != "") {
-			if (!TalentList.isEmpty()) {
-				TalentList.toFirst();
+			if (!talentList.isEmpty()) {
+				talentList.toFirst();
 				
-				while (!TalentList.isEnd()) {
-					vRet = (Talent) TalentList.getCurrent();
+				while (!talentList.isEnd()) {
+					vRet = (Talent) talentList.getCurrent();
 					
-					if (vRet.getName().equals(pName)) TalentList.toLast();
+					if (vRet.getName().equals(pName)) talentList.toLast();
 					else vRet = null;
 					
-					TalentList.next();
+					talentList.next();
 				}
 			}
 			if (vRet == null) throw new Exception("02; TaDat,gT; "+pName);
@@ -126,13 +137,51 @@ public class TalentDatabase {
 		
 		return vRet;
 	}
+	//-----
+	/**	Dh	12.7.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	protected String getTalentType(int pID) throws Exception{
+		String vRet;
+		
+		if ((pID >= 0) && (pID < talentTypes.length)) {
+			vRet = talentTypes[pID];
+		} else throw new Exception("02; TaDat,gTT");
+		
+		return vRet;
+	}
+	/**	Dh	12.7.2020
+	 * 
+	 * @param pWeaponType
+	 * @return
+	 * @throws Exception
+	 */
+	protected int getTalentTypeID(String pTalentType) throws Exception{
+		int vRet = -1;
+		
+		if (pTalentType != null) {
+			if (!pTalentType.equals("")) {
+				for (int i=0; (i<talentTypes.length) && (vRet == -1); i++) {
+					if (talentTypes[i].equals(pTalentType)) vRet = i;
+				}
+				
+				if (vRet == -1) throw new Exception("02; TaDat,gTTID");
+			} else throw new Exception("02; TaDat,gTTID");
+		} else throw new Exception("04; TaDat,gTTID");
+		
+		return vRet;
+	}
+	
 	/**	Dh	9.6.2020
 	 * 
 	 * @return
 	 */
 	@XmlElement(name = "TalentList")
 	public List getTalentList() {
-		return TalentList.copyList();
+		return talentList.copyList();
 	}
 	/**	Dh	10.6.2020
 	 * 
@@ -141,7 +190,16 @@ public class TalentDatabase {
 	@XmlElementWrapper(name = "BasicTalentsArray")
 	@XmlElement(name = "BasicTalentID")
 	public int[] getBasicTalents() {
-		return BasicTalents.clone();
+		return basicTalents.clone();
+	}
+	/**	Dh	12.7.2020
+	 * 
+	 * @return
+	 */
+	@XmlElementWrapper(name = "WeaponTypeArray")
+	@XmlElement(name = "WeaponType")
+	public String[] getTalentTypes() {
+		return talentTypes;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -167,9 +225,9 @@ public class TalentDatabase {
 					pTalentList.next();
 				}
 				
-				if (containsOnlyTalents == true) TalentList = pTalentList;
+				if (containsOnlyTalents == true) talentList = pTalentList;
 				else throw new Exception("06; WeDat,sTL");
-			} TalentList = pTalentList;
+			} talentList = pTalentList;
 		} else throw new Exception("04; WeDat,sTL");
 	}
 	/**	Dh	10.6.2020
@@ -182,16 +240,23 @@ public class TalentDatabase {
 		int vTalentListLength;
 		
 		if (pBasicTalents != null) {
-			if (TalentList != null) {
-				vTalentListLength = TalentList.getContentNumber();
+			if (talentList != null) {
+				vTalentListLength = talentList.getContentNumber();
 				
 				for (int i=0; (i<pBasicTalents.length) && (vContainsOnlyTalentIDs == true) ; i++) {
 					if ((pBasicTalents[i] < 0) || (pBasicTalents[i] >= vTalentListLength)) vContainsOnlyTalentIDs = false;
 				}
 				
-				if (vContainsOnlyTalentIDs == true) BasicTalents = pBasicTalents;
+				if (vContainsOnlyTalentIDs == true) basicTalents = pBasicTalents;
 			}
 		}
+	}
+	/**	Dh	12.7.2020
+	 * 
+	 * @param pWeaponTypes
+	 */
+	public void setTalentTypes(String[] pTalentTypes) {
+		talentTypes = pTalentTypes;
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -203,8 +268,8 @@ public class TalentDatabase {
 	 */
 	protected void addTalent(Talent pTalent) throws Exception{
 		if (pTalent != null) {
-			pTalent.setID(TalentList.getContentNumber());
-			TalentList.append(pTalent);
+			pTalent.setId(talentList.getContentNumber());
+			talentList.append(pTalent);
 		}else throw new Exception("04; TaDat,aT");
 	}
 	/**	Dh	9.6.2020
@@ -237,16 +302,16 @@ public class TalentDatabase {
 	 * @throws Exception
 	 */
 	protected void removeTalent(int pID) throws Exception{
-		if ((pID >= 0) && (pID < TalentList.getContentNumber())) {
-			TalentList.toFirst();
+		if ((pID >= 0) && (pID < talentList.getContentNumber())) {
+			talentList.toFirst();
 			
-			while(!TalentList.isEnd()) {
-				if (((Talent)TalentList.getCurrent()).getID() == pID) {
-					TalentList.remove();
-					TalentList.toLast();
+			while(!talentList.isEnd()) {
+				if (((Talent)talentList.getCurrent()).getId() == pID) {
+					talentList.remove();
+					talentList.toLast();
 				}
 				
-				TalentList.next();
+				talentList.next();
 			}
 		}else throw new Exception("02; WeDat,rT");
 	}
@@ -284,7 +349,7 @@ public class TalentDatabase {
 		boolean vRet = false;
 		
 		if (pID >= 0) {
-			if (pID < TalentList.getContentNumber()) vRet = true;
+			if (pID < talentList.getContentNumber()) vRet = true;
 		}else throw new Exception("02; TaDat,hT");
 		
 		return vRet;
@@ -300,15 +365,15 @@ public class TalentDatabase {
 		Talent vCur;
 		
 		if (pTalent != null) {
-			if (!TalentList.isEmpty()) {
-				TalentList.toFirst();
+			if (!talentList.isEmpty()) {
+				talentList.toFirst();
 				
-				while((!TalentList.isEnd()) && (vRet == false)) {
-					vCur = (Talent)TalentList.getCurrent();
+				while((!talentList.isEnd()) && (vRet == false)) {
+					vCur = (Talent)talentList.getCurrent();
 					
-					if (vCur.getID() == pTalent.getID()) vRet = true;
+					if (vCur.getId() == pTalent.getId()) vRet = true;
 					
-					TalentList.next();
+					talentList.next();
 				}
 			}
 		} else throw new Exception("04; TaDat,hT");
@@ -325,10 +390,10 @@ public class TalentDatabase {
 	protected boolean isBasicTalent(int pID) throws Exception{
 		boolean vRet = false;
 		
-		if ((pID >= 0) && (pID < TalentList.getContentNumber())) {
-			if (BasicTalents != null) {
-				for (int i=0; (i < BasicTalents.length) && (vRet == false); i++) {
-					if (BasicTalents[i] == pID) vRet = true;
+		if ((pID >= 0) && (pID < talentList.getContentNumber())) {
+			if (basicTalents != null) {
+				for (int i=0; (i < basicTalents.length) && (vRet == false); i++) {
+					if (basicTalents[i] == pID) vRet = true;
 				}
 			}
 		} else throw new Exception("02; TaDat,iBT");
@@ -345,9 +410,9 @@ public class TalentDatabase {
 		boolean vRet = false;
 		
 		if (pTalent != null) {
-			if (BasicTalents != null) {
-				for (int i=0; (i < BasicTalents.length) && (vRet == false); i++) {
-					if (BasicTalents[i] == pTalent.getID()) vRet = true;
+			if (basicTalents != null) {
+				for (int i=0; (i < basicTalents.length) && (vRet == false); i++) {
+					if (basicTalents[i] == pTalent.getId()) vRet = true;
 				}
 			}
 		} else throw new Exception("04; TaDat,iBT");
@@ -373,9 +438,9 @@ public class TalentDatabase {
 			}
 			if (pTalent instanceof Fighttalent) vRet = new Fighttalent();
 			
-			vRet.setID(pTalent.getID());
+			vRet.setId(pTalent.getId());
 			vRet.setName(pTalent.getName());
-			vRet.setTaW(pTalent.getTaW());
+			vRet.setTaw(pTalent.getTaw());
 			vRet.setType(pTalent.getType());
 			
 			if (pTalent instanceof Basictalent) {

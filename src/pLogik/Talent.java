@@ -1,4 +1,4 @@
-/**	DSA_App	v0.0	Dh	2.7.2020
+/**	DSA_App	v0.0	Dh	9.7.2020
  * 
  * 	Logik
  * 	  Talent
@@ -33,19 +33,19 @@ import pGUI.MainFrame;
 @XmlRootElement(name = "talent")
 @XmlSeeAlso({Basictalent.class, Fighttalent.class})
 public abstract class Talent {
-	protected int ID, TaW, Type;
-	protected String Name;
+	protected int id, taw, type;
+	protected String name;
 	
 	/**	Dh	2.7.2020
 	 * 
 	 * 	Bean Standard Konstruktor
 	 */
 	public Talent() {
-		ID = -1;
-		TaW = 0;
-		Type = -1;
+		id = -1;
+		taw = 0;
+		type = -1;
 		
-		Name = "";
+		name = "";
 	}
 	/**	Dh	2.7.2020
 	 * 
@@ -63,14 +63,14 @@ public abstract class Talent {
 	public Talent(int pType, int pID, String pName) {
 		Exception vExc = null;
 		
-		if (pType >= -1) Type = pType;
+		if (pType >= -1) type = pType;
 		else vExc = new Exception("02; Tal_a");
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Tal_a");
-		TaW = 0;
+		taw = 0;
 		
-		if ((pName != null) && (pName != "")) Name = pName;
+		if ((pName != null) && (pName != "")) name = pName;
 		else vExc =  new Exception("02; Tal_a");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -92,14 +92,14 @@ public abstract class Talent {
 	public Talent(int pType, int pID, String pName, int pTaW) {
 		Exception vExc = null;
 		
-		if (pType >= -1) Type = pType;
+		if (pType >= -1) type = pType;
 		else vExc = new Exception("02; Tal_b");
 		
-		if (pID >= 0) ID = pID;
+		if (pID >= 0) id = pID;
 		else vExc = new Exception("02; Tal_b");
-		TaW = pTaW;
+		taw = pTaW;
 		
-		if ((pName != null) && (pName != "")) Name = pName;
+		if ((pName != null) && (pName != "")) name = pName;
 		else vExc =  new Exception("02; Tal_b");
 		
 		if (vExc != null) MainFrame.handleException(vExc);
@@ -112,16 +112,16 @@ public abstract class Talent {
 	 * @return
 	 */
 	@XmlAttribute
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 	/**	Dh	5.6.2020
 	 * 
 	 * @return
 	 */
 	@XmlElement(name = "TaW")
-	public int getTaW() {
-		return TaW;
+	public int getTaw() {
+		return taw;
 	}
 	/**	Dh	2.7.2020
 	 * 
@@ -136,7 +136,7 @@ public abstract class Talent {
 	 */
 	@XmlElement(name = "Type")
 	public int getType() {
-		return Type;
+		return type;
 	}
 	
 	/**	Dh	5.6.2020
@@ -145,7 +145,7 @@ public abstract class Talent {
 	 */
 	@XmlElement(name = "Name")
 	public String getName() {
-		return Name;
+		return name;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -155,9 +155,9 @@ public abstract class Talent {
 	 * @param pID
 	 * @throws Exception
 	 */
-	public void setID(int pID) throws Exception{
+	public void setId(int pID) throws Exception{
 		if (pID >= 0) {
-			ID = pID;
+			id = pID;
 		} else throw new Exception("02; Tal,sID");
 	}
 	/**	Dh	5.6.2020
@@ -165,8 +165,8 @@ public abstract class Talent {
 	 * @param pTaW
 	 * @throws Exception
 	 */
-	public void setTaW(int pTaW) throws Exception{
-		TaW = pTaW;
+	public void setTaw(int pTaW) throws Exception{
+		taw = pTaW;
 	}
 	/**	Dh	2.7.2020
 	 * 
@@ -181,7 +181,7 @@ public abstract class Talent {
 	 * @throws Exception
 	 */
 	public void setType(int pType) throws Exception{
-		if ((pType >= -1) && (pType < 10)) Type = pType;
+		if ((pType >= -1) && (pType < 10)) type = pType;
 		else throw new Exception("02; Tal,sT");
 	}
 	
@@ -193,7 +193,7 @@ public abstract class Talent {
 	public void setName(String pName) throws Exception{
 		if (pName != null) {
 			if (!pName.equals("")) {
-				Name = pName;
+				name = pName;
 			}else throw new Exception("02; Tal,sN");
 		}else throw new Exception("04; Tal,sN");
 	}
@@ -205,10 +205,10 @@ public abstract class Talent {
 	 * @param pTaW
 	 * @throws Exception
 	 */
-	public void addTaW(int pTaW) throws Exception{
-		int vNew = TaW + pTaW;
+	public void addTaw(int pTaW) throws Exception{
+		int vNew = taw + pTaW;
 		
-		if (vNew >= 0) TaW = vNew;
+		if (vNew >= 0) taw = vNew;
 		else throw new Exception("02; Tal,aTaW");
 	}
 }

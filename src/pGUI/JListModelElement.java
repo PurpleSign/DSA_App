@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	6.5.2020
+/**	DSA_App v0.0	Dh	9.7.2020
  * 
  * 	pGUI
  * 	  JListModelElement
@@ -17,15 +17,15 @@
 package pGUI;
 
 public class JListModelElement {
-	private Object Object;
-	private String Text;
+	private Object object;
+	private String text;
 	
 	/**	Dh	6.5.2020
 	 * 	
 	 */
 	public JListModelElement() {
-		Object = null;
-		Text = null;
+		object = null;
+		text = null;
 	}
 	/**	Dh	6.5.2020
 	 * 
@@ -33,8 +33,8 @@ public class JListModelElement {
 	 * @param pObject
 	 */
 	public JListModelElement(String pText, Object pObject) {
-		Text = pText;
-		Object = pObject;
+		text = pText;
+		object = pObject;
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -44,14 +44,14 @@ public class JListModelElement {
 	 * @return
 	 */
 	public Object getObject() {
-		return Object;
+		return object;
 	}
 	/**	Dh	6.5.2020
 	 * 
 	 * @return
 	 */
 	public String getText() {
-		return Text;
+		return text;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -61,13 +61,13 @@ public class JListModelElement {
 	 * @param pObject
 	 */
 	public void setObject(Object pObject) {
-		Object = pObject;
+		object = pObject;
 	}
 	/**	Dh	6.5.2020
 	 * 
 	 * @param pText
 	 */
 	public void setText(String pText) {
-		Text = pText;
+		text = pText;
 	}
 }

@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh 3.7.2020
+/**	DSA_App v0.0	Dh 9.7.2020
  * 
  * 	Datenbank
  * 	  WeaponDatabase
@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.*;
 
 import pDataStructures.List;
 import pLogik.CloseWeapon;
+import pLogik.DefenceWeapon;
 import pLogik.Pro;
 import pLogik.RangeWeapon;
 import pLogik.Weapon;
@@ -30,20 +31,40 @@ import pLogik.Weapon;
 @XmlRootElement(name="weapons")
 @XmlSeeAlso(Weapon.class)
 public class WeaponDatabase {
-	private List WeaponList;
+	private List weaponList;
+	private String[] weaponTypes;
 	
-	/**	Dh	4.6.2020
+	/**	Dh	9.7.2020
 	 * 
 	 */
 	public WeaponDatabase() {
-		WeaponList = new List();
+		weaponList = new List();
+		weaponTypes = new String[] {};
 	}
-	/**	Dh	4.6.2020
+	/**	Dh	9.7.2020
+	 * 
+	 * pWeaponType:
+	 * 	 00: Raufen				15: Zweihand-Hiebwaffen
+	 * 	 01: Ringen				16: Zweihandschwerter
+	 * 	 02: Anderhalbhaender	17: Improvisiert
+	 * 	 03: Dolche				18: Armbrust
+	 * 	 04: Fechtwaffen		19: Blasrohr
+	 * 	 05: Hiebwaffen			20: Bogen
+	 * 	 06: Infanteriewaffen	21: Diskus
+	 * 	 07: Kettenstaebe		22: Schleuder
+	 * 	 08: Kettenwaffen		23: Wurfbeil
+	 * 	 09: Peitsche			24: Wurfmesser
+	 * 	 10: Saebel				25: Wurfspeer
+	 * 	 11: Schwerter			26: kleine Schilde
+	 * 	 12: Speere				27: große Schilde
+	 * 	 13: Staebe				28: sehr große Schilde
+	 * 	 14: Zweihandpflegel	29: Parierwaffen
 	 * 
 	 * @param pWeaponList
 	 */
-	public WeaponDatabase(List pWeaponList) {
-		WeaponList = new List();
+	public WeaponDatabase(List pWeaponList, String[] pWeaponTypes) {
+		weaponList = new List();
+		weaponTypes = pWeaponTypes;
 		try{setWeaponList(pWeaponList);}
 		catch(Exception ex) {System.out.println(ex);}
 	}
@@ -59,13 +80,13 @@ public class WeaponDatabase {
 	protected Weapon getWeapon(int pID) throws Exception {
 		Weapon vRet = null;
 		
-		if ((pID >= 0) && (pID < WeaponList.getContentNumber())) {
-			WeaponList.toFirst();
+		if ((pID >= 0) && (pID < weaponList.getContentNumber())) {
+			weaponList.toFirst();
 			
-			while(!WeaponList.isEnd() && (vRet == null)) {
-				if (((Weapon)WeaponList.getCurrent()).getID() == pID) vRet = copyWeapon((Weapon)WeaponList.getCurrent());
+			while(!weaponList.isEnd() && (vRet == null)) {
+				if (((Weapon)weaponList.getCurrent()).getId() == pID) vRet = copyWeapon((Weapon)weaponList.getCurrent());
 				
-				WeaponList.next();
+				weaponList.next();
 			}
 		}else throw new Exception("02; WeDat,gW");
 		
@@ -81,21 +102,56 @@ public class WeaponDatabase {
 		Weapon vRet = null;
 		
 		if (pName != "") {
-			if (!WeaponList.isEmpty()) {
-				WeaponList.toFirst();
+			if (!weaponList.isEmpty()) {
+				weaponList.toFirst();
 				
-				while (!WeaponList.isEnd()) {
-					vRet = (Weapon) WeaponList.getCurrent();
+				while (!weaponList.isEnd()) {
+					vRet = (Weapon) weaponList.getCurrent();
 					
-					if (vRet.getName().equals(pName)) WeaponList.toLast();
+					if (vRet.getName().equals(pName)) weaponList.toLast();
 					else vRet = null;
 					
-					WeaponList.next();
+					weaponList.next();
 				}
 			}
 			if (vRet == null) throw new Exception("02; WeDat,gW; "+pName);
 			else vRet = copyWeapon(vRet);
 		}else throw new Exception("02; WeDat,gW");
+		
+		return vRet;
+	}
+	//-----
+	/**	Dh	9.7.2020
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	protected String getWeaponType(int pID) throws Exception{
+		String vRet = "";
+		
+		if ((pID >= 0) && (pID < weaponTypes.length)) {
+			vRet = weaponTypes[pID];
+		} else throw new Exception("02; WeDat,gWT");
+		
+		return vRet;
+	}
+	/**	Dh	9.7.2020
+	 * 
+	 * @param pName
+	 * @return
+	 * @throws Exception
+	 */
+	protected int getWeaponTypeID(String pName) throws Exception{
+		int vRet = -1;
+		
+		if (pName != null) {
+			if (!pName.equals("")) {
+				for (int i=0; (i < weaponTypes.length) && (vRet == -1); i++) {
+					if (weaponTypes[i].equals(pName)) vRet = i;
+				}
+			} else throw new Exception("02; WeDat,gWTID");
+		} else throw new Exception("04; WeDat,gWTID");
 		
 		return vRet;
 	}
@@ -106,8 +162,19 @@ public class WeaponDatabase {
 	 */
 	@XmlElement(name = "WeaponList")
 	public List getWeaponList() {
-		return WeaponList.copyList();
+		return weaponList.copyList();
 	}
+	/**	Dh	9.7.2020
+	 * 
+	 * @return
+	 */
+	@XmlElementWrapper(name = "WeaponTypeArray")
+	@XmlElement(name = "WeaponType")
+	public String[] getWeaponTypes() {
+		return weaponTypes;
+	}
+	
+	//----------------------------------------------------------------------------------------------------
 	
 	/**	Dh	9.6.2020
 	 * 
@@ -130,10 +197,17 @@ public class WeaponDatabase {
 					pWeaponList.next();
 				}
 				
-				if (containsOnlyWeapons == true) WeaponList = pWeaponList;
+				if (containsOnlyWeapons == true) weaponList = pWeaponList;
 				else throw new Exception("06; WeDat,sWL");
-			} else WeaponList = pWeaponList;
+			} else weaponList = pWeaponList;
 		} else throw new Exception("04; WeDat,sWL");
+	}
+	/**	Dh	9.7.2020
+	 * 
+	 * @param pWeaponTypes
+	 */
+	public void setWeaponTypes(String[] pWeaponTypes){
+		weaponTypes = pWeaponTypes;
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -145,8 +219,8 @@ public class WeaponDatabase {
 	 */
 	protected void addWeapon(Weapon pWeapon) throws Exception {
 		if (pWeapon != null) {
-			pWeapon.setID(WeaponList.getContentNumber());
-			WeaponList.append(pWeapon);
+			pWeapon.setId(weaponList.getContentNumber());
+			weaponList.append(pWeapon);
 		}else throw new Exception("04; WeDat,aW");
 	}
 	/**	Dh	4.6.2020
@@ -179,16 +253,16 @@ public class WeaponDatabase {
 	 * @throws Exception
 	 */
 	protected void removeWeapon(int pID) throws Exception{
-		if ((pID >= 0) && (pID < WeaponList.getContentNumber())) {
-			WeaponList.toFirst();
+		if ((pID >= 0) && (pID < weaponList.getContentNumber())) {
+			weaponList.toFirst();
 			
-			while(!WeaponList.isEnd()) {
-				if (((Weapon)WeaponList.getCurrent()).getID() == pID) {
-					WeaponList.remove();
-					WeaponList.toLast();
+			while(!weaponList.isEnd()) {
+				if (((Weapon)weaponList.getCurrent()).getId() == pID) {
+					weaponList.remove();
+					weaponList.toLast();
 				}
 				
-				WeaponList.next();
+				weaponList.next();
 			}
 		}else throw new Exception("02; WeDat,rW");
 	}
@@ -218,7 +292,7 @@ public class WeaponDatabase {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	4.6.2020
+	/**	Dh	9.7.2020
 	 * 
 	 * @param pWeapon
 	 * @return
@@ -227,23 +301,26 @@ public class WeaponDatabase {
 		Weapon vRet = null;
 		
 		try {
-			if (pWeapon instanceof CloseWeapon) vRet = new CloseWeapon();
+			if (pWeapon instanceof CloseWeapon) {
+				if (pWeapon instanceof DefenceWeapon) vRet = new DefenceWeapon();
+				else vRet = new CloseWeapon();
+			}
 			if (pWeapon instanceof RangeWeapon) vRet = new RangeWeapon();
 			
-			vRet.setID(pWeapon.getID());
+			vRet.setId(pWeapon.getId());
 			vRet.setWeaponType(pWeapon.getWeaponType());
 			vRet.setName(pWeapon.getName());
-			vRet.setTP(pWeapon.getTP().clone());
-			vRet.setTPKK(pWeapon.getTPKK().clone());
+			vRet.setTp(pWeapon.getTp().clone());
+			vRet.setTpkk(pWeapon.getTpkk().clone());
 			vRet.setArkan(pWeapon.isArkan());
 			vRet.setHoly(pWeapon.isHoly());
 			vRet.setUnholy(pWeapon.isUnholy());
 			
 			if (vRet instanceof CloseWeapon) {
-				((CloseWeapon) vRet).setBF(((CloseWeapon)pWeapon).getBF());
+				((CloseWeapon) vRet).setBf(((CloseWeapon)pWeapon).getBf());
 				((CloseWeapon) vRet).setIniMod(((CloseWeapon)pWeapon).getIniMod());
-				((CloseWeapon) vRet).setWM(((CloseWeapon)pWeapon).getWM().clone());
-				((CloseWeapon) vRet).setBrawlRange(((CloseWeapon)pWeapon).isBrwalRange());
+				((CloseWeapon) vRet).setWm(((CloseWeapon)pWeapon).getWm().clone());
+				((CloseWeapon) vRet).setBrawlRange(((CloseWeapon)pWeapon).isBrawlRange());
 				((CloseWeapon) vRet).setCloseRange(((CloseWeapon)pWeapon).isCloseRange());
 				((CloseWeapon) vRet).setPikeRange(((CloseWeapon)pWeapon).isPikeRange());
 				((CloseWeapon) vRet).setSpearRange(((CloseWeapon)pWeapon).isSpearRange());
@@ -251,7 +328,7 @@ public class WeaponDatabase {
 			if (vRet instanceof RangeWeapon) {
 				((RangeWeapon) vRet).setLoadTime(((RangeWeapon)pWeapon).getLoadTime());
 				((RangeWeapon) vRet).setRanges(((RangeWeapon)pWeapon).getRanges().clone());
-				((RangeWeapon) vRet).setTPRangeMods(((RangeWeapon)pWeapon).getTPRangeMods().clone());
+				((RangeWeapon) vRet).setTpRangeMods(((RangeWeapon)pWeapon).getTpRangeMods().clone());
 			}
 		} catch(Exception ex) {System.out.println(ex.getMessage());}
 		
