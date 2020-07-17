@@ -1,7 +1,7 @@
-/**	DSA_App v0.0	Dh	22.5.2020
+/**	DSA_App v0.0	Dh	16.7.2020
  * 
  * 	pGUI
- * 	  JListModel
+ * 	  JComboBoxModel
  * 	
  * 	Exceptions:
  * 	  01 Wrong length
@@ -57,7 +57,7 @@ public class JComboBoxModel extends DefaultComboBoxModel {
 	 * 
 	 * @param pSel
 	 */
-	public void setSelectedObjetc(Object pSel) {
+	public void setSelectedObject(Object pSel) {
 		if (super.getSize() != 0) {
 			for(int i=0; i < super.getSize(); i++) {
 				if (getObjectAt(i) == pSel) super.setSelectedItem(super.getElementAt(i));
@@ -83,6 +83,22 @@ public class JComboBoxModel extends DefaultComboBoxModel {
 	public Object getObjectAt(int pInd) {
 		JListModelElement vEle = (JListModelElement) super.getElementAt(pInd);
 		return vEle.getObject();
+	}
+	
+	/**	Dh	16.7.2020
+	 * 
+	 */
+	public int getIndexOf(Object pObject) {
+		Object vCur;
+		int vRet = -1;
+		
+		for (int i=0; (i < super.getSize()) && (vRet == -1); i++) {
+			vCur = getElementAt(i);
+			
+			if (vCur.equals(pObject)) vRet = i;
+		}
+		
+		return vRet;
 	}
 	
 	/**	Dh	22.5.2020
@@ -124,5 +140,11 @@ public class JComboBoxModel extends DefaultComboBoxModel {
 			insertElementAt(new JListModelElement(pText, pObject), pInd);
 		} else throw new Exception("04; JLiMod, iEa");
 	}
-	
+		
+	/**	Dh	16.7.2002
+	 * 
+	 */
+	public void clearElements() {
+		super.removeAllElements();
+	}
 }

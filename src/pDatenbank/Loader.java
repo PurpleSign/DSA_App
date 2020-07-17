@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh 12.7.2020
+/**	DSA_App v0.0	Dh 16.7.2020
  * 
  * 	Datenbank
  * 	  Loader
@@ -770,6 +770,36 @@ public abstract class Loader {
 		if (rWD != null) return rWD.getWeaponTypeID(pWeaponType);
 		else throw new Exception("04; Loa,gWTID");
 	}
+	/**	Dh	15.7.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getWeaponUseType(int pID) throws Exception{
+		if (rWD != null) return rWD.getWeaponUseType(pID);
+		else throw new Exception("04; Loa,gWUT");
+	}
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getDamageType(int pID) throws Exception{
+		if (rWD != null) return rWD.getDamageType(pID);
+		else throw new Exception("04; Loa,gDT");
+	}
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pDamgeType
+	 * @return
+	 * @throws Exception
+	 */
+	public static int getDamageTypeID(String pDamgeType) throws Exception{
+		if (rWD != null) return rWD.getWeaponTypeID(pDamgeType);
+		else throw new Exception("04; Loa,gDTID");
+	}
 	//-----
 	/**	Dh	10.6.2020
 	 * 
@@ -811,6 +841,58 @@ public abstract class Loader {
 	public static String[] getTalentTypes() throws Exception{
 		if (rTD != null) return rTD.getTalentTypes();
 		else throw new Exception("04; Loa,gTTs");
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static String[] getWeaponUseTypes() throws Exception{
+		if (rWD != null) return rWD.getWeaponUseTypes();
+		else throw new Exception("04; Loa,gWUTs");
+	}
+	/**	Dh	16.7.2020
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public static String[] getDamageTypes() throws Exception{
+		if (rWD != null) return rWD.getDamageTypes();
+		else throw new Exception("04; Loa,gDTs");
+	}
+	
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pIDs
+	 * @return
+	 * @throws Exception
+	 */
+	public static String[] getDamageTypes(int[] pIDs) throws Exception{
+		if (rWD != null) return rWD.getDamageTypes(pIDs);
+		else throw new Exception("04; Loa,gDTs");
+	}
+	/**	Dh	16.7.2020
+	 * 	
+	 * @param pDamageTypes
+	 * @return
+	 * @throws Exception
+	 */
+	public static int[] getDamageTypesID(String[] pDamageTypes) throws Exception{
+		if (rWD != null) return rWD.getDamageTypesID(pDamageTypes);
+		else throw new Exception("04; Loa,gDTsID");
+	}
+	
+	//--------------------------------------------------------------------------------------------------------
+	
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pWeaponTypeID
+	 * @return
+	 * @throws Exception
+	 */
+	public static int[] determineWeaponUseTypes(int pWeaponTypeID) throws Exception{
+		if (rWD != null) return rWD.determineWeaponUseTypes(pWeaponTypeID);
+		else throw new Exception("04; Loa,dWUTs");
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -2187,8 +2269,49 @@ public abstract class Loader {
 			rWD.setWeaponTypes(vWeaponTypes);
 		}
 	}
+	/**	Dh	16.7.2020
+	 * 
+	 * 	pMund:
+	 * 	 00: Mundan			  	08: Unholy
+	 * 	 01: Nonleathal		  	09: Nonlehtal+Unholy
+	 * 	 02: Arkan			  	10: Arkan+Unholy
+	 * 	 03: Nonlethal+Arkan  	11: Nonle+Ark+Unho
+	 * 	 04: Holy				12: Holy+Unholy
+	 * 	 05: Nonlethal+Holy		13: Nonle+Ho+Unho
+	 * 	 06: Arkan+Holy			14: Ark+Ho+Unho
+	 *   07: Nonle+Ark+Hol		15: All
+	 * 	
+	 */
+	private static void genDamageTypes() {
+		String[] vDamageTypes;
+		if (rWD != null) {
+			vDamageTypes = new String[16];
+			
+			vDamageTypes[0] = "Mundan";
+			vDamageTypes[1] = "Nicht tödlich";
+			vDamageTypes[2] = "Magisch";
+			vDamageTypes[3] = "Nicht tödlich, Magisch";
+			vDamageTypes[4] = "Geweiht";
+			
+			vDamageTypes[5] = "Nicht tödlich, Geweiht";
+			vDamageTypes[6] = "Magisch, Geweiht";
+			vDamageTypes[7] = "Nicht tödlich, Magisch, Geweiht";
+			vDamageTypes[8] = "Verzehrt";
+			vDamageTypes[9] = "Nicht tödliche, Verzehrt";
+			
+			vDamageTypes[10] = "Magisch, Verzehrt";
+			vDamageTypes[11] = "Nicht tödlich, Magisch, Verzehrt";
+			vDamageTypes[12] = "Geweiht, Verzehrt";
+			vDamageTypes[13] = "Nicht tödlich, Geweiht, Verzehrt";
+			vDamageTypes[14] = "Magisch, Geweiht, Verzehrt";
+			
+			vDamageTypes[15] = "Alle";
+			
+			rWD.setDamageTypes(vDamageTypes);
+		}
+	}
 	
-	/**	Dh	12.7.2020
+	/**	Dh	16.7.2020
 	 * 
 	 * @throws Exception
 	 */
@@ -2199,6 +2322,7 @@ public abstract class Loader {
 			genTalentTypes();
 			genWeapons();
 			genWeaponTypes();
+			genDamageTypes();
 			genPros();
 			genSpecialCrafts();
 		} catch(Exception ex) {throw ex;}

@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	9.7.2020
+/**	DSA_App v0.0	Dh	16.7.2020
  * 
  * 	pGUI
  * 	  ModFrame
@@ -503,12 +503,14 @@ public class ModFrame extends JFrame {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	17.5.2020
+	/**	Dh	16.7.2020
 	 * 
 	 * 	Beenden die Modauswahl.
 	 */
 	private void cancel() {
-		rMF.closeModFrame();
+		if (id == -1) rMF.closeGenModFrame();
+		else rMF.closeFighterModFrame();
+		//rMF.closeModFrame();
 		setVisible(false);
 		dispose();
 	}

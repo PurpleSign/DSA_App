@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	14.7.2020
+/**	DSA_App v0.0	Dh	15.7.2020
  * 
  * 	Logik
  * 	  CharacterManager

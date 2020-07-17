@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	9.7.2020
+/**	DSA_App v0.0	Dh	16.7.2020
  * 
  * 	pGUI
  * 	  NeighbourFrame
@@ -595,13 +595,14 @@ public class NeighbourFrame extends JFrame {
 	
 //--------------------------------------------------------------------------------------------------------
 	
-	/**	Dh	22.5.2020
+	/**	Dh	16.7.2020
 	 * 
 	 * 	Beendet die NeighbourFrame Auswahl.
 	 * 
 	 */
 	private void cancel() {
-		rMF.closeNeighbourFrame();
+		//rMF.closeNeighbourFrame();
+		rMF.closeFighterModFrame();
 		setVisible(false);
 		dispose();
 	}

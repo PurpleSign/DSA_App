@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	11.7.2020
+/**	DSA_App v0.0	Dh	16.7.2020
  * 
  * 	pGUI
  * 	  CharModFrame
@@ -29,6 +29,12 @@ public abstract class CharModFrame extends JFrame {
 	protected CharacterManager rCM;
 	protected MainFrame rMF;	
 	
+	/**	Dh	16.7.2020
+	 * 
+	 */
+	public CharModFrame() {
+		
+	}
 	/**	Dh	11.7.2020
 	 * 
 	 * @param pID

@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	10.7.2020
+/**	DSA_App v0.0	Dh	14.7.2020
  * 
  * 	pGUI
  * 	  JSpinnModel
@@ -37,7 +37,7 @@ public class JSpinnModel extends AbstractSpinnerModel {
 		try {setList(pList);}
 		catch(Exception ex) {MainFrame.handleException(ex);}
 	}
-	/**	Dh	10.7.2020
+	/**	Dh	14.7.2020
 	 * 
 	 * 	Erstellt ein SpinnModel mit vordefinierten Listen, je nach Eingabe.
 	 * 
@@ -65,6 +65,7 @@ public class JSpinnModel extends AbstractSpinnerModel {
 			
 			rList.append(new JListModelElement("HNSP", 9));
 		}else if (pPreDefTypeInd == 1) {
+			rList.append(new JListModelElement("", -1));
 			rList.append(new JListModelElement("H", 0));
 			rList.append(new JListModelElement("N", 1));
 			rList.append(new JListModelElement("S", 2));

@@ -80,8 +80,8 @@ public class MainManager {
 	 */
 	public static void closeApp() {
 		try {
-			Loader.saveFightManager(rFM);
-			Loader.saveCharacterManager(rCM);
+			//Loader.saveFightManager(rFM);
+			//Loader.saveCharacterManager(rCM);
 			//Loader.saveDatabases();
 			//SettingManager.saveSettingManager();		
 		} catch (Exception ex) {System.out.println(ex.getMessage());}

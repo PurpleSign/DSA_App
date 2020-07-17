@@ -1,7 +1,12 @@
-/**	DSA_App v0.0	Dh 9.7.2020
+/**	DSA_App v0.0	Dh 16.7.2020
  * 
  * 	Datenbank
  * 	  WeaponDatabase
+ * 
+ * 	UsedType:
+ * 	  0: Natuerlich		 3: Linkhand
+ * 	  1: Haupthand		 4: Schild
+ * 	  2: Nebenhand
  * 
  * 	Exceptions:
  * 	  01 Wrong length
@@ -32,16 +37,18 @@ import pLogik.Weapon;
 @XmlSeeAlso(Weapon.class)
 public class WeaponDatabase {
 	private List weaponList;
-	private String[] weaponTypes;
+	private String[] weaponTypes, damageTypes;
+	private String[] weaponUseTypes = new String[] {"Natürlich", "Haupthand", "Nebenhand", "Linkhand", "Schild"};
 	
-	/**	Dh	9.7.2020
+	/**	Dh	16.7.2020
 	 * 
 	 */
 	public WeaponDatabase() {
 		weaponList = new List();
 		weaponTypes = new String[] {};
+		damageTypes = new String[] {};
 	}
-	/**	Dh	9.7.2020
+	/**	Dh	16.7.2020
 	 * 
 	 * pWeaponType:
 	 * 	 00: Raufen				15: Zweihand-Hiebwaffen
@@ -62,9 +69,10 @@ public class WeaponDatabase {
 	 * 
 	 * @param pWeaponList
 	 */
-	public WeaponDatabase(List pWeaponList, String[] pWeaponTypes) {
+	public WeaponDatabase(List pWeaponList, String[] pWeaponTypes, String[] pDamageTypes) {
 		weaponList = new List();
 		weaponTypes = pWeaponTypes;
+		damageTypes = pDamageTypes;
 		try{setWeaponList(pWeaponList);}
 		catch(Exception ex) {System.out.println(ex);}
 	}
@@ -155,6 +163,75 @@ public class WeaponDatabase {
 		
 		return vRet;
 	}
+	//-----
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	protected String getDamageType(int pID) throws Exception{
+		if ((pID >= 0) && (pID < damageTypes.length)) return damageTypes[pID];
+		else throw new Exception("02; WeDat,gDT");
+	}
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pName
+	 * @return
+	 * @throws Exception
+	 */
+	protected int getDamageTypeID(String pName) throws Exception{
+		int vRet = -1;
+		
+		if (pName != null) {
+			if (!pName.equals("")) {
+				for (int i=0; (i < damageTypes.length) && (vRet == -1); i++) {
+					if (damageTypes[i].equals(pName)) vRet = i;
+				}
+			} else throw new Exception("02; WeDat,gDTID");
+		} else throw new Exception("04; WeDat,gDTID");
+		
+		return vRet;
+	}
+	
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pIDs
+	 * @return
+	 * @throws Exception
+	 */
+	protected String[] getDamageTypes(int[] pIDs) throws Exception{
+		String[] vRet = null;
+		
+		if (pIDs != null) {
+			vRet = new String[pIDs.length];
+			
+			for (int i=0; i<pIDs.length; i++) {
+				vRet[i] = getDamageType(pIDs[i]);
+			}
+		} else throw new Exception("04; WeDat,gDTs"); 
+		
+		return vRet;
+	}
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pNames
+	 * @return
+	 * @throws Exception
+	 */
+	protected int[] getDamageTypesID(String[] pNames) throws Exception{
+		int[] vRet = null;
+		
+		if (pNames != null) {
+			vRet = new int[pNames.length];
+			
+			for (int i=0; i<pNames.length; i++) {
+				vRet[i] = getDamageTypeID(pNames[i]);
+			}
+		} else throw new Exception("04; WeDat,gDTsID"); 
+		
+		return vRet;
+	}
 	
 	/**	Dh	4.6.2020
 	 * 
@@ -172,6 +249,43 @@ public class WeaponDatabase {
 	@XmlElement(name = "WeaponType")
 	public String[] getWeaponTypes() {
 		return weaponTypes;
+	}
+	/**	Dh	16.7.2020
+	 * 
+	 * @return
+	 */
+	@XmlElementWrapper(name = "DamageTypeArray")
+	@XmlElement(name = "DamageType")
+	public String[] getDamageTypes() {
+		return damageTypes;
+	}
+	
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public String getWeaponUseType(int pInd) throws Exception{
+		if ((pInd >= 0) && (pInd < weaponUseTypes.length)) return weaponUseTypes[pInd];
+		else throw new Exception("02; WaDat,gWUT");
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @return
+	 */
+	public String[] getWeaponUseTypes() {
+		return weaponUseTypes;
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -208,6 +322,13 @@ public class WeaponDatabase {
 	 */
 	public void setWeaponTypes(String[] pWeaponTypes){
 		weaponTypes = pWeaponTypes;
+	}
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pDamageTypes
+	 */
+	public void setDamageTypes(String[] pDamageTypes) {
+		damageTypes = pDamageTypes;
 	}
 	
 //--------------------------------------------------------------------------------------------------------
@@ -288,6 +409,27 @@ public class WeaponDatabase {
 				}
 			} throw new Exception("05; WaDat,rWs");
 		} throw new Exception("04; WaDat,rWs");
+	}
+	
+	//----------------------------------------------------------------------------------------------------
+	
+	/**	Dh	16.7.2002
+	 * 
+	 * @param pWeaponType
+	 * @return
+	 * @throws Exception
+	 */
+	protected int[] determineWeaponUseTypes(int pWeaponType) throws Exception{
+		int[] vRet = null;
+		
+		if ((pWeaponType == 0) || (pWeaponType == 1)) vRet = new int[] {0};
+		else if ((pWeaponType == 26) || (pWeaponType == 27) || (pWeaponType == 28)) vRet = new int[]{4};
+		else if (pWeaponType == 29) vRet = new int[] {3};
+		else if (pWeaponType == 3) vRet = new int[] {1, 2, 3};
+		else if ((pWeaponType == 4) || (pWeaponType == 5) || (pWeaponType == 9) || (pWeaponType == 10) || (pWeaponType == 11)) vRet = new int[] {1, 2};
+		else vRet = new int[] {1};
+		
+		return vRet;
 	}
 	
 //--------------------------------------------------------------------------------------------------------

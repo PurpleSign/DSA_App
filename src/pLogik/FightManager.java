@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	9.7.2020
+/**	DSA_App v0.0	Dh	17.7.2020
  * 
  * 	Logik
  * 	  FightManager
@@ -284,6 +284,17 @@ public class FightManager {
 		return vRet;
 	}
 	
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public int getIDOfCharacterOfFighter(int pID) throws Exception{
+		if (pID >= 0) return getFightElement(pID).getCharacter().getId();
+		else throw new Exception("02; FiMan,gIDoCoF");
+	}
+	
 	/**	Dh	3.5.2020
 	 * 
 	 * @param pID
@@ -379,6 +390,24 @@ public class FightManager {
 			catch(Exception ex) {throw ex;}
 		}else throw new Exception("02; FiMan,gAWoF");
 	}
+	/** Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pID
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public int getActiveWeaponUseTypeOfFighter(int pID, int pInd) throws Exception{
+		if ((pID >= 0) && (pInd >= 0)) {
+			try {return getFightElement(pID).getActiveWeaponUseType(pInd);}
+			catch(Exception ex) {throw ex;}
+		}else throw new Exception("02; FiMan,gAWUToF");
+	}
 	
 	/**	Dh	23.2.2020
 	 * 
@@ -419,13 +448,18 @@ public class FightManager {
 		try{ return getFightElement(pID).getStatMods();}
 		catch(Exception vExc) { throw vExc;}
 	}
-	/**	DH	28.5.2020
+	/**	Dh	28.5.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pID
 	 * @return
 	 * @throws Exception
 	 */
-	public Weapon[] getActiveWeaponsOgFighter(int pID) throws Exception{
+	public Object[][] getActiveWeaponsOfFighter(int pID) throws Exception{
 		if (pID >= 0) {
 			try {return getFightElement(pID).getActiveWeapons();}
 			catch(Exception ex) {throw ex;}
@@ -534,6 +568,39 @@ public class FightManager {
 		
 		return vRet;
 	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public List getActiveWeaponUseTypeOfFighter(int pInd) throws Exception{
+		List vRet;
+		int vCur;
+		
+		if (pInd >= 0) {
+			vRet = new List();
+			
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				
+				while(!fightList.isLast()) {
+					vCur = ((FightElement)fightList.getCurrent()).getActiveWeaponUseType(pInd);
+					
+					vRet.append(vCur);
+					
+					fightList.next();
+				}
+			}else throw new Exception("05; FiMan,gAWUToFs");
+		}else throw new Exception("02; FiMan,gAWUToFs");
+		
+		return vRet;
+	}
 	
 	/**	Dh	1.5.2020
 	 * 
@@ -611,6 +678,11 @@ public class FightManager {
 	}
 	/**	Dh	28.5.2020
 	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
@@ -628,6 +700,198 @@ public class FightManager {
 				fightList.next();
 			}
 		} else throw new Exception("05; FiMan,gAWsoFs");
+		
+		return vRet;
+	}
+	
+	/**	Dh	15.7.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public double getHandicapOfFighter(int pID) throws Exception{
+		if (pID >= 0) return getCharacterOfFighter(pID).getBe();
+		else throw new Exception("02; FiMan,gHoF");
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * @param pID
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public double getArmorValueOfFighter(int pID, int pInd) throws Exception{
+		double vRet = -1;
+		
+		if ((pID >= 0) && (pInd >= 0) && (pInd < 9)) vRet = getCharacterOfFighter(pID).getRs(pInd);
+		else throw new Exception("02; FiMan,gAVoF");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public double[] getArmorValuesOfFighter(int pID) throws Exception{
+		double[] vRet = null;
+		
+		if (pID >= 0) vRet = getCharacterOfFighter(pID).getRs();
+		else throw new Exception("02; FiMan,gAVsoF");
+		
+		return vRet;
+	}
+	//-----
+	/**	Dh	15.7.2020
+	 * 
+	 * @param pIDList
+	 * @return
+	 * @throws Exception
+	 */
+	public List getHandicapOfFighters(List pIDList) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(getHandicapOfFighter((int) vCur));
+					else throw new Exception("06; FiMan,gHoFs");
+					
+					pIDList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,gHoFs");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * @param pIDList
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public List getArmorValueOfFighters(List pIDList, int pInd) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(getArmorValueOfFighter((int) vCur, pInd));
+					else throw new Exception("06; FiMan,gAVoFs");
+					
+					pIDList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,gAVoFs");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * @param pIDList
+	 * @return
+	 * @throws Exception
+	 */
+	public List getArmorValuesOfFighters(List pIDList) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(getArmorValuesOfFighter((int) vCur));
+					else throw new Exception("06; FiMan,gAVsoFs");
+					
+					pIDList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,gAVsoFs");
+		
+		return vRet;
+	}
+	//-----
+	/**	Dh	15.7.2020
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List getHandicapOfAllFighter() throws Exception{
+		List vRet = new List();
+		
+		if (fightList != null) {
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				
+				while(!fightList.isEnd()) {
+					vRet.append(getHandicapOfFighter((int) fightList.getCurrent()));
+					
+					fightList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,gAVoAFs");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public List getArmorValueOfAllFighters(int pInd) throws Exception{
+		List vRet = new List();
+		
+		if (fightList != null) {
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				
+				while(!fightList.isEnd()) {
+					vRet.append(getArmorValueOfFighter((int) fightList.getCurrent(), pInd));
+					
+					fightList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,gAVoAFs");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * @param pInd
+	 * @return
+	 * @throws Exception
+	 */
+	public List getArmorValuesOfAllFighters(int pInd) throws Exception{
+		List vRet = new List();
+		
+		if (fightList != null) {
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				
+				while(!fightList.isEnd()) {
+					vRet.append(getArmorValuesOfFighter((int) fightList.getCurrent()));
+					
+					fightList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,gAVsoAFs");
 		
 		return vRet;
 	}
@@ -2048,18 +2312,36 @@ public class FightManager {
 			} catch (Exception vExc) {throw vExc;}
 		} else throw new Exception("07; FiMan,sSMF");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pID
 	 * @param pActiveWeapon
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void setActiveWeaponOfFighter(int pID, Weapon pActiveWeapon, int pInd) throws Exception {
+	public void setActiveWeaponOfFighter(int pID, Weapon pActiveWeapon, int pUseType, int pInd) throws Exception {
 		if ((pID >= 0) && (pInd >= 0)) {
-			try {getFightElement(pID).setActiveWeapon(pActiveWeapon, pInd);}
+			try {getFightElement(pID).setActiveWeapon(pActiveWeapon, pUseType, pInd);}
 			catch(Exception ex) {throw ex;}
 		}else throw new Exception("02; FiMan,sAWoF");
+	}
+	/**	Dh	17.7.2020
+	 * 
+	 * @param pFighterID
+	 * @param pWeaponID
+	 * @param pUseType
+	 * @throws Exception
+	 */
+	public void setActiveWeaponUseTypeOfFighter(int pFighterID, int pWeaponID, int pUseType) throws Exception {
+		if (pFighterID >= 0) {
+			try {getFightElement(pFighterID).setActiveWeaponUseType(pWeaponID, pUseType);}
+			catch(Exception ex) {throw ex;}
+		}else throw new Exception("02; FiMan,sAWUToF");
 	}
 	
 	/**	Dh	23.2.2020
@@ -2114,13 +2396,18 @@ public class FightManager {
 			} else throw new Exception("04; FiMan,sSMsF");
 		} else throw new Exception("04; FiMan,sSMsF");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pID
 	 * @param pActiveWeapons
 	 * @throws Exception
 	 */
-	public void setActiveWeaponsOfFighter(int pID, Weapon[] pActiveWeapons) throws Exception{
+	public void setActiveWeaponsOfFighter(int pID, Object[][] pActiveWeapons) throws Exception{
 		if (pID >= 0) {
 			try {getFightElement(pID).setActiveWeapons(pActiveWeapons);}
 			catch(Exception ex) {throw ex;}
@@ -2275,19 +2562,24 @@ public class FightManager {
 			} else throw new Exception("05; FiMan,sSsMFs");
 		} else throw new Exception("07; FiMan,sSsMFs");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
 	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 	
 	 * @param pActiveWeapon
 	 * @param pInd
 	 * @throws Exception
 	 */
-	public void setActiveWeaponOfFighters(Weapon pActiveWeapon, int pInd) throws Exception{
+	public void setActiveWeaponOfFighters(Weapon pActiveWeapon, int pUseType, int pInd) throws Exception{
 		if (pInd >= 0) {
 			if (!fightList.isEmpty()) {
 				fightList.toFirst();
 				
 				while(!fightList.isLast()) {			
-					try {((FightElement)fightList.getCurrent()).setActiveWeapon(pActiveWeapon, pInd);}
+					try {((FightElement)fightList.getCurrent()).setActiveWeapon(pActiveWeapon, pUseType, pInd);}
 					catch (Exception ex) {throw ex;}
 					
 					fightList.next();
@@ -2295,7 +2587,12 @@ public class FightManager {
 			}else throw new Exception("05; FiMan,sAWoFs");
 		}else throw new Exception("02; FiMan,sAWoFs");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pActiveWeaponList
 	 * @param pInd
@@ -2314,9 +2611,11 @@ public class FightManager {
 						while(!fightList.isLast()) {		
 							vTempWeapon = pActiveWeaponList.getCurrent();
 							
-							if (vTempWeapon instanceof Weapon) {
-								try {((FightElement)fightList.getCurrent()).setActiveWeapon((Weapon)vTempWeapon, pInd);}
-								catch (Exception ex) {throw ex;}
+							if (vTempWeapon instanceof Object[]) {
+								if ((((Object[])vTempWeapon)[0] instanceof Weapon) && (((Object[])vTempWeapon)[1] instanceof Integer)) {
+									try {((FightElement)fightList.getCurrent()).setActiveWeapon((Weapon)((Object[])vTempWeapon)[0], (int)((Object[])vTempWeapon)[1], pInd);}
+									catch (Exception ex) {throw ex;}
+								} else throw new Exception("06; FiMan,sAWoFs");
 							} else throw new Exception("02; FiMan,sAWoFs");
 							
 							pActiveWeaponList.toFirst();
@@ -2474,12 +2773,17 @@ public class FightManager {
 			} else throw new Exception("01; FiMan,sSsMFs");
 		} else throw new Exception("05; FiMan,sSsMFs");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pActiveWeapon
 	 * @throws Exception
 	 */
-	public void setActiveWeaponsOfFighters(Weapon[] pActiveWeapon) throws Exception{
+	public void setActiveWeaponsOfFighters(Object[][] pActiveWeapon) throws Exception{
 		if (!fightList.isEmpty()){
 			fightList.toFirst();
 			while(!fightList.isEnd()){
@@ -2489,7 +2793,12 @@ public class FightManager {
 			}
 		} else throw new Exception("05; FiMan,sAWsoFs");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pActiveWeaponList
 	 * @throws Exception
@@ -2506,8 +2815,8 @@ public class FightManager {
 					while(!fightList.isEnd()){
 						vCur = pActiveWeaponList.getCurrent();
 						
-						if (vCur instanceof Weapon[]) {
-							try{ ((FightElement)fightList.getCurrent()).setActiveWeapons((Weapon[])vCur);}
+						if (vCur instanceof Object[][]) {
+							try{ ((FightElement)fightList.getCurrent()).setActiveWeapons((Object[][])vCur);}
 							catch(Exception ex) {throw ex;}
 						}
 						
@@ -3404,6 +3713,555 @@ public class FightManager {
 	
 //--------------------------------------------------------------------------------------------------------
 	
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pFighterID
+	 * @param pWeaponID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean hasFighterActiveWeapon(int pFighterID, int pWeaponID) throws Exception{
+		if (pFighterID >= 0) return getFightElement(pFighterID).haveWeaponActive(pWeaponID);
+		else throw new Exception("02; FiMan,hFAW");
+	}
+	
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pID
+	 * @param pUseType
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean hasFighterAActiveWeaponUseType(int pID, int pUseType) throws Exception{
+		if (pID >= 0) return getFightElement(pID).haveActiveWeaponUseType(pUseType);
+		else throw new Exception("02; FiMan,hFaAWUT");
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean hasFighterAPrimaryWeapon(int pID) throws Exception{
+		if (pID >= 0) return getFightElement(pID).havePrimaryWeapon();
+		else throw new Exception("02; FiMan,hFaPrW");
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean hasFighterASecondaryWeapon(int pID) throws Exception{
+		if (pID >= 0) return getFightElement(pID).haveSecondaryWeapon();
+		else throw new Exception("02; FiMan,hFaSW");
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean hasFighterAParryWeapon(int pID) throws Exception{
+		if (pID >= 0) return getFightElement(pID).haveParryWeapon();
+		else throw new Exception("02; FiMan,hFaPaW");
+	}
+	/**	Dh	15.7.2020
+	 * 	
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean hasFighterAShield(int pID) throws Exception{
+		if (pID >= 0) return getFightElement(pID).haveShield();
+		else throw new Exception("02; FiMan,hFaS");
+	}
+	/**	Dh	17.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean hasFighterAnySecondaryWeapon(int pID) throws Exception{
+		if (pID >= 0) return getFightElement(pID).haveAnySecondaryWeapon();
+		else throw new Exception("02; FiMan,hFaSW");
+	}
+	/**	Dh	17.7.2020
+	 * 
+	 * @param pID
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean hasFighterATwoHandedWeapon(int pID) throws Exception{
+		if (pID >= 0) return getFightElement(pID).haveTwoHandedWeapon();
+		else throw new Exception("02; FiMan,hFaTHW");
+	}
+	//-----
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pIDList
+	 * @param pUseType
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveFightersAActiveWeaponUseType(List pIDList, int pUseType) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterAActiveWeaponUseType((int)vCur, pUseType));
+					else throw new Exception("06; FiMan,hFsaAWUT");
+					
+					pIDList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,hFsaAWUT");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pIDList
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveFightersAPrimaryWeapon(List pIDList) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterAPrimaryWeapon((int)vCur));
+					else throw new Exception("06; FiMan,hFsaPrW");
+					
+					pIDList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,hFsaPrW");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pIDList
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveFightersASecondaryWeapon(List pIDList) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterASecondaryWeapon((int)vCur));
+					else throw new Exception("06; FiMan,hFsaSW");
+					
+					pIDList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,hFsaSW");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pIDList
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveFightersAParryWeapon(List pIDList) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterAParryWeapon((int)vCur));
+					else throw new Exception("06; FiMan,hFsaPaW");
+					
+					pIDList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,hFsaPaW");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pIDList
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveFightersAShield(List pIDList) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterAShield((int)vCur));
+					else throw new Exception("06; FiMan,hFsaS");
+					
+					pIDList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,hFsaS");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pIDList
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveFightersAnySecondaryWeapon(List pIDList) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterAnySecondaryWeapon((int)vCur));
+					else throw new Exception("06; FiMan,hFsaSW");
+					
+					pIDList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,hFsaSW");
+		
+		return vRet;
+	}
+	/**	Dh	17.7.2020
+	 * 
+	 * @param pIDList
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveFightersATwoHandedWeapon(List pIDList) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (pIDList != null) {
+			if (!pIDList.isEmpty()) {
+				pIDList.toFirst();
+				
+				while(!pIDList.isEnd()) {
+					vCur = pIDList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterATwoHandedWeapon((int)vCur));
+					else throw new Exception("06; FiMan,hFsaTHW");
+					
+					pIDList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,hFsaTHW");
+		
+		return vRet;
+	}
+	//-----
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @param pUseType
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveAllFightersAActiveWeaponUseType(int pUseType) throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (fightList != null) {
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				
+				while(!fightList.isEnd()) {
+					vCur = fightList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterAActiveWeaponUseType((int)vCur, pUseType));
+					else throw new Exception("06; FiMan,haFsaAWUT");
+					
+					fightList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,haFsaAWUT");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveAllFightersAPrimaryWeapon() throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (fightList != null) {
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				
+				while(!fightList.isEnd()) {
+					vCur = fightList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterAPrimaryWeapon((int)vCur));
+					else throw new Exception("06; FiMan,haFsaPrW");
+					
+					fightList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,haFsaPrW");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveAllFightersASecondaryWeapon() throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (fightList != null) {
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				
+				while(!fightList.isEnd()) {
+					vCur = fightList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterASecondaryWeapon((int)vCur));
+					else throw new Exception("06; FiMan,haFsaSW");
+					
+					fightList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,haFsaSW");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveAllFightersAParryWeapon() throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (fightList != null) {
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				
+				while(!fightList.isEnd()) {
+					vCur = fightList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterAParryWeapon((int)vCur));
+					else throw new Exception("06; FiMan,haFsaPaW");
+					
+					fightList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,haFsaPaW");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveAllFightersAShield() throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (fightList != null) {
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				
+				while(!fightList.isEnd()) {
+					vCur = fightList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterAShield((int)vCur));
+					else throw new Exception("06; FiMan,haFsaS");
+					
+					fightList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,haFsaS");
+		
+		return vRet;
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveAllFightersAnySecondaryWeapon() throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (fightList != null) {
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				
+				while(!fightList.isEnd()) {
+					vCur = fightList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterAnySecondaryWeapon((int)vCur));
+					else throw new Exception("06; FiMan,haFsaSW");
+					
+					fightList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,haFsaSW");
+		
+		return vRet;
+	}
+	/**	Dh	17.7.2020
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public List haveAllFightersATwoHandedWeapon() throws Exception{
+		Object vCur;
+		List vRet = new List();
+		
+		if (fightList != null) {
+			if (!fightList.isEmpty()) {
+				fightList.toFirst();
+				
+				while(!fightList.isEnd()) {
+					vCur = fightList.getCurrent();
+					
+					if (vCur instanceof Integer) vRet.append(hasFighterATwoHandedWeapon((int)vCur));
+					else throw new Exception("06; FiMan,haFsaTHW");
+					
+					fightList.next();
+				}
+			}
+		} else throw new Exception("04; FiMan,haFsaTHW");
+		
+		return vRet;
+	}
+	
 	/**	Dh	6.5.2020
 	 * 
 	 * @param pID
@@ -3471,23 +4329,28 @@ public class FightManager {
 	
 	//----------------------------------------------------------------------------------------------------
 	
-	/**	Dh	11.6.2020
+	/**	Dh	15.7.2020
 	 * 
 	 * 	Fuegt eine neue Kaempfer*In zur KaempferListe hinzu und erzeugt einen neuen Ini-Eintrag dafuer.
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pChar
 	 * @throws Exception
 	 */
 	public void addFighter(Charakter pChar) throws Exception{
 		int vID, vIni;
-		Weapon[] vActiveWeapon;
+		Object[][] vActiveWeapon;
 		
 		if (fightList != null) vID = fightList.getContentNumber();
 		else throw new Exception("04; FiMan,aFi_a");
 		
 		if (pChar != null) {
 			
-			vActiveWeapon = new Weapon[] {pChar.getWeapon(0), pChar.getWeapon(1), pChar.getWeapon(2)};
+			vActiveWeapon = new Object[][] {{pChar.getWeapon(0), 0}, {pChar.getWeapon(1), 0}, {pChar.getWeapon(2), 1}};
 			fightList.append(new FightElement(vID, pChar, vActiveWeapon));
 		}
 		else throw new Exception("04; FiMan,aFi_a");
@@ -3495,9 +4358,14 @@ public class FightManager {
 		vIni = calcIni(pChar);
 		addIniElement(vID, vIni, 2);
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
 	 * 
 	 * 	Fuegt eine neue Kaempfer*In zur KaempferListe hinzu und erzeugt einen neuen Ini-Eintrag dafuer.
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * 	pPropMod: 
 	 * 	  0 Mut					5 Gewandheit
@@ -3511,7 +4379,7 @@ public class FightManager {
 	 * @param pPropMods
 	 * @throws Exception
 	 */
-	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods) throws Exception{
+	public void addFighter(Charakter pChar, Object[][] pActiveWeapons, int[] pPropMods) throws Exception{
 		int vID, vIni;
 		
 		if (fightList != null) vID = fightList.getContentNumber();
@@ -3525,16 +4393,21 @@ public class FightManager {
 		vIni = calcIni(pChar);
 		addIniElement(vID, vIni, 2);
 	}
-	/**	Dh	4.5.2020
+	/**	Dh	15.7.2020
 	 * 
 	 * 	Fuegt eine neue Kaempfer*In zur KaempferListe hinzu und erzeugt einen neuen Ini-Eintrag dafuer.
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pChar
 	 * @param pActiveWeapons
 	 * @param pNeighbours
 	 * @throws Exception
 	 */
-	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, List pNeighbours) throws Exception{
+	public void addFighter(Charakter pChar, Object[][] pActiveWeapons, List pNeighbours) throws Exception{
 		int vID, vIni;
 		
 		if (fightList != null) vID = fightList.getContentNumber();
@@ -3546,9 +4419,14 @@ public class FightManager {
 		vIni = calcIni(pChar);
 		addIniElement(vID, vIni, 2);
 	}
-	/**	Dh	4.5.2020
+	/**	Dh	15.7.2020
 	 * 
 	 * 	Fuegt eine neue Kaempfer*In zur KaempferListe hinzu und erzeugt einen neuen Ini-Eintrag dafuer.
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * 	pPropMod: 
 	 * 	  0 Mut					5 Gewandheit
@@ -3570,7 +4448,7 @@ public class FightManager {
 	 * @param pStatMods
 	 * @throws Exception
 	 */
-	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, int[] pStatMods) throws Exception{
+	public void addFighter(Charakter pChar, Object[][] pActiveWeapons, int[] pPropMods, int[] pStatMods) throws Exception{
 		int vID, vIni;
 		
 		if (fightList != null) vID = fightList.getContentNumber();
@@ -3584,9 +4462,14 @@ public class FightManager {
 		vIni = calcIni(pChar);
 		addIniElement(vID, vIni, 2);
 	}
-	/**	Dh	4.5.2020
+	/**	Dh	15.7.2020
 	 * 
 	 * 	Fuegt eine neue Kaempfer*In zur KaempferListe hinzu und erzeugt einen neuen Ini-Eintrag dafuer.
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * 	pPropMod: 
 	 * 	  0 Mut					5 Gewandheit
@@ -3601,7 +4484,7 @@ public class FightManager {
 	 * @param pNeighbours
 	 * @throws Exception
 	 */
-	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, List pNeighbours) throws Exception{
+	public void addFighter(Charakter pChar, Object[][] pActiveWeapons, int[] pPropMods, List pNeighbours) throws Exception{
 		int vID, vIni;
 		
 		if (fightList != null) vID = fightList.getContentNumber();
@@ -3615,9 +4498,14 @@ public class FightManager {
 		vIni = calcIni(pChar);
 		addIniElement(vID, vIni, 2);
 	}
-	/**	Dh	4.5.2020
+	/**	Dh	15.7.2020
 	 * 
 	 * 	Fuegt eine neue Kaempfer*In zur KaempferListe hinzu und erzeugt einen neuen Ini-Eintrag dafuer.
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * 	pPropMod: 
 	 * 	  0 Mut					5 Gewandheit
@@ -3640,7 +4528,7 @@ public class FightManager {
 	 * @param pNeighbours
 	 * @throws Exception
 	 */
-	public void addFighter(Charakter pChar, Weapon[] pActiveWeapons, int[] pPropMods, int[] pStatMods, List pNeighbours) throws Exception{
+	public void addFighter(Charakter pChar, Object[][] pActiveWeapons, int[] pPropMods, int[] pStatMods, List pNeighbours) throws Exception{
 		int vID, vIni;
 		
 		if (fightList != null) vID = fightList.getContentNumber();
@@ -3703,15 +4591,20 @@ public class FightManager {
 			} catch (Exception vExc) {throw vExc;}
 		} else throw new Exception("07; FiMan,aSMF");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pID
 	 * @param pActiveWeapon
 	 * @throws Exception
 	 */
-	public void addActiveWeaponOfFighter(int pID, Weapon pActiveWeapon) throws Exception {
+	public void addActiveWeaponOfFighter(int pID, Weapon pActiveWeapon, int pUseType) throws Exception {
 		if (pID >= 0) {
-			try {getFightElement(pID).addActiveWeapon(pActiveWeapon);}
+			try {getFightElement(pID).addActiveWeapon(pActiveWeapon, pUseType);}
 			catch(Exception ex) {throw ex;}
 		}else throw new Exception("02; FiMan,aAWoF");
 	}
@@ -3766,13 +4659,18 @@ public class FightManager {
 			} else throw new Exception("01; FiMan,aSMsF");
 		} else throw new Exception("04; FiMan,aSMsF");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pID
 	 * @param pActiveWeapons
 	 * @throws Exception
 	 */
-	public void addActiveWeaponsOfFighter(int pID, Weapon[] pActiveWeapons) throws Exception{
+	public void addActiveWeaponsOfFighter(int pID, Object[][] pActiveWeapons) throws Exception{
 		if (pID >= 0) {
 			try {getFightElement(pID).addActiveWeapons(pActiveWeapons);}
 			catch(Exception ex) {throw ex;}
@@ -3928,26 +4826,36 @@ public class FightManager {
 			} else throw new Exception("05; FiMan,aSsMFs");
 		} else throw new Exception("07; FiMan,aSsMFs");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pActiveWeapon
 	 * @throws Exception
 	 */
-	public void addActiveWeaponOfFighters(Weapon pActiveWeapon) throws Exception{
+	public void addActiveWeaponOfFighters(Weapon pActiveWeapon, int pUseType) throws Exception{
 		FightElement vCur;
 		
 		if (!fightList.isEmpty()) {
 			fightList.toFirst();
 			
 			while(!fightList.isLast()) {			
-				try {((FightElement)fightList.getCurrent()).addActiveWeapon(pActiveWeapon);}
+				try {((FightElement)fightList.getCurrent()).addActiveWeapon(pActiveWeapon, pUseType);}
 				catch (Exception ex) {throw ex;}
 				
 				fightList.next();
 			}
 		}else throw new Exception("05; FiMan,aAWoFs");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
+	 * 
+	 * 	UsedType:
+	 * 	  0: Natuerlich		 3: Linkhand
+	 * 	  1: Haupthand		 4: Schild
+	 * 	  2: Nebenhand
 	 * 
 	 * @param pActiveWeaponList
 	 * @throws Exception
@@ -3964,9 +4872,11 @@ public class FightManager {
 					while(!fightList.isLast()) {		
 						vTempWeapon = pActiveWeaponList.getCurrent();
 						
-						if (vTempWeapon instanceof Weapon) {
-							try {((FightElement)fightList.getCurrent()).addActiveWeapon((Weapon)vTempWeapon);}
-							catch (Exception ex) {throw ex;}
+						if (vTempWeapon instanceof Object[]) {
+							if ((((Object[])vTempWeapon)[0] instanceof Weapon) && (((Object[])vTempWeapon)[1] instanceof Integer)) {
+								try {((FightElement)fightList.getCurrent()).addActiveWeapon((Weapon)((Object[])vTempWeapon)[0], (int)((Object[])vTempWeapon)[1]);}
+								catch (Exception ex) {throw ex;}
+							} else throw new Exception("06; FiMan,aAWoFs");
 						} else throw new Exception("02; FiMan,aAWoFs");
 						
 						pActiveWeaponList.toFirst();
@@ -4123,12 +5033,12 @@ public class FightManager {
 			} else throw new Exception("01; FiMan,aSsMFs");
 		} else throw new Exception("05; FiMan,aSsMFs");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
 	 * 
 	 * @param pActiveWeapon
 	 * @throws Exception
 	 */
-	public void addActiveWeaponsOfFighters(Weapon[] pActiveWeapon) throws Exception{
+	public void addActiveWeaponsOfFighters(Object[][] pActiveWeapon) throws Exception{
 		if (!fightList.isEmpty()){
 			fightList.toFirst();
 			while(!fightList.isEnd()){
@@ -4138,7 +5048,7 @@ public class FightManager {
 			}
 		} else throw new Exception("05; FiMan,aAWsoFs");
 	}
-	/**	Dh	28.5.2020
+	/**	Dh	15.7.2020
 	 * 
 	 * @param pActiveWeaponsList
 	 * @throws Exception
@@ -4155,8 +5065,8 @@ public class FightManager {
 					while(!fightList.isEnd()){
 						vCur = pActiveWeaponsList.getCurrent();
 						
-						if (vCur instanceof Weapon[]) {
-							try{ ((FightElement)fightList.getCurrent()).addActiveWeapons((Weapon[])vCur);}
+						if (vCur instanceof Object[][]) {
+							try{ ((FightElement)fightList.getCurrent()).addActiveWeapons((Object[][])vCur);}
 							catch(Exception ex) {throw ex;}
 						}
 						

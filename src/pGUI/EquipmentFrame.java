@@ -66,9 +66,9 @@ import javax.swing.JCheckBox;
 import java.awt.Color;
 
 public class EquipmentFrame extends CharListModFrame {
+	
 	private JLabel lEquipLabel_0, lEquipLabel_1, lEquipLabel_2, lEquipLabel_3, lEquipLabel_4,
 		lEquipLabel_5, lEquipLabel_6, lEquipLabel_7;
-	
 	private JTextField tfEquipPanelField_0, tfEquipPanelField_1;
 	
 	private JSpinner spEquipPanelSpinner_0, spEquipPanelSpinner_1, spEquipPanelSpinner_2, spEquipPanelSpinner_3;

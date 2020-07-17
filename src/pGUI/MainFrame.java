@@ -1,4 +1,4 @@
-/**	DSA_App v0.0	Dh	11.7.2020
+/**	DSA_App v0.0	Dh	16.7.2020
  * 
  * 	pGUI
  * 	  MainFrame
@@ -90,18 +90,19 @@ public class MainFrame {
 	private int[] genPropMods, genStatMods;
 	
 	private JFrame frmDsaAppV;
-	private JPanel pFMCharInfoPanel, pFMCharInfoPanel_0, pFMCharInfoPanel_1, pFMCharInfoPanel_2, lFMNeiInfoPanel;
-	private JPanel pFMSpezModPanel_0, pFMSpezModPanel_1, pFMGenModPanel_0, pFMGenModPanel_1;
+	private JPanel pFMCharInfoPanel, pFMCharInfoPanel_0, pFMCharInfoPanel_1, pFMCharInfoPanel_2, pFMCharInfoPanel_3, lFMNeiInfoPanel;
+	private JPanel pFMEquipSubPanel_0, pFMEquipSubPanel_1, pFMSpezModPanel_0, pFMSpezModPanel_1, pFMGenModPanel_0, pFMGenModPanel_1;
 	//-----
 	private JPanel pCMPanel_0,  pCMPanel_1;
 	private JPanel pCMGenPanel, pCMPropPanel, pCMStatPanel, pCMProPanel, pCMSpecialPanel, pCMArmorPanel, pCMEquipmentPanel, pCMTalentPanel;
 	
 	private JTabbedPane tpFMCharInfoTabbedPane;
+	private JScrollPane spFMEquipScrollPane;
 	private JScrollPane spCharListScrollPane, spProPanelScrollPane, spSpecialPanelScrollPane, spCMEquipmentScrollPane, spCMTalentScrollPane;
 	
 	private JList liFMFightList, liFMIniList, liFMNeiList;
 	private JList liCMCharList;
-	private JTable tCMTalentPanelTable;
+	private JTable tCMTalentPanelTable, tFMEquipWeaponTable;
 	
 	private JLabel lFMSpezPropModLable, lFMSpezPropModLable_0, lFMSpezPropModLable_1, lFMSpezPropModLable_2, lFMSpezPropModLable_3, lFMSpezPropModLable_4,
 		lFMSpezPropModLable_5, lFMSpezPropModLable_6, lFMSpezPropModLable_7, lFMSpezPropModLable_8;
@@ -109,6 +110,9 @@ public class MainFrame {
 		lFMSpezStatModLable_5, lFMSpezStatModLable_6, lFMSpezStatModLable_7, lFMSpezStatModLable_8, lFMSpezStatModLable_9;
 	private JLabel lblListLabel1, lblListLabel2;
 	private JLabel lFMCharInfoTitle, lFMOverviewTitle, lFMOverviewLabel_0, lFMOverviewLabel_1, lFMOverviewLabel_2, lFMOverviewLabel_3;
+	private JLabel lFMEquipTitle, lFMEquipRSTitle, lFMEquipWeaponTitle;
+	private JLabel lFMEquipRSLable_0, lFMEquipRSLable_1, lFMEquipRSLable_2, lFMEquipRSLable_3, lFMEquipRSLable_4, lFMEquipRSLable_5,
+		lFMEquipRSLable_6, lFMEquipRSLable_7, lFMEquipRSLable_8, lFMEquipRSLable_9;
 	private JLabel lFMNeiTitle, lFMNeiListTitle, lFMNeiInfoTitle, lFMNeiInfoLable_0, lFMNeiInfoLable_1, lFMNeiInfoLable_2, lFMNeiInfoLable_3, lFMNeiInfoLable_4;
 	private JLabel lFMGenModTitle, lFMGenPropModTitle, lFMGenStatModTitle;
 	private JLabel lFMGenPropModLabel_0, lFMGenPropModLabel_1, lFMGenPropModLabel_2, lFMGenPropModLabel_3, lFMGenPropModLabel_4,
@@ -123,10 +127,12 @@ public class MainFrame {
 	private JLabel lCMStatTitel, lCMStatLabel_0, lCMStatLabel_1, lCMStatLabel_2, lCMStatLabel_3, lCMStatLabel_4, lCMStatLabel_5, lCMStatLabel_6,
 		lCMStatLabel_7, lCMStatLabel_8, lCMStatLabel_9;
 	private JLabel lCMArmorTitle, lCMArmorLabel_0, lCMArmorLabel_1, lCMArmorLabel_2, lCMArmorLabel_3, lCMArmorLabel_4, lCMArmorLabel_5,
-		lCMArmorLabel_6, lCMArmorLabel_7;
+		lCMArmorLabel_6, lCMArmorLabel_7, lCMArmorLabel_8, lCMArmorLabel_9;
 	private JLabel lCMProTitel, lCMSpecialTitle, lCMEquipmentTitle, lCMTalentTitle;
 	
 	private JTextField tfOverviewField_0, tfOverviewField_1, tfOverviewField_2, tfOverviewField_3;
+	private JTextField tfFMEquipRSField_0, tfFMEquipRSField_1, tfFMEquipRSField_2, tfFMEquipRSField_3, tfFMEquipRSField_4, tfFMEquipRSField_5,
+		tfFMEquipRSField_6, tfFMEquipRSField_7, tfFMEquipRSField_8, tfFMEquipRSField_9;
 	private JTextField tfFMSpezStatModField_0, tfFMSpezStatModField_1, tfFMSpezStatModField_2, tfFMSpezStatModField_3, tfFMSpezStatModField_4,
 		tfFMSpezStatModField_5, tfFMSpezStatModField_6, tfFMSpezStatModField_7, tfFMSpezStatModField_8, tfFMSpezStatModField_9;
 	private JTextField tfFMSpezPropModField_0, tfFMSpezPropModField_1, tfFMSpezPropModField_2, tfFMSpezPropModField_3, tfFMSpezPropModField_4,
@@ -143,13 +149,14 @@ public class MainFrame {
 	private JTextField tfCMStatField_0, tfCMStatField_1, tfCMStatField_2, tfCMStatField_3, tfCMStatField_4, tfCMStatField_5, tfCMStatField_6,
 		tfCMStatField_7, tfCMStatField_8, tfCMStatField_9;
 	private JTextField tfCMArmorField_0, tfCMArmorField_1, tfCMArmorField_2, tfCMArmorField_3, tfCMArmorField_4, 
-		tfCMArmorField_5, tfCMArmorField_6, tfCMArmorField_7;
+		tfCMArmorField_5, tfCMArmorField_6, tfCMArmorField_7, tfCMArmorField_8, tfCMArmorField_9;
 	
 	
 	
-	private JTextArea taCMProTextArea, taCMSpecialTextArea;
+	private JTextArea taCMProTextArea, taCMSpecialTextArea, taCMEquipmentTextArea;
 	
 	private JButton btCharFieldButton_0;
+	private JButton btFMEquipWeaponButton;
 	private JButton btFMSpezModButton_0, btFMSpezModButton_1, btFMSpezModButton_2;
 	private JButton btFMNeiButton_0, btFMNeiButton_1, btFMNeiButton_2, btFMNeiButton_3;
 	private JButton btFMFightListButton_0, btFMFightListButton_1, btFMFightListButton_2;
@@ -174,14 +181,9 @@ public class MainFrame {
 	private JButton lFMCharButton;
 	
 	private JListModel rListModel1, rListModel2, rNeiListModel, rCharManListModel;
-	private JTableModel rCMTalentTableModel;
+	private JTableModel rCMTalentTableModel, rFMEquipmentTableModel;
 	
 	private JLabel lblNewLabel_2;
-	private JTextArea taCMEquipmentTextArea;
-	private JLabel lCMArmorLabel_8;
-	private JTextField tfCMArmorField_8;
-	private JLabel lCMArmorLabel_9;
-	private JTextField tfCMArmorField_9;
 	
 
 	/**	Dh	6.5.2020
@@ -230,7 +232,8 @@ public class MainFrame {
 		rListModel2 = new JListModel();
 		rNeiListModel = new JListModel();
 		rCharManListModel = new JListModel();
-		rCMTalentTableModel = new JTableModel();
+		rCMTalentTableModel = new JTableModel(new String[] {"Talent", "TaW"}, 0);
+		rFMEquipmentTableModel = new JTableModel(new String[] {"Waffe", "Verwendung"}, 0);
 		
 		frmDsaAppV = new JFrame();
 		frmDsaAppV.setResizable(false);
@@ -356,29 +359,27 @@ public class MainFrame {
 		
 		tpFMCharInfoTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
+		
+		initInfoOverviewPanel();
+		initFightManagerEquipmentPanel();
+		initSpezModPanel();
+		initNeighbourPanel();
+		
 		GroupLayout gl_pFMCharInfoPanel = new GroupLayout(pFMCharInfoPanel);
 		gl_pFMCharInfoPanel.setHorizontalGroup(
 			gl_pFMCharInfoPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(tpFMCharInfoTabbedPane, GroupLayout.PREFERRED_SIZE, 306, Short.MAX_VALUE)
-				.addGroup(Alignment.TRAILING, gl_pFMCharInfoPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lFMCharInfoTitle, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-					.addGap(10))
+				.addGroup(gl_pFMCharInfoPanel.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lFMCharInfoTitle, GroupLayout.PREFERRED_SIZE, 286, GroupLayout.PREFERRED_SIZE))
+				.addComponent(tpFMCharInfoTabbedPane, GroupLayout.PREFERRED_SIZE, 306, GroupLayout.PREFERRED_SIZE)
 		);
 		gl_pFMCharInfoPanel.setVerticalGroup(
 			gl_pFMCharInfoPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pFMCharInfoPanel.createSequentialGroup()
 					.addComponent(lFMCharInfoTitle)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(tpFMCharInfoTabbedPane, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+					.addGap(11)
+					.addComponent(tpFMCharInfoTabbedPane, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE))
 		);
-		
-		
-		initInfoOverviewPanel();
-		initSpezModPanel();
-		initNeighbourPanel();
-		
 		pFMCharInfoPanel.setLayout(gl_pFMCharInfoPanel);
 		
 		//initCharPanle();
@@ -654,14 +655,58 @@ public class MainFrame {
 		);
 		pFMCharInfoPanel_0.setLayout(gl_pFMCharInfoPanel_0);
 	}
+	/**	Dh	15.7.2020
+	 * 
+	 */
+	private void initFightManagerEquipmentPanel() {
+		pFMCharInfoPanel_1 = new JPanel();
+		tpFMCharInfoTabbedPane.addTab("Ausr\u00FCstung", null, pFMCharInfoPanel_1, null);
+		
+		lFMEquipTitle = new JLabel("Ausr\u00FCstung");
+		lFMEquipTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lFMEquipTitle.setFont(new Font("Liberation Serif", Font.BOLD, 18));	
+		
+		initFMEquipmentSubPanel_0();
+		initFMEquipmentSubPanel_1();
+		
+		
+		GroupLayout gl_pFMCharInfoPanel_1 = new GroupLayout(pFMCharInfoPanel_1);
+		gl_pFMCharInfoPanel_1.setHorizontalGroup(
+			gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+							.addGroup(gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.TRAILING)
+								.addComponent(pFMEquipSubPanel_0, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+								.addComponent(lFMEquipTitle, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE))
+							.addContainerGap(10, Short.MAX_VALUE))
+						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+							.addComponent(pFMEquipSubPanel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addContainerGap())))
+		);
+		gl_pFMCharInfoPanel_1.setVerticalGroup(
+			gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+					.addComponent(lFMEquipTitle, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(pFMEquipSubPanel_0, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(pFMEquipSubPanel_1, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(52, Short.MAX_VALUE))
+		);
+		pFMCharInfoPanel_1.setLayout(gl_pFMCharInfoPanel_1);
+	}
 	/**	Dh	17.5.2020
 	 * 
 	 * 	Initialisiert die GUI-Elemente des speziellen ModPanels.
 	 */
 	private void initSpezModPanel() {
-		pFMCharInfoPanel_1 = new JPanel();
-		pFMCharInfoPanel_1.setBackground(SystemColor.menu);
-		tpFMCharInfoTabbedPane.addTab("Mods", null, pFMCharInfoPanel_1, null);
+		
+		
+		pFMCharInfoPanel_2 = new JPanel();
+		pFMCharInfoPanel_2.setBackground(SystemColor.menu);
+		tpFMCharInfoTabbedPane.addTab("Mods", null, pFMCharInfoPanel_2, null);
 		
 		lblNewLabel_2 = new JLabel("spezifische Mods");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -698,49 +743,49 @@ public class MainFrame {
 			}
 		});
 		
-		GroupLayout gl_pFMCharInfoPanel_1 = new GroupLayout(pFMCharInfoPanel_1);
-		gl_pFMCharInfoPanel_1.setHorizontalGroup(
-			gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+		GroupLayout gl_pFMCharInfoPanel_2 = new GroupLayout(pFMCharInfoPanel_2);
+		gl_pFMCharInfoPanel_2.setHorizontalGroup(
+			gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+					.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
 							.addComponent(lblNewLabel_2, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
 							.addContainerGap())
-						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
 							.addComponent(btFMSpezModButton_0, GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
 								.addComponent(btFMSpezModButton_1, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btFMSpezModButton_2, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE))
 							.addGap(29))
-						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
 							.addComponent(pFMSpezModPanel_1, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
 							.addGap(31))
-						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
 							.addComponent(pFMSpezModPanel_0, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
 							.addGap(31))))
 		);
-		gl_pFMCharInfoPanel_1.setVerticalGroup(
-			gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+		gl_pFMCharInfoPanel_2.setVerticalGroup(
+			gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
 					.addComponent(lblNewLabel_2)
 					.addGap(11)
 					.addComponent(pFMSpezModPanel_0, GroupLayout.PREFERRED_SIZE, 157, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(pFMSpezModPanel_1, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE)
-					.addGroup(gl_pFMCharInfoPanel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+					.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
 							.addGap(32)
 							.addComponent(btFMSpezModButton_0, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pFMCharInfoPanel_1.createSequentialGroup()
+						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btFMSpezModButton_1, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btFMSpezModButton_2, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
-		pFMCharInfoPanel_1.setLayout(gl_pFMCharInfoPanel_1);
+		pFMCharInfoPanel_2.setLayout(gl_pFMCharInfoPanel_2);
 		
 		
 	}
@@ -749,8 +794,8 @@ public class MainFrame {
 	 *	Initialisiert die GUI-Elemente des KampfnachbarPanels. 
 	 */
 	private void initNeighbourPanel() {
-		pFMCharInfoPanel_2 = new JPanel();
-		tpFMCharInfoTabbedPane.addTab("Kampfnachbar*Innen", null, pFMCharInfoPanel_2, null);
+		pFMCharInfoPanel_3 = new JPanel();
+		tpFMCharInfoTabbedPane.addTab("Nachbarschaft", null, pFMCharInfoPanel_3, null);
 		
 		lFMNeiTitle = new JLabel("Kampfnachber*Innen");
 		lFMNeiTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -816,34 +861,34 @@ public class MainFrame {
 			}
 		});
 		
-		GroupLayout gl_pFMCharInfoPanel_2 = new GroupLayout(pFMCharInfoPanel_2);
-		gl_pFMCharInfoPanel_2.setHorizontalGroup(
-			gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
+		GroupLayout gl_pFMCharInfoPanel_3 = new GroupLayout(pFMCharInfoPanel_3);
+		gl_pFMCharInfoPanel_3.setHorizontalGroup(
+			gl_pFMCharInfoPanel_3.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pFMCharInfoPanel_3.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_pFMCharInfoPanel_3.createParallelGroup(Alignment.LEADING)
 						.addComponent(lFMNeiTitle, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
-						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
-							.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_pFMCharInfoPanel_3.createSequentialGroup()
+							.addGroup(gl_pFMCharInfoPanel_3.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_pFMCharInfoPanel_3.createParallelGroup(Alignment.LEADING, false)
 									.addComponent(btFMNeiButton_0, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
 									.addComponent(lFMNeiInfoPanel, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))
 								.addComponent(btFMNeiButton_3, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btFMNeiButton_2, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btFMNeiButton_1, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_pFMCharInfoPanel_3.createParallelGroup(Alignment.LEADING)
 								.addComponent(liFMNeiList, GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
 								.addComponent(lFMNeiListTitle))))
 					.addContainerGap())
 		);
-		gl_pFMCharInfoPanel_2.setVerticalGroup(
-			gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
+		gl_pFMCharInfoPanel_3.setVerticalGroup(
+			gl_pFMCharInfoPanel_3.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pFMCharInfoPanel_3.createSequentialGroup()
 					.addComponent(lFMNeiTitle)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_pFMCharInfoPanel_2.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
+					.addGroup(gl_pFMCharInfoPanel_3.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_pFMCharInfoPanel_3.createSequentialGroup()
 							.addGap(45)
 							.addComponent(lFMNeiInfoPanel, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
@@ -854,7 +899,7 @@ public class MainFrame {
 							.addComponent(btFMNeiButton_2, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btFMNeiButton_3, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pFMCharInfoPanel_2.createSequentialGroup()
+						.addGroup(gl_pFMCharInfoPanel_3.createSequentialGroup()
 							.addGap(6)
 							.addComponent(lFMNeiListTitle)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -978,7 +1023,275 @@ public class MainFrame {
 					.addGap(61))
 		);
 		lFMNeiInfoPanel.setLayout(gl_lFMNeiInfoPanel);
-		pFMCharInfoPanel_2.setLayout(gl_pFMCharInfoPanel_2);
+		pFMCharInfoPanel_3.setLayout(gl_pFMCharInfoPanel_3);
+	}
+	/**	Dh	15.7.2020
+	 * 
+	 */
+	private void initFMEquipmentSubPanel_0() {
+		pFMEquipSubPanel_0 = new JPanel();
+		pFMEquipSubPanel_0.setBackground(Color.WHITE);
+		
+		lFMEquipRSTitle = new JLabel("R\u00FCstung");
+		lFMEquipRSTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lFMEquipRSTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
+		
+		lFMEquipRSLable_0 = new JLabel("Kopf");
+		lFMEquipRSLable_0.setPreferredSize(new Dimension(80, 15));
+		lFMEquipRSLable_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lFMEquipRSLable_1 = new JLabel("Brust");
+		lFMEquipRSLable_1.setPreferredSize(new Dimension(80, 15));
+		lFMEquipRSLable_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lFMEquipRSLable_2 = new JLabel("R\u00FCcken");
+		lFMEquipRSLable_2.setPreferredSize(new Dimension(80, 15));
+		lFMEquipRSLable_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lFMEquipRSLable_3 = new JLabel("rechter Arm");
+		lFMEquipRSLable_3.setPreferredSize(new Dimension(80, 15));
+		lFMEquipRSLable_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lFMEquipRSLable_4 = new JLabel("linker Arm");
+		lFMEquipRSLable_4.setPreferredSize(new Dimension(80, 15));
+		lFMEquipRSLable_4.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lFMEquipRSLable_5 = new JLabel("Bauch");
+		lFMEquipRSLable_5.setPreferredSize(new Dimension(80, 15));
+		lFMEquipRSLable_5.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lFMEquipRSLable_6 = new JLabel("rechtes Bein");
+		lFMEquipRSLable_6.setPreferredSize(new Dimension(80, 15));
+		lFMEquipRSLable_6.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lFMEquipRSLable_7 = new JLabel("linkes Bein");
+		lFMEquipRSLable_7.setPreferredSize(new Dimension(80, 15));
+		lFMEquipRSLable_7.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lFMEquipRSLable_8 = new JLabel("Gesamte RS");
+		lFMEquipRSLable_8.setPreferredSize(new Dimension(80, 15));
+		lFMEquipRSLable_8.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		lFMEquipRSLable_9 = new JLabel("Behinderung");
+		lFMEquipRSLable_9.setPreferredSize(new Dimension(80, 15));
+		lFMEquipRSLable_9.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		
+		tfFMEquipRSField_0 = new JTextField("0");
+		tfFMEquipRSField_0.setPreferredSize(new Dimension(6, 15));
+		tfFMEquipRSField_0.setHorizontalAlignment(SwingConstants.CENTER);
+		tfFMEquipRSField_0.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfFMEquipRSField_0.setEditable(false);
+		tfFMEquipRSField_0.setColumns(2);
+		
+		tfFMEquipRSField_1 = new JTextField("0");
+		tfFMEquipRSField_1.setPreferredSize(new Dimension(6, 15));
+		tfFMEquipRSField_1.setHorizontalAlignment(SwingConstants.CENTER);
+		tfFMEquipRSField_1.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfFMEquipRSField_1.setEditable(false);
+		tfFMEquipRSField_1.setColumns(2);
+		
+		tfFMEquipRSField_2 = new JTextField("0");
+		tfFMEquipRSField_2.setPreferredSize(new Dimension(6, 15));
+		tfFMEquipRSField_2.setHorizontalAlignment(SwingConstants.CENTER);
+		tfFMEquipRSField_2.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfFMEquipRSField_2.setEditable(false);
+		tfFMEquipRSField_2.setColumns(2);
+		
+		tfFMEquipRSField_3 = new JTextField("0");
+		tfFMEquipRSField_3.setPreferredSize(new Dimension(6, 15));
+		tfFMEquipRSField_3.setHorizontalAlignment(SwingConstants.CENTER);
+		tfFMEquipRSField_3.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfFMEquipRSField_3.setEditable(false);
+		tfFMEquipRSField_3.setColumns(2);
+		
+		tfFMEquipRSField_4 = new JTextField("0");
+		tfFMEquipRSField_4.setPreferredSize(new Dimension(6, 15));
+		tfFMEquipRSField_4.setHorizontalAlignment(SwingConstants.CENTER);
+		tfFMEquipRSField_4.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfFMEquipRSField_4.setEditable(false);
+		tfFMEquipRSField_4.setColumns(2);
+		
+		tfFMEquipRSField_5 = new JTextField("0");
+		tfFMEquipRSField_5.setPreferredSize(new Dimension(6, 15));
+		tfFMEquipRSField_5.setHorizontalAlignment(SwingConstants.CENTER);
+		tfFMEquipRSField_5.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfFMEquipRSField_5.setEditable(false);
+		tfFMEquipRSField_5.setColumns(2);
+		
+		tfFMEquipRSField_6 = new JTextField("0");
+		tfFMEquipRSField_6.setPreferredSize(new Dimension(6, 15));
+		tfFMEquipRSField_6.setHorizontalAlignment(SwingConstants.CENTER);
+		tfFMEquipRSField_6.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfFMEquipRSField_6.setEditable(false);
+		tfFMEquipRSField_6.setColumns(2);
+		
+		tfFMEquipRSField_7 = new JTextField("0");
+		tfFMEquipRSField_7.setPreferredSize(new Dimension(6, 15));
+		tfFMEquipRSField_7.setHorizontalAlignment(SwingConstants.CENTER);
+		tfFMEquipRSField_7.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfFMEquipRSField_7.setEditable(false);
+		tfFMEquipRSField_7.setColumns(2);
+		
+		tfFMEquipRSField_8 = new JTextField("0");
+		tfFMEquipRSField_8.setPreferredSize(new Dimension(6, 15));
+		tfFMEquipRSField_8.setHorizontalAlignment(SwingConstants.CENTER);
+		tfFMEquipRSField_8.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfFMEquipRSField_8.setEditable(false);
+		tfFMEquipRSField_8.setColumns(2);
+		
+		tfFMEquipRSField_9 = new JTextField("0");
+		tfFMEquipRSField_9.setPreferredSize(new Dimension(6, 15));
+		tfFMEquipRSField_9.setHorizontalAlignment(SwingConstants.CENTER);
+		tfFMEquipRSField_9.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tfFMEquipRSField_9.setEditable(false);
+		tfFMEquipRSField_9.setColumns(2);
+		
+		GroupLayout gl_pFMEquipSubPanel_0 = new GroupLayout(pFMEquipSubPanel_0);
+		gl_pFMEquipSubPanel_0.setHorizontalGroup(
+			gl_pFMEquipSubPanel_0.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pFMEquipSubPanel_0.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pFMEquipSubPanel_0.createParallelGroup(Alignment.LEADING)
+						.addComponent(lFMEquipRSTitle, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+						.addGroup(gl_pFMEquipSubPanel_0.createSequentialGroup()
+							.addComponent(lFMEquipRSLable_0, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfFMEquipRSField_0, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lFMEquipRSLable_4, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfFMEquipRSField_4, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pFMEquipSubPanel_0.createSequentialGroup()
+							.addComponent(lFMEquipRSLable_1, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfFMEquipRSField_1, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lFMEquipRSLable_5, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfFMEquipRSField_5, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pFMEquipSubPanel_0.createSequentialGroup()
+							.addComponent(lFMEquipRSLable_2, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfFMEquipRSField_2, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lFMEquipRSLable_6, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfFMEquipRSField_6, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pFMEquipSubPanel_0.createSequentialGroup()
+							.addComponent(lFMEquipRSLable_3, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfFMEquipRSField_3, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lFMEquipRSLable_7, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfFMEquipRSField_7, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_pFMEquipSubPanel_0.createSequentialGroup()
+							.addComponent(lFMEquipRSLable_8, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfFMEquipRSField_8, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lFMEquipRSLable_9, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(tfFMEquipRSField_9, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		gl_pFMEquipSubPanel_0.setVerticalGroup(
+			gl_pFMEquipSubPanel_0.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pFMEquipSubPanel_0.createSequentialGroup()
+					.addComponent(lFMEquipRSTitle, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pFMEquipSubPanel_0.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lFMEquipRSLable_0, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfFMEquipRSField_0, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lFMEquipRSLable_4, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfFMEquipRSField_4, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pFMEquipSubPanel_0.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lFMEquipRSLable_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfFMEquipRSField_1, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lFMEquipRSLable_5, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfFMEquipRSField_5, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pFMEquipSubPanel_0.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lFMEquipRSLable_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfFMEquipRSField_2, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lFMEquipRSLable_6, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfFMEquipRSField_6, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_pFMEquipSubPanel_0.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lFMEquipRSLable_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfFMEquipRSField_3, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lFMEquipRSLable_7, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfFMEquipRSField_7, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_pFMEquipSubPanel_0.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lFMEquipRSLable_8, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfFMEquipRSField_8, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lFMEquipRSLable_9, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(tfFMEquipRSField_9, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(50, Short.MAX_VALUE))
+		);
+		pFMEquipSubPanel_0.setLayout(gl_pFMEquipSubPanel_0);
+	}
+	/**	Dh	16.7.2020
+	 * 
+	 */
+	private void initFMEquipmentSubPanel_1() {
+		pFMEquipSubPanel_1 = new JPanel();
+		pFMEquipSubPanel_1.setBackground(Color.WHITE);
+		
+		lFMEquipWeaponTitle = new JLabel("aktive Waffen");
+		lFMEquipWeaponTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lFMEquipWeaponTitle.setFont(new Font("Liberation Serif", Font.BOLD, 16));
+		
+		btFMEquipWeaponButton = new JButton("Modifizieren");
+		btFMEquipWeaponButton.setFont(new Font("Liberation Serif", Font.BOLD, 14));
+		btFMEquipWeaponButton.setEnabled(false);
+		btFMEquipWeaponButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openActiveWeaponFrame();
+			}
+		});
+		
+		spFMEquipScrollPane = new JScrollPane();
+		spFMEquipScrollPane.setBackground(Color.WHITE);
+		
+		tFMEquipWeaponTable = new JTable();
+		tFMEquipWeaponTable.setBackground(Color.WHITE);
+		tFMEquipWeaponTable.setColumnSelectionAllowed(false);
+		tFMEquipWeaponTable.setCellSelectionEnabled(false);
+		tFMEquipWeaponTable.setEnabled(false);
+		tFMEquipWeaponTable.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+		tFMEquipWeaponTable.getTableHeader().setReorderingAllowed(false);
+		tFMEquipWeaponTable.setModel(rFMEquipmentTableModel);
+		tFMEquipWeaponTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+		tFMEquipWeaponTable.getColumnModel().getColumn(1).setMinWidth(80);
+		tFMEquipWeaponTable.getColumnModel().getColumn(1).setPreferredWidth(80);
+		spFMEquipScrollPane.setViewportView(tFMEquipWeaponTable);
+		
+		GroupLayout gl_pFMEquipSubPanel_1 = new GroupLayout(pFMEquipSubPanel_1);
+		gl_pFMEquipSubPanel_1.setHorizontalGroup(
+			gl_pFMEquipSubPanel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_pFMEquipSubPanel_1.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_pFMEquipSubPanel_1.createParallelGroup(Alignment.TRAILING)
+						.addComponent(spFMEquipScrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+						.addComponent(lFMEquipWeaponTitle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+						.addComponent(btFMEquipWeaponButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_pFMEquipSubPanel_1.setVerticalGroup(
+			gl_pFMEquipSubPanel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pFMEquipSubPanel_1.createSequentialGroup()
+					.addComponent(lFMEquipWeaponTitle, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(spFMEquipScrollPane, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btFMEquipWeaponButton, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		pFMEquipSubPanel_1.setLayout(gl_pFMEquipSubPanel_1);
 	}
 	
 	/**	Dh	17.5.2020
@@ -2999,7 +3312,7 @@ public class MainFrame {
 		);
 		pCMEquipmentPanel.setLayout(gl_pCMEquipmentPanel);
 	}
-	/**	Dh	3.7.2020
+	/**	Dh	15.7.2020
 	 * 
 	 */
 	private void initCharManTalentPanel() {
@@ -3017,8 +3330,11 @@ public class MainFrame {
 		tCMTalentPanelTable = new JTable();
 		tCMTalentPanelTable.setEnabled(false);
 		tCMTalentPanelTable.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
-		tCMTalentPanelTable.setModel(rCMTalentTableModel);
 		tCMTalentPanelTable.getTableHeader().setReorderingAllowed(false);
+		tCMTalentPanelTable.setModel(rCMTalentTableModel);
+		tCMTalentPanelTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+		tCMTalentPanelTable.getColumnModel().getColumn(1).setMinWidth(10);
+		tCMTalentPanelTable.getColumnModel().getColumn(1).setPreferredWidth(10);
 		spCMTalentScrollPane.setViewportView(tCMTalentPanelTable);
 		
 		btCMTalentButton = new JButton("Modifizieren");
@@ -3199,7 +3515,6 @@ public class MainFrame {
 	 */
 	private void addListToTable(JTable pJT, List pList, int pTableType) throws Exception{
 		Object vListEle;
-		String vText = "";
 		Object[][] vData;
 		int[] vIDs;
 		String[] vColTitle;
@@ -3213,8 +3528,7 @@ public class MainFrame {
 					if (pTableType == 0) {
 						vColTitle = new String[] {"Talent", "TaW"};
 						vData = new Object[vIDs.length][2];
-					}
-					else {
+					} else {
 						vColTitle = null;
 						vData = null;
 					}
@@ -3254,6 +3568,70 @@ public class MainFrame {
 			}else ((JTableModel)pJT.getModel()).clearTable();
 		}else throw new Exception("04; MaFra, aLtT");
 	}
+	/**	Dh	15.7.2020
+	 * 
+	 * @param pJT
+	 * @param pArray
+	 * @param pTableType
+	 * @throws Exception
+	 */
+	private void addArrayToTable(JTable pJT, Object[][] pArray, int pTableType) throws Exception{
+		Object[][] vData;
+		int[] vIDs;
+		String[] vColTitle;
+		
+		if (pJT != null) {
+			if (pArray != null) {
+				if ((pTableType >= 0) && (pTableType < 1)) {
+					vIDs = new int[pArray.length];
+					
+					if (pTableType == 0) {
+						vColTitle = new String[] {"Waffen", "Verwendung"};
+						vData = new Object[vIDs.length][2];
+					}else {
+						vColTitle = null;
+						vData = null;
+					}
+					
+					for (int i=0; i < pArray.length; i++) {
+						if (pTableType == 0) {
+							if (pArray[i][0] instanceof Weapon) {
+								vIDs[i] = ((Weapon)pArray[i][0]).getId();
+								vData[i][0] = ((Weapon)pArray[i][0]).getName();
+								
+								if (pArray[i][1] instanceof Integer) vData[i][1] = (int)pArray[i][1];
+								else throw new Exception("06; MaFra,aAtT");
+							} else throw new Exception("06; MaFra,aAtT");
+						}
+					}
+					
+					((JTableModel)pJT.getModel()).setNewTable(vColTitle, vIDs, vData);
+					
+					//pJT.setEnabled(true);
+					pJT.getColumnModel().getColumn(1).setCellRenderer(new DefaultTableCellRenderer() {
+						@Override
+						public Component getTableCellRendererComponent(JTable pTable, Object pObj, boolean isSelected, boolean hasFocus, int pRow, int pCol) {
+							Object vCur = pTable.getValueAt(pRow, pCol);
+							
+							setHorizontalAlignment(SwingConstants.CENTER);
+							setFont(new Font("Liberation Serif", Font.PLAIN, 12));
+							try {if (vCur instanceof Number) setText(""+Loader.getWeaponUseType((int)vCur));}
+							catch(Exception ex) {handleException(ex);}
+							
+							return this;
+						}
+					});
+					pJT.getColumnModel().getColumn(0).setPreferredWidth(200);
+					pJT.getColumnModel().getColumn(1).setMinWidth(80);
+					pJT.getColumnModel().getColumn(1).setPreferredWidth(80);
+					//pJT.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+					
+					
+					
+				} else throw new Exception("02; MaFra, aAtT");
+			}else ((JTableModel)pJT.getModel()).clearTable();
+		}else throw new Exception("04; MaFra, aAtT");
+	}
 	
 	/**	Dh	17.5.2020
 	 * 
@@ -3261,17 +3639,17 @@ public class MainFrame {
 	 * 
 	 * @param pEnable
 	 */
-	private void setFightListSelectionObjectsEnable(boolean pEnable) {
+	/*private void setFightListSelectionObjectsEnable(boolean pEnable) {
 		btFMSpezModButton_0.setEnabled(pEnable);
 		btFMSpezModButton_2.setEnabled(pEnable);
-	}
+	}*/
 	/**	Dh	20.5.2020
 	 * 	
 	 * 	Setzt alle GUI Elemente, die das Mod Frame oeffnen. 
 	 * 
 	 * @param pEnable
 	 */
-	private void setModFrameObjectsEnable(boolean pEnable) {
+	/*private void setModFrameObjectsEnable(boolean pEnable) {
 		if ((liFMFightList.getSelectedIndex() != -1)) {
 			btFMSpezModButton_0.setEnabled(pEnable);
 			btFMSpezModButton_2.setEnabled(pEnable);
@@ -3282,33 +3660,33 @@ public class MainFrame {
 			
 		btFMGenModButton_0.setEnabled(pEnable);
 		btFMGenModButton_2.setEnabled(pEnable);
-	}
+	}*/
 	/**	Dh	22.5.2020
 	 * 
 	 * 	Setzt alle GUI-Elemente die zur Modifikation der Neighbor Details gehˆren.
 	 * 
 	 * @param pEnable
 	 */
-	private void setNeiModPanelObjectsEnable(boolean pEnable) {
+	/*private void setNeiModPanelObjectsEnable(boolean pEnable) {
 		if ((pEnable == false) || ((liFMFightList.getSelectedIndex() != -1) && (liFMNeiList.getSelectedIndex() != -1))) {
 			btFMNeiButton_0.setEnabled(pEnable);
 			btFMNeiButton_2.setEnabled(pEnable);
 		}
-	}
+	}*/
 	/**	Dh	20.5.2020
 	 * 
 	 * 	Setzt alle GUI Elemente, die zum NeighbourPanel gehˆren.. 
 	 * 
 	 * @param pEnable
 	 */
-	private void setNeiPanelObjectsEnable(boolean pEnable) {
+	/*private void setNeiPanelObjectsEnable(boolean pEnable) {
 		if ((liFMFightList.getSelectedIndex() != -1) || (pEnable == false)) {
 			setNeiModPanelObjectsEnable(pEnable);
 			btFMNeiButton_1.setEnabled(pEnable);
 			if ((rNeiListModel.getSize() >= 1) || (pEnable == false)) btFMNeiButton_3.setEnabled(pEnable);
 			else btFMNeiButton_3.setEnabled(false);
 		}
-	}
+	}*/
 	/**	Dh	4.6.2020
 	 * 
 	 * @param pEnable
@@ -3322,25 +3700,69 @@ public class MainFrame {
 			btCharFieldButton_0.setEnabled(pEnable);
 		}
 	}
-	//-----
-	/**	Dh	24.6.2020
+	
+	/**	Dh	16.7.2020
 	 * 
 	 * @param pEnable
 	 */
-	private void setCharacterLisSelectionObjectsEnable(boolean pEnable) {
-		int vIndSel = liCMCharList.getSelectedIndex();
-		
-		btCharListButton_0.setEnabled(pEnable);
-		if ((rCharManListModel.getSize() > 0) || (pEnable == false)) {
-			if ((pEnable == false) || (vIndSel == -1)) btCharListButton_1.setEnabled(pEnable);
-			btCharListButton_2.setEnabled(pEnable);
+	private void setNeiSelectedObjectsEnable(boolean pEnable) {
+		if ((pEnable == false) || ((liFMFightList.getSelectedIndex() != -1) && (liFMNeiList.getSelectedIndex() != -1))) {
+			btFMNeiButton_0.setEnabled(pEnable);
+			btFMNeiButton_2.setEnabled(pEnable);
 		}
 	}
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pEnable
+	 */
+	private void setFightManSelctedObjectsEnable(boolean pEnable) {
+		int vIndSel = liFMFightList.getSelectedIndex();
+		
+		if (vIndSel == -1) pEnable = false;
+		
+		btFMEquipWeaponButton.setEnabled(pEnable);
+		
+		setNeiSelectedObjectsEnable(pEnable);
+		if (rNeiListModel.getSize() < 8) btFMNeiButton_1.setEnabled(pEnable);
+		else btFMNeiButton_1.setEnabled(false);
+		if (rNeiListModel.getSize() >= 1) btFMNeiButton_3.setEnabled(pEnable);
+		else btFMNeiButton_3.setEnabled(false);
+			
+		btFMSpezModButton_0.setEnabled(pEnable);
+		btFMSpezModButton_1.setEnabled(pEnable);
+		btFMSpezModButton_2.setEnabled(pEnable);
+		
+	}
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pEnable
+	 */
+	private void setFighterListSelectionObjectsEnable(boolean pEnable) {
+		btFMFightListButton_0.setEnabled(pEnable);
+		//btFMFightListButton_1.setEnabled(pEnable);
+		if (rListModel1.getSize() > 0) btFMFightListButton_2.setEnabled(pEnable);
+		else btFMFightListButton_2.setEnabled(false);
+		
+		btFMGenModButton_0.setEnabled(pEnable);
+		//btFMGenModButton_1.setEnabled(pEnable);
+		btFMGenModButton_2.setEnabled(pEnable);
+	}
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pEnable
+	 */
+	private void setAllFightManObjectEnable(boolean pEnable) {
+		setFighterListSelectionObjectsEnable(pEnable);
+		setFightManSelctedObjectsEnable(pEnable);
+		setNeiSelectedObjectsEnable(pEnable);
+		setCharFieldObjectsEnable(pEnable);
+	}
+	//-----
 	/**	Dh	3.7.2020
 	 * 
 	 * @param pEnable
 	 */
-	private void setCharManSelectedObjectes(boolean pEnable) {
+	private void setCharManSelectedObjectesEnable(boolean pEnable) {
 		int vIndSel = liCMCharList.getSelectedIndex();
 		
 		if ((vIndSel != -1) || (pEnable == false)) {
@@ -3354,6 +3776,36 @@ public class MainFrame {
 			btCMEquipmentButton.setEnabled(pEnable);
 			btCMTalentButton.setEnabled(pEnable);
 		}
+	}
+	/**	Dh	24.6.2020
+	 * 
+	 * @param pEnable
+	 */
+	private void setCharacterListSelectionObjectsEnable(boolean pEnable) {
+		int vIndSel = liCMCharList.getSelectedIndex();
+		
+		btCharListButton_0.setEnabled(pEnable);
+		if ((rCharManListModel.getSize() > 0) || (pEnable == false)) {
+			if ((pEnable == false) || (vIndSel == -1)) btCharListButton_1.setEnabled(pEnable);
+			btCharListButton_2.setEnabled(pEnable);
+		}
+	}
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pEnable
+	 */
+	private void setAllCharManObjectEnable(boolean pEnable) {
+		setCharacterListSelectionObjectsEnable(pEnable);
+		setCharManSelectedObjectesEnable(pEnable);
+	}
+	//-----
+	/**	Dh	16.7.2020
+	 * 
+	 * @param pEnable
+	 */
+	private void setAllObjectEnable(boolean pEnable) {
+		setAllFightManObjectEnable(pEnable);
+		setAllCharManObjectEnable(pEnable);
 	}
 	
 	//----------------------------------------------------------------------------------------------------
@@ -3457,7 +3909,7 @@ public class MainFrame {
 				}
 			}
 		}
-		if (rCharManListModel.getSize() > 0) setCharacterLisSelectionObjectsEnable(true);
+		if (rCharManListModel.getSize() > 0) setCharacterListSelectionObjectsEnable(true);
 		//else setCharacterLisSelectionObjectsEnable(false);
 	}
 	
@@ -3484,7 +3936,7 @@ public class MainFrame {
 		updateFightManagerLists();
 	}
 	
-	/**	Dh	20.5.2020
+	/**	Dh	16.7.2020
 	 * 
 	 * 	Updated die GUI-Elemente zur Anzeige der Kampfnachber*Innen Infos.
 	 */
@@ -3505,7 +3957,8 @@ public class MainFrame {
 				tfFMNeiInfoField_4.setText(""+(int)rFM.getFightModOfNeighbourOfFighter(vFiID, vNeiID, 3));
 			} catch (Exception ex) {handleException(ex);}
 		
-			setNeiModPanelObjectsEnable(true);
+			//setNeiModPanelObjectsEnable(true);
+			setNeiSelectedObjectsEnable(true);
 		} else {
 			chFMNeiInfoBox.setSelected(false);
 			
@@ -3514,10 +3967,11 @@ public class MainFrame {
 			tfFMNeiInfoField_3.setText("");
 			tfFMNeiInfoField_4.setText("");
 			
-			setNeiModPanelObjectsEnable(false);
+			//setNeiModPanelObjectsEnable(false);
+			setNeiSelectedObjectsEnable(false);
 		}
 	}
-	/**	Dh	17.5.2020
+	/**	Dh	16.7.2020
 	 * 
 	 * 	Updated die GUI-Elemente zur Anzeige von Informationen der zur Zeit ausgewaehlten Kaempfer*In. 
 	 * 
@@ -3549,7 +4003,20 @@ public class MainFrame {
 				vTempValue = rFM.getCharacterOfFighter(vID).getStat(3);
 				vMaxValue = rFM.getCharacterOfFighter(vID).getMaxStat(3);
 				tfOverviewField_3.setText(vTempValue + "/" + vMaxValue);
-			
+				
+				tfFMEquipRSField_0.setText(""+rFM.getArmorValueOfFighter(vID, 0));
+				tfFMEquipRSField_1.setText(""+rFM.getArmorValueOfFighter(vID, 1));
+				tfFMEquipRSField_2.setText(""+rFM.getArmorValueOfFighter(vID, 2));
+				tfFMEquipRSField_3.setText(""+rFM.getArmorValueOfFighter(vID, 3));
+				tfFMEquipRSField_4.setText(""+rFM.getArmorValueOfFighter(vID, 4));
+				tfFMEquipRSField_5.setText(""+rFM.getArmorValueOfFighter(vID, 5));
+				tfFMEquipRSField_6.setText(""+rFM.getArmorValueOfFighter(vID, 6));
+				tfFMEquipRSField_7.setText(""+rFM.getArmorValueOfFighter(vID, 7));
+				tfFMEquipRSField_8.setText(""+rFM.getArmorValueOfFighter(vID, 8));
+				tfFMEquipRSField_9.setText(""+rFM.getHandicapOfFighter(vID));
+				
+				addArrayToTable(tFMEquipWeaponTable, rFM.getActiveWeaponsOfFighter(vID), 0);
+				
 				tfFMSpezPropModField_0.setText(""+rFM.getPropModOfFighter(vID, 0));
 				tfFMSpezPropModField_1.setText(""+rFM.getPropModOfFighter(vID, 1));
 				tfFMSpezPropModField_2.setText(""+rFM.getPropModOfFighter(vID, 2));
@@ -3572,8 +4039,9 @@ public class MainFrame {
 				tfFMSpezStatModField_9.setText(""+((int)rFM.getStatModOfFighter(vID, 9)));
 			} catch (Exception ex) {handleException(ex);}
 		
-			setFightListSelectionObjectsEnable(true);
-			setNeiPanelObjectsEnable(true);
+			//setFightListSelectionObjectsEnable(true);
+			//setNeiPanelObjectsEnable(true);
+			setFightManSelctedObjectsEnable(true);
 		} else {
 			lFMCharInfoTitle.setText("Name");
 			
@@ -3581,7 +4049,20 @@ public class MainFrame {
 			tfOverviewField_1.setText("");
 			tfOverviewField_2.setText("");
 			tfOverviewField_3.setText("");
-		
+			
+			tfFMEquipRSField_0.setText("");
+			tfFMEquipRSField_1.setText("");
+			tfFMEquipRSField_2.setText("");
+			tfFMEquipRSField_3.setText("");
+			tfFMEquipRSField_4.setText("");
+			tfFMEquipRSField_5.setText("");
+			tfFMEquipRSField_6.setText("");
+			tfFMEquipRSField_7.setText("");
+			tfFMEquipRSField_8.setText("");
+			tfFMEquipRSField_9.setText("");
+			
+			tFMEquipWeaponTable.clearSelection();
+			
 			tfFMSpezPropModField_0.setText("");
 			tfFMSpezPropModField_1.setText("");
 			tfFMSpezPropModField_2.setText("");
@@ -3603,8 +4084,9 @@ public class MainFrame {
 			tfFMSpezStatModField_8.setText("");
 			tfFMSpezStatModField_9.setText("");
 			
-			setFightListSelectionObjectsEnable(false);
-			setNeiPanelObjectsEnable(false);
+			//setFightListSelectionObjectsEnable(false);
+			//setNeiPanelObjectsEnable(false);
+			setFightManSelctedObjectsEnable(false);
 		}
 		updateNeighbourList();
 	}
@@ -3811,7 +4293,7 @@ public class MainFrame {
 				addListToTextArea(taCMEquipmentTextArea, rCM.getWeaponListOfCharacter(vID));
 				addListToTable(tCMTalentPanelTable, rCM.getTalentListOfCharacter(vID), 0);
 				
-				setCharManSelectedObjectes(true);
+				setCharManSelectedObjectesEnable(true);
 			} catch (Exception ex) {handleException(ex);}
 		} else {
 			lCMP1Title.setText("");
@@ -3860,7 +4342,7 @@ public class MainFrame {
 			taCMEquipmentTextArea.setText("");
 			rCMTalentTableModel.clearTable();
 			
-			setCharManSelectedObjectes(false);
+			setCharManSelectedObjectesEnable(false);
 		}
 	}
 	
@@ -4056,6 +4538,25 @@ public class MainFrame {
 		}
 	}
 	
+	/**	Dh	15.7.2020
+	 * 
+	 */
+	private void openActiveWeaponFrame() {
+		int vID, vInd;
+		
+		vInd = liFMFightList.getSelectedIndex();
+		if (vInd != -1) {
+			vID = (int)((JListModelElement)rListModel1.get(vInd)).getObject();
+		} else {
+			handleException(new Exception("09; MaFra,oMF"));
+			vID = -1;
+		}
+		
+		FMActiveWeaponFrame vCur = new FMActiveWeaponFrame(vID, rFM, rCM, this);
+		vCur.setVisible(true);
+		setAllObjectEnable(false);
+	}
+	
 	/**	Dh	17.5.2020
 	 * 
 	 * 	Oeffenet das ModFrame, und gibt die auswahl, ob es ein allgemeiner Mod, oder Spezieller Mod ist.
@@ -4084,20 +4585,20 @@ public class MainFrame {
 		
 		ModFrame vCur = new ModFrame(vName, vID, rFM, this);
 		vCur.setVisible(true);
-		if (pGen == false) setFightListSelectionObjectsEnable(false);
-		setModFrameObjectsEnable(false);
+		//if (pGen == false) setFightListSelectionObjectsEnable(false);
+		setAllObjectEnable(false);
 	}
 	/**	Dh	17.5.2020
 	 * 
 	 * 	Bearbeitet das schliessen des ModFrame.
 	 */
-	protected void closeModFrame() {
+	/*protected void closeModFrame() {
 		updateSelectedFighter();
 		updateGenModFields();
 		updateLists();
 		setFightListSelectionObjectsEnable(true);
 		setModFrameObjectsEnable(true);
-	}
+	}*/
 	/**	Dh	22.5.2020
 	 * 
 	 * 	Oeffnet das NeighbourFrame, und teilt diesem mit, ob ein neuer hinzugefuergt wird, oder ein vorhandener Modifiziert wird.
@@ -4127,18 +4628,36 @@ public class MainFrame {
 			NeighbourFrame vCur = new NeighbourFrame(vName, vID, vNeiID, rFM, this);
 			vCur.setVisible(true);
 			
-			setNeiPanelObjectsEnable(false);
+			setAllObjectEnable(false);
 		} else handleException(new Exception("09; MaFra,oNF"));
 	}
 	/**	Dh	22.5.2020
 	 * 
 	 * 	Bearbeitet das Schlieﬂen des NeighbourFrames.
 	 */
-	protected void closeNeighbourFrame() {
+	/*protected void closeNeighbourFrame() {
 		updateSelectedFighter();
 		updateCharaField();
 		setNeiPanelObjectsEnable(true);
+	}*/
+	
+	/**	Dh	16.7.2020
+	 * 
+	 */
+	protected void closeGenModFrame() {
+		updateGenModFields();
+		setAllObjectEnable(true);
 	}
+	/**	Dh	16.7.2020
+	 * 
+	 */
+	protected void closeFighterModFrame() {
+		updateIniList();
+		updateSelectedFighter();
+		updateCharaField();
+		setAllObjectEnable(true);
+	}
+	
 	/**	Dh	4.6.2020
 	 * 
 	 * @param pFightID
@@ -4155,7 +4674,7 @@ public class MainFrame {
 		FightFrame vCur = new FightFrame(pFightID, pTarID, true, vCloseCombat, rFM, this);
 		vCur.setVisible(true);
 		
-		setCharFieldObjectsEnable(false);
+		setAllObjectEnable(false);
 		//nextTurn();
 	}
 	/**	DH	4.6.2020
@@ -4174,7 +4693,7 @@ public class MainFrame {
 		FightFrame vCur = new FightFrame(pFightID, pOpponentID, false, vCloseCombat, rFM, this);
 		vCur.setVisible(true);
 		
-		setCharFieldObjectsEnable(false);
+		setAllObjectEnable(false);
 	}
 	/**	Dh	4.6.2020
 	 * 
@@ -4199,7 +4718,7 @@ public class MainFrame {
 			GeneralCharFrame vGenFrame = new GeneralCharFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
 			vGenFrame.setVisible(true);
 			
-			setCharManSelectedObjectes(false);
+			setAllObjectEnable(false);
 		} else handleException(new Exception("09; MaFra,oGF"));
 	}
 	/**	Dh	24.6.2020
@@ -4212,7 +4731,7 @@ public class MainFrame {
 			PropertyFrame vPropFrame = new PropertyFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
 			vPropFrame.setVisible(true);
 			
-			setCharManSelectedObjectes(false);
+			setAllObjectEnable(false);
 		} else handleException(new Exception("09; MaFra,oPF"));
 	}
 	/**	Dh	24.6.2020
@@ -4225,7 +4744,7 @@ public class MainFrame {
 			StatusFrame vStatFrame = new StatusFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
 			vStatFrame.setVisible(true);
 			
-			setCharManSelectedObjectes(false);
+			setAllObjectEnable(false);
 		} else handleException(new Exception("09; MaFra,oSF"));
 	}
 	/**	Dh	25.6.2020
@@ -4238,7 +4757,7 @@ public class MainFrame {
 			ProFrame vProFrame = new ProFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
 			vProFrame.setVisible(true);
 			
-			setCharManSelectedObjectes(false);
+			setAllObjectEnable(false);
 		} else handleException(new Exception("09; MaFra,oPF"));
 	}
 	/**	Dh	1.7.2020
@@ -4251,7 +4770,7 @@ public class MainFrame {
 			SpecialCraftFrame vSpecialFrame = new SpecialCraftFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
 			vSpecialFrame.setVisible(true);
 			
-			setCharManSelectedObjectes(false);
+			setAllObjectEnable(false);
 		} else handleException(new Exception("09; MaFra,oSCF"));
 	}
 	/**	Dh	3.7.2020
@@ -4264,7 +4783,7 @@ public class MainFrame {
 			ArmorFrame vArmorFrame = new ArmorFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
 			vArmorFrame.setVisible(true);
 			
-			setCharManSelectedObjectes(false);
+			setAllObjectEnable(false);
 		} else handleException(new Exception("09; MaFra,oAF"));
 	}
 	/**	Dh	3.7.2020
@@ -4277,7 +4796,7 @@ public class MainFrame {
 			EquipmentFrame vEquipFrame = new EquipmentFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
 			vEquipFrame.setVisible(true);
 			
-			setCharManSelectedObjectes(false);
+			setAllObjectEnable(false);
 		} else handleException(new Exception("09; MaFra,oEF"));
 	}
 	/**	Dh	11.7.2020
@@ -4290,14 +4809,14 @@ public class MainFrame {
 			TalentFrame vTalentFrame = new TalentFrame((int)rCharManListModel.getObjectAt(vSelInd), rCM, this);
 			vTalentFrame.setVisible(true);
 			
-			setCharManSelectedObjectes(false);
+			setAllObjectEnable(false);
 		} else handleException(new Exception("09; MaFra,oTF"));
 	}
 	/**	Dh	24.6.2020
 	 * 
 	 */
 	protected void closeCharManModFrame() {
-		setCharManSelectedObjectes(true);
+		setAllObjectEnable(true);
 		updateSelectedCharacter();
 	}
 	
